@@ -1,6 +1,13 @@
 // SidebarInner.js
 import React, { useState } from "react";
-import { FaHome, FaUserAlt, FaCog, FaInfoCircle, FaBars } from "react-icons/fa";
+import {
+	FaHome,
+	FaUserAlt,
+	FaCog,
+	FaInfoCircle,
+	FaBars,
+	FaTimes,
+} from "react-icons/fa";
 
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -18,13 +25,13 @@ function SidebarInner({ onToggle }) {
 		>
 			<div className="flex items-center gap-2 mb-6">
 				<div className="text-2xl font-bold transition-opacity duration-300">
-					{isExpanded ? "Company Logo" : "C"}
+					{isExpanded ? "Logo" : "C"}
 				</div>
 				<button
 					onClick={toggleSidebar}
 					className="ml-auto p-2 text-white hover:bg-blue-600 rounded focus:outline-none"
 				>
-					<FaBars />
+					{isExpanded ? <FaTimes /> : <FaBars />}
 				</button>
 			</div>
 			<nav className="flex flex-col gap-4 w-full">
