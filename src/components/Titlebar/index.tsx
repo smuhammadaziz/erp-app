@@ -43,21 +43,21 @@ export const Titlebar: FC = () => {
 			<div className="window-controls-container">
 				<button
 					title="Minimize"
-					className="minimize-button focus:outline-none hover:bg-gray-700"
+					className="minimize-button focus:outline-none hover:bg-gray-700 p-1"
 					onClick={onMinimize}
 				>
 					<IoRemove />
 				</button>
 				<button
 					title="Maximize"
-					className="min-max-button focus:outline-none hover:bg-gray-700"
+					className="min-max-button focus:outline-none hover:bg-gray-700 p-1"
 					onClick={onMaximize}
 				>
 					{maximized ? <IoContractOutline /> : <IoExpandOutline />}
 				</button>
 				<button
 					title="Close"
-					className="close-button focus:outline-none hover:bg-gray-700"
+					className="close-button focus:outline-none hover:bg-gray-700 p-1"
 					onClick={onQuit}
 				>
 					<IoCloseOutline />

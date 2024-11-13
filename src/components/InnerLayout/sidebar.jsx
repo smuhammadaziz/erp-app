@@ -25,7 +25,7 @@ function SidebarInner({ onToggle }) {
 		>
 			<div className="flex items-center gap-2 mb-6">
 				<div className="text-2xl font-bold transition-opacity duration-300">
-					{isExpanded ? "Logo" : "C"}
+					{isExpanded ? "Logo" : "L"}
 				</div>
 				<button
 					onClick={toggleSidebar}
