@@ -4,6 +4,8 @@ function HeaderInner() {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
 
+	const [data, setData] = useState([]);
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setDate(new Date().toLocaleDateString());
@@ -11,6 +13,14 @@ function HeaderInner() {
 
 		return () => clearInterval(interval);
 	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setDate(new Date().toLocaleDateString());
+		}, 6000);
+
+		return () => clearInterval(interval);
+	});
 
 	return (
 		<header className="flex justify-between items-center px-6 py-3 bg-white shadow-md border-b overflow-hidden">
