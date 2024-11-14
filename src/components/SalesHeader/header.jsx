@@ -16,7 +16,7 @@ function SalesMainPageHeader() {
 	}, []);
 
 	return (
-		<header className="flex items-center px-6 py-4 bg-gradient-to-r from-blue-300 to-blue-200 shadow-md border-b border-blue-400">
+		<header className="flex items-center px-6 py-4 bg-gradient-to-r from-blue-100 to-blue-200 shadow-md border-b border-blue-100">
 			{/* Search Bar - fills remaining space */}
 			<div className="flex-grow flex items-center bg-white text-gray-700 px-6 py-3 rounded-lg shadow-md focus-within:ring-2 focus-within:ring-blue-300 mr-4">
 				<AiOutlineSearch className="text-xl mr-3 text-gray-500" />
