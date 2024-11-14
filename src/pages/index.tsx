@@ -11,12 +11,19 @@ export const IndexPage: FC = () => {
 					hello world
 				</div>
 
-				<div>
+				<div className="flex">
 					<NavLink
 						to="/login"
 						className="py-2 px-8 bg-slate-800 text-white hover:bg-slate-900 rounded-full mx-auto"
 					>
 						go to the login
+					</NavLink>
+
+					<NavLink
+						to="/intro"
+						className="py-2 px-8 bg-slate-800 text-white hover:bg-slate-900 rounded-full mx-auto"
+					>
+						go to the intro
 					</NavLink>
 				</div>
 			</InnerLayoutSection>

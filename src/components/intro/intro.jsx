@@ -1,7 +1,97 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Layout } from "../Layout";
+import { Toaster, toast } from "sonner";
+import { FaCheckCircle, FaExclamationCircle, FaKey } from "react-icons/fa";
+import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../common/loader";
 
 function IntroPageKSB() {
-	return <div>IntroPageKSB</div>;
+	const [ksbId, setKsbId] = useState("");
+	const [loading, setLoading] = useState(true); // Initial loading state
+	const navigate = useNavigate();
+
+	// Initial loading effect (e.g., page load)
+	useEffect(() => {
+		setTimeout(() => setLoading(false), 555); // Hide loader after initial load
+	}, []);
+
+	const handleSubmit = () => {
+		if (ksbId === "123") {
+			toast.success("Successfully entered", {
+				icon: <FaCheckCircle />,
+				style: { backgroundColor: "#22c55e", color: "white" },
+			});
+
+			// Show loader and delay navigation to simulate loading
+			setLoading(true);
+			setTimeout(() => {
+				setLoading(false); // Hide loader before navigating
+				navigate("/login", { replace: true });
+			}, 555); // Delay for the toast to show
+		} else if (ksbId === "111") {
+			toast.error("KSB-ID does not match or your payment is delayed.", {
+				icon: <FaExclamationCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
+		} else {
+			toast("Please enter a valid KSB-ID", {
+				icon: <FaExclamationCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
+		}
+	};
+
+	return (
+		<Layout>
+			{/* Show loader when loading is true */}
+			{loading ? (
+				<Loader />
+			) : (
+				<div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-600">
+					<div className="bg-white p-10 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 space-y-8 max-w-md">
+						<div className="text-center space-y-4">
+							<img
+								src={logo}
+								alt="logo"
+								className="w-48 mx-auto"
+							/>
+							<h1 className="text-3xl font-bold text-gray-800">
+								Welcome to KSB Portal
+							</h1>
+							<p className="text-gray-600">
+								Please enter your KSB-ID to continue
+							</p>
+						</div>
+
+						<div className="relative">
+							<input
+								type="text"
+								placeholder="Enter your KSB-ID"
+								value={ksbId}
+								onChange={(e) => setKsbId(e.target.value)}
+								className="w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200"
+							/>
+							<FaKey
+								className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+								size={20}
+							/>
+						</div>
+
+						<div>
+							<button
+								onClick={handleSubmit}
+								className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 text-lg"
+							>
+								Submit
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+			<Toaster position="bottom-right" />
+		</Layout>
+	);
 }
 
 export default IntroPageKSB;
