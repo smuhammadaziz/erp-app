@@ -1,16 +1,62 @@
 import React, { useState } from "react";
 import { Layout } from "../Layout";
-import { NavLink } from "react-router-dom";
-import { FaUserTie, FaLock, FaChevronDown } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import {
+	FaUserTie,
+	FaLock,
+	FaChevronDown,
+	FaEye,
+	FaEyeSlash,
+	FaCheckCircle,
+	FaTimesCircle,
+} from "react-icons/fa";
+
+import { Toaster, toast } from "sonner";
 
 function LoginPageKSB() {
 	const [userType, setUserType] = useState("");
 	const [password, setPassword] = useState("");
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+	const navigate = useNavigate();
 
 	const handleLogin = () => {
-		// Add login logic here (e.g., validation or API call)
-		console.log("User Type:", userType, "Password:", password);
+		// Password validation logic
+		if (password === "123") {
+			toast.success(
+				<div className="flex items-center text-white">
+					<FaCheckCircle className="mr-2" size={20} />
+					Successfully entered
+				</div>,
+				{
+					position: "bottom-right",
+					style: { backgroundColor: "#22c55e" },
+				},
+			);
+			navigate("/");
+		} else if (password === "111") {
+			toast.error(
+				<div className="flex items-center text-white">
+					<FaTimesCircle className="mr-2" size={20} />
+					Password is incorrect
+				</div>,
+				{
+					position: "bottom-right",
+					style: { backgroundColor: "#ef4444" },
+				},
+			);
+		} else {
+			toast.error(
+				<div className="flex items-center text-white">
+					<FaTimesCircle className="mr-2" size={20} />
+					Invalid password format
+				</div>,
+				{
+					position: "bottom-right",
+					style: { backgroundColor: "#ef4444" },
+				},
+			);
+		}
 	};
 
 	const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -20,15 +66,18 @@ function LoginPageKSB() {
 		setIsDropdownOpen(false);
 	};
 
+	const togglePasswordVisibility = () => {
+		setIsPasswordVisible(!isPasswordVisible);
+	};
+
 	return (
 		<Layout>
-			<div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-500 to-indigo-700">
+			<div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
 				<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform hover:scale-105 transition-transform duration-300">
 					<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
 						Login
 					</h2>
 
-					{/* Custom User Type Dropdown */}
 					<div className="mb-6">
 						<label className="block text-xl font-medium text-gray-700 mb-2">
 							Select User Type
@@ -74,7 +123,6 @@ function LoginPageKSB() {
 						</div>
 					</div>
 
-					{/* Password Input */}
 					<div className="mb-6">
 						<label
 							htmlFor="password"
@@ -90,7 +138,9 @@ function LoginPageKSB() {
 								/>
 								<input
 									id="password"
-									type="password"
+									type={
+										isPasswordVisible ? "text" : "password"
+									} // Toggle between password and text type
 									className="w-full focus:outline-none"
 									value={password}
 									onChange={(e) =>
@@ -98,18 +148,37 @@ function LoginPageKSB() {
 									}
 									placeholder="Enter your password"
 								/>
+								<div
+									className="absolute right-4 cursor-pointer"
+									onClick={togglePasswordVisibility}
+								>
+									{isPasswordVisible ? (
+										<FaEyeSlash
+											className="text-gray-500"
+											size={20}
+										/>
+									) : (
+										<FaEye
+											className="text-gray-500"
+											size={20}
+										/>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>
-					<NavLink
-						to="/"
+
+					{/* Login Button */}
+					<button
 						onClick={handleLogin}
-						className="w-full block text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
+						className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
 					>
 						Login
-					</NavLink>
+					</button>
 				</div>
 			</div>
+
+			<Toaster position="bottom-right" />
 		</Layout>
 	);
 }

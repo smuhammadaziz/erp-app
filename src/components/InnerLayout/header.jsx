@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { AiOutlineGlobal } from "react-icons/ai"; // Importing icons
+import { HiOutlineCurrencyDollar } from "react-icons/hi";
 
 function HeaderInner() {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
-
-	const [data, setData] = useState([]);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -14,28 +14,28 @@ function HeaderInner() {
 		return () => clearInterval(interval);
 	}, []);
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setDate(new Date().toLocaleDateString());
-		}, 6000);
-
-		return () => clearInterval(interval);
-	});
-
 	return (
-		<header className="flex justify-between items-center px-6 py-3 bg-white shadow-md border-b overflow-hidden">
-			<div className="flex items-center gap-6">
-				<div className="">
-					<select className="appearance-none bg-gray-100 border border-gray-300 text-gray-600 px-4 py-2 rounded-md cursor-pointer">
-						<option>EN</option>
+		<header className="flex justify-end items-center px-8 py-6 bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg border-b-2 border-blue-700 overflow-hidden">
+			<div className="flex items-center gap-8">
+				{/* Language Switcher */}
+				<div className="relative inline-block">
+					<select className="appearance-none bg-gray-800 text-white px-11 py-3 rounded-lg shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out">
 						<option>RU</option>
 						<option>UZ</option>
 					</select>
+					<span className="absolute top-1/2 transform -translate-y-1/2 left-4 text-white text-xl">
+						<AiOutlineGlobal />
+					</span>
 				</div>
-				<div className="text-gray-700 font-medium">{date}</div>
-			</div>
-			<div className="text-lg font-semibold text-blue-600">
-				{currencyRate}
+
+				{/* Date */}
+				<div className="text-white text-xl font-semibold">{date}</div>
+
+				{/* Currency Rate */}
+				<div className="text-white text-xl font-semibold flex items-center gap-2">
+					<HiOutlineCurrencyDollar className="text-2xl mt-1" />
+					{currencyRate}
+				</div>
 			</div>
 		</header>
 	);
