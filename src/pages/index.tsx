@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Layout } from "../components/Layout";
 import InnerLayoutSection from "../components/InnerLayout/innerlayout";
 import { NavLink } from "react-router-dom";
-import { FaSignInAlt, FaInfoCircle } from "react-icons/fa"; // import icons
+import { FaSignInAlt, FaInfoCircle } from "react-icons/fa";
 
 export const IndexPage: FC = () => {
 	return (

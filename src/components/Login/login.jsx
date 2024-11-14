@@ -21,7 +21,6 @@ function LoginPageKSB() {
 	const navigate = useNavigate();
 
 	const handleLogin = () => {
-		// Password validation logic
 		if (password === "123") {
 			toast.success(
 				<div className="flex items-center text-white">
@@ -140,7 +139,7 @@ function LoginPageKSB() {
 									id="password"
 									type={
 										isPasswordVisible ? "text" : "password"
-									} // Toggle between password and text type
+									}
 									className="w-full focus:outline-none"
 									value={password}
 									onChange={(e) =>
@@ -168,7 +167,6 @@ function LoginPageKSB() {
 						</div>
 					</div>
 
-					{/* Login Button */}
 					<button
 						onClick={handleLogin}
 						className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"

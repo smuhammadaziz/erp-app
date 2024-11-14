@@ -8,12 +8,11 @@ import Loader from "../../common/loader";
 
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
-	const [loading, setLoading] = useState(true); // Initial loading state
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
-	// Initial loading effect (e.g., page load)
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 555); // Hide loader after initial load
+		setTimeout(() => setLoading(false), 555);
 	}, []);
 
 	const handleSubmit = () => {
@@ -23,12 +22,11 @@ function IntroPageKSB() {
 				style: { backgroundColor: "#22c55e", color: "white" },
 			});
 
-			// Show loader and delay navigation to simulate loading
 			setLoading(true);
 			setTimeout(() => {
-				setLoading(false); // Hide loader before navigating
+				setLoading(false);
 				navigate("/login", { replace: true });
-			}, 555); // Delay for the toast to show
+			}, 555);
 		} else if (ksbId === "111") {
 			toast.error("KSB-ID does not match or your payment is delayed.", {
 				icon: <FaExclamationCircle />,
@@ -44,7 +42,6 @@ function IntroPageKSB() {
 
 	return (
 		<Layout>
-			{/* Show loader when loading is true */}
 			{loading ? (
 				<Loader />
 			) : (

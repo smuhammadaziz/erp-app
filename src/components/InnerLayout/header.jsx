@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { AiOutlineGlobal } from "react-icons/ai"; // Importing icons
+import { AiOutlineGlobal } from "react-icons/ai";
 import { HiOutlineCurrencyDollar } from "react-icons/hi";
 
 function HeaderInner() {
@@ -9,7 +9,7 @@ function HeaderInner() {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setDate(new Date().toLocaleDateString());
-		}, 60000); // Update date every minute
+		}, 60000);
 
 		return () => clearInterval(interval);
 	}, []);
@@ -17,7 +17,6 @@ function HeaderInner() {
 	return (
 		<header className="flex justify-end items-center px-8 py-6 bg-gradient-to-r from-blue-600 to-blue-500 shadow-lg border-b-2 border-blue-700 overflow-hidden">
 			<div className="flex items-center gap-8">
-				{/* Language Switcher */}
 				<div className="relative inline-block">
 					<select className="appearance-none bg-gray-800 text-white px-11 py-3 rounded-lg shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out">
 						<option>RU</option>

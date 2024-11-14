@@ -13,7 +13,7 @@ function SidebarInner({ onToggle }) {
 
 	const toggleSidebar = () => {
 		setIsExpanded(!isExpanded);
-		onToggle(!isExpanded); // Notify parent component of new state
+		onToggle(!isExpanded);
 	};
 
 	return (
