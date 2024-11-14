@@ -101,8 +101,6 @@ function LoginPageKSB() {
 							</div>
 						</div>
 					</div>
-
-					{/* Login Button */}
 					<NavLink
 						to="/"
 						onClick={handleLogin}
