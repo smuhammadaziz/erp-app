@@ -25,7 +25,7 @@ exports.createMainWindow = async () => {
 
 	await window.loadURL(
 		config.isDev
-			? "http://localhost:3000"
+			? "http://localhost:3000/intro"
 			: `file://${join(__dirname, "..", "../build/index.html")}`,
 	);
 

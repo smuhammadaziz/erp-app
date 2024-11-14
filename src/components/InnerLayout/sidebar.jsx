@@ -1,13 +1,12 @@
-// SidebarInner.js
 import React, { useState } from "react";
 import {
-	FaHome,
-	FaUserAlt,
-	FaCog,
-	FaInfoCircle,
-	FaBars,
-	FaTimes,
-} from "react-icons/fa";
+	AiOutlineHome,
+	AiOutlineUser,
+	AiOutlineSetting,
+	AiOutlineInfoCircle,
+	AiOutlineMenu,
+	AiOutlineClose,
+} from "react-icons/ai";
 
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -19,49 +18,73 @@ function SidebarInner({ onToggle }) {
 
 	return (
 		<div
-			className={`h-full bg-blue-800 text-white fixed flex flex-col items-center py-6 transition-all duration-300 ${
+			className={`h-full bg-gray-900 text-white fixed flex flex-col items-center py-6 transition-all duration-300 shadow-lg ${
 				isExpanded ? "w-64" : "w-20"
 			}`}
 		>
-			<div className="flex items-center gap-2 mb-6">
-				<div className="text-2xl font-bold transition-opacity duration-300">
+			<div className="flex flex-col items-center mb-8">
+				<div className="text-3xl font-bold mb-2 transition-opacity duration-300">
 					{isExpanded ? "Logo" : "L"}
 				</div>
 				<button
 					onClick={toggleSidebar}
-					className="ml-auto p-2 text-white hover:bg-blue-600 rounded focus:outline-none"
+					className="p-2 text-white hover:bg-gray-700 rounded transition-colors duration-300"
 				>
-					{isExpanded ? <FaTimes /> : <FaBars />}
+					{isExpanded ? (
+						<AiOutlineClose size={24} />
+					) : (
+						<AiOutlineMenu size={24} />
+					)}
 				</button>
 			</div>
-			<nav className="flex flex-col gap-4 w-full">
+			<nav className="flex flex-col gap-6 w-full px-2 mt-4">
 				<a
 					href="#"
-					className="flex items-center gap-4 px-4 py-2 hover:bg-blue-600 rounded transition-all duration-300"
+					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
-					<FaHome size={isExpanded ? 20 : 28} />
+					<AiOutlineHome size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Home</span>}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							Home
+						</span>
+					)}
 				</a>
 				<a
 					href="#"
-					className="flex items-center gap-4 px-4 py-2 hover:bg-blue-600 rounded transition-all duration-300"
+					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
-					<FaUserAlt size={isExpanded ? 20 : 28} />
+					<AiOutlineUser size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Profile</span>}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							Profile
+						</span>
+					)}
 				</a>
 				<a
 					href="#"
-					className="flex items-center gap-4 px-4 py-2 hover:bg-blue-600 rounded transition-all duration-300"
+					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
-					<FaCog size={isExpanded ? 20 : 28} />
+					<AiOutlineSetting size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Settings</span>}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							Settings
+						</span>
+					)}
 				</a>
 				<a
 					href="#"
-					className="flex items-center gap-4 px-4 py-2 hover:bg-blue-600 rounded transition-all duration-300"
+					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
-					<FaInfoCircle size={isExpanded ? 20 : 28} />
+					<AiOutlineInfoCircle size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">About</span>}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							About
+						</span>
+					)}
 				</a>
 			</nav>
 		</div>
