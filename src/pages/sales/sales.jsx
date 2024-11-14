@@ -5,6 +5,7 @@ import SalesMainPageHeader from "../../components/SalesHeader/header";
 import SalesMainAllProducts from "../../components/SalesAllProducts/products";
 import SalesPagePaymentsSection from "../../components/Payments/payments";
 import SalespageSummaSection from "../../components/summa/summa";
+import SalesSoldProducts from "../../components/SalesSoldProducts/soldproducts";
 
 function SalesMainPage() {
 	return (
@@ -17,7 +18,7 @@ function SalesMainPage() {
 			<div>
 				<div className="flex items-start justify-between max-w-full overflow-x-hidden">
 					{/* Products Table - Takes 85% width */}
-					<div className="w-[85%]">
+					<div className="w-[85%] h-[35%]">
 						<SalesMainAllProducts />
 					</div>
 
@@ -28,8 +29,8 @@ function SalesMainPage() {
 				</div>
 				<div className="flex items-start justify-between max-w-full overflow-x-hidden">
 					{/* Products Table - Takes 85% width */}
-					<div className="w-[85%]">
-						<SalesMainAllProducts />
+					<div className="w-[85%] h-[35%]">
+						<SalesSoldProducts />
 					</div>
 
 					{/* Payments Section - Takes 15% width */}
