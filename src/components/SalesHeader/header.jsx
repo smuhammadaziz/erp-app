@@ -16,9 +16,9 @@ function SalesMainPageHeader() {
 	}, []);
 
 	return (
-		<header className="flex items-center px-6 py-4 bg-gradient-to-r from-blue-100 to-blue-200 shadow-md border-b border-blue-100">
+		<header className="flex items-center px-6 py-2 bg-gradient-to-r from-blue-100 to-blue-200 shadow-md border-b border-blue-100">
 			{/* Search Bar - fills remaining space */}
-			<div className="flex-grow flex items-center bg-white text-gray-700 px-6 py-3 rounded-lg shadow-md focus-within:ring-2 focus-within:ring-blue-300 mr-4">
+			<div className="flex-grow flex items-center bg-white text-gray-700 px-4 py-2 rounded-lg shadow-md focus-within:ring-2 focus-within:ring-blue-300 mr-4">
 				<AiOutlineSearch className="text-xl mr-3 text-gray-500" />
 				<input
 					type="text"
@@ -28,20 +28,20 @@ function SalesMainPageHeader() {
 			</div>
 
 			{/* New Sales Button */}
-			<button className="flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg shadow-md transition-all duration-300 mr-4">
+			<button className="flex items-center bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-md transition-all duration-300 mr-4">
 				<FaPlus className="mr-2" />
 				New Sales
 			</button>
 
 			{/* Language Selector */}
-			<div className="relative inline-block mr-4">
-				<select className="appearance-none bg-white text-gray-700 px-8 py-3 rounded-lg shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-300 ease-in-out">
+			<div className="inline-block mr-4">
+				<select className="appearance-none bg-white text-gray-700 px-10 py-2 rounded-lg shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-300 ease-in-out">
 					<option>RU</option>
 					<option>UZ</option>
 				</select>
-				<span className="absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-500 text-lg">
+				{/* <span className="absolute top-1/2 transform -translate-y-1/2 left-3 text-gray-500 text-lg">
 					<AiOutlineGlobal />
-				</span>
+				</span> */}
 			</div>
 
 			{/* Date */}
