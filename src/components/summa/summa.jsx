@@ -3,7 +3,6 @@ import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineCreditCard } from "react-icons/hi";
 
 function SalespageSummaSection() {
-	// State for prices and calculations
 	const [price, setPrice] = useState(0);
 	const [discount, setDiscount] = useState(0);
 	const [finalPrice, setFinalPrice] = useState(0);
@@ -22,7 +21,6 @@ function SalespageSummaSection() {
 
 	return (
 		<div className="items-center py-3">
-			{/* Total Price Button */}
 			<button
 				onClick={() => alert("Enter total price")}
 				className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4"
@@ -30,7 +28,6 @@ function SalespageSummaSection() {
 				<HiOutlineCash className="mr-2 text-xl" />${price.toFixed(2)}
 			</button>
 
-			{/* Discount Button */}
 			<button
 				onClick={() => alert("Enter discount")}
 				className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4"
@@ -39,7 +36,6 @@ function SalespageSummaSection() {
 				{discount}%
 			</button>
 
-			{/* Final Price Button */}
 			<button
 				onClick={() => alert("Final amount")}
 				className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition"
