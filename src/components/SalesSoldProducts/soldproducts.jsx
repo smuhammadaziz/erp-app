@@ -11,7 +11,6 @@ function SalesSoldProducts() {
 
 	return (
 		<div className="px-6 py-3 h-full">
-			{/* Wrapper for the whole table */}
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Fixed header section */}
 				<div className="overflow-x-auto bg-gray-100">
