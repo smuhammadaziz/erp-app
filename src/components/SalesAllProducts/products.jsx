@@ -2,7 +2,6 @@ import React from "react";
 import data from "../products.json";
 
 function SalesMainAllProducts() {
-	// Handler for adding the product (replace with your desired functionality)
 	const handleAddProduct = (product) => {
 		console.log("Adding product:", product);
 	};
