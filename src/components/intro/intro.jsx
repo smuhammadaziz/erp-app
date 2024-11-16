@@ -17,7 +17,7 @@ function IntroPageKSB() {
 
 	const handleSubmit = () => {
 		if (ksbId === "123") {
-			toast.success("Successfully entered", {
+			toast.success("Muvaffaqiyatli", {
 				icon: <FaCheckCircle />,
 				style: { backgroundColor: "#22c55e", color: "white" },
 			});
@@ -28,14 +28,14 @@ function IntroPageKSB() {
 				navigate("/login", { replace: true });
 			}, 555);
 		} else if (ksbId === "111") {
-			toast.error("KSB-ID does not match or your payment is delayed.", {
+			toast.error("KSB-ID ning muddati tugagan", {
 				icon: <FaExclamationCircle />,
 				style: { backgroundColor: "#ef4444", color: "white" },
 			});
 		} else {
-			toast("Please enter a valid KSB-ID", {
+			toast("Iltimos KSB-ID ni to'g'ri kiriting.", {
 				icon: <FaExclamationCircle />,
-				style: { backgroundColor: "#ef4444", color: "white" },
+				style: { backgroundColor: "#f5c000", color: "black" },
 			});
 		}
 	};

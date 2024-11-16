@@ -8,6 +8,8 @@ import {
 	AiOutlineClose,
 } from "react-icons/ai";
 
+import logo from "../../assets/icon.png";
+
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,8 +25,8 @@ function SidebarInner({ onToggle }) {
 			}`}
 		>
 			<div className="flex flex-col items-center mb-8">
-				<div className="text-3xl font-bold mb-2 transition-opacity duration-300">
-					{isExpanded ? "Logo" : "L"}
+				<div className="text-xl font-bold mb-2 transition-opacity duration-300">
+					{isExpanded ? <img src={logo} alt="" /> : "KSB"}
 				</div>
 				<button
 					onClick={toggleSidebar}

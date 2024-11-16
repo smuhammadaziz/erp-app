@@ -5,7 +5,7 @@ import {
 	IoExpandOutline,
 	IoRemove,
 } from "react-icons/io5";
-import Amethyst from "../../assets/amethyst.png";
+import logo from "../../assets/icon.png";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -32,7 +32,7 @@ export const Titlebar: FC = () => {
 			<div className="menu-button-container">
 				<img
 					id="icon"
-					src={Amethyst}
+					src={logo}
 					className="menu-icon select-none"
 					alt="amethyst"
 				/>

@@ -25,7 +25,7 @@ function LoginPageKSB() {
 			toast.success(
 				<div className="flex items-center text-white">
 					<FaCheckCircle className="mr-2" size={20} />
-					Successfully entered
+					Muvaffaqiyatli
 				</div>,
 				{
 					position: "bottom-right",
@@ -37,7 +37,7 @@ function LoginPageKSB() {
 			toast.error(
 				<div className="flex items-center text-white">
 					<FaTimesCircle className="mr-2" size={20} />
-					Password is incorrect
+					Parol xato
 				</div>,
 				{
 					position: "bottom-right",
@@ -46,13 +46,13 @@ function LoginPageKSB() {
 			);
 		} else {
 			toast.error(
-				<div className="flex items-center text-white">
+				<div className="flex items-center">
 					<FaTimesCircle className="mr-2" size={20} />
-					Invalid password format
+					Parolni to'g'ri formatda kiriting.
 				</div>,
 				{
 					position: "bottom-right",
-					style: { backgroundColor: "#ef4444" },
+					style: { backgroundColor: "#f5c000", color: "black" },
 				},
 			);
 		}
