@@ -1,45 +1,32 @@
 import React from "react";
-import { Layout } from "../../components/Layout";
-
-import SalesMainPageHeader from "../../components/SalesHeader/header";
 import SalesMainAllProducts from "../../components/SalesAllProducts/products";
-import SalesPagePaymentsSection from "../../components/Payments/payments";
 import SalespageSummaSection from "../../components/summa/summa";
 import SalesSoldProducts from "../../components/SalesSoldProducts/soldproducts";
+import SalesPageLayoutMain from "../../components/SalesLayout/saleslayout";
 
 function SalesMainPage() {
 	return (
-		<Layout>
-			<header>
-				<SalesMainPageHeader />
-			</header>
-
-			{/* Flex container for the table and payment section */}
+		<SalesPageLayoutMain>
 			<div>
-				<div className="flex items-start justify-between max-w-full overflow-x-hidden">
-					{/* Products Table - Takes 85% width */}
-					<div className="w-[85%] h-[35%]">
-						<SalesMainAllProducts />
-					</div>
-
-					{/* Payments Section - Takes 15% width */}
-					<div className="w-[15%]">
-						<SalesPagePaymentsSection />
-					</div>
-				</div>
-				<div className="flex items-start justify-between max-w-full overflow-x-hidden">
-					{/* Products Table - Takes 85% width */}
-					<div className="w-[85%] h-[35%]">
+				{/* Flex container for SoldProducts and SummaSection */}
+				<div className="flex gap-4">
+					{/* SoldProducts section - 80% width */}
+					<div className="w-4/5">
 						<SalesSoldProducts />
 					</div>
 
-					{/* Payments Section - Takes 15% width */}
-					<div className="w-[15%]">
+					{/* Summa section - 20% width */}
+					<div className="w-1/5">
 						<SalespageSummaSection />
 					</div>
 				</div>
+
+				{/* Main all products section */}
+				<div className="mt-4">
+					<SalesMainAllProducts />
+				</div>
 			</div>
-		</Layout>
+		</SalesPageLayoutMain>
 	);
 }
 

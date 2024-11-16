@@ -1,20 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
 
 function SalesMainAllProducts() {
+	const [searchQuery, setSearchQuery] = useState("");
+	const [filteredData, setFilteredData] = useState(data);
+
+	React.useEffect(() => {
+		if (searchQuery) {
+			const lowercasedQuery = searchQuery.toLowerCase();
+			setFilteredData(
+				data.filter((product) =>
+					product.product_name
+						.toLowerCase()
+						.includes(lowercasedQuery),
+				),
+			);
+		} else {
+			setFilteredData(data);
+		}
+	}, [searchQuery]);
+
 	const handleAddProduct = (product) => {
 		console.log("Adding product:", product);
 	};
 
 	return (
-		<div className="px-6 py-3">
-			{/* Wrapper for the whole table */}
-			<div className="bg-white shadow-md rounded-lg">
-				{/* Fixed header section */}
-				<div className="overflow-x-auto bg-gray-100">
+		<div className="px-6 py-1 h-[40vh]">
+			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
+				{/* Search Bar */}
+				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
+					<div className="relative w-full">
+						<input
+							type="text"
+							placeholder="Search products..."
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+							className="w-full px-10 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+						/>
+						<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+					</div>
+				</div>
+
+				{/* Table */}
+				<div className="overflow-y-auto flex-1">
 					<table className="min-w-full bg-white border border-gray-200">
 						<thead>
-							<tr className="bg-gray-100 text-gray-700 uppercase text-sm">
+							<tr className="bg-gray-100 text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
 								</th>
@@ -41,50 +73,77 @@ function SalesMainAllProducts() {
 								</th>
 							</tr>
 						</thead>
-					</table>
-				</div>
-				{/* Scrollable table body */}
-				<div className="overflow-x-auto max-h-[35vh]">
-					<table className="min-w-full bg-white border border-gray-200">
 						<tbody>
-							{data.map((product) => (
-								<tr
-									key={product.id}
-									className="text-gray-800 text-sm even:bg-gray-50"
-								>
-									<td className="py-1 px-5 border-b text-center w-[15%]">
-										{product.product_name}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[10%]">
-										{product.currency}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[10%]">
-										{product.box}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[15%]">
-										{product.remaining}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[10%]">
-										{product.price_in_currency}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[15%]">
-										{product.price_in_UZS}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[15%]">
-										{product.warehouse}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[10%]">
-										<button
-											onClick={() =>
-												handleAddProduct(product)
-											}
-											className="bg-green-500 text-white p-1 rounded-md px-2 hover:bg-green-700 focus:outline-none"
+							{filteredData.length > 0 ? (
+								filteredData.map((product) => (
+									<tr
+										key={product.id}
+										className="text-gray-800 text-xs even:bg-gray-50 hover:bg-slate-200 active:bg-slate-400"
+									>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%] truncate"
+											title={product.product_name}
 										>
-											+
-										</button>
+											{product.product_name}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[10%] truncate"
+											title={product.currency}
+										>
+											{product.currency}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[10%] truncate"
+											title={product.box}
+										>
+											{product.box}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%] truncate"
+											title={product.remaining}
+										>
+											{product.remaining}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[10%] truncate"
+											title={product.price_in_currency}
+										>
+											{product.price_in_currency}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%] truncate"
+											title={product.price_in_UZS}
+										>
+											{product.price_in_UZS}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%] truncate"
+											title={product.warehouse}
+										>
+											{product.warehouse}
+										</td>
+										<td className="py-1 px-5 border-b text-center w-[10%]">
+											<button
+												onClick={() =>
+													handleAddProduct(product)
+												}
+												className="bg-green-500 text-white p-1 rounded-md px-2 hover:bg-green-700 focus:outline-none"
+											>
+												+ Add
+											</button>
+										</td>
+									</tr>
+								))
+							) : (
+								<tr>
+									<td
+										colSpan="8"
+										className="py-3 text-center text-gray-500"
+									>
+										No products found.
 									</td>
 								</tr>
-							))}
+							)}
 						</tbody>
 					</table>
 				</div>

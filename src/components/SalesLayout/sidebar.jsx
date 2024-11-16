@@ -1,0 +1,77 @@
+import React from "react";
+import { HiOutlineCreditCard, HiOutlineCash } from "react-icons/hi";
+import {
+	MdCalendarToday,
+	MdAssignmentReturn,
+	MdOutlineSmartphone,
+	MdOutlineMobileScreenShare,
+} from "react-icons/md";
+import { GiCash } from "react-icons/gi";
+import { BsCardList } from "react-icons/bs";
+import { ImExit } from "react-icons/im";
+
+function SalesPageLayoutSidebar() {
+	return (
+		<div className="salespage bg-slate-100 h-[90vh] p-6 text-slate-100 flex flex-col justify-between">
+			{/* Top Buttons Section */}
+			<div>
+				<div className="flex flex-col items-center gap-5">
+					{/* Date Button */}
+					<button className="flex items-center justify-center w-full max-w-xs bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
+						<MdCalendarToday className="mr-3 text-xl" />
+						<span className="font-semibold">16.11.2024</span>
+					</button>
+
+					{/* Cash Button */}
+					<button className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400">
+						<HiOutlineCash className="mr-3 text-xl" />
+						<span className="font-semibold">Cash</span>
+					</button>
+
+					{/* Card Button */}
+					<button className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
+						<HiOutlineCreditCard className="mr-3 text-xl" />
+						<span className="font-semibold">Card</span>
+					</button>
+				</div>
+
+				{/* Middle Buttons Section */}
+				<div className="flex flex-col items-center gap-5 mt-8">
+					{/* Return Button */}
+					<button className="flex items-center justify-center w-full max-w-xs bg-indigo-700 hover:bg-indigo-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400">
+						<MdAssignmentReturn className="mr-3 text-xl" />
+						<span className="font-semibold">
+							Возврат от покупателя
+						</span>
+					</button>
+
+					{/* Cash Movement Button */}
+					<button className="flex items-center justify-center w-full max-w-xs bg-teal-700 hover:bg-teal-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400">
+						<GiCash className="mr-3 text-xl" />
+						<span className="font-semibold">Движения касса</span>
+					</button>
+				</div>
+			</div>
+
+			{/* Bottom Buttons Section */}
+			<div className="flex flex-col items-center gap-5 mt-8 mb-8">
+				{/* Button Group for List and Smartphone */}
+				<div className="flex items-center justify-between gap-5 w-full">
+					{/* List Button */}
+					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
+						<BsCardList className="text-xl" />
+					</button>
+
+					{/* Smartphone Button */}
+					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
+						<MdOutlineMobileScreenShare className="text-xl" />
+					</button>
+				</div>
+
+				{/* Exit Button */}
+			</div>
+		</div>
+	);
+}
+
+export default SalesPageLayoutSidebar;
