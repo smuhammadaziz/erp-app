@@ -6,7 +6,7 @@ import { ImExit } from "react-icons/im";
 
 function SalesPageLayoutFooter() {
 	return (
-		<div className="salesfooter bg-slate-100 p-4 shadow-lg border-t border-gray-300 flex items-center justify-between">
+		<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
 				{/* Settings Section */}
 				<div className="flex items-center gap-4">

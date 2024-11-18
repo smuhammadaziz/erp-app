@@ -12,16 +12,10 @@ import { ImExit } from "react-icons/im";
 
 function SalesPageLayoutSidebar() {
 	return (
-		<div className="salespage bg-slate-100 h-[90vh] p-6 text-slate-100 flex flex-col justify-between">
+		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col justify-between">
 			{/* Top Buttons Section */}
 			<div>
 				<div className="flex flex-col items-center gap-5">
-					{/* Date Button */}
-					<button className="flex items-center justify-center w-full max-w-xs bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
-						<MdCalendarToday className="mr-3 text-xl" />
-						<span className="font-semibold">16.11.2024</span>
-					</button>
-
 					{/* Cash Button */}
 					<button className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400">
 						<HiOutlineCash className="mr-3 text-xl" />
