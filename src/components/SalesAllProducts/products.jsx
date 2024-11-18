@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
 import { FaPlus } from "react-icons/fa";
-import { MdAdd, MdClear, MdDelete, MdRemove } from "react-icons/md";
+import { MdRemove, MdAdd, MdDelete, MdClear } from "react-icons/md";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredData, setFilteredData] = useState(data);
+	const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
+	const [selectedProduct, setSelectedProduct] = useState(null); // Product data for the modal
 
 	React.useEffect(() => {
 		if (searchQuery) {
@@ -24,7 +26,13 @@ function SalesMainAllProducts() {
 	}, [searchQuery]);
 
 	const handleAddProduct = (product) => {
-		console.log("Adding product:", product);
+		setSelectedProduct(product); // Set the selected product data
+		setIsModalOpen(true); // Open the modal
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false); // Close the modal
+		setSelectedProduct(null); // Reset the selected product
 	};
 
 	return (
@@ -44,23 +52,8 @@ function SalesMainAllProducts() {
 					</div>
 
 					<div className="flex items-start">
-						<div className="flex items-center block">
-							<button className="bg-green-600 border-2 border-green-600 hover:bg-transparent p-1.5 text-white hover:text-green-600  rounded-lg">
-								<MdRemove className="" />
-							</button>
-							<span className="px-2"></span>
-							<button className="bg-green-600 border-2 border-green-600 hover:bg-transparent p-1.5 text-white hover:text-green-600  rounded-lg">
-								<MdAdd className="" />
-							</button>
-						</div>
-
-						<span className="mt-0 pt-0 mx-5">
-							<p className="text-xl font-bold mt-0 pt-0 ">
-								( 5 )
-							</p>
-						</span>
-						<button className="bg-red-600  border-2 border-red-600 hover:bg-transparent p-1.5 text-white hover:text-red-600  rounded-lg">
-							<MdDelete className="" />
+						<button className="bg-red-600 border-2 border-red-600 hover:bg-transparent p-1.5 text-white hover:text-red-600 rounded-lg">
+							<MdDelete />
 						</button>
 					</div>
 				</div>
@@ -171,6 +164,65 @@ function SalesMainAllProducts() {
 					</table>
 				</div>
 			</div>
+
+			{/* Modal */}
+			{isModalOpen && selectedProduct && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+					<div className="bg-white p-6 rounded-lg w-[400px] shadow-lg relative">
+						<button
+							onClick={handleCloseModal}
+							className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+						>
+							<MdClear size={24} />
+						</button>
+						<h2 className="text-xl font-bold mb-4">
+							Product Details
+						</h2>
+						<form>
+							<div className="mb-4">
+								<label className="block text-sm font-semibold mb-2">
+									Product Name
+								</label>
+								<input
+									type="text"
+									value={selectedProduct.product_name}
+									readOnly
+									className="w-full px-4 py-2 border border-gray-300 rounded-md"
+								/>
+							</div>
+							<div className="mb-4">
+								<label className="block text-sm font-semibold mb-2">
+									Quantity
+								</label>
+								<input
+									type="number"
+									defaultValue={1}
+									className="w-full px-4 py-2 border border-gray-300 rounded-md"
+								/>
+							</div>
+							<div className="mb-4">
+								<label className="block text-sm font-semibold mb-2">
+									Price ($)
+								</label>
+								<input
+									type="text"
+									value={selectedProduct.price_in_currency}
+									readOnly
+									className="w-full px-4 py-2 border border-gray-300 rounded-md"
+								/>
+							</div>
+							<div className="flex justify-end">
+								<button
+									type="submit"
+									className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+								>
+									Save
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
