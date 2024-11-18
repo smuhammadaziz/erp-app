@@ -3,10 +3,7 @@ import { FiTrash2 } from "react-icons/fi";
 import data from "../products.json";
 
 function SalesSoldProducts() {
-	const [products, setProducts] = useState(data);
-
-	// Limit displayed items to 10 (paginated or first 10 for now)
-	const spliced = products.slice(0, 5);
+	const [products, setProducts] = useState(data.slice(0, 5)); // Limit the products array to 5 items when initialized
 
 	const handleDelete = (id) => {
 		setProducts(products.filter((product) => product.id !== id));
@@ -47,7 +44,7 @@ function SalesSoldProducts() {
 							</tr>
 						</thead>
 						<tbody>
-							{spliced.map((product) => (
+							{products.map((product) => (
 								<tr
 									key={product.id}
 									className="text-gray-800 text-xs even:bg-gray-50"
@@ -106,7 +103,7 @@ function SalesSoldProducts() {
 									</td>
 								</tr>
 							))}
-							{spliced.length === 0 && (
+							{products.length === 0 && (
 								<tr>
 									<td
 										colSpan="8"

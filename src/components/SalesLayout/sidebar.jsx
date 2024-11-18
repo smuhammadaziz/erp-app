@@ -52,12 +52,12 @@ function SalesPageLayoutSidebar() {
 				{/* Button Group for List and Smartphone */}
 				<div className="flex items-center justify-between gap-5 w-full">
 					{/* List Button */}
-					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
+					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-3 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
 						<BsCardList className="text-xl" />
 					</button>
 
 					{/* Smartphone Button */}
-					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-2 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
+					<button className="flex items-center justify-center w-full bg-slate-700 hover:bg-slate-600 text-slate-100 px-5 py-3 text-sm rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-slate-400">
 						<MdOutlineMobileScreenShare className="text-xl" />
 					</button>
 				</div>
