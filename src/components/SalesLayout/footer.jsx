@@ -4,7 +4,16 @@ import { FaPlus } from "react-icons/fa";
 import { BsCurrencyDollar, BsFillTagsFill } from "react-icons/bs";
 import { ImExit } from "react-icons/im";
 
+import { useNavigate } from "react-router-dom";
+
 function SalesPageLayoutFooter() {
+	const navigate = useNavigate();
+	const handleExitClick = () => {
+		// // Refresh the page and navigate to the home screen
+		// navigate("/"); // Navigate to home screen (after reload)
+		// window.location.reload();
+	};
+
 	return (
 		<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -49,10 +58,14 @@ function SalesPageLayoutFooter() {
 				</div>
 			</div>
 			<div className="mr-2.5">
-				<button className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400">
+				<a
+					href="/"
+					className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
+					onClick={handleExitClick} // Add the onClick event handler
+				>
 					<ImExit className="mr-3 text-xl" />
 					<span className="font-semibold">Exit</span>
-				</button>
+				</a>
 			</div>
 		</div>
 	);
