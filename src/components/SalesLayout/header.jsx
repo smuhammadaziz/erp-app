@@ -7,10 +7,13 @@ import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
 
 // Sample data for clients (you can replace this with your actual client data)
 const clients = [
-	{ id: 1, name: "Client A" },
-	{ id: 2, name: "Client B" },
-	{ id: 3, name: "Client C" },
-	{ id: 4, name: "Client D" },
+	{ id: 1, name: "Client 1" },
+	{ id: 2, name: "Client 2" },
+	{ id: 3, name: "Client 3" },
+	{ id: 4, name: "Client 4" },
+	{ id: 5, name: "Client 5" },
+	{ id: 6, name: "Client 6" },
+	{ id: 7, name: "Client 7" },
 ];
 
 // Sample product information for Smena yopish modal
