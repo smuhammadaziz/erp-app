@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineCreditCard } from "react-icons/hi";
+import { MdDiscount } from "react-icons/md";
 
 function SalespageSummaSection() {
 	const [price, setPrice] = useState(0);
@@ -32,7 +33,7 @@ function SalespageSummaSection() {
 				onClick={() => alert("Enter discount")}
 				className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4"
 			>
-				<HiOutlineCreditCard className="mr-2 text-xl" />
+				<MdDiscount className="mr-2 text-xl" />
 				{discount}%
 			</button>
 

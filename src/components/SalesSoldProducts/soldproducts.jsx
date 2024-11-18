@@ -112,7 +112,7 @@ function SalesSoldProducts() {
 										colSpan="8"
 										className="py-3 text-center text-gray-500"
 									>
-										No products to display.
+										Hozircha mahsulotlar yo'q
 									</td>
 								</tr>
 							)}
