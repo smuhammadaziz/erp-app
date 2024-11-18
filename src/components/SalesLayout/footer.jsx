@@ -49,7 +49,7 @@ function SalesPageLayoutFooter() {
 				</div>
 			</div>
 			<div className="mr-2.5">
-				<button className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-3 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400">
+				<button className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400">
 					<ImExit className="mr-3 text-xl" />
 					<span className="font-semibold">Exit</span>
 				</button>

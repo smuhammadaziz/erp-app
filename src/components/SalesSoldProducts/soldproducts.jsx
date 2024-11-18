@@ -6,20 +6,20 @@ function SalesSoldProducts() {
 	const [products, setProducts] = useState(data);
 
 	// Limit displayed items to 10 (paginated or first 10 for now)
-	const spliced = products.slice(0, 10);
+	const spliced = products.slice(0, 5);
 
 	const handleDelete = (id) => {
 		setProducts(products.filter((product) => product.id !== id));
 	};
 
 	return (
-		<div className="px-6 py-1 h-[40vh]">
+		<div className=" py-1 h-[40vh]">
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Table */}
-				<div className="overflow-x-auto flex-grow">
+				<div className="overflow-x-auto overflow-y-auto flex-grow">
 					<table className="min-w-full bg-white border border-gray-200">
-						<thead>
-							<tr className="bg-gray-100 text-gray-700 uppercase text-xs">
+						<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
+							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
 								</th>
@@ -101,8 +101,7 @@ function SalesSoldProducts() {
 											}
 											className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none"
 										>
-											<FiTrash2 className="mr-1" />
-											Delete
+											<FiTrash2 className="" />
 										</button>
 									</td>
 								</tr>

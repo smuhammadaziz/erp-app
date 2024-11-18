@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
+import { FaPlus } from "react-icons/fa";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -26,7 +27,7 @@ function SalesMainAllProducts() {
 	};
 
 	return (
-		<div className="px-6 py-1 h-[40vh]">
+		<div className="py-1 h-[40vh]">
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Search Bar */}
 				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
@@ -44,9 +45,9 @@ function SalesMainAllProducts() {
 
 				{/* Table */}
 				<div className="overflow-y-auto flex-1">
-					<table className="min-w-full bg-white border border-gray-200">
-						<thead>
-							<tr className="bg-gray-100 text-gray-700 uppercase text-xs">
+					<table className="min-w-full bg-white border border-gray-200 relative">
+						<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
+							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
 								</th>
@@ -129,7 +130,7 @@ function SalesMainAllProducts() {
 												}
 												className="bg-green-500 text-white p-1 rounded-md px-2 hover:bg-green-700 focus:outline-none"
 											>
-												+ Add
+												<FaPlus />
 											</button>
 										</td>
 									</tr>
