@@ -184,6 +184,9 @@ function SalesPageLayoutHeader() {
 									<span>{product.quantity} units</span>
 								</div>
 							))}
+							<p className="text-2xl font-bold">
+								Jami: 150000.00 SUM
+							</p>
 						</div>
 						<div className="flex justify-between mt-4">
 							<button
