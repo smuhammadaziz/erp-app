@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
 import { FaPlus } from "react-icons/fa";
+import { MdAdd, MdClear, MdDelete, MdRemove } from "react-icons/md";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -31,7 +32,7 @@ function SalesMainAllProducts() {
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Search Bar */}
 				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
-					<div className="relative w-full">
+					<div className="relative w-[50vw] mr-5">
 						<input
 							type="text"
 							placeholder="Search products..."
@@ -40,6 +41,27 @@ function SalesMainAllProducts() {
 							className="w-full px-10 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
 						/>
 						<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+					</div>
+
+					<div className="flex items-start">
+						<div className="flex items-center block">
+							<button className="bg-green-600 border-2 border-green-600 hover:bg-transparent p-1.5 text-white hover:text-green-600  rounded-lg">
+								<MdRemove className="" />
+							</button>
+							<span className="px-2"></span>
+							<button className="bg-green-600 border-2 border-green-600 hover:bg-transparent p-1.5 text-white hover:text-green-600  rounded-lg">
+								<MdAdd className="" />
+							</button>
+						</div>
+
+						<span className="mt-0 pt-0 mx-5">
+							<p className="text-xl font-bold mt-0 pt-0 ">
+								( 5 )
+							</p>
+						</span>
+						<button className="bg-red-600  border-2 border-red-600 hover:bg-transparent p-1.5 text-white hover:text-red-600  rounded-lg">
+							<MdDelete className="" />
+						</button>
 					</div>
 				</div>
 
