@@ -38,7 +38,7 @@ export const Titlebar: FC = () => {
 				/>
 			</div>
 			<div className="app-name-container select-none">
-				<p>KSB-MERP</p>
+				<p>KSB-MERP v1.0.0 ( Dekor Land )</p>
 			</div>
 			<div className="window-controls-container">
 				<button
