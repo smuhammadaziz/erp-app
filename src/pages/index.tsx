@@ -8,8 +8,7 @@ import {
 	RiStore3Line,
 	RiDashboardLine,
 } from "react-icons/ri";
-import { BiTrendingUp, BiCalendarEvent } from "react-icons/bi";
-import { Line } from "react-chartjs-2";
+import { BiTrendingUp } from "react-icons/bi";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -20,6 +19,7 @@ import {
 	Tooltip,
 	Legend,
 } from "chart.js";
+import { Line } from "react-chartjs-2"; // Import the Line chart component
 
 ChartJS.register(
 	CategoryScale,
@@ -88,6 +88,7 @@ const IndexPage: FC = () => {
 			<InnerLayoutSection>
 				{/* Stats Overview */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+					{/* Total Sales Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -106,8 +107,21 @@ const IndexPage: FC = () => {
 								<RiMoneyDollarCircleLine className="text-2xl text-indigo-600" />
 							</div>
 						</div>
+						{/* Link to Sales Dashboard */}
+						<div className="mt-6">
+							<NavLink
+								to="/sales"
+								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+							>
+								<RiMoneyDollarCircleLine className="text-xl" />
+								<span className="font-medium text-center">
+									Sales Dashboard
+								</span>
+							</NavLink>
+						</div>
 					</div>
 
+					{/* Active Clients Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -126,8 +140,21 @@ const IndexPage: FC = () => {
 								<RiCustomerService2Line className="text-2xl text-indigo-600" />
 							</div>
 						</div>
+						{/* Link to Client Management */}
+						<div className="mt-6">
+							<NavLink
+								to="/clients"
+								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+							>
+								<RiCustomerService2Line className="text-xl" />
+								<span className="font-medium">
+									Client Management
+								</span>
+							</NavLink>
+						</div>
 					</div>
 
+					{/* Products Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -146,145 +173,17 @@ const IndexPage: FC = () => {
 								<RiStore3Line className="text-2xl text-indigo-600" />
 							</div>
 						</div>
-					</div>
-
-					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
-						<div className="flex items-center justify-between">
-							<div>
-								<p className="text-gray-500 text-sm">
-									Performance
-								</p>
-								<h3 className="text-2xl font-bold text-gray-800">
-									92%
-								</h3>
-								<p className="text-green-500 text-sm mt-2 flex items-center">
-									<BiTrendingUp className="mr-1" />
-									+2.4%
-								</p>
-							</div>
-							<div className="bg-indigo-100 p-3 rounded-lg">
-								<RiDashboardLine className="text-2xl text-indigo-600" />
-							</div>
-						</div>
-					</div>
-				</div>
-
-				{/* <div className="flex flex-wrap gap-4 mt-10 justify-center">
-					<NavLink
-						to="/sales"
-						className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-					>
-						<RiMoneyDollarCircleLine className="text-xl" />
-						<span className="font-medium">Sales Dashboard</span>
-					</NavLink>
-					<NavLink
-						to="/clients"
-						className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-					>
-						<RiCustomerService2Line className="text-xl" />
-						<span className="font-medium">Client Management</span>
-					</NavLink>
-					<NavLink
-						to="/products"
-						className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-					>
-						<RiStore3Line className="text-xl" />
-						<span className="font-medium">Product Catalog</span>
-					</NavLink>
-				</div> */}
-
-				{/* Chart Section */}
-				<div className="mt-12 flex items-center">
-					<div className="bg-white p-8 mr-3 rounded-xl shadow-lg border border-gray-100 w-1/2">
-						<div className="flex justify-between items-center mb-6">
-							<div className="flex items-center gap-3">
-								<BiCalendarEvent className="text-2xl text-indigo-600" />
-								<h2 className="text-2xl font-bold text-gray-800">
-									Performance Metrics
-								</h2>
-							</div>
-							<select
-								onChange={handleFilterChange}
-								value={filter}
-								className="py-2 px-4 rounded-lg border border-gray-200 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+						{/* Link to Product Catalog */}
+						<div className="mt-6">
+							<NavLink
+								to="/products"
+								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
 							>
-								<option value="daily">Daily View</option>
-								<option value="weekly">Weekly View</option>
-								<option value="monthly">Monthly View</option>
-								<option value="yearly">Yearly View</option>
-							</select>
-						</div>
-						<div className="relative h-80">
-							<Line
-								data={generateChartData()}
-								options={{
-									responsive: true,
-									maintainAspectRatio: false,
-									plugins: {
-										legend: {
-											display: false,
-										},
-									},
-									scales: {
-										y: {
-											grid: {
-												color: "rgba(0, 0, 0, 0.05)",
-											},
-										},
-										x: {
-											grid: {
-												display: false,
-											},
-										},
-									},
-								}}
-							/>
-						</div>
-					</div>
-					<div className="bg-white p-8 ml-3 rounded-xl shadow-lg border border-gray-100 w-1/2">
-						<div className="flex justify-between items-center mb-6">
-							<div className="flex items-center gap-3">
-								<BiCalendarEvent className="text-2xl text-indigo-600" />
-								<h2 className="text-2xl font-bold text-gray-800">
-									Performance Metrics
-								</h2>
-							</div>
-							<select
-								onChange={handleFilterChange}
-								value={filter}
-								className="py-2 px-4 rounded-lg border border-gray-200 bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-							>
-								<option value="daily">Daily View</option>
-								<option value="weekly">Weekly View</option>
-								<option value="monthly">Monthly View</option>
-								<option value="yearly">Yearly View</option>
-							</select>
-						</div>
-						<div className="relative h-80">
-							<Line
-								data={generateChartData()}
-								options={{
-									responsive: true,
-									maintainAspectRatio: false,
-									plugins: {
-										legend: {
-											display: false,
-										},
-									},
-									scales: {
-										y: {
-											grid: {
-												color: "rgba(0, 0, 0, 0.05)",
-											},
-										},
-										x: {
-											grid: {
-												display: false,
-											},
-										},
-									},
-								}}
-							/>
+								<RiStore3Line className="text-xl" />
+								<span className="font-medium">
+									Product Catalog
+								</span>
+							</NavLink>
 						</div>
 					</div>
 				</div>
