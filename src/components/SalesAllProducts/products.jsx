@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
-import { FaPlus } from "react-icons/fa";
-import { MdRemove, MdAdd, MdDelete, MdClear } from "react-icons/md";
+import { MdClear } from "react-icons/md";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [filteredData, setFilteredData] = useState(data);
-	const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility state
-	const [selectedProduct, setSelectedProduct] = useState(null); // Product data for the modal
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [selectedRow, setSelectedRow] = useState(-1); // Track highlighted row
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
 			setFilteredData(
@@ -25,18 +25,37 @@ function SalesMainAllProducts() {
 		}
 	}, [searchQuery]);
 
+	// Handle keyboard events
+	const handleKeyDown = (e) => {
+		if (e.key === "ArrowDown") {
+			setSelectedRow((prev) =>
+				Math.min(prev + 1, filteredData.length - 1),
+			);
+		} else if (e.key === "ArrowUp") {
+			setSelectedRow((prev) => Math.max(prev - 1, 0));
+		} else if (e.key === "Enter") {
+			if (selectedRow !== -1) {
+				handleAddProduct(filteredData[selectedRow]);
+			}
+		}
+	};
+
 	const handleAddProduct = (product) => {
-		setSelectedProduct(product); // Set the selected product data
-		setIsModalOpen(true); // Open the modal
+		setSelectedProduct(product);
+		setIsModalOpen(true);
 	};
 
 	const handleCloseModal = () => {
-		setIsModalOpen(false); // Close the modal
-		setSelectedProduct(null); // Reset the selected product
+		setIsModalOpen(false);
+		setSelectedProduct(null);
 	};
 
 	return (
-		<div className="py-1 h-[40vh]">
+		<div
+			className="py-1 h-[40vh]"
+			tabIndex={0} // Make the div focusable
+			onKeyDown={handleKeyDown} // Listen for keydown events
+		>
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Search Bar */}
 				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
@@ -49,12 +68,6 @@ function SalesMainAllProducts() {
 							className="w-full px-10 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
 						/>
 						<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
-					</div>
-
-					<div className="flex items-start">
-						<button className="bg-red-600 border-2 border-red-600 hover:bg-transparent p-1.5 text-white hover:text-red-600 rounded-lg">
-							<MdDelete />
-						</button>
 					</div>
 				</div>
 
@@ -84,17 +97,18 @@ function SalesMainAllProducts() {
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Warehouse
 								</th>
-								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Add
-								</th>
 							</tr>
 						</thead>
 						<tbody>
 							{filteredData.length > 0 ? (
-								filteredData.map((product) => (
+								filteredData.map((product, index) => (
 									<tr
 										key={product.id}
-										className="text-gray-800 text-xs even:bg-gray-50 hover:bg-slate-200 active:bg-slate-400"
+										className={`text-gray-800 text-xs hover:bg-slate-200 ${
+											selectedRow === index
+												? "bg-orange-200"
+												: ""
+										}`}
 									>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%] truncate"
@@ -138,22 +152,12 @@ function SalesMainAllProducts() {
 										>
 											{product.warehouse}
 										</td>
-										<td className="py-1 px-5 border-b text-center w-[10%]">
-											<button
-												onClick={() =>
-													handleAddProduct(product)
-												}
-												className="bg-green-500 text-white p-1 rounded-md px-2 hover:bg-green-700 focus:outline-none"
-											>
-												<FaPlus />
-											</button>
-										</td>
 									</tr>
 								))
 							) : (
 								<tr>
 									<td
-										colSpan="8"
+										colSpan="7"
 										className="py-3 text-center text-gray-500"
 									>
 										No products found.
