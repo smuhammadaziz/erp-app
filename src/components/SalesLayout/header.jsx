@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBuilding, FaSignal } from "react-icons/fa";
+import { FaBuilding } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
@@ -16,20 +16,49 @@ function SalesPageLayoutHeader() {
 		smenaYopish: false,
 		skidka: false,
 	});
-	const [isOnline, setIsOnline] = useState(navigator.onLine);
+	const [status, setStatus] = useState("checking");
 
-	// Update online status
-	const updateOnlineStatus = () => setIsOnline(navigator.onLine);
+	const checkNetworkStatus = async () => {
+		if (!navigator.onLine) {
+			// User is completely offline
+			setStatus("offline");
+			return;
+		}
+
+		try {
+			// Attempt to fetch a known reliable resource
+			const response = await fetch("https://www.google.com/favicon.ico", {
+				method: "HEAD",
+				cache: "no-store",
+			});
+
+			// If successful, we are online
+			if (response.ok) {
+				setStatus("online");
+			} else {
+				setStatus("no-internet");
+			}
+		} catch (error) {
+			// If fetch fails, we have no internet
+			setStatus("no-internet");
+		}
+	};
 
 	useEffect(() => {
-		// Add event listeners for network status changes
-		window.addEventListener("online", updateOnlineStatus);
-		window.addEventListener("offline", updateOnlineStatus);
+		// Initial check
+		checkNetworkStatus();
 
-		// Clean up event listeners on unmount
+		// Update status on network changes
+		const handleOnline = () => checkNetworkStatus();
+		const handleOffline = () => setStatus("offline");
+
+		window.addEventListener("online", handleOnline);
+		window.addEventListener("offline", handleOffline);
+
+		// Cleanup listeners on unmount
 		return () => {
-			window.removeEventListener("online", updateOnlineStatus);
-			window.removeEventListener("offline", updateOnlineStatus);
+			window.removeEventListener("online", handleOnline);
+			window.removeEventListener("offline", handleOffline);
 		};
 	}, []);
 
@@ -39,6 +68,38 @@ function SalesPageLayoutHeader() {
 
 	const handleCloseModal = (modalType) => {
 		setIsModalOpen((prevState) => ({ ...prevState, [modalType]: false }));
+	};
+
+	const renderStatusButton = () => {
+		switch (status) {
+			case "online":
+				return (
+					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
+						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
+						<span className="font-semibold">Online</span>
+					</button>
+				);
+			case "no-internet":
+				return (
+					<button className="flex items-center mr-2 justify-center bg-yellow-500 hover:bg-yellow-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-yellow-600">
+						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
+						<span className="font-semibold">No Internet</span>
+					</button>
+				);
+			case "offline":
+				return (
+					<button className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600">
+						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
+						<span className="font-semibold">Offline</span>
+					</button>
+				);
+			default:
+				return (
+					<button className="flex items-center mr-2 justify-center bg-gray-400 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500">
+						<span className="font-semibold">Checking...</span>
+					</button>
+				);
+		}
 	};
 
 	return (
@@ -68,17 +129,7 @@ function SalesPageLayoutHeader() {
 				</div>
 			</div>
 			<div className="mr-2.5 flex items-center">
-				{isOnline ? (
-					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
-						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
-						<span className="font-semibold">Online</span>
-					</button>
-				) : (
-					<button className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600">
-						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
-						<span className="font-semibold">Offline</span>
-					</button>
-				)}
+				{renderStatusButton()}
 				<button
 					onClick={() => handleOpenModal("skidka")}
 					className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
