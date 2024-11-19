@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaBuilding } from "react-icons/fa";
+import { FaBuilding, FaUserAlt } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
@@ -107,8 +107,8 @@ function SalesPageLayoutHeader() {
 			<div className="flex items-center justify-start">
 				<div className="flex items-center gap-4 pr-5">
 					<span className="text-gray-600 text-lg flex items-center gap-2">
-						<FaBuilding className="text-xl" />
-						<span className="font-medium">Dekor Land</span>
+						<FaUserAlt className="text-xl" />
+						<span className="font-medium">Manager</span>
 					</span>
 				</div>
 				<div className="flex items-center">
