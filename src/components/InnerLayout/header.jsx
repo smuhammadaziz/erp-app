@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineCurrencyDollar } from "react-icons/hi";
+import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi"; // Added calendar icon for date
 
 function HeaderInner() {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
@@ -41,11 +41,14 @@ function HeaderInner() {
 					</span>
 				</div>
 
-				{/* Date */}
-				<div className="text-white text-xl font-semibold">{date}</div>
+				{/* Date with Icon */}
+				<div className="text-gray-400 text-md font-light flex items-center gap-2">
+					<HiOutlineCalendar className="text-xl" />
+					{date}
+				</div>
 
-				{/* Currency Rate */}
-				<div className="text-white text-xl font-semibold flex items-center gap-2">
+				{/* Currency Rate with Icon */}
+				<div className="text-white text-lg font-medium flex items-center gap-2">
 					<HiOutlineCurrencyDollar className="text-2xl mt-1" />
 					{currencyRate}
 				</div>
