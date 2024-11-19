@@ -8,6 +8,7 @@ import IntroPageKSB from "./components/intro/intro";
 import Loader from "./common/loader";
 import SalesMainPage from "./pages/sales/sales";
 import CustomersPage from "./pages/customers/customers";
+import ProductsPage from "./pages/products/products";
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -28,6 +29,7 @@ export const Router: FC = () => {
 				<Route path="/intro" element={<IntroPageKSB />} />
 				<Route path="/sales" element={<SalesMainPage />} />
 				<Route path="/customers" element={<CustomersPage />} />
+				<Route path="/products" element={<ProductsPage />} />
 			</Routes>
 		</HashRouter>
 	);

@@ -68,16 +68,22 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<RiCustomerService2Fill size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Customers</span>}
+					{isExpanded && (
+						<span className="text-lg z-100">Customers</span>
+					)}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
 							Customers
 						</span>
 					)}
 				</NavLink>
-				<a
-					href="#"
-					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+				<NavLink
+					to="/products"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
 				>
 					<AiFillProduct size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Products</span>}
@@ -86,31 +92,39 @@ function SidebarInner({ onToggle }) {
 							Products
 						</span>
 					)}
-				</a>
-				<a
-					href="#"
-					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+				</NavLink>
+				<NavLink
+					to="/products"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
 				>
-					<AiOutlineSetting size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Settings</span>}
+					<AiFillProduct size={isExpanded ? 24 : 28} />
+					{isExpanded && <span className="text-lg">Products</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Settings
+							Products
 						</span>
 					)}
-				</a>
-				<a
-					href="#"
-					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+				</NavLink>
+				<NavLink
+					to="/products"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
 				>
-					<AiOutlineInfoCircle size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">About</span>}
+					<AiFillProduct size={isExpanded ? 24 : 28} />
+					{isExpanded && <span className="text-lg">Products</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							About
+							Products
 						</span>
 					)}
-				</a>
+				</NavLink>
 			</nav>
 		</div>
 	);
