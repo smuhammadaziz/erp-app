@@ -6,9 +6,12 @@ import {
 	AiOutlineInfoCircle,
 	AiOutlineMenu,
 	AiOutlineClose,
+	AiFillProduct,
 } from "react-icons/ai";
 
 import logo from "../../assets/icon.png";
+import { RiCustomerService2Fill } from "react-icons/ri";
+import { NavLink } from "react-router-dom";
 
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -40,8 +43,8 @@ function SidebarInner({ onToggle }) {
 				</button>
 			</div>
 			<nav className="flex flex-col gap-6 w-full px-2 mt-4">
-				<a
-					href="#"
+				<NavLink
+					to="/"
 					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
 					<AiOutlineHome size={isExpanded ? 24 : 28} />
@@ -51,16 +54,28 @@ function SidebarInner({ onToggle }) {
 							Home
 						</span>
 					)}
-				</a>
+				</NavLink>
+				<NavLink
+					to="/customers"
+					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+				>
+					<RiCustomerService2Fill size={isExpanded ? 24 : 28} />
+					{isExpanded && <span className="text-lg">Customers</span>}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							Customers
+						</span>
+					)}
+				</NavLink>
 				<a
 					href="#"
 					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
 				>
-					<AiOutlineUser size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Profile</span>}
+					<AiFillProduct size={isExpanded ? 24 : 28} />
+					{isExpanded && <span className="text-lg">Products</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Profile
+							Products
 						</span>
 					)}
 				</a>
