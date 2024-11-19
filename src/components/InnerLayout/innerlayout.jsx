@@ -11,7 +11,7 @@ function InnerLayoutSection({ children }) {
 	};
 
 	return (
-		<div className="flex h-screen bg-gray-100">
+		<div className="flex h-[90vh] bg-gray-100">
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div
@@ -20,7 +20,9 @@ function InnerLayoutSection({ children }) {
 				}`}
 			>
 				<HeaderInner />
-				<main className="p-4 flex-1 overflow-y-auto">{children}</main>
+				<main className="p-4 h-[90vh] flex-1 overflow-y-hidden">
+					{children}
+				</main>
 			</div>
 		</div>
 	);
