@@ -143,7 +143,7 @@ const IndexPage: FC = () => {
 						{/* Link to Client Management */}
 						<div className="mt-6">
 							<NavLink
-								to="/clients"
+								to="/customers"
 								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
 							>
 								<RiCustomerService2Line className="text-xl" />
