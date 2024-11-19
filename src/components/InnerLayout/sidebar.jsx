@@ -45,7 +45,11 @@ function SidebarInner({ onToggle }) {
 			<nav className="flex flex-col gap-6 w-full px-2 mt-4">
 				<NavLink
 					to="/"
-					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
 				>
 					<AiOutlineHome size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Home</span>}
@@ -57,7 +61,11 @@ function SidebarInner({ onToggle }) {
 				</NavLink>
 				<NavLink
 					to="/customers"
-					className="group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
 				>
 					<RiCustomerService2Fill size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Customers</span>}

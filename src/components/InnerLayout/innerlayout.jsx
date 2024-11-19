@@ -11,7 +11,7 @@ function InnerLayoutSection({ children }) {
 	};
 
 	return (
-		<div className="flex h-[90vh] bg-gray-100">
+		<div className="flex h-[95vh] bg-gray-100">
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div
