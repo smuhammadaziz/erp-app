@@ -12,6 +12,7 @@ import {
 import logo from "../../assets/icon.png";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
+import { CiSettings } from "react-icons/ci";
 
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -68,9 +69,7 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<RiCustomerService2Fill size={isExpanded ? 24 : 28} />
-					{isExpanded && (
-						<span className="text-lg z-100">Customers</span>
-					)}
+					{isExpanded && <span className="text-lg">Customers</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
 							Customers
@@ -94,34 +93,18 @@ function SidebarInner({ onToggle }) {
 					)}
 				</NavLink>
 				<NavLink
-					to="/products"
+					to="/settings"
 					className={({ isActive }) =>
 						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
 							isActive ? "bg-gray-700" : ""
 						}`
 					}
 				>
-					<AiFillProduct size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Products</span>}
+					<AiOutlineSetting size={isExpanded ? 24 : 28} />
+					{isExpanded && <span className="text-lg">Settings</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Products
-						</span>
-					)}
-				</NavLink>
-				<NavLink
-					to="/products"
-					className={({ isActive }) =>
-						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
-							isActive ? "bg-gray-700" : ""
-						}`
-					}
-				>
-					<AiFillProduct size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Products</span>}
-					{!isExpanded && (
-						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Products
+							Settings
 						</span>
 					)}
 				</NavLink>
