@@ -9,6 +9,7 @@ import Loader from "./common/loader";
 import SalesMainPage from "./pages/sales/sales";
 import CustomersPage from "./pages/customers/customers";
 import ProductsPage from "./pages/products/products";
+import SettingsPage from "./pages/settings/settings";
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -30,6 +31,7 @@ export const Router: FC = () => {
 				<Route path="/sales" element={<SalesMainPage />} />
 				<Route path="/customers" element={<CustomersPage />} />
 				<Route path="/products" element={<ProductsPage />} />
+				<Route path="/settings" element={<SettingsPage />} />
 			</Routes>
 		</HashRouter>
 	);
