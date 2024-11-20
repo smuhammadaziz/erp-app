@@ -24,7 +24,7 @@ const Modal = ({ isOpen, onClose, title, children, onSave }) => {
 
 	return (
 		<div className="fixed inset-0 z-100 overflow-auto bg-black bg-opacity-50 flex items-center justify-center">
-			<div className="bg-white rounded-lg w-full max-w-md mx-4 shadow-xl">
+			<div className="bg-white rounded-lg w-full max-w-md mx-4 shadow-xl z-60">
 				<div className="flex justify-between items-center p-4 border-b">
 					<h2 className="text-xl font-semibold text-gray-800">
 						{title}
@@ -137,6 +137,7 @@ const SalesPageLayoutFooter = () => {
 			onClose={closeModal}
 			title="Table Layout Settings"
 			onSave={saveTableSettings}
+			className="z-50"
 		>
 			<div className="space-y-4">
 				<div>
@@ -329,19 +330,19 @@ const SalesPageLayoutFooter = () => {
 	const SettingsPanel = () => (
 		<>
 			<div
-				className={`fixed z-50 inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
+				className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 ${
 					isSettingsOpen
 						? "opacity-100"
 						: "opacity-0 pointer-events-none"
 				}`}
-				style={{ zIndex: 9998 }}
+				// style={{ zIndex: 1 }}
 				onClick={toggleSettings}
 			/>
 			<div
-				className={`fixed bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl transform transition-transform duration-300 ease-in-out ${
+				className={`fixed z-0 bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl transform transition-transform duration-300 ease-in-out ${
 					isSettingsOpen ? "translate-y-0" : "translate-y-full"
 				}`}
-				style={{ zIndex: 9999 }}
+				// style={{ zIndex: 1 }}
 			>
 				<div className="p-4 max-h-[80vh] overflow-y-auto">
 					<div className="flex justify-between items-center mb-4 sticky top-0 bg-white py-2 px-4">
