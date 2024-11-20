@@ -144,7 +144,7 @@ function SalesMainAllProducts() {
 				{/* Table */}
 				<div className="overflow-y-auto flex-1" ref={tableRef}>
 					<table className="min-w-full bg-white border border-gray-200 relative">
-						<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
+						<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
 							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
