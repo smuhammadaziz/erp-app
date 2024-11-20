@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiSearch } from "react-icons/fi";
 import data from "../products.json";
 import { MdClear } from "react-icons/md";
@@ -9,44 +9,91 @@ function SalesMainAllProducts() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [selectedRow, setSelectedRow] = useState(null);
+	const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
+
+	const tableRef = useRef(null);
+	const selectedRowRef = useRef(null);
+	const searchInputRef = useRef(null);
 
 	useEffect(() => {
 		// Filter products based on the search query
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
-			setFilteredData(
-				data.filter((product) =>
-					product.product_name
-						.toLowerCase()
-						.includes(lowercasedQuery),
-				),
+			const filtered = data.filter((product) =>
+				product.product_name.toLowerCase().includes(lowercasedQuery),
 			);
+			setFilteredData(filtered);
+			// Don't auto-select first item, wait for Enter key
 		} else {
 			setFilteredData(data);
+			setSelectedRow(null);
+			setIsSelectionEnabled(false);
 		}
-		// Reset selectedRow when search query changes
-		setSelectedRow(null);
 	}, [searchQuery]);
 
-	// Handle keyboard navigation
+	useEffect(() => {
+		if (
+			selectedRow !== null &&
+			selectedRowRef.current &&
+			tableRef.current
+		) {
+			const tableContainer = tableRef.current;
+			const selectedElement = selectedRowRef.current;
+
+			const containerRect = tableContainer.getBoundingClientRect();
+			const elementRect = selectedElement.getBoundingClientRect();
+
+			// Calculate the scroll adjustment needed
+			if (elementRect.bottom > containerRect.bottom) {
+				// If element is below viewport, scroll it into view at the bottom
+				selectedElement.scrollIntoView({
+					block: "nearest",
+					behavior: "smooth",
+				});
+			} else if (elementRect.top < containerRect.top) {
+				// If element is above viewport, scroll it into view at the top
+				selectedElement.scrollIntoView({
+					block: "start",
+					behavior: "smooth",
+				});
+			}
+		}
+	}, [selectedRow]);
+
 	const handleKeyDown = (e) => {
+		if (
+			!isSelectionEnabled &&
+			e.key === "Enter" &&
+			searchQuery &&
+			filteredData.length > 0
+		) {
+			// Enable selection and select first item when Enter is pressed in search mode
+			e.preventDefault();
+			setIsSelectionEnabled(true);
+			setSelectedRow(0);
+			return;
+		}
+
+		if (!isSelectionEnabled) return;
+
 		if (e.key === "ArrowDown") {
-			// Move selection down
+			e.preventDefault();
 			setSelectedRow((prev) =>
 				prev === null ? 0 : Math.min(prev + 1, filteredData.length - 1),
 			);
 		} else if (e.key === "ArrowUp") {
-			// Move selection up
+			e.preventDefault();
 			setSelectedRow((prev) =>
 				prev === null ? null : Math.max(prev - 1, 0),
 			);
-		} else if (e.key === "Enter") {
-			// Select the first item if no row is selected
-			if (selectedRow === null && filteredData.length > 0) {
-				setSelectedRow(0);
-			} else if (selectedRow !== null) {
-				handleAddProduct(filteredData[selectedRow]);
-			}
+		} else if (e.key === "Enter" && selectedRow !== null) {
+			handleAddProduct(filteredData[selectedRow]);
+		} else if (e.key === "Escape") {
+			// Disable selection mode and clear search
+			setIsSelectionEnabled(false);
+			setSelectedRow(null);
+			setSearchQuery("");
+			searchInputRef.current?.focus();
 		}
 	};
 
@@ -71,6 +118,7 @@ function SalesMainAllProducts() {
 				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
 					<div className="relative w-[50vw] mr-5">
 						<input
+							ref={searchInputRef}
 							type="text"
 							placeholder="Search products..."
 							value={searchQuery}
@@ -78,11 +126,23 @@ function SalesMainAllProducts() {
 							className="w-full px-10 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
 						/>
 						<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
+						{searchQuery && (
+							<button
+								onClick={() => {
+									setSearchQuery("");
+									setIsSelectionEnabled(false);
+									setSelectedRow(null);
+								}}
+								className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+							>
+								<MdClear size={16} />
+							</button>
+						)}
 					</div>
 				</div>
 
 				{/* Table */}
-				<div className="overflow-y-auto flex-1">
+				<div className="overflow-y-auto flex-1" ref={tableRef}>
 					<table className="min-w-full bg-white border border-gray-200 relative">
 						<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
 							<tr className="text-gray-700 uppercase text-xs">
@@ -114,8 +174,14 @@ function SalesMainAllProducts() {
 								filteredData.map((product, index) => (
 									<tr
 										key={product.id}
-										className={`text-gray-800 text-xs hover:bg-slate-200 active:bg-slate-400 ${
+										ref={
 											selectedRow === index
+												? selectedRowRef
+												: null
+										}
+										className={`text-gray-800 text-xs hover:bg-slate-200 active:bg-slate-400 ${
+											selectedRow === index &&
+											isSelectionEnabled
 												? "bg-orange-200"
 												: ""
 										}`}
