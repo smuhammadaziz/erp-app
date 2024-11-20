@@ -7,6 +7,9 @@ import {
 } from "react-icons/io5";
 import logo from "../../assets/icon.png";
 
+import { TbArrowsDiagonalMinimize2 } from "react-icons/tb";
+import { TbMaximize } from "react-icons/tb";
+
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
 export const Titlebar: FC = () => {
@@ -26,7 +29,6 @@ export const Titlebar: FC = () => {
 			: currentWindow.maximize();
 	};
 	const onQuit = () => app.quit();
-
 	return (
 		<div className="title-bar sticky top-0 select-none">
 			<div className="menu-button-container">
@@ -53,7 +55,7 @@ export const Titlebar: FC = () => {
 					className="min-max-button focus:outline-none hover:bg-gray-700 p-1"
 					onClick={onMaximize}
 				>
-					{maximized ? <IoContractOutline /> : <IoExpandOutline />}
+					{maximized ? <TbArrowsDiagonalMinimize2 /> : <TbMaximize />}
 				</button>
 				<button
 					title="Close"
