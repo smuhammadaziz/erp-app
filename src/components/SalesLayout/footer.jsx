@@ -362,7 +362,7 @@ const SalesPageLayoutFooter = () => {
 							<button
 								key={index}
 								onClick={option.onClick}
-								className="flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 group"
+								className="flex flex-col items-center justify-center p-4 bg-slate-200 rounded-lg hover:bg-gray-100 transition-colors duration-200 group"
 							>
 								<span className="text-2xl text-gray-700 mb-2 group-hover:text-blue-600 transition-colors duration-200">
 									{option.icon}
