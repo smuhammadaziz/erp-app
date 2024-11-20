@@ -9,6 +9,8 @@ import {
 	AiFillProduct,
 } from "react-icons/ai";
 
+import { SlBasket } from "react-icons/sl";
+
 import logo from "../../assets/icon.png";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
@@ -84,7 +86,7 @@ function SidebarInner({ onToggle }) {
 						}`
 					}
 				>
-					<AiFillProduct size={isExpanded ? 24 : 28} />
+					<SlBasket size={isExpanded ? 24 : 28} />
 					{isExpanded && <span className="text-lg">Products</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">

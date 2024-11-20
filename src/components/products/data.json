@@ -48,55 +48,5 @@
 		"price_in_currency": 2.0,
 		"price_in_UZS": "20000.00000",
 		"warehouse": "Secondary Warehouse"
-	},
-	{
-		"id": 6,
-		"product_name": "Watermelon",
-		"currency": "$",
-		"box": "1 unit",
-		"remaining": "25 units",
-		"price_in_currency": 2.5,
-		"price_in_UZS": "25000.00000",
-		"warehouse": "Main Warehouse"
-	},
-	{
-		"id": 7,
-		"product_name": "Strawberry",
-		"currency": "$",
-		"box": "500g",
-		"remaining": "20kg",
-		"price_in_currency": 2.5,
-		"price_in_UZS": "25000.00000",
-		"warehouse": "Cold Storage"
-	},
-	{
-		"id": 8,
-		"product_name": "Blueberry",
-		"currency": "$",
-		"box": "500g",
-		"remaining": "15kg",
-		"price_in_currency": 3.5,
-		"price_in_UZS": "35000.00000",
-		"warehouse": "Cold Storage"
-	},
-	{
-		"id": 9,
-		"product_name": "Mango",
-		"currency": "$",
-		"box": "1 unit",
-		"remaining": "40 units",
-		"price_in_currency": 2.8,
-		"price_in_UZS": "28000.00000",
-		"warehouse": "Main Warehouse"
-	},
-	{
-		"id": 10,
-		"product_name": "Pear",
-		"currency": "$",
-		"box": "1kg",
-		"remaining": "50kg",
-		"price_in_currency": 1.6,
-		"price_in_UZS": "16000.00000",
-		"warehouse": "Main Warehouse"
 	}
 ]
