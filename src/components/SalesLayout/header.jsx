@@ -81,9 +81,9 @@ function SalesPageLayoutHeader() {
 				);
 			case "no-internet":
 				return (
-					<button className="flex items-center mr-2 justify-center bg-yellow-500 hover:bg-yellow-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-yellow-600">
-						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
-						<span className="font-semibold">No Internet</span>
+					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
+						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
+						<span className="font-semibold">Online</span>
 					</button>
 				);
 			case "offline":
