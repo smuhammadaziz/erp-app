@@ -1,5 +1,5 @@
 {
-	"name": "electron-react-tailwind-app",
+	"name": "ksb-merp",
 	"version": "1.0.0",
 	"private": true,
 	"main": "public/electron.js",
