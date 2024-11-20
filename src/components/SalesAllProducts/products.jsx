@@ -8,7 +8,7 @@ function SalesMainAllProducts() {
 	const [filteredData, setFilteredData] = useState(data);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [selectedRow, setSelectedRow] = useState(-1); // Track highlighted row
+	const [selectedRow, setSelectedRow] = useState(-1);
 
 	useEffect(() => {
 		if (searchQuery) {
@@ -51,11 +51,7 @@ function SalesMainAllProducts() {
 	};
 
 	return (
-		<div
-			className="py-1 h-[40vh]"
-			tabIndex={0} // Make the div focusable
-			onKeyDown={handleKeyDown} // Listen for keydown events
-		>
+		<div className="py-1 h-[40vh]" tabIndex={0} onKeyDown={handleKeyDown}>
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Search Bar */}
 				<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
