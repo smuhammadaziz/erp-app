@@ -8,9 +8,10 @@ function SalesMainAllProducts() {
 	const [filteredData, setFilteredData] = useState(data);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [selectedRow, setSelectedRow] = useState(-1);
+	const [selectedRow, setSelectedRow] = useState(null);
 
 	useEffect(() => {
+		// Filter products based on the search query
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
 			setFilteredData(
@@ -23,18 +24,27 @@ function SalesMainAllProducts() {
 		} else {
 			setFilteredData(data);
 		}
+		// Reset selectedRow when search query changes
+		setSelectedRow(null);
 	}, [searchQuery]);
 
-	// Handle keyboard events
+	// Handle keyboard navigation
 	const handleKeyDown = (e) => {
 		if (e.key === "ArrowDown") {
+			// Move selection down
 			setSelectedRow((prev) =>
-				Math.min(prev + 1, filteredData.length - 1),
+				prev === null ? 0 : Math.min(prev + 1, filteredData.length - 1),
 			);
 		} else if (e.key === "ArrowUp") {
-			setSelectedRow((prev) => Math.max(prev - 1, 0));
+			// Move selection up
+			setSelectedRow((prev) =>
+				prev === null ? null : Math.max(prev - 1, 0),
+			);
 		} else if (e.key === "Enter") {
-			if (selectedRow !== -1) {
+			// Select the first item if no row is selected
+			if (selectedRow === null && filteredData.length > 0) {
+				setSelectedRow(0);
+			} else if (selectedRow !== null) {
 				handleAddProduct(filteredData[selectedRow]);
 			}
 		}
@@ -48,6 +58,10 @@ function SalesMainAllProducts() {
 	const handleCloseModal = () => {
 		setIsModalOpen(false);
 		setSelectedProduct(null);
+	};
+
+	const handleRowDoubleClick = (product) => {
+		handleAddProduct(product);
 	};
 
 	return (
@@ -100,11 +114,14 @@ function SalesMainAllProducts() {
 								filteredData.map((product, index) => (
 									<tr
 										key={product.id}
-										className={`text-gray-800 text-xs hover:bg-slate-200 ${
+										className={`text-gray-800 text-xs hover:bg-slate-200 active:bg-slate-400 ${
 											selectedRow === index
 												? "bg-orange-200"
 												: ""
 										}`}
+										onDoubleClick={() =>
+											handleRowDoubleClick(product)
+										}
 									>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%] truncate"
