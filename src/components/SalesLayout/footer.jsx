@@ -8,11 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 function SalesPageLayoutFooter() {
 	const navigate = useNavigate();
-	const handleExitClick = () => {
-		// // Refresh the page and navigate to the home screen
-		// navigate("/"); // Navigate to home screen (after reload)
-		// window.location.reload();
-	};
+	const handleExitClick = () => {};
 
 	return (
 		<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between">
