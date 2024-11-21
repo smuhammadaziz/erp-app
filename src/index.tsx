@@ -8,6 +8,7 @@ import "./styles/tailwind.css";
 import "./styles/titlebar.css";
 
 import { Router } from "./router";
+import { Provider as LangProvider } from "./context/Lang";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement,
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<ToastContainer position="bottom-right" autoClose={2500} />
-		<Router />
+		<LangProvider>
+			<ToastContainer position="bottom-right" autoClose={2500} />
+			<Router />
+		</LangProvider>
 	</React.StrictMode>,
 );

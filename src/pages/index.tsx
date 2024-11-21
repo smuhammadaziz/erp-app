@@ -188,7 +188,7 @@ const IndexPage: FC = () => {
 				</div>
 
 				{/* Line Chart Section */}
-				<div className="bg-white rounded-xl w-[50%] h-[50vh] shadow-lg p-6 mt-8 border border-gray-100">
+				<div className="bg-white rounded-xl w-[50%] h-[51vh] shadow-lg p-6 mt-8 border border-gray-100">
 					<div className="flex items-center justify-between mb-6">
 						<h3 className="text-lg font-bold text-gray-800">
 							Performance Chart
@@ -215,6 +215,10 @@ const IndexPage: FC = () => {
 					<div className="h-[35vh] w-[100%]">
 						<Line data={generateChartData()} />
 					</div>
+				</div>
+
+				<div>
+					<NavLink to="/intro">intro</NavLink>
 				</div>
 			</InnerLayoutSection>
 		</Layout>

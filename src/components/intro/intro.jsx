@@ -6,10 +6,15 @@ import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../common/loader";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
+
+	const [language, setLanguage] = useLang("uz");
 
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 555);
@@ -54,17 +59,17 @@ function IntroPageKSB() {
 								className="w-48 mx-auto"
 							/>
 							<h1 className="text-3xl font-bold text-gray-800">
-								Welcome to KSB Portal
+								{content[language].intro.welcome}
 							</h1>
 							<p className="text-gray-600">
-								Please enter your KSB-ID to continue
+								{content[language].intro.please}
 							</p>
 						</div>
 
 						<div className="relative">
 							<input
 								type="text"
-								placeholder="Enter your KSB-ID"
+								placeholder={content[language].intro.enter}
 								value={ksbId}
 								onChange={(e) => setKsbId(e.target.value)}
 								className="w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200"
@@ -80,7 +85,7 @@ function IntroPageKSB() {
 								onClick={handleSubmit}
 								className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 text-lg"
 							>
-								Submit
+								{content[language].intro.send}
 							</button>
 						</div>
 					</div>

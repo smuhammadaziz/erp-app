@@ -16,14 +16,12 @@ function SalesMainAllProducts() {
 	const searchInputRef = useRef(null);
 
 	useEffect(() => {
-		// Filter products based on the search query
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
 			const filtered = data.filter((product) =>
 				product.product_name.toLowerCase().includes(lowercasedQuery),
 			);
 			setFilteredData(filtered);
-			// Don't auto-select first item, wait for Enter key
 		} else {
 			setFilteredData(data);
 			setSelectedRow(null);
@@ -43,15 +41,12 @@ function SalesMainAllProducts() {
 			const containerRect = tableContainer.getBoundingClientRect();
 			const elementRect = selectedElement.getBoundingClientRect();
 
-			// Calculate the scroll adjustment needed
 			if (elementRect.bottom > containerRect.bottom) {
-				// If element is below viewport, scroll it into view at the bottom
 				selectedElement.scrollIntoView({
 					block: "nearest",
 					behavior: "smooth",
 				});
 			} else if (elementRect.top < containerRect.top) {
-				// If element is above viewport, scroll it into view at the top
 				selectedElement.scrollIntoView({
 					block: "start",
 					behavior: "smooth",
@@ -67,7 +62,6 @@ function SalesMainAllProducts() {
 			searchQuery &&
 			filteredData.length > 0
 		) {
-			// Enable selection and select first item when Enter is pressed in search mode
 			e.preventDefault();
 			setIsSelectionEnabled(true);
 			setSelectedRow(0);
