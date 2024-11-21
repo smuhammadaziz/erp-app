@@ -192,16 +192,6 @@ const ActiveSessions = () => {
 			lastActive: "15 minutes ago",
 			isCurrentDevice: false,
 		},
-		{
-			id: 3,
-			location: "Berlin, Germany",
-			ip: "192.168.1.3",
-			deviceName: "Work PC",
-			deviceType: "Desktop",
-			isActive: true,
-			lastActive: "Just now",
-			isCurrentDevice: false,
-		},
 	]);
 
 	const handleLogout = (sessionId) => {
@@ -218,7 +208,7 @@ const ActiveSessions = () => {
 	const activeCount = sessions.filter((s) => s.isActive).length;
 
 	return (
-		<div className="w-full max-w-3xl bg-white rounded-xl shadow-lg overflow-hidden">
+		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
 			{/* Header */}
 			<div className="p-6 border-b border-slate-100">
 				<div className="flex items-center justify-between">
