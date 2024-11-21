@@ -18,7 +18,7 @@ import {
 	Tooltip,
 	Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2"; // Import the Line chart component
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
 	CategoryScale,
@@ -85,9 +85,7 @@ const IndexPage: FC = () => {
 	return (
 		<Layout>
 			<InnerLayoutSection>
-				{/* Stats Overview */}
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-					{/* Total Sales Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -106,7 +104,6 @@ const IndexPage: FC = () => {
 								<RiMoneyDollarCircleLine className="text-2xl text-indigo-600" />
 							</div>
 						</div>
-						{/* Link to Sales Dashboard */}
 						<div className="mt-6">
 							<NavLink
 								to="/sales"
@@ -120,7 +117,6 @@ const IndexPage: FC = () => {
 						</div>
 					</div>
 
-					{/* Active Clients Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -139,7 +135,6 @@ const IndexPage: FC = () => {
 								<RiCustomerService2Line className="text-2xl text-indigo-600" />
 							</div>
 						</div>
-						{/* Link to Client Management */}
 						<div className="mt-6">
 							<NavLink
 								to="/customers"
@@ -153,7 +148,6 @@ const IndexPage: FC = () => {
 						</div>
 					</div>
 
-					{/* Products Card */}
 					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
 						<div className="flex items-center justify-between">
 							<div>
@@ -172,7 +166,6 @@ const IndexPage: FC = () => {
 								<RiStore3Line className="text-2xl text-indigo-600" />
 							</div>
 						</div>
-						{/* Link to Product Catalog */}
 						<div className="mt-6">
 							<NavLink
 								to="/products"
@@ -187,7 +180,6 @@ const IndexPage: FC = () => {
 					</div>
 				</div>
 
-				{/* Line Chart Section */}
 				<div className="bg-white rounded-xl w-[50%] h-[51vh] shadow-lg p-6 mt-8 border border-gray-100">
 					<div className="flex items-center justify-between mb-6">
 						<h3 className="text-lg font-bold text-gray-800">

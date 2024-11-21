@@ -52,7 +52,6 @@ function SettingsPage() {
 				<div className="min-h-screen bg-gray-100">
 					<div className="container mx-auto">
 						<div className="flex space-x-6">
-							{/* Sidebar Navigation */}
 							<div className="w-1/4 bg-white shadow-lg rounded-xl p-6 h-fit">
 								<h2 className="text-xl font-bold text-gray-800 mb-6">
 									Settings
@@ -91,9 +90,7 @@ function SettingsPage() {
 								</nav>
 							</div>
 
-							{/* Main Content Area */}
 							<div className="w-3/4 space-y-6">
-								{/* Personal Information Section */}
 								{activeSection === "Personal Information" && (
 									<div className="bg-white shadow-lg rounded-xl p-6">
 										<h2 className="text-xl font-bold text-gray-800 mb-4">
@@ -138,8 +135,6 @@ function SettingsPage() {
 								{activeSection === "Security" && (
 									<>
 										<ActiveSessions />
-
-										{/* Security Section from original code */}
 										<div className="bg-white shadow-lg rounded-xl p-6">
 											<h2 className="text-xl font-bold text-gray-800 mb-4">
 												Security

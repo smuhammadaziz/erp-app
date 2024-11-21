@@ -53,7 +53,6 @@ const CustomersAllDetails = () => {
 		status: "Active",
 	});
 
-	// Search functionality
 	const filteredCustomers = customers.filter((customer) =>
 		Object.values(customer)
 			.join(" ")
@@ -62,7 +61,7 @@ const CustomersAllDetails = () => {
 	);
 
 	const handleAddCustomer = (e) => {
-		e.preventDefault(); // Prevent form submission
+		e.preventDefault();
 		const customerToAdd = {
 			...newCustomer,
 			id: customers.length + 1,
@@ -123,7 +122,6 @@ const CustomersAllDetails = () => {
 	return (
 		<div className="bg-gray-50 h-screen">
 			<div className="h-[85%] mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-				{/* Header Section */}
 				<div className="p-6 border-b border-gray-200">
 					<div className="flex flex-col space-y-4">
 						<div className="flex items-center space-x-3">
@@ -158,7 +156,6 @@ const CustomersAllDetails = () => {
 					</div>
 				</div>
 
-				{/* Table Section */}
 				<div className="overflow-x-auto h-[65vh]">
 					<table className="w-full">
 						<thead className="bg-gray-50 sticky top-0 z-10">
@@ -256,7 +253,6 @@ const CustomersAllDetails = () => {
 				</div>
 			</div>
 
-			{/* Add Customer Modal */}
 			<Modal
 				isOpen={showAddModal}
 				onClose={() => setShowAddModal(false)}
@@ -339,7 +335,6 @@ const CustomersAllDetails = () => {
 				</form>
 			</Modal>
 
-			{/* View Customer Modal */}
 			<Modal
 				isOpen={showViewModal}
 				onClose={() => setShowViewModal(false)}

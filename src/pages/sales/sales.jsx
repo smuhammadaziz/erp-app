@@ -8,20 +8,14 @@ function SalesMainPage() {
 	return (
 		<SalesPageLayoutMain>
 			<div>
-				{/* Flex container for SoldProducts and SummaSection */}
 				<div className="flex gap-4 justify-between">
-					{/* SoldProducts section - 80% width */}
 					<div className="w-[90vw]">
 						<SalesSoldProducts />
 					</div>
-
-					{/* Summa section - 20% width */}
 					<div className="">
 						<SalespageSummaSection />
 					</div>
 				</div>
-
-				{/* Main all products section */}
 				<div className="">
 					<SalesMainAllProducts />
 				</div>
