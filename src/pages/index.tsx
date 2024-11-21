@@ -6,7 +6,6 @@ import {
 	RiMoneyDollarCircleLine,
 	RiCustomerService2Line,
 	RiStore3Line,
-	RiDashboardLine,
 } from "react-icons/ri";
 import { BiTrendingUp } from "react-icons/bi";
 import {
@@ -185,6 +184,36 @@ const IndexPage: FC = () => {
 								</span>
 							</NavLink>
 						</div>
+					</div>
+				</div>
+
+				{/* Line Chart Section */}
+				<div className="bg-white rounded-xl w-[50%] h-[50vh] shadow-lg p-6 mt-8 border border-gray-100">
+					<div className="flex items-center justify-between mb-6">
+						<h3 className="text-lg font-bold text-gray-800">
+							Performance Chart
+						</h3>
+						<div className="flex gap-2">
+							{["daily", "weekly", "monthly", "yearly"].map(
+								(type) => (
+									<button
+										key={type}
+										onClick={() => setFilter(type)}
+										className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+											filter === type
+												? "bg-indigo-600 text-white shadow-md"
+												: "bg-gray-100 text-gray-600 hover:bg-gray-200"
+										}`}
+									>
+										{type.charAt(0).toUpperCase() +
+											type.slice(1)}
+									</button>
+								),
+							)}
+						</div>
+					</div>
+					<div className="h-[35vh] w-[100%]">
+						<Line data={generateChartData()} />
 					</div>
 				</div>
 			</InnerLayoutSection>
