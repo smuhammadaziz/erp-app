@@ -263,46 +263,79 @@ const CustomersAllDetails = () => {
 				title="Add New Customer"
 			>
 				<form onSubmit={handleAddCustomer} className="space-y-4">
-					<InputField
-						label="First Name"
-						name="name"
-						value={newCustomer.name}
-						onChange={handleInputChange}
-					/>
-					<InputField
-						label="Last Name"
-						name="surname"
-						value={newCustomer.surname}
-						onChange={handleInputChange}
-					/>
-					<InputField
-						label="Email"
-						name="email"
-						type="email"
-						value={newCustomer.email}
-						onChange={handleInputChange}
-					/>
-					<InputField
-						label="Phone"
-						name="phone_number"
-						value={newCustomer.phone_number}
-						onChange={handleInputChange}
-					/>
-					<div className="flex justify-end space-x-3 mt-6">
-						<button
-							type="button"
-							onClick={() => setShowAddModal(false)}
-							className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-						>
-							Cancel
-						</button>
-						<button
-							type="submit"
-							className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-						>
-							Add Customer
-						</button>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Name
+						</label>
+						<input
+							type="text"
+							name="name"
+							value={newCustomer.name}
+							onChange={handleInputChange}
+							className="p-2 border border-gray-300 rounded-lg"
+							required
+						/>
 					</div>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Surname
+						</label>
+						<input
+							type="text"
+							name="surname"
+							value={newCustomer.surname}
+							onChange={handleInputChange}
+							className="p-2 border border-gray-300 rounded-lg"
+							required
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Email
+						</label>
+						<input
+							type="email"
+							name="email"
+							value={newCustomer.email}
+							onChange={handleInputChange}
+							className="p-2 border border-gray-300 rounded-lg"
+							required
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Phone Number
+						</label>
+						<input
+							type="tel"
+							name="phone_number"
+							value={newCustomer.phone_number}
+							onChange={handleInputChange}
+							className="p-2 border border-gray-300 rounded-lg"
+							required
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label className="text-sm font-semibold text-gray-700">
+							Status
+						</label>
+						<select
+							name="status"
+							value={newCustomer.status}
+							onChange={handleInputChange}
+							className="p-2 border border-gray-300 rounded-lg"
+							required
+						>
+							<option value="Active">Active</option>
+							<option value="Inactive">Inactive</option>
+						</select>
+					</div>
+					<button
+						type="submit"
+						className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+					>
+						Add Customer
+					</button>
 				</form>
 			</Modal>
 
