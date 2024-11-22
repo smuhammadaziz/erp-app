@@ -14,6 +14,21 @@ type Content = {
 			password: string;
 			enterPass: string;
 		};
+		home: {
+			totalSales: string;
+			activeClient: string;
+			products: string;
+			salesDashboard: string;
+			clientManagement: string;
+			productCatalog: string;
+			salesChart: string;
+			time: {
+				day: string;
+				week: string;
+				month: string;
+				year: string;
+			};
+		};
 	};
 };
 
@@ -31,6 +46,21 @@ const content: Content = {
 			password: "Parol",
 			enterPass: "Parolni kiriting",
 		},
+		home: {
+			totalSales: "Umumiy Savdo Summasi",
+			activeClient: "Aktiv Klientlar",
+			products: "Mahsulotlar",
+			salesDashboard: "Savdo Oynasi",
+			clientManagement: "Klientlar Oynasi",
+			productCatalog: "Mahsulotlar Oynasi",
+			salesChart: "Savdo grafigi",
+			time: {
+				day: "Kunlik",
+				week: "Haftalik",
+				month: "Oylik",
+				year: "Yillik",
+			},
+		},
 	},
 	ru: {
 		intro: {
@@ -44,6 +74,21 @@ const content: Content = {
 			select: "Выберите пользователя",
 			password: "Пароль",
 			enterPass: "Введите пароль",
+		},
+		home: {
+			totalSales: "Общая сумма продаж",
+			activeClient: "Активные клиенты",
+			products: "Продукты",
+			salesDashboard: "Торговое окно",
+			clientManagement: "Окно клиента",
+			productCatalog: "Окно продуктов",
+			salesChart: "Торговый график",
+			time: {
+				day: "День",
+				week: "Неделя",
+				month: "Месяц",
+				year: "Год",
+			},
 		},
 	},
 };

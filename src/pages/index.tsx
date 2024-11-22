@@ -30,8 +30,13 @@ ChartJS.register(
 	Legend,
 );
 
+import content from "../localization/content";
+import useLang from "../hooks/useLang";
+
 const IndexPage: FC = () => {
 	const [filter, setFilter] = useState<string>("monthly");
+
+	const [language, setLanguage] = useLang();
 
 	const generateChartData = () => {
 		let labels: string[] = [];
@@ -90,7 +95,10 @@ const IndexPage: FC = () => {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-gray-500 text-sm">
-									Total Sales
+									{
+										content[language as string].home
+											.totalSales
+									}
 								</p>
 								<h3 className="text-2xl font-bold text-gray-800">
 									$24,780
@@ -111,7 +119,10 @@ const IndexPage: FC = () => {
 							>
 								<RiMoneyDollarCircleLine className="text-xl" />
 								<span className="font-medium text-center">
-									Sales Dashboard
+									{
+										content[language as string].home
+											.salesDashboard
+									}
 								</span>
 							</NavLink>
 						</div>
@@ -121,7 +132,10 @@ const IndexPage: FC = () => {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-gray-500 text-sm">
-									Active Clients
+									{
+										content[language as string].home
+											.activeClient
+									}
 								</p>
 								<h3 className="text-2xl font-bold text-gray-800">
 									1,482
@@ -142,7 +156,10 @@ const IndexPage: FC = () => {
 							>
 								<RiCustomerService2Line className="text-xl" />
 								<span className="font-medium">
-									Client Management
+									{
+										content[language as string].home
+											.clientManagement
+									}
 								</span>
 							</NavLink>
 						</div>
@@ -152,7 +169,7 @@ const IndexPage: FC = () => {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-gray-500 text-sm">
-									Products
+									{content[language as string].home.products}
 								</p>
 								<h3 className="text-2xl font-bold text-gray-800">
 									324
@@ -173,7 +190,10 @@ const IndexPage: FC = () => {
 							>
 								<RiStore3Line className="text-xl" />
 								<span className="font-medium">
-									Product Catalog
+									{
+										content[language as string].home
+											.productCatalog
+									}
 								</span>
 							</NavLink>
 						</div>
@@ -183,25 +203,28 @@ const IndexPage: FC = () => {
 				<div className="bg-white rounded-xl w-[50%] h-[51vh] shadow-lg p-6 mt-8 border border-gray-100">
 					<div className="flex items-center justify-between mb-6">
 						<h3 className="text-lg font-bold text-gray-800">
-							Performance Chart
+							{content[language as string].home.salesChart}
 						</h3>
 						<div className="flex gap-2">
-							{["daily", "weekly", "monthly", "yearly"].map(
-								(type) => (
-									<button
-										key={type}
-										onClick={() => setFilter(type)}
-										className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-											filter === type
-												? "bg-indigo-600 text-white shadow-md"
-												: "bg-gray-100 text-gray-600 hover:bg-gray-200"
-										}`}
-									>
-										{type.charAt(0).toUpperCase() +
-											type.slice(1)}
-									</button>
-								),
-							)}
+							{[
+								content[language as string].home.time.day,
+								content[language as string].home.time.week,
+								content[language as string].home.time.month,
+								content[language as string].home.time.year,
+							].map((type) => (
+								<button
+									key={type}
+									onClick={() => setFilter(type)}
+									className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+										filter === type
+											? "bg-indigo-600 text-white shadow-md"
+											: "bg-gray-100 text-gray-600 hover:bg-gray-200"
+									}`}
+								>
+									{type.charAt(0).toUpperCase() +
+										type.slice(1)}
+								</button>
+							))}
 						</div>
 					</div>
 					<div className="h-[35vh] w-[100%]">
