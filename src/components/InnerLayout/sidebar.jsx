@@ -16,8 +16,13 @@ import { RiCustomerService2Fill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import { CiSettings } from "react-icons/ci";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
+
+	const [language, setLanguage] = useLang();
 
 	const toggleSidebar = () => {
 		setIsExpanded(!isExpanded);
@@ -55,10 +60,14 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<AiOutlineHome size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Home</span>}
+					{isExpanded && (
+						<span className="text-lg">
+							{content[language].innerLayout.home}
+						</span>
+					)}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Home
+							{content[language].innerLayout.home}
 						</span>
 					)}
 				</NavLink>
@@ -71,10 +80,14 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<RiCustomerService2Fill size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Customers</span>}
+					{isExpanded && (
+						<span className="text-lg">
+							{content[language].innerLayout.customers}
+						</span>
+					)}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Customers
+							{content[language].innerLayout.customers}
 						</span>
 					)}
 				</NavLink>
@@ -87,10 +100,14 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<SlBasket size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Products</span>}
+					{isExpanded && (
+						<span className="text-lg">
+							{content[language].innerLayout.products}
+						</span>
+					)}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Products
+							{content[language].innerLayout.products}
 						</span>
 					)}
 				</NavLink>
@@ -103,10 +120,14 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<AiOutlineSetting size={isExpanded ? 24 : 28} />
-					{isExpanded && <span className="text-lg">Settings</span>}
+					{isExpanded && (
+						<span className="text-lg">
+							{content[language].innerLayout.settings}
+						</span>
+					)}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Settings
+							{content[language].innerLayout.settings}
 						</span>
 					)}
 				</NavLink>

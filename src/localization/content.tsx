@@ -29,6 +29,14 @@ type Content = {
 				year: string;
 			};
 		};
+		innerLayout: {
+			home: string;
+			customers: string;
+			products: string;
+			settings: string;
+			rus: string;
+			uz: string;
+		};
 	};
 };
 
@@ -61,6 +69,14 @@ const content: Content = {
 				year: "Yillik",
 			},
 		},
+		innerLayout: {
+			home: "Bosh sahifa",
+			customers: "Mijozlar",
+			products: "Mahsulotlar",
+			settings: "Sozlamalar",
+			rus: "Rus",
+			uz: "O'zb",
+		},
 	},
 	ru: {
 		intro: {
@@ -89,6 +105,14 @@ const content: Content = {
 				month: "Месяц",
 				year: "Год",
 			},
+		},
+		innerLayout: {
+			home: "Дом",
+			customers: "Клиенты",
+			products: "Продукты",
+			settings: "Настройки",
+			rus: "Русский",
+			uz: "Узбекский",
 		},
 	},
 };

@@ -30,10 +30,10 @@ function HeaderInner() {
 						className="appearance-none bg-gray-600 text-white text-lg font-medium px-6 py-2 rounded-lg shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 ease-in-out w-32"
 					>
 						<option value="ru" className="py-2 text-lg">
-							Russian
+							{content[language].innerLayout.rus}
 						</option>
 						<option value="uz" className="py-2 text-lg">
-							Uzbek
+							{content[language].innerLayout.uz}
 						</option>
 					</select>
 					<span className="absolute top-1/2 transform -translate-y-1/2 right-4 text-white pointer-events-none">
