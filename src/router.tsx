@@ -3,7 +3,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import IndexPage from "./pages";
 import { PopupPage } from "./pages/popup";
 
-import LoginPageKSB from "./components/Login/login";
+import LoginPageKSB from "./components/login/login";
 import IntroPageKSB from "./components/intro/intro";
 import Loader from "./common/loader";
 import SalesMainPage from "./pages/sales/sales";

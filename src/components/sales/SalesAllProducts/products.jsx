@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FiSearch } from "react-icons/fi";
-import data from "../products.json";
+import data from "../../products.json";
 import { MdClear } from "react-icons/md";
 
 function SalesMainAllProducts() {

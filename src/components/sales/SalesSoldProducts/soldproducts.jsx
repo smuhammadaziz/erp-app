@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
-import data from "../products.json";
+import data from "../../products.json";
 
 function SalesSoldProducts() {
 	const [products, setProducts] = useState(data.slice(0, 5)); // Limit the products array to 5 items when initialized
