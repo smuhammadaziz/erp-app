@@ -1,5 +1,5 @@
 import { FC, ReactNode, useEffect } from "react";
-import { Titlebar } from "../Titlebar";
+import { Titlebar } from "../Titlebar/index";
 
 const { ipcRenderer } = window.require("electron");
 

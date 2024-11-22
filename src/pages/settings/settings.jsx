@@ -11,8 +11,8 @@ import {
 	FaMobile,
 } from "react-icons/fa";
 
-import { Layout } from "../../components/Layout";
-import InnerLayoutSection from "../../components/InnerLayout/innerlayout";
+import { Layout } from "../../layout/Layout";
+import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
 import ActiveSessions from "../../components/settings/settings";
 
 function SettingsPage() {

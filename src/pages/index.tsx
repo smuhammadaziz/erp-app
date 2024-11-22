@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
-import { Layout } from "../components/Layout";
-import InnerLayoutSection from "../components/InnerLayout/innerlayout";
+import { Layout } from "../layout/Layout";
+import InnerLayoutSection from "../layout/InnerLayout/innerlayout";
 import { NavLink } from "react-router-dom";
 import {
 	RiMoneyDollarCircleLine,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout } from "../Layout";
+import { Layout } from "../../layout/Layout";
 import { Toaster, toast } from "sonner";
 import { FaCheckCircle, FaExclamationCircle, FaKey } from "react-icons/fa";
 import logo from "../../assets/logo.png";

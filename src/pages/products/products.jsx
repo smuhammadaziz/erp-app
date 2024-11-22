@@ -1,6 +1,6 @@
 import React from "react";
-import { Layout } from "../../components/Layout";
-import InnerLayoutSection from "../../components/InnerLayout/innerlayout";
+import { Layout } from "../../layout/Layout";
+import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
 import ProductsPageComponent from "../../components/products/products";
 
 function ProductsPage() {
