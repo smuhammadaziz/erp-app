@@ -34,28 +34,29 @@ import content from "../localization/content";
 import useLang from "../hooks/useLang";
 
 const IndexPage: FC = () => {
-	const [filter, setFilter] = useState<string>("monthly");
-
 	const [language, setLanguage] = useLang();
+	const [filter, setFilter] = useState<string>(
+		content[language as string].home.time.month,
+	);
 
 	const generateChartData = () => {
 		let labels: string[] = [];
 		let data: number[] = [];
 
 		switch (filter) {
-			case "daily":
+			case content[language as string].home.time.day:
 				labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 				data = [10, 15, 12, 8, 20, 25, 18];
 				break;
-			case "weekly":
+			case content[language as string].home.time.week:
 				labels = ["Week 1", "Week 2", "Week 3", "Week 4"];
 				data = [50, 60, 40, 80];
 				break;
-			case "monthly":
+			case content[language as string].home.time.month:
 				labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 				data = [200, 250, 300, 150, 400, 350];
 				break;
-			case "yearly":
+			case content[language as string].home.time.year:
 				labels = ["2020", "2021", "2022", "2023"];
 				data = [1200, 1350, 1100, 1500];
 				break;
