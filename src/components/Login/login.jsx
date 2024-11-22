@@ -13,12 +13,17 @@ import {
 
 import { Toaster, toast } from "sonner";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function LoginPageKSB() {
 	const [userType, setUserType] = useState("");
 	const [password, setPassword] = useState("");
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const navigate = useNavigate();
+
+	const [language, setLanguage] = useLang("uz");
 
 	const handleLogin = () => {
 		if (password === "123") {
@@ -74,12 +79,12 @@ function LoginPageKSB() {
 			<div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
 				<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform hover:scale-105 transition-transform duration-300">
 					<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
-						Login
+						{content[language].login.login}
 					</h2>
 
 					<div className="mb-6">
 						<label className="block text-xl font-medium text-gray-700 mb-2">
-							Select User Type
+							{content[language].login.select}
 						</label>
 						<div className="relative">
 							<div
@@ -91,7 +96,7 @@ function LoginPageKSB() {
 									size={20}
 								/>
 								<span className="flex-1">
-									{userType || "Select User Type"}
+									{userType || content[language].login.select}
 								</span>
 								<FaChevronDown
 									className={`text-gray-500 transition-transform ${
@@ -127,7 +132,7 @@ function LoginPageKSB() {
 							htmlFor="password"
 							className="block text-xl font-medium text-gray-700 mb-2"
 						>
-							Password
+							{content[language].login.password}
 						</label>
 						<div className="relative">
 							<div className="flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 border-gray-300 rounded-lg text-gray-700">
@@ -145,7 +150,7 @@ function LoginPageKSB() {
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
-									placeholder="Enter your password"
+									placeholder={content[language].login.enter}
 								/>
 								<div
 									className="absolute right-4 cursor-pointer"
@@ -171,7 +176,7 @@ function LoginPageKSB() {
 						onClick={handleLogin}
 						className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
 					>
-						Login
+						{content[language].login.login}
 					</button>
 				</div>
 			</div>

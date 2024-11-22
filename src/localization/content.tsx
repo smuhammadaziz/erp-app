@@ -8,6 +8,12 @@ type Content = {
 			enter: string;
 			send: string;
 		};
+		login: {
+			login: string;
+			select: string;
+			password: string;
+			enterPass: string;
+		};
 	};
 };
 
@@ -19,6 +25,12 @@ const content: Content = {
 			enter: "KSB-ID ni kiriting",
 			send: "Kirish",
 		},
+		login: {
+			login: "Kirish",
+			select: "Foydalanuvchini tanlang",
+			password: "Parol",
+			enterPass: "Parolni kiriting",
+		},
 	},
 	ru: {
 		intro: {
@@ -26,6 +38,12 @@ const content: Content = {
 			please: "Пожалуйста, введите свой KSB-ID",
 			enter: "Введите свой KSB-ID",
 			send: "Войти",
+		},
+		login: {
+			login: "Войти",
+			select: "Выберите пользователя",
+			password: "Пароль",
+			enterPass: "Введите пароль",
 		},
 	},
 };
