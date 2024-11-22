@@ -13,7 +13,7 @@ import {
 
 import { Layout } from "../../layout/Layout";
 import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
-import ActiveSessions from "../../components/setting/settings/settings";
+import ActiveSessions from "../../components/settingsPage/settings/settings";
 
 function SettingsPage() {
 	const [activeSection, setActiveSection] = useState("Personal Information");
