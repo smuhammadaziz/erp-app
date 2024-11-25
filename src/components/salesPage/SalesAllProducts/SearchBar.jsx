@@ -9,6 +9,31 @@ function SearchBar({
 	setIsSelectionEnabled,
 	setSelectedRow,
 }) {
+	const deleteAll = async () => {
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/delete/all",
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				// Handle successful deletion
+				alert("All items have been deleted.");
+				// Additional logic if needed, e.g., clearing UI
+			} else {
+				// Handle errors
+				const errorData = await response.json();
+				alert(`Failed to delete: ${errorData.message}`);
+			}
+		} catch (error) {
+			// Handle network or other unexpected errors
+			console.error("Error deleting all items:", error);
+			alert("An error occurred while deleting.");
+		}
+	};
+
 	return (
 		<div className="flex items-center px-4 py-2 bg-gray-100 border-b border-gray-200">
 			<div className="relative w-[50vw] mr-5">
@@ -33,6 +58,15 @@ function SearchBar({
 						<MdClear size={16} />
 					</button>
 				)}
+			</div>
+
+			<div>
+				<button
+					className="bg-red-600 text-white px-4 py-1 rounded-full"
+					onClick={deleteAll}
+				>
+					delete all
+				</button>
 			</div>
 		</div>
 	);
