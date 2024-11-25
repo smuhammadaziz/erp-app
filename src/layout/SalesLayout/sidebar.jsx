@@ -14,11 +14,6 @@ function SalesPageLayoutSidebar() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				// Assuming you need to send some data along with the request, here I am using a placeholder object.
-				body: JSON.stringify({
-					productId: 1, // Example product ID
-					quantity: 1, // Example quantity
-				}),
 			});
 
 			if (response.ok) {

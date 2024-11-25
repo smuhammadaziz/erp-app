@@ -38,7 +38,7 @@ function SalesSoldProducts() {
 					throw new Error("Failed to fetch products");
 				}
 				const data = await response.json();
-				setProducts(data);
+				setProducts(data.items);
 				setLoading(false);
 			} catch (err) {
 				setError(err.message);
