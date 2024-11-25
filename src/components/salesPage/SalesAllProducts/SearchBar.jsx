@@ -12,7 +12,7 @@ function SearchBar({
 	const searchInputRef = useRef(null);
 	const [lastChangeTime, setLastChangeTime] = useState(0);
 	const [isQrInput, setIsQrInput] = useState(false);
-	const typingSpeedThreshold = 50; // milliseconds - threshold to detect QR scan vs typing
+	const typingSpeedThreshold = 50;
 
 	useEffect(() => {
 		// Focus on mount
@@ -20,7 +20,6 @@ function SearchBar({
 			searchInputRef.current.focus();
 		}
 
-		// Handle any click anywhere on the document
 		const handleClick = (e) => {
 			const shouldSkipFocus = e.target.closest("[data-no-autofocus]");
 			const isModalClick = e.target.closest(
@@ -40,7 +39,6 @@ function SearchBar({
 			}
 		};
 
-		// Handle tab key - but allow tabbing within modals
 		const handleKeyDown = (e) => {
 			if (e.key === "Tab") {
 				const activeModal = document.querySelector(
@@ -53,7 +51,6 @@ function SearchBar({
 			}
 		};
 
-		// Add event listeners
 		document.addEventListener("click", handleClick);
 		document.addEventListener("keydown", handleKeyDown);
 
@@ -64,23 +61,17 @@ function SearchBar({
 		};
 	}, []);
 
-	// Handle search query changes
 	const handleSearchChange = (e) => {
 		const newValue = e.target.value;
 		const currentTime = Date.now();
 		const timeDiff = currentTime - lastChangeTime;
 
-		// Detect if this is likely a QR scan (sudden appearance of text)
-		// Only consider it a QR scan if:
-		// 1. The text appears very quickly (faster than human typing)
-		// 2. The text is longer than 3 characters
 		const isQrScan = timeDiff < typingSpeedThreshold && newValue.length > 3;
 
 		setIsQrInput(isQrScan);
 		setSearchQuery(newValue);
 		setLastChangeTime(currentTime);
 
-		// If it's a QR scan, select the text
 		if (isQrScan) {
 			setTimeout(() => {
 				if (searchInputRef.current) {
@@ -113,7 +104,6 @@ function SearchBar({
 		}
 	};
 
-	// Clear search and handle selection
 	const clearSearch = () => {
 		setSearchQuery("");
 		setIsSelectionEnabled(false);
@@ -123,9 +113,7 @@ function SearchBar({
 		searchInputRef.current?.focus();
 	};
 
-	// Handle input focus
 	const handleFocus = () => {
-		// Only select all text if it was from a QR scan
 		if (searchQuery && isQrInput) {
 			setTimeout(() => {
 				searchInputRef.current?.select();
@@ -133,7 +121,6 @@ function SearchBar({
 		}
 	};
 
-	// Handle paste events (for QR keyboard wedge devices)
 	const handlePaste = () => {
 		setIsQrInput(true);
 		setTimeout(() => {
