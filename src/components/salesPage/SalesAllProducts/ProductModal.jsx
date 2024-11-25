@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { MdClear } from "react-icons/md";
 
 function ProductModal({ product, onClose }) {
-	const [quantity, setQuantity] = useState(1); // Default quantity to 1
-	const [errorMessage, setErrorMessage] = useState(""); // To store error messages
+	const [quantity, setQuantity] = useState(1);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	const handleQuantityChange = (e) => {
 		setQuantity(e.target.value);
@@ -12,17 +12,16 @@ function ProductModal({ product, onClose }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		// Check if the quantity is valid and less than or equal to the available stock
 		if (quantity > product.stock) {
-			setErrorMessage("Not enough stock available."); // Display error if stock is insufficient
+			setErrorMessage("Not enough stock available.");
 			return;
 		} else {
-			setErrorMessage(""); // Clear error if stock is sufficient
+			setErrorMessage("");
 		}
 
 		const data = {
-			productId: product.id, // Assuming product.id exists
-			quantity: parseInt(quantity), // Ensure quantity is an integer
+			productId: product.id,
+			quantity: parseInt(quantity),
 		};
 
 		try {
@@ -37,7 +36,7 @@ function ProductModal({ product, onClose }) {
 			if (response.ok) {
 				const result = await response.json();
 				console.log("Sell API response:", result);
-				onClose(); // Close the modal on successful submission
+				onClose();
 			} else {
 				console.error("Failed to submit data to the API");
 			}
@@ -92,7 +91,6 @@ function ProductModal({ product, onClose }) {
 						/>
 					</div>
 
-					{/* Show error message if stock is insufficient */}
 					{errorMessage && (
 						<div className="text-red-500 text-sm mb-4">
 							{errorMessage}

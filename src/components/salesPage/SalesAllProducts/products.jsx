@@ -17,7 +17,6 @@ function SalesMainAllProducts() {
 	const selectedRowRef = useRef(null);
 	const searchInputRef = useRef(null);
 
-	// Function to fetch products data
 	const fetchProducts = async () => {
 		try {
 			const response = await fetch("http://localhost:5000/api/products");
@@ -26,27 +25,23 @@ function SalesMainAllProducts() {
 			}
 			const data = await response.json();
 			setFilteredData(data);
-			setLoading(false); // Data fetched successfully
+			setLoading(false);
 		} catch (err) {
-			setError(err.message); // Handle fetch error
-			setLoading(false); // Stop loading even if there's an error
+			setError(err.message);
+			setLoading(false);
 		}
 	};
 
-	// Fetch products on initial load
 	useEffect(() => {
 		fetchProducts();
 
-		// Set interval to fetch data every 0.5 seconds (500ms)
 		const interval = setInterval(() => {
 			fetchProducts();
 		}, 500);
 
-		// Clear interval on component unmount to avoid memory leaks
 		return () => clearInterval(interval);
 	}, []);
 
-	// Update filtered data based on search query
 	useEffect(() => {
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
@@ -55,13 +50,12 @@ function SalesMainAllProducts() {
 			);
 			setFilteredData(filtered);
 		} else {
-			setFilteredData(filteredData); // Reset to full data when search is cleared
+			setFilteredData(filteredData);
 			setSelectedRow(null);
 			setIsSelectionEnabled(false);
 		}
-	}, [searchQuery, filteredData]); // Dependency on both searchQuery and filteredData
+	}, [searchQuery, filteredData]);
 
-	// Scroll selected row into view when selected
 	useEffect(() => {
 		if (
 			selectedRow !== null &&
@@ -88,7 +82,6 @@ function SalesMainAllProducts() {
 		}
 	}, [selectedRow]);
 
-	// Handle key down events for navigation
 	const handleKeyDown = (e) => {
 		if (
 			!isSelectionEnabled &&
