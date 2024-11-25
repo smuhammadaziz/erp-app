@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -10,6 +10,9 @@ function SearchBar({
 	setSelectedRow,
 }) {
 	const searchInputRef = useRef(null);
+	const [lastChangeTime, setLastChangeTime] = useState(0);
+	const [isQrInput, setIsQrInput] = useState(false);
+	const typingSpeedThreshold = 50; // milliseconds - threshold to detect QR scan vs typing
 
 	useEffect(() => {
 		// Focus on mount
@@ -61,6 +64,32 @@ function SearchBar({
 		};
 	}, []);
 
+	// Handle search query changes
+	const handleSearchChange = (e) => {
+		const newValue = e.target.value;
+		const currentTime = Date.now();
+		const timeDiff = currentTime - lastChangeTime;
+
+		// Detect if this is likely a QR scan (sudden appearance of text)
+		// Only consider it a QR scan if:
+		// 1. The text appears very quickly (faster than human typing)
+		// 2. The text is longer than 3 characters
+		const isQrScan = timeDiff < typingSpeedThreshold && newValue.length > 3;
+
+		setIsQrInput(isQrScan);
+		setSearchQuery(newValue);
+		setLastChangeTime(currentTime);
+
+		// If it's a QR scan, select the text
+		if (isQrScan) {
+			setTimeout(() => {
+				if (searchInputRef.current) {
+					searchInputRef.current.select();
+				}
+			}, 50);
+		}
+	};
+
 	const deleteAll = async () => {
 		try {
 			const response = await fetch(
@@ -71,17 +100,45 @@ function SearchBar({
 			);
 			if (response.ok) {
 				alert("Hamma mahsulotlar o'chirldi");
-				searchInputRef.current?.focus(); // Refocus input after alert
+				searchInputRef.current?.focus();
 			} else {
 				const errorData = await response.json();
 				alert(`Xatolik: ${errorData.message}`);
-				searchInputRef.current?.focus(); // Refocus input after alert
+				searchInputRef.current?.focus();
 			}
 		} catch (error) {
 			console.error("Error deleting all items:", error);
 			alert("An error occurred while deleting.");
-			searchInputRef.current?.focus(); // Refocus input after alert
+			searchInputRef.current?.focus();
 		}
+	};
+
+	// Clear search and handle selection
+	const clearSearch = () => {
+		setSearchQuery("");
+		setIsSelectionEnabled(false);
+		setSelectedRow(null);
+		setLastChangeTime(0);
+		setIsQrInput(false);
+		searchInputRef.current?.focus();
+	};
+
+	// Handle input focus
+	const handleFocus = () => {
+		// Only select all text if it was from a QR scan
+		if (searchQuery && isQrInput) {
+			setTimeout(() => {
+				searchInputRef.current?.select();
+			}, 50);
+		}
+	};
+
+	// Handle paste events (for QR keyboard wedge devices)
+	const handlePaste = () => {
+		setIsQrInput(true);
+		setTimeout(() => {
+			searchInputRef.current?.select();
+		}, 50);
 	};
 
 	return (
@@ -90,20 +147,17 @@ function SearchBar({
 				<input
 					ref={searchInputRef}
 					type="text"
-					placeholder="Search products..."
+					placeholder="Scan QR code or search products..."
 					value={searchQuery}
-					onChange={(e) => setSearchQuery(e.target.value)}
+					onChange={handleSearchChange}
+					onFocus={handleFocus}
+					onPaste={handlePaste}
 					className="w-full px-10 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
 				/>
 				<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg" />
 				{searchQuery && (
 					<button
-						onClick={() => {
-							setSearchQuery("");
-							setIsSelectionEnabled(false);
-							setSelectedRow(null);
-							searchInputRef.current?.focus();
-						}}
+						onClick={clearSearch}
 						className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
 					>
 						<MdClear size={16} />
