@@ -1,23 +1,49 @@
 import React from "react";
 import { HiOutlineCreditCard, HiOutlineCash } from "react-icons/hi";
-import {
-	MdCalendarToday,
-	MdAssignmentReturn,
-	MdOutlineSmartphone,
-	MdOutlineMobileScreenShare,
-} from "react-icons/md";
+import { MdAssignmentReturn, MdOutlineMobileScreenShare } from "react-icons/md";
 import { GiCash } from "react-icons/gi";
 import { BsCardList } from "react-icons/bs";
-import { ImExit } from "react-icons/im";
 
 function SalesPageLayoutSidebar() {
+	// Function to handle the "Cash" button click
+	const handleCashButtonClick = async () => {
+		try {
+			// Send POST request to the API
+			const response = await fetch("http://localhost:5000/api/buy", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				// Assuming you need to send some data along with the request, here I am using a placeholder object.
+				body: JSON.stringify({
+					productId: 1, // Example product ID
+					quantity: 1, // Example quantity
+				}),
+			});
+
+			if (response.ok) {
+				// If successful, show the success alert
+				alert("Products successfully sold!");
+			} else {
+				// If the request failed, show an error
+				alert("Error: Could not process the sale.");
+			}
+		} catch (error) {
+			console.error("Error during API request:", error);
+			alert("Error: Could not process the sale.");
+		}
+	};
+
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col justify-between">
 			{/* Top Buttons Section */}
 			<div>
 				<div className="flex flex-col items-center gap-5">
 					{/* Cash Button */}
-					<button className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400">
+					<button
+						onClick={handleCashButtonClick} // Add the onClick handler
+						className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					>
 						<HiOutlineCash className="mr-3 text-xl" />
 						<span className="font-semibold">Cash</span>
 					</button>

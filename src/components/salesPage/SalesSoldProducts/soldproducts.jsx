@@ -1,16 +1,68 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiTrash2 } from "react-icons/fi";
-import data from "../../products.json";
 
 function SalesSoldProducts() {
-	const [products, setProducts] = useState(data.slice(0, 5)); // Limit the products array to 5 items when initialized
+	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-	const handleDelete = (id) => {
-		setProducts(products.filter((product) => product.id !== id));
+	const handleDelete = async (id) => {
+		try {
+			const response = await fetch(
+				`http://localhost:5000/api/delete/selling/${id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error("Failed to delete product");
+			}
+
+			// After successful deletion, update the product list
+			setProducts(
+				products.filter((product) => product.product_id !== id),
+			);
+		} catch (err) {
+			setError(err.message);
+		}
 	};
 
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					"http://localhost:5000/api/products/selling",
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch products");
+				}
+				const data = await response.json();
+				setProducts(data);
+				setLoading(false);
+			} catch (err) {
+				setError(err.message);
+				setLoading(false);
+			}
+		};
+
+		fetchProducts();
+
+		const intervalId = setInterval(fetchProducts, 1000);
+
+		return () => clearInterval(intervalId);
+	}, []);
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
 	return (
-		<div className=" py-1 h-[40vh]">
+		<div className="py-1 h-[40vh]">
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Table */}
 				<div className="overflow-x-auto overflow-y-auto flex-grow">
@@ -19,12 +71,6 @@ function SalesSoldProducts() {
 							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Currency
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Box
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Remaining
@@ -35,78 +81,60 @@ function SalesSoldProducts() {
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Price (UZS)
 								</th>
-								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Warehouse
-								</th>
 								<th className="py-2 px-5 border-b text-center w-[10%]">
 									Actions
 								</th>
 							</tr>
 						</thead>
 						<tbody>
-							{products.map((product) => (
-								<tr
-									key={product.id}
-									className="text-gray-800 text-xs even:bg-gray-50"
-								>
-									<td
-										className="py-1 px-5 border-b text-center w-[15%] truncate"
-										title={product.product_name}
+							{products.length > 0 ? (
+								products.map((product) => (
+									<tr
+										key={product.product_id}
+										className="text-gray-800 text-xs even:bg-gray-50"
 									>
-										{product.product_name}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[10%] truncate"
-										title={product.currency}
-									>
-										{product.currency}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[10%] truncate"
-										title={product.box}
-									>
-										{product.box}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[15%] truncate"
-										title={product.remaining}
-									>
-										{product.remaining}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[10%] truncate"
-										title={product.price_in_currency}
-									>
-										{product.price_in_currency}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[15%] truncate"
-										title={product.price_in_UZS}
-									>
-										{product.price_in_UZS}
-									</td>
-									<td
-										className="py-1 px-5 border-b text-center w-[15%] truncate"
-										title={product.warehouse}
-									>
-										{product.warehouse}
-									</td>
-									<td className="py-1 px-5 border-b text-center w-[10%]">
-										<button
-											onClick={() =>
-												handleDelete(product.id)
-											}
-											className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none"
+										<td
+											className="py-1 px-5 border-b text-center w-[15%]"
+											title={product.product_name}
 										>
-											<FiTrash2 className="" />
-										</button>
-									</td>
-								</tr>
-							))}
-							{products.length === 0 && (
+											{product.product_name}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%]"
+											title={product.quantity}
+										>
+											{product.quantity}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[10%]"
+											title={product.price_in_currency}
+										>
+											{product.price_in_currency}
+										</td>
+										<td
+											className="py-1 px-5 border-b text-center w-[15%]"
+											title={product.price_in_uzs}
+										>
+											{product.price_in_uzs}
+										</td>
+										<td className="py-1 px-5 border-b text-center w-[10%]">
+											<button
+												onClick={() =>
+													handleDelete(
+														product.product_id,
+													)
+												}
+												className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none"
+											>
+												<FiTrash2 />
+											</button>
+										</td>
+									</tr>
+								))
+							) : (
 								<tr>
 									<td
-										colSpan="8"
+										colSpan="5"
 										className="py-3 text-center text-gray-500"
 									>
 										Hozircha mahsulotlar yo'q

@@ -2,34 +2,66 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchBar from "./SearchBar";
 import ProductsTable from "./ProductsTable";
 import ProductModal from "./ProductModal";
-import data from "../../products.json";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [filteredData, setFilteredData] = useState(data);
+	const [filteredData, setFilteredData] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [selectedRow, setSelectedRow] = useState(null);
 	const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	const tableRef = useRef(null);
 	const selectedRowRef = useRef(null);
 	const searchInputRef = useRef(null);
 
+	// Function to fetch products data
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch("http://localhost:5000/api/products");
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			setFilteredData(data);
+			setLoading(false); // Data fetched successfully
+		} catch (err) {
+			setError(err.message); // Handle fetch error
+			setLoading(false); // Stop loading even if there's an error
+		}
+	};
+
+	// Fetch products on initial load
+	useEffect(() => {
+		fetchProducts();
+
+		// Set interval to fetch data every 0.5 seconds (500ms)
+		const interval = setInterval(() => {
+			fetchProducts();
+		}, 500);
+
+		// Clear interval on component unmount to avoid memory leaks
+		return () => clearInterval(interval);
+	}, []);
+
+	// Update filtered data based on search query
 	useEffect(() => {
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
-			const filtered = data.filter((product) =>
+			const filtered = filteredData.filter((product) =>
 				product.product_name.toLowerCase().includes(lowercasedQuery),
 			);
 			setFilteredData(filtered);
 		} else {
-			setFilteredData(data);
+			setFilteredData(filteredData); // Reset to full data when search is cleared
 			setSelectedRow(null);
 			setIsSelectionEnabled(false);
 		}
-	}, [searchQuery]);
+	}, [searchQuery, filteredData]); // Dependency on both searchQuery and filteredData
 
+	// Scroll selected row into view when selected
 	useEffect(() => {
 		if (
 			selectedRow !== null &&
@@ -56,6 +88,7 @@ function SalesMainAllProducts() {
 		}
 	}, [selectedRow]);
 
+	// Handle key down events for navigation
 	const handleKeyDown = (e) => {
 		if (
 			!isSelectionEnabled &&
@@ -100,6 +133,14 @@ function SalesMainAllProducts() {
 		setIsModalOpen(false);
 		setSelectedProduct(null);
 	};
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
 
 	return (
 		<div className="py-1 h-[40vh]" tabIndex={0} onKeyDown={handleKeyDown}>
