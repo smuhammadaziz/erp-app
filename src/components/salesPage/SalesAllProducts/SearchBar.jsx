@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
@@ -6,10 +6,61 @@ import { FaTrash } from "react-icons/fa";
 function SearchBar({
 	searchQuery,
 	setSearchQuery,
-	searchInputRef,
 	setIsSelectionEnabled,
 	setSelectedRow,
 }) {
+	const searchInputRef = useRef(null);
+
+	useEffect(() => {
+		// Focus on mount
+		if (searchInputRef.current) {
+			searchInputRef.current.focus();
+		}
+
+		// Handle any click anywhere on the document
+		const handleClick = (e) => {
+			const shouldSkipFocus = e.target.closest("[data-no-autofocus]");
+			const isModalClick = e.target.closest(
+				'[role="dialog"], .modal, [data-modal]',
+			);
+			const isInteractive = e.target.matches(
+				'input, select, textarea, button, a, [role="button"], [contenteditable="true"]',
+			);
+
+			if (
+				!shouldSkipFocus &&
+				!isModalClick &&
+				!isInteractive &&
+				document.activeElement !== searchInputRef.current
+			) {
+				searchInputRef.current?.focus();
+			}
+		};
+
+		// Handle tab key - but allow tabbing within modals
+		const handleKeyDown = (e) => {
+			if (e.key === "Tab") {
+				const activeModal = document.querySelector(
+					'[role="dialog"]:focus-within, .modal:focus-within, [data-modal]:focus-within',
+				);
+				if (!activeModal) {
+					e.preventDefault();
+					searchInputRef.current?.focus();
+				}
+			}
+		};
+
+		// Add event listeners
+		document.addEventListener("click", handleClick);
+		document.addEventListener("keydown", handleKeyDown);
+
+		// Cleanup
+		return () => {
+			document.removeEventListener("click", handleClick);
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	const deleteAll = async () => {
 		try {
 			const response = await fetch(
@@ -18,20 +69,18 @@ function SearchBar({
 					method: "DELETE",
 				},
 			);
-
 			if (response.ok) {
-				// Handle successful deletion
 				alert("Hamma mahsulotlar o'chirldi");
-				// Additional logic if needed, e.g., clearing UI
+				searchInputRef.current?.focus(); // Refocus input after alert
 			} else {
-				// Handle errors
 				const errorData = await response.json();
 				alert(`Xatolik: ${errorData.message}`);
+				searchInputRef.current?.focus(); // Refocus input after alert
 			}
 		} catch (error) {
-			// Handle network or other unexpected errors
 			console.error("Error deleting all items:", error);
 			alert("An error occurred while deleting.");
+			searchInputRef.current?.focus(); // Refocus input after alert
 		}
 	};
 
@@ -53,6 +102,7 @@ function SearchBar({
 							setSearchQuery("");
 							setIsSelectionEnabled(false);
 							setSelectedRow(null);
+							searchInputRef.current?.focus();
 						}}
 						className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
 					>
@@ -60,7 +110,6 @@ function SearchBar({
 					</button>
 				)}
 			</div>
-
 			<div>
 				<button
 					className="bg-red-600 text-white p-2 rounded-lg"
