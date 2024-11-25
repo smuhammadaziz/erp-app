@@ -1,6 +1,7 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 
 function SearchBar({
 	searchQuery,
@@ -20,12 +21,12 @@ function SearchBar({
 
 			if (response.ok) {
 				// Handle successful deletion
-				alert("All items have been deleted.");
+				alert("Hamma mahsulotlar o'chirldi");
 				// Additional logic if needed, e.g., clearing UI
 			} else {
 				// Handle errors
 				const errorData = await response.json();
-				alert(`Failed to delete: ${errorData.message}`);
+				alert(`Xatolik: ${errorData.message}`);
 			}
 		} catch (error) {
 			// Handle network or other unexpected errors
@@ -62,10 +63,10 @@ function SearchBar({
 
 			<div>
 				<button
-					className="bg-red-600 text-white px-4 py-1 rounded-full"
+					className="bg-red-600 text-white p-2 rounded-lg"
 					onClick={deleteAll}
 				>
-					delete all
+					<FaTrash size={15} />
 				</button>
 			</div>
 		</div>
