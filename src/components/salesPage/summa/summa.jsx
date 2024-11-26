@@ -8,6 +8,15 @@ function SalespageSummaSection() {
 	const [discount, setDiscount] = useState(null);
 	const [finalPrice, setFinalPrice] = useState(0);
 
+	// Function to format numbers
+	const formatNumber = (value) =>
+		new Intl.NumberFormat("en-US", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		})
+			.format(value)
+			.replace(/,/g, " "); // Replace commas with spaces
+
 	useEffect(() => {
 		const fetchOverallSum = async () => {
 			try {
@@ -40,9 +49,9 @@ function SalespageSummaSection() {
 
 	return (
 		<div className="items-center py-1">
-			<p className="flex items-center w-[200px] px-3 py-2 text-lg rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
+			<p className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
 				<HiOutlineCash className="mr-2 text-xl" />
-				{price.toFixed(2)} UZS
+				{formatNumber(price)} so'm
 			</p>
 
 			<div className="flex items-center w-[200px] mb-4">
@@ -56,9 +65,9 @@ function SalespageSummaSection() {
 				/>
 			</div>
 
-			<p className="flex items-center w-[200px] px-3 py-2 text-lg rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+			<p className="flex items-center w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
 				<HiOutlineCreditCard className="mr-2 text-xl" />
-				{finalPrice.toFixed(2)} UZS
+				{formatNumber(finalPrice)} so'm
 			</p>
 		</div>
 	);
