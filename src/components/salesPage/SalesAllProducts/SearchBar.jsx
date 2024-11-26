@@ -15,7 +15,6 @@ function SearchBar({
 	const typingSpeedThreshold = 50;
 
 	useEffect(() => {
-		// Focus on mount
 		if (searchInputRef.current) {
 			searchInputRef.current.focus();
 		}
@@ -54,7 +53,6 @@ function SearchBar({
 		document.addEventListener("click", handleClick);
 		document.addEventListener("keydown", handleKeyDown);
 
-		// Cleanup
 		return () => {
 			document.removeEventListener("click", handleClick);
 			document.removeEventListener("keydown", handleKeyDown);

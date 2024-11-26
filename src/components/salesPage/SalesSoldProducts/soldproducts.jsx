@@ -19,7 +19,6 @@ function SalesSoldProducts() {
 				throw new Error("Failed to delete product");
 			}
 
-			// After successful deletion, update the product list
 			setProducts(
 				products.filter((product) => product.product_id !== id),
 			);
