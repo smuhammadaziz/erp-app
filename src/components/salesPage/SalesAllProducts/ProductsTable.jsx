@@ -8,6 +8,7 @@ function ProductsTable({
 	tableRef,
 	selectedRowRef,
 	handleRowDoubleClick,
+	error,
 }) {
 	return (
 		<div className="overflow-y-auto flex-1" ref={tableRef}>
@@ -36,7 +37,20 @@ function ProductsTable({
 					</tr>
 				</thead>
 				<tbody>
-					{filteredData.length > 0 ? (
+					{error ? (
+						<tr>
+							<td
+								colSpan="7"
+								className="py-3 text-center text-red-500"
+							>
+								{error}
+								<p className="text-xs text-gray-500 mt-1">
+									Cannot fetch products. Please check your
+									server connection.
+								</p>
+							</td>
+						</tr>
+					) : filteredData.length > 0 ? (
 						filteredData.map((product, index) => (
 							<tr
 								key={product.id}

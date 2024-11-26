@@ -38,6 +38,7 @@ function SalesSoldProducts() {
 				}
 				const data = await response.json();
 				setProducts(data.items);
+				setError(null);
 				setLoading(false);
 			} catch (err) {
 				setError(err.message);
@@ -51,14 +52,6 @@ function SalesSoldProducts() {
 
 		return () => clearInterval(intervalId);
 	}, []);
-
-	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
-	}
 
 	return (
 		<div className="py-1 h-[40vh]">
@@ -86,7 +79,25 @@ function SalesSoldProducts() {
 							</tr>
 						</thead>
 						<tbody>
-							{products.length > 0 ? (
+							{error ? (
+								<tr>
+									<td
+										colSpan="5"
+										className="py-3 text-center text-red-500"
+									>
+										Error: {error}
+									</td>
+								</tr>
+							) : loading ? (
+								<tr>
+									<td
+										colSpan="5"
+										className="py-3 text-center text-gray-500"
+									>
+										Loading...
+									</td>
+								</tr>
+							) : products.length > 0 ? (
 								products.map((product) => (
 									<tr
 										key={product.product_id}

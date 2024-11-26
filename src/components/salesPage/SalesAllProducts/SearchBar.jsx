@@ -73,12 +73,10 @@ function SearchBar({
 				},
 			);
 			if (response.ok) {
-				// Optional: Handle UI update or feedback after successful deletion
 				setSearchQuery("");
 				setIsSelectionEnabled(false);
 				setSelectedRow(null);
 			} else {
-				// Optional: Handle server-side error feedback
 				console.error("Failed to delete all items.");
 			}
 		} catch (error) {

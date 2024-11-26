@@ -5,6 +5,7 @@ import ProductModal from "./ProductModal";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
+	const [originalData, setOriginalData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
@@ -16,6 +17,7 @@ function SalesMainAllProducts() {
 	const tableRef = useRef(null);
 	const selectedRowRef = useRef(null);
 	const searchInputRef = useRef(null);
+	const fetchIntervalRef = useRef(null);
 
 	const fetchProducts = async () => {
 		try {
@@ -24,10 +26,21 @@ function SalesMainAllProducts() {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
-			setFilteredData(data);
+
+			// Handle empty data scenario
+			if (data.length === 0) {
+				setOriginalData([]);
+				setFilteredData([]);
+			} else {
+				setOriginalData(data);
+				setFilteredData(data);
+			}
 			setLoading(false);
+			setError(null);
 		} catch (err) {
 			setError(err.message);
+			setOriginalData([]);
+			setFilteredData([]);
 			setLoading(false);
 		}
 	};
@@ -35,26 +48,30 @@ function SalesMainAllProducts() {
 	useEffect(() => {
 		fetchProducts();
 
-		const interval = setInterval(() => {
+		fetchIntervalRef.current = setInterval(() => {
 			fetchProducts();
-		}, 500);
+		}, 500); // 0.5 seconds
 
-		return () => clearInterval(interval);
+		return () => {
+			if (fetchIntervalRef.current) {
+				clearInterval(fetchIntervalRef.current);
+			}
+		};
 	}, []);
 
 	useEffect(() => {
 		if (searchQuery) {
 			const lowercasedQuery = searchQuery.toLowerCase();
-			const filtered = filteredData.filter((product) =>
+			const filtered = originalData.filter((product) =>
 				product.product_name.toLowerCase().includes(lowercasedQuery),
 			);
 			setFilteredData(filtered);
 		} else {
-			setFilteredData(filteredData);
+			setFilteredData(originalData);
 			setSelectedRow(null);
 			setIsSelectionEnabled(false);
 		}
-	}, [searchQuery, filteredData]);
+	}, [searchQuery, originalData]);
 
 	useEffect(() => {
 		if (
@@ -128,11 +145,13 @@ function SalesMainAllProducts() {
 	};
 
 	if (loading) {
-		return <div>Loading...</div>;
-	}
-
-	if (error) {
-		return <div>Error: {error}</div>;
+		return (
+			<div className="py-1 h-[40vh]">
+				<div className="bg-white shadow-md rounded-lg h-full flex flex-col items-center justify-center">
+					<p className="text-gray-500">Loading products...</p>
+				</div>
+			</div>
+		);
 	}
 
 	return (
@@ -153,6 +172,7 @@ function SalesMainAllProducts() {
 					tableRef={tableRef}
 					selectedRowRef={selectedRowRef}
 					handleRowDoubleClick={handleAddProduct}
+					error={error}
 				/>
 			</div>
 			{isModalOpen && selectedProduct && (
