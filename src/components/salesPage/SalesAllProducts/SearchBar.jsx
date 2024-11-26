@@ -12,6 +12,8 @@ function SearchBar({
 	const searchInputRef = useRef(null);
 	const [lastChangeTime, setLastChangeTime] = useState(0);
 	const [isQrInput, setIsQrInput] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+
 	const typingSpeedThreshold = 50;
 
 	useEffect(() => {
@@ -21,16 +23,12 @@ function SearchBar({
 
 		const handleClick = (e) => {
 			const shouldSkipFocus = e.target.closest("[data-no-autofocus]");
-			const isModalClick = e.target.closest(
-				'[role="dialog"], .modal, [data-modal]',
-			);
 			const isInteractive = e.target.matches(
 				'input, select, textarea, button, a, [role="button"], [contenteditable="true"]',
 			);
 
 			if (
 				!shouldSkipFocus &&
-				!isModalClick &&
 				!isInteractive &&
 				document.activeElement !== searchInputRef.current
 			) {
@@ -38,24 +36,10 @@ function SearchBar({
 			}
 		};
 
-		const handleKeyDown = (e) => {
-			if (e.key === "Tab") {
-				const activeModal = document.querySelector(
-					'[role="dialog"]:focus-within, .modal:focus-within, [data-modal]:focus-within',
-				);
-				if (!activeModal) {
-					e.preventDefault();
-					searchInputRef.current?.focus();
-				}
-			}
-		};
-
 		document.addEventListener("click", handleClick);
-		document.addEventListener("keydown", handleKeyDown);
 
 		return () => {
 			document.removeEventListener("click", handleClick);
-			document.removeEventListener("keydown", handleKeyDown);
 		};
 	}, []);
 
@@ -81,6 +65,7 @@ function SearchBar({
 
 	const deleteAll = async () => {
 		try {
+			setIsDeleting(true);
 			const response = await fetch(
 				"http://localhost:5000/api/delete/all",
 				{
@@ -88,17 +73,18 @@ function SearchBar({
 				},
 			);
 			if (response.ok) {
-				alert("Hamma mahsulotlar o'chirldi");
-				searchInputRef.current?.focus();
+				// Optional: Handle UI update or feedback after successful deletion
+				setSearchQuery("");
+				setIsSelectionEnabled(false);
+				setSelectedRow(null);
 			} else {
-				const errorData = await response.json();
-				alert(`Xatolik: ${errorData.message}`);
-				searchInputRef.current?.focus();
+				// Optional: Handle server-side error feedback
+				console.error("Failed to delete all items.");
 			}
 		} catch (error) {
 			console.error("Error deleting all items:", error);
-			alert("An error occurred while deleting.");
-			searchInputRef.current?.focus();
+		} finally {
+			setIsDeleting(false);
 		}
 	};
 
@@ -151,8 +137,13 @@ function SearchBar({
 			</div>
 			<div>
 				<button
-					className="bg-red-600 text-white p-2 rounded-lg"
+					className={`${
+						isDeleting
+							? "bg-gray-400 cursor-not-allowed"
+							: "bg-red-600 hover:bg-red-700"
+					} text-white p-2 rounded-lg transition duration-300`}
 					onClick={deleteAll}
+					disabled={isDeleting}
 				>
 					<FaTrash size={15} />
 				</button>
