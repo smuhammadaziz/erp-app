@@ -61,7 +61,6 @@ const SalesPageLayoutFooter = () => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [activeModal, setActiveModal] = useState(null);
 
-	// Current settings state
 	const [currentSettings, setCurrentSettings] = useState({
 		language: "en",
 		theme: "light",
@@ -73,7 +72,6 @@ const SalesPageLayoutFooter = () => {
 		},
 	});
 
-	// Temporary settings state for modals
 	const [tempSettings, setTempSettings] = useState({
 		language: "en",
 		theme: "light",
