@@ -14,7 +14,6 @@ import { SlBasket } from "react-icons/sl";
 import logo from "../../assets/icon.png";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import { CiSettings } from "react-icons/ci";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
