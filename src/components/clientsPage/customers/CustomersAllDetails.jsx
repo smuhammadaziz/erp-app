@@ -4,7 +4,6 @@ import SearchBar from "./SearchBar";
 import CustomerTable from "./CustomerTable";
 import InputField from "./InputField";
 import data from "./data.json";
-import { PiUsersThreeFill } from "react-icons/pi";
 import { TbUserSearch } from "react-icons/tb";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
 
@@ -92,7 +91,6 @@ const CustomersAllDetails = () => {
 					onDelete={handleDeleteCustomer}
 				/>
 
-				{/* Add Modal */}
 				<Modal
 					isOpen={showAddModal}
 					onClose={() => setShowAddModal(false)}
