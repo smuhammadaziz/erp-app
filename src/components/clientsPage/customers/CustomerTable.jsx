@@ -1,4 +1,3 @@
-// CustomerTable.js
 import React from "react";
 import CustomerRow from "./CustomerRow";
 
