@@ -131,7 +131,6 @@ function SettingsPage() {
 									</div>
 								)}
 
-								{/* Security Section */}
 								{activeSection === "Security" && (
 									<>
 										<ActiveSessions />
