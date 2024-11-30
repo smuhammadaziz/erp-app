@@ -15,7 +15,6 @@ const ProductsPageComponent = () => {
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 
-	// Search functionality
 	const filteredProducts = products.filter((product) =>
 		Object.values(product)
 			.join(" ")
