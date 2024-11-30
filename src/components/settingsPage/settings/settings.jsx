@@ -218,7 +218,6 @@ const ActiveSessions = () => {
 				</div>
 			</div>
 
-			{/* Content */}
 			<div className="p-6 space-y-4">
 				{sessions.map((session) => (
 					<div
