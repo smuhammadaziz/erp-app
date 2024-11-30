@@ -1,5 +1,5 @@
 import React from "react";
-import SalesPageLayoutFooter from "./footer";
+import SalesPageLayoutFooter from "./footer/SalesPageLayoutFooter";
 import SalesPageLayoutSidebar from "./sidebar";
 import { Layout } from "../Layout";
 import SalesPageLayoutHeader from "./header";
