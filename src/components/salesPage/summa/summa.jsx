@@ -15,7 +15,7 @@ function SalespageSummaSection() {
 			maximumFractionDigits: 2,
 		})
 			.format(value)
-			.replace(/,/g, " "); // Replace commas with spaces
+			.replace(/,/g, " ");
 
 	useEffect(() => {
 		const fetchOverallSum = async () => {
