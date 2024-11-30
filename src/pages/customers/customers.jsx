@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout } from "../../layout/Layout";
 import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
-import CustomersAllDetails from "../../components/clientsPage/customers/customers";
+import CustomersAllDetails from "../../components/clientsPage/customers/CustomersAllDetails";
 
 function CustomersPage() {
 	return (
