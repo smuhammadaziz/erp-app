@@ -197,7 +197,6 @@ const ActiveSessions = () => {
 	const handleLogout = (sessionId) => {
 		const session = sessions.find((s) => s.id === sessionId);
 		if (session.isCurrentDevice) {
-			// Handle current device logout
 			console.log("Logging out current device...");
 		} else {
 			// Handle remote session termination
