@@ -20,26 +20,22 @@ function SalesPageLayoutHeader() {
 
 	const checkNetworkStatus = async () => {
 		if (!navigator.onLine) {
-			// User is completely offline
 			setStatus("offline");
 			return;
 		}
 
 		try {
-			// Attempt to fetch a known reliable resource
 			const response = await fetch("https://www.google.com/favicon.ico", {
 				method: "HEAD",
 				cache: "no-store",
 			});
 
-			// If successful, we are online
 			if (response.ok) {
 				setStatus("online");
 			} else {
 				setStatus("no-internet");
 			}
 		} catch (error) {
-			// If fetch fails, we have no internet
 			setStatus("no-internet");
 		}
 	};
