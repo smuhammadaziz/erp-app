@@ -27,7 +27,6 @@ function SalesMainAllProducts() {
 			}
 			const data = await response.json();
 
-			// Handle empty data scenario
 			if (data.length === 0) {
 				setOriginalData([]);
 				setFilteredData([]);
