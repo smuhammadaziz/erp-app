@@ -1,4 +1,3 @@
-// CustomerRow.js
 import React from "react";
 import {
 	FaUser,
