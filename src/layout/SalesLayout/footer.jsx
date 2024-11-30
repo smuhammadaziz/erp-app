@@ -119,10 +119,8 @@ const SalesPageLayoutFooter = () => {
 			language: tempSettings.language,
 		}));
 		setActiveModal(null);
-		// Show success toast or notification here
 	};
 
-	// Table Layout Modal Content
 	const TableLayoutModal = () => (
 		<Modal
 			isOpen={activeModal === "tableLayout"}
@@ -222,8 +220,6 @@ const SalesPageLayoutFooter = () => {
 			</div>
 		</Modal>
 	);
-
-	// Theme Settings Modal Content
 	const ThemeSettingsModal = () => (
 		<Modal
 			isOpen={activeModal === "themeSettings"}
@@ -261,8 +257,6 @@ const SalesPageLayoutFooter = () => {
 			</div>
 		</Modal>
 	);
-
-	// Language Settings Modal Content
 	const LanguageSettingsModal = () => (
 		<Modal
 			isOpen={activeModal === "language"}
