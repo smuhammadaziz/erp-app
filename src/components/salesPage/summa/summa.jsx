@@ -8,7 +8,6 @@ function SalespageSummaSection() {
 	const [discount, setDiscount] = useState(null);
 	const [finalPrice, setFinalPrice] = useState(0);
 
-	// Function to format numbers
 	const formatNumber = (value) =>
 		new Intl.NumberFormat("en-US", {
 			minimumFractionDigits: 2,
