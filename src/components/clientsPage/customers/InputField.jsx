@@ -1,4 +1,3 @@
-// InputField.js
 import React from "react";
 
 const InputField = ({ label, name, value, onChange, type = "text" }) => (
