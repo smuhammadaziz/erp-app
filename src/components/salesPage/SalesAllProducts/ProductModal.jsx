@@ -45,7 +45,6 @@ function ProductModal({ product, onClose }) {
 
 	return (
 		<>
-			{/* Main Product Modal */}
 			<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
 				<div className="bg-white p-6 rounded-lg w-[400px] shadow-lg relative">
 					<button
@@ -103,7 +102,6 @@ function ProductModal({ product, onClose }) {
 				</div>
 			</div>
 
-			{/* Error Modal */}
 			{showErrorModal && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-99">
 					<div className="bg-white p-6 rounded-lg w-[400px] shadow-lg relative">
