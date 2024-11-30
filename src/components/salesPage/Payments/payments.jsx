@@ -10,8 +10,6 @@ function SalesPagePaymentsSection() {
 				<HiOutlineCash className="mr-3 text-2xl" />
 				Cash
 			</button>
-
-			{/* Card Button */}
 			<button className="flex  items-center justify-center bg-blue-100 hover:bg-blue-200 text-blue-600 hover:text-blue-700 px-14 py-3 text-xl rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-300">
 				<HiOutlineCreditCard className="mr-3 text-2xl" />
 				Card
