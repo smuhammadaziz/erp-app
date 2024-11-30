@@ -4,6 +4,7 @@ import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
 import Sidebar from "../../components/settingsPage/settings/Sidebar";
 import PersonalInformation from "../../components/settingsPage/settings/PersonalInformation";
 import Security from "../../components/settingsPage/settings/Security";
+import MessageNotifications from "../../components/settingsPage/settings/Notifications";
 
 function SettingsPage() {
 	const [activeSection, setActiveSection] = useState("Personal Information");
@@ -22,6 +23,9 @@ function SettingsPage() {
 								<PersonalInformation />
 							)}
 							{activeSection === "Security" && <Security />}
+							{activeSection === "Notifications" && (
+								<MessageNotifications />
+							)}
 						</div>
 					</div>
 				</div>
