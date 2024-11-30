@@ -398,35 +398,5 @@
 		"price_in_currency": 2.9,
 		"price_in_UZS": "29000.00000",
 		"warehouse": "Cold Storage"
-	},
-	{
-		"id": 41,
-		"product_name": "Mushroom",
-		"currency": "$",
-		"box": "500g",
-		"remaining": "35kg",
-		"price_in_currency": 2.3,
-		"price_in_UZS": "23000.00000",
-		"warehouse": "Cold Storage"
-	},
-	{
-		"id": 42,
-		"product_name": "Celery",
-		"currency": "$",
-		"box": "1kg",
-		"remaining": "40kg",
-		"price_in_currency": 1.2,
-		"price_in_UZS": "12000.00000",
-		"warehouse": "Secondary Warehouse"
-	},
-	{
-		"id": 43,
-		"product_name": "Celery",
-		"currency": "$",
-		"box": "1kg",
-		"remaining": "40kg",
-		"price_in_currency": 1.2,
-		"price_in_UZS": "12000.00000",
-		"warehouse": "Secondary Warehouse"
 	}
 ]
