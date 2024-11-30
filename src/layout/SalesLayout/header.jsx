@@ -41,17 +41,14 @@ function SalesPageLayoutHeader() {
 	};
 
 	useEffect(() => {
-		// Initial check
 		checkNetworkStatus();
 
-		// Update status on network changes
 		const handleOnline = () => checkNetworkStatus();
 		const handleOffline = () => setStatus("offline");
 
 		window.addEventListener("online", handleOnline);
 		window.addEventListener("offline", handleOffline);
 
-		// Cleanup listeners on unmount
 		return () => {
 			window.removeEventListener("online", handleOnline);
 			window.removeEventListener("offline", handleOffline);
