@@ -321,14 +321,12 @@ const SalesPageLayoutFooter = () => {
 						? "opacity-100"
 						: "opacity-0 pointer-events-none"
 				}`}
-				// style={{ zIndex: 1 }}
 				onClick={toggleSettings}
 			/>
 			<div
 				className={`fixed z-0 bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl transform transition-transform duration-300 ease-in-out ${
 					isSettingsOpen ? "translate-y-0" : "translate-y-full"
 				}`}
-				// style={{ zIndex: 1 }}
 			>
 				<div className="p-4 max-h-[80vh] overflow-y-auto">
 					<div className="flex justify-between items-center mb-4 sticky top-0 bg-white py-2 px-4">
@@ -367,7 +365,6 @@ const SalesPageLayoutFooter = () => {
 		</>
 	);
 
-	// Rest of the component remains the same...
 	return (
 		<>
 			<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative">
