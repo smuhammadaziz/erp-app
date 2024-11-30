@@ -49,7 +49,7 @@ function SalesMainAllProducts() {
 
 		fetchIntervalRef.current = setInterval(() => {
 			fetchProducts();
-		}, 500); // 0.5 seconds
+		}, 500);
 
 		return () => {
 			if (fetchIntervalRef.current) {
