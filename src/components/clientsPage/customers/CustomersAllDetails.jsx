@@ -152,7 +152,6 @@ const CustomersAllDetails = () => {
 					</form>
 				</Modal>
 
-				{/* View Modal */}
 				<Modal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
