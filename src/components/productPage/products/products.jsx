@@ -79,7 +79,6 @@ const ProductsPageComponent = () => {
 					</div>
 				</div>
 
-				{/* Table Section */}
 				<ProductTable
 					products={filteredProducts}
 					onViewProduct={handleViewProduct}
