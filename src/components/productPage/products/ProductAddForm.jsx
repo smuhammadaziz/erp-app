@@ -33,38 +33,98 @@ const ProductAddForm = ({ onAddProduct, onCancel }) => {
 		});
 	};
 
-	const InputField = ({ label, name, type = "text" }) => (
-		<div className="mb-4">
-			<label className="block text-sm font-medium text-gray-700 mb-1">
-				{label}
-			</label>
-			<input
-				type={type}
-				name={name}
-				value={newProduct[name] || ""}
-				onChange={handleInputChange}
-				className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-			/>
-		</div>
-	);
-
 	return (
 		<form onSubmit={handleSubmit} className="space-y-4">
-			<InputField label="Product Name" name="product_name" />
-			<InputField label="Currency" name="currency" />
-			<InputField label="Box" name="box" type="number" />
-			<InputField label="Remaining" name="remaining" type="number" />
-			<InputField
-				label="Price in Currency"
-				name="price_in_currency"
-				type="number"
-			/>
-			<InputField
-				label="Price in UZS"
-				name="price_in_UZS"
-				type="number"
-			/>
-			<InputField label="Warehouse" name="warehouse" />
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Product Name
+				</label>
+				<input
+					type="text"
+					name="product_name"
+					value={newProduct.product_name}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Currency
+				</label>
+				<input
+					type="text"
+					name="currency"
+					value={newProduct.currency}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Box
+				</label>
+				<input
+					type="number"
+					name="box"
+					value={newProduct.box}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Remaining
+				</label>
+				<input
+					type="number"
+					name="remaining"
+					value={newProduct.remaining}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Price in Currency
+				</label>
+				<input
+					type="number"
+					name="price_in_currency"
+					value={newProduct.price_in_currency}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Price in UZS
+				</label>
+				<input
+					type="number"
+					name="price_in_UZS"
+					value={newProduct.price_in_UZS}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
+
+			<div className="mb-4">
+				<label className="block text-sm font-medium text-gray-700 mb-1">
+					Warehouse
+				</label>
+				<input
+					type="text"
+					name="warehouse"
+					value={newProduct.warehouse}
+					onChange={handleInputChange}
+					className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+				/>
+			</div>
 
 			<div className="flex justify-end space-x-3 mt-6">
 				<button
