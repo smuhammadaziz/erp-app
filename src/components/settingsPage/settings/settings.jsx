@@ -199,7 +199,6 @@ const ActiveSessions = () => {
 		if (session.isCurrentDevice) {
 			console.log("Logging out current device...");
 		} else {
-			// Handle remote session termination
 			setSessions(sessions.filter((s) => s.id !== sessionId));
 		}
 	};
@@ -208,7 +207,6 @@ const ActiveSessions = () => {
 
 	return (
 		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-			{/* Header */}
 			<div className="p-6 border-b border-slate-100">
 				<div className="flex items-center justify-between">
 					<h2 className="text-xl font-semibold text-slate-800">
