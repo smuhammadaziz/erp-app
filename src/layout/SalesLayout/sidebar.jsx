@@ -72,7 +72,6 @@ function SalesPageLayoutSidebar() {
 						<HiOutlineCash className="mr-3 text-xl" />
 						<span className="font-semibold">Cash</span>
 					</button>
-					{/* Card Button */}
 					<button className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
 						<HiOutlineCreditCard className="mr-3 text-xl" />
 						<span className="font-semibold">Card</span>
