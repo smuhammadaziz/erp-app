@@ -89,13 +89,11 @@ const SalesPageLayoutFooter = () => {
 
 	const openModal = (modalName) => {
 		setActiveModal(modalName);
-		// Reset temporary settings to current settings when opening modal
 		setTempSettings({ ...currentSettings });
 	};
 
 	const closeModal = () => {
 		setActiveModal(null);
-		// Reset temporary settings when closing modal
 		setTempSettings({ ...currentSettings });
 	};
 
@@ -105,7 +103,6 @@ const SalesPageLayoutFooter = () => {
 			table: tempSettings.table,
 		}));
 		setActiveModal(null);
-		// Show success toast or notification here
 	};
 
 	const saveThemeSettings = () => {
@@ -114,7 +111,6 @@ const SalesPageLayoutFooter = () => {
 			theme: tempSettings.theme,
 		}));
 		setActiveModal(null);
-		// Show success toast or notification here
 	};
 
 	const saveLanguageSettings = () => {
