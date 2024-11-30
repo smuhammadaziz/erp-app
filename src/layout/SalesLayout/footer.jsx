@@ -16,8 +16,6 @@ import {
 	FaCheck,
 	FaSave,
 } from "react-icons/fa";
-import { IoMdNotifications } from "react-icons/io";
-import { MdBackup, MdPrivacyTip, MdShortcut } from "react-icons/md";
 
 const Modal = ({ isOpen, onClose, title, children, onSave }) => {
 	if (!isOpen) return null;
