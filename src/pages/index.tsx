@@ -235,10 +235,8 @@ const IndexPage: FC = () => {
 					</div>
 				</div>
 
-				<div>
+				<div className="flex items-center">
 					<NavLink to="/intro">intro</NavLink>
-				</div>
-				<div>
 					<InitialUserSettingsForHome />
 				</div>
 			</InnerLayoutSection>
