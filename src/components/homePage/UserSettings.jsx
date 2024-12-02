@@ -127,7 +127,7 @@ const DownloaderModal = () => {
 		return (
 			<button
 				onClick={openModal}
-				className="bg-blue-500 text-white px-4 py-2 rounded flex items-center hover:bg-blue-600 transition"
+				className="bg-blue-500 text-white px-4 py-1 rounded flex items-center hover:bg-blue-600 transition"
 			>
 				<FaDownload className="mr-2" /> Download Settings
 			</button>
