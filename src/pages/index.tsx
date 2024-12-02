@@ -33,6 +33,8 @@ ChartJS.register(
 import content from "../localization/content";
 import useLang from "../hooks/useLang";
 
+import InitialUserSettingsForHome from "../components/homePage/UserSettings";
+
 const IndexPage: FC = () => {
 	const [language, setLanguage] = useLang();
 	const [filter, setFilter] = useState<string>(
@@ -235,6 +237,9 @@ const IndexPage: FC = () => {
 
 				<div>
 					<NavLink to="/intro">intro</NavLink>
+				</div>
+				<div>
+					<InitialUserSettingsForHome />
 				</div>
 			</InnerLayoutSection>
 		</Layout>
