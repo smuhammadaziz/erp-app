@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi"; // Added calendar icon for date
+import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
