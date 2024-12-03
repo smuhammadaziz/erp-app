@@ -9,9 +9,12 @@ import Loader from "../../common/loader";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
+import base64 from "base-64";
+
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [data, setData] = useState();
 	const navigate = useNavigate();
 
 	const [language, setLanguage] = useLang("uz");
@@ -26,12 +29,6 @@ function IntroPageKSB() {
 				icon: <FaCheckCircle />,
 				style: { backgroundColor: "#22c55e", color: "white" },
 			});
-
-			setLoading(true);
-			setTimeout(() => {
-				setLoading(false);
-				navigate("/login", { replace: true });
-			}, 555);
 		} else if (ksbId === "111") {
 			toast.error("KSB-ID ning muddati tugagan", {
 				icon: <FaExclamationCircle />,
@@ -42,6 +39,32 @@ function IntroPageKSB() {
 				icon: <FaExclamationCircle />,
 				style: { backgroundColor: "#f5c000", color: "black" },
 			});
+		}
+	};
+
+	const handleSignIn = async (e) => {
+		e.preventDefault();
+		try {
+			const username = "Bot";
+			const password = "123";
+
+			// Encode the credentials in Base64
+			const credentials = base64.encode(`${username}:${password}`);
+
+			console.log("Encoded credentials:", credentials);
+
+			const response = await fetch(`http://localhost:8000/api`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			const data = await response.json();
+
+			console.log(data);
+		} catch (error) {
+			console.error("Error:", error);
 		}
 	};
 
@@ -82,7 +105,7 @@ function IntroPageKSB() {
 
 						<div>
 							<button
-								onClick={handleSubmit}
+								onClick={handleSignIn}
 								className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 text-lg"
 							>
 								{content[language].intro.send}
@@ -97,3 +120,4 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
+
