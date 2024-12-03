@@ -48,7 +48,6 @@ function IntroPageKSB() {
 			const username = "Bot";
 			const password = "123";
 
-			// Encode the credentials in Base64
 			const credentials = base64.encode(`${username}:${password}`);
 
 			console.log("Encoded credentials:", credentials);
