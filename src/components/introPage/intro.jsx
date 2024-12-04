@@ -93,6 +93,9 @@ function IntroPageKSB() {
 			};
 
 			if (data.status === "successfully") {
+				// Store in localStorage that user has been verified (without the actual KSB ID)
+				localStorage.setItem("isVerified", "true");
+
 				toast.success(data.status, {
 					icon: <FaCheckCircle />,
 					style: { backgroundColor: "#22c55e", color: "white" },
