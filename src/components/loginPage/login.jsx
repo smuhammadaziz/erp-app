@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "../../layout/Layout";
 import { useNavigate } from "react-router-dom";
 import {
@@ -21,9 +21,12 @@ function LoginPageKSB() {
 	const [password, setPassword] = useState("");
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+	const [users, setUsers] = useState([]);
 	const navigate = useNavigate();
 
 	const [language, setLanguage] = useLang("uz");
+
+	const ksbId = localStorage.getItem("ksbIdNumber");
 
 	const handleLogin = () => {
 		if (password === "123") {
@@ -74,6 +77,25 @@ function LoginPageKSB() {
 		setIsPasswordVisible(!isPasswordVisible);
 	};
 
+	useEffect(() => {
+		async function fetchLogin() {
+			try {
+				const response = await fetch(
+					`http://localhost:8000/api/login/${ksbId}`,
+				);
+				const data = await response.json();
+				// Extract login from each user object
+				const userLogins = data.list_users.map((user) => user.login);
+				setUsers(userLogins);
+				console.log(userLogins);
+			} catch (error) {
+				console.log(error);
+				toast.error("Failed to fetch users");
+			}
+		}
+		fetchLogin();
+	}, [ksbId]);
+
 	return (
 		<Layout>
 			<div className="flex fixed w-full items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
@@ -105,28 +127,30 @@ function LoginPageKSB() {
 								/>
 							</div>
 							{isDropdownOpen && (
-								<div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-									<div
-										className="p-4 hover:bg-gray-100 cursor-pointer"
-										onClick={() =>
-											handleSelect("Manager 1")
-										}
-									>
-										Manager 1
-									</div>
-									<div
-										className="p-4 hover:bg-gray-100 cursor-pointer"
-										onClick={() =>
-											handleSelect("Manager 2")
-										}
-									>
-										Manager 2
-									</div>
+								<div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+									{users.length > 0 ? (
+										users.map((user, index) => (
+											<div
+												key={index}
+												className="p-4 hover:bg-gray-100 cursor-pointer"
+												onClick={() =>
+													handleSelect(user)
+												}
+											>
+												{user}
+											</div>
+										))
+									) : (
+										<div className="p-4 text-gray-500 text-center">
+											No users available
+										</div>
+									)}
 								</div>
 							)}
 						</div>
 					</div>
 
+					{/* Rest of the component remains the same */}
 					<div className="mb-6">
 						<label
 							htmlFor="password"
@@ -187,4 +211,3 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
-

@@ -95,6 +95,7 @@ function IntroPageKSB() {
 			if (data.status === "successfully") {
 				// Store in localStorage that user has been verified (without the actual KSB ID)
 				localStorage.setItem("isVerified", "true");
+				localStorage.setItem("ksbIdNumber", ksbId);
 
 				toast.success(data.status, {
 					icon: <FaCheckCircle />,
@@ -213,4 +214,3 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
-
