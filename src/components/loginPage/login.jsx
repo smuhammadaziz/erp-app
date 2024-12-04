@@ -84,7 +84,7 @@ function LoginPageKSB() {
 					`http://localhost:8000/api/login/${ksbId}`,
 				);
 				const data = await response.json();
-				// Extract login from each user object
+
 				const userLogins = data.list_users.map((user) => user.login);
 				setUsers(userLogins);
 				console.log(userLogins);
@@ -150,7 +150,6 @@ function LoginPageKSB() {
 						</div>
 					</div>
 
-					{/* Rest of the component remains the same */}
 					<div className="mb-6">
 						<label
 							htmlFor="password"
@@ -211,3 +210,4 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
+
