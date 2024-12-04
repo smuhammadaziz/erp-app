@@ -5,10 +5,8 @@ import { FaCheckCircle, FaExclamationCircle, FaKey } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../common/loader";
-
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
-
 import base64 from "base-64";
 
 function IntroPageKSB() {
@@ -16,54 +14,68 @@ function IntroPageKSB() {
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState();
 	const navigate = useNavigate();
-
 	const [language, setLanguage] = useLang("uz");
 
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 555);
 	}, []);
 
-	const handleSubmit = () => {
-		if (ksbId === "123") {
-			toast.success("Muvaffaqiyatli", {
-				icon: <FaCheckCircle />,
-				style: { backgroundColor: "#22c55e", color: "white" },
-			});
-		} else if (ksbId === "111") {
-			toast.error("KSB-ID ning muddati tugagan", {
+	const handleSignIn = async (e) => {
+		e.preventDefault();
+		if (!ksbId || ksbId.length !== 8) {
+			toast.error(content[language].intro.error, {
 				icon: <FaExclamationCircle />,
 				style: { backgroundColor: "#ef4444", color: "white" },
 			});
-		} else {
-			toast("Iltimos KSB-ID ni to'g'ri kiriting.", {
-				icon: <FaExclamationCircle />,
-				style: { backgroundColor: "#f5c000", color: "black" },
-			});
+			return;
 		}
-	};
-
-	const handleSignIn = async (e) => {
-		e.preventDefault();
 		try {
 			const username = "Bot";
 			const password = "123";
-
 			const credentials = base64.encode(`${username}:${password}`);
-
-			console.log("Encoded credentials:", credentials);
-
-			const response = await fetch(`http://localhost:8000/api`, {
+			const response = await fetch(`http://localhost:8000/api/${ksbId}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Basic ${credentials}`,
 				},
 			});
-
 			const data = await response.json();
 
-			console.log(data);
+			// Dynamic language handling for messages
+			const getMessage = () => {
+				// Check if the message exists in the specified language, fallback to 'uz' if not
+				if (data.message && data.message[language]) {
+					return data.message[language];
+				}
+				// Fallback to Uzbek if no language-specific message is found
+				return data.message?.uz || "Unknown error";
+			};
+
+			if (data.status === "successfully") {
+				toast.success(data.status, {
+					icon: <FaCheckCircle />,
+					style: { backgroundColor: "#22c55e", color: "white" },
+				});
+				setData(data);
+				navigate("/login");
+			} else if (data.status === "error") {
+				toast.error(getMessage(), {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				});
+			} else {
+				toast(getMessage(), {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#f5c000", color: "black" },
+				});
+			}
 		} catch (error) {
 			console.error("Error:", error);
+			toast.error(content[language].intro.serverError, {
+				icon: <FaExclamationCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
 		}
 	};
 
@@ -87,13 +99,15 @@ function IntroPageKSB() {
 								{content[language].intro.please}
 							</p>
 						</div>
-
 						<div className="relative">
 							<input
 								type="text"
 								placeholder={content[language].intro.enter}
 								value={ksbId}
-								onChange={(e) => setKsbId(e.target.value)}
+								onChange={(e) =>
+									setKsbId(e.target.value.slice(0, 8))
+								}
+								maxLength={8}
 								className="w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200"
 							/>
 							<FaKey
@@ -101,7 +115,6 @@ function IntroPageKSB() {
 								size={20}
 							/>
 						</div>
-
 						<div>
 							<button
 								onClick={handleSignIn}
