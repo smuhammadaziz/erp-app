@@ -42,13 +42,10 @@ function IntroPageKSB() {
 			});
 			const data = await response.json();
 
-			// Dynamic language handling for messages
 			const getMessage = () => {
-				// Check if the message exists in the specified language, fallback to 'uz' if not
 				if (data.message && data.message[language]) {
 					return data.message[language];
 				}
-				// Fallback to Uzbek if no language-specific message is found
 				return data.message?.uz || "Unknown error";
 			};
 
