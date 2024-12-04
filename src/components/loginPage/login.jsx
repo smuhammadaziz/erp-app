@@ -76,7 +76,7 @@ function LoginPageKSB() {
 
 	return (
 		<Layout>
-			<div className="flex items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
+			<div className="flex fixed w-full items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
 				<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform hover:scale-105 transition-transform duration-300">
 					<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
 						{content[language].login.login}
