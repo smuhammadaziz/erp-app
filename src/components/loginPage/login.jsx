@@ -22,47 +22,110 @@ function LoginPageKSB() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [users, setUsers] = useState([]);
+	const [enterprise, setEnterprise] = useState(null);
 	const navigate = useNavigate();
 
 	const [language, setLanguage] = useLang("uz");
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 
-	const handleLogin = () => {
-		if (password === "123") {
-			toast.success(
-				<div className="flex items-center text-white">
-					<FaCheckCircle className="mr-2" size={20} />
-					Muvaffaqiyatli
-				</div>,
+	const [showPasswordModal, setShowPasswordModal] = useState(false);
+	const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
+	const [passwordError, setPasswordError] = useState("");
+
+	const handleLogin = async () => {
+		if (!userType) {
+			toast.error("Please select a user type");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				"http://localhost:8000/api/authenticate",
 				{
-					position: "bottom-right",
-					style: { backgroundColor: "#22c55e" },
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						userType,
+						password: password || "", // Send empty string if no password
+						ksbId,
+					}),
 				},
 			);
-			navigate("/");
-		} else if (password === "111") {
+
+			const data = await response.json();
+
+			if (data.success) {
+				toast.success(
+					<div className="flex items-center text-white">
+						<FaCheckCircle className="mr-2" size={20} />
+						{data.message}
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#22c55e" },
+					},
+				);
+				navigate("/");
+			} else {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						{data.message}
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+
+				if (data.message === "No offline password available") {
+					setPasswordError(data.message);
+					setShowPasswordModal(true);
+					setIsFirstTimePassword(true);
+				}
+			}
+		} catch (error) {
+			console.error(error);
 			toast.error(
-				<div className="flex items-center text-white">
-					<FaTimesCircle className="mr-2" size={20} />
-					Parol xato
-				</div>,
+				"Connection error. Please check your internet connection.",
+			);
+		}
+	};
+
+	const handleSetPassword = async () => {
+		if (!password) {
+			toast.error("Please enter a password");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				"http://localhost:8000/api/set-password",
 				{
-					position: "bottom-right",
-					style: { backgroundColor: "#ef4444" },
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ userType, password }),
 				},
 			);
-		} else {
-			toast.error(
-				<div className="flex items-center">
-					<FaTimesCircle className="mr-2" size={20} />
-					Parolni to'g'ri formatda kiriting.
-				</div>,
-				{
-					position: "bottom-right",
-					style: { backgroundColor: "#f5c000", color: "black" },
-				},
-			);
+
+			const data = await response.json();
+
+			if (data.success) {
+				setIsFirstTimePassword(false);
+				setShowPasswordModal(false);
+				toast.success("Password set successfully");
+				navigate("/");
+			} else {
+				toast.error(data.message || "Failed to set password");
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Failed to set password");
 		}
 	};
 
@@ -85,15 +148,17 @@ function LoginPageKSB() {
 				);
 				const data = await response.json();
 
-				const userLogins = data.list_users.map((user) => user.login);
-				setUsers(userLogins);
-				console.log(userLogins);
+				setUsers(data.list_users);
+				setEnterprise(data.enterprise);
+				console.log("Users:", data.list_users);
 			} catch (error) {
 				console.log(error);
 				toast.error("Failed to fetch users");
 			}
 		}
-		fetchLogin();
+		if (ksbId) {
+			fetchLogin();
+		}
 	}, [ksbId]);
 
 	return (
@@ -109,42 +174,32 @@ function LoginPageKSB() {
 							{content[language].login.select}
 						</label>
 						<div className="relative">
-							<div
-								className="flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 border-gray-300 rounded-lg text-gray-700 cursor-pointer"
+							<button
 								onClick={toggleDropdown}
+								className="flex items-center justify-between w-full px-4 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 							>
-								<FaUserTie
-									className="text-gray-500 mr-3"
-									size={20}
-								/>
-								<span className="flex-1">
-									{userType || content[language].login.select}
-								</span>
+								<span>{userType || "Select User Type"}</span>
 								<FaChevronDown
-									className={`text-gray-500 transition-transform ${
-										isDropdownOpen ? "rotate-180" : ""
+									className={`transition-transform duration-200 ${
+										isDropdownOpen
+											? "transform rotate-180"
+											: ""
 									}`}
 								/>
-							</div>
+							</button>
 							{isDropdownOpen && (
-								<div className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-									{users.length > 0 ? (
-										users.map((user, index) => (
-											<div
-												key={index}
-												className="p-4 hover:bg-gray-100 cursor-pointer"
-												onClick={() =>
-													handleSelect(user)
-												}
-											>
-												{user}
-											</div>
-										))
-									) : (
-										<div className="p-4 text-gray-500 text-center">
-											No users available
-										</div>
-									)}
+								<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
+									{users.map((user, index) => (
+										<button
+											key={index}
+											onClick={() =>
+												handleSelect(user.login)
+											}
+											className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
+										>
+											{user.login}
+										</button>
+									))}
 								</div>
 							)}
 						</div>
@@ -205,6 +260,47 @@ function LoginPageKSB() {
 			</div>
 
 			<Toaster position="bottom-right" />
+
+			{showPasswordModal && (
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+					<div className="bg-white p-6 rounded-lg shadow-xl w-96">
+						<h2 className="text-xl font-bold mb-4">
+							{isFirstTimePassword
+								? "Set Password"
+								: "Password Error"}
+						</h2>
+						{isFirstTimePassword ? (
+							<>
+								<p className="mb-4">
+									Please set a password for {userType}
+								</p>
+								<button
+									onClick={handleSetPassword}
+									className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+								>
+									Set Password
+								</button>
+							</>
+						) : (
+							<>
+								<p className="text-red-500 mb-4">
+									{passwordError}
+								</p>
+								<p className="mb-4">Please try again</p>
+							</>
+						)}
+						<button
+							onClick={() => {
+								setShowPasswordModal(false);
+								setPasswordError("");
+							}}
+							className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+						>
+							Close
+						</button>
+					</div>
+				</div>
+			)}
 		</Layout>
 	);
 }

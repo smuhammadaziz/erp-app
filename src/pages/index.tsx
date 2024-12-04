@@ -242,6 +242,12 @@ const IndexPage: FC = () => {
 					>
 						intro
 					</NavLink>
+					<NavLink
+						to="/login"
+						className="px-4 mr-2 py-1 bg-blue-700 rounded-lg text-white"
+					>
+						intro
+					</NavLink>
 					<InitialUserSettingsForHome />
 				</div>
 			</InnerLayoutSection>
