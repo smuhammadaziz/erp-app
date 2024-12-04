@@ -1,27 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { Layout } from "../../layout/Layout";
 import { Toaster, toast } from "sonner";
-import { FaCheckCircle, FaExclamationCircle, FaKey } from "react-icons/fa";
+import {
+	FaCheckCircle,
+	FaExclamationCircle,
+	FaKey,
+	FaWifi,
+	FaTimesCircle,
+	FaNetworkWired,
+} from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../common/loader";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 import base64 from "base-64";
+import { MdOutlinePortableWifiOff } from "react-icons/md";
 
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState();
+	const [isOnline, setIsOnline] = useState(navigator.onLine);
+	const [showNetworkModal, setShowNetworkModal] = useState(false);
 	const navigate = useNavigate();
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 555);
-	}, []);
+		const loadingTimer = setTimeout(() => setLoading(false), 555);
+
+		const handleOnline = () => {
+			setIsOnline(true);
+			setShowNetworkModal(false);
+			toast.success(content[language].intro.networkRestored, {
+				icon: <FaWifi />,
+				style: { backgroundColor: "#22c55e", color: "white" },
+			});
+		};
+
+		const handleOffline = () => {
+			setIsOnline(false);
+			setShowNetworkModal(true);
+			toast.error(content[language].intro.networkLost, {
+				icon: <FaTimesCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
+		};
+
+		window.addEventListener("online", handleOnline);
+		window.addEventListener("offline", handleOffline);
+
+		return () => {
+			clearTimeout(loadingTimer);
+			window.removeEventListener("online", handleOnline);
+			window.removeEventListener("offline", handleOffline);
+		};
+	}, [language]);
 
 	const handleSignIn = async (e) => {
 		e.preventDefault();
+
+		if (!navigator.onLine) {
+			setShowNetworkModal(true);
+			return;
+		}
+
 		if (!ksbId || ksbId.length !== 8) {
 			toast.error(content[language].intro.error, {
 				icon: <FaExclamationCircle />,
@@ -29,6 +72,7 @@ function IntroPageKSB() {
 			});
 			return;
 		}
+
 		try {
 			const username = "Bot";
 			const password = "123";
@@ -41,7 +85,6 @@ function IntroPageKSB() {
 				},
 			});
 			const data = await response.json();
-
 			const getMessage = () => {
 				if (data.message && data.message[language]) {
 					return data.message[language];
@@ -76,12 +119,39 @@ function IntroPageKSB() {
 		}
 	};
 
+	// Network Connection Modal
+	const NetworkModal = () => {
+		return (
+			<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+				<div className="w-full max-w-md p-6 rounded-2xl shadow-2xl bg-red-50 border-2 border-red-500">
+					<div className="flex items-center mb-4">
+						<MdOutlinePortableWifiOff
+							className="text-red-500 mr-4"
+							size={40}
+						/>
+						<h2 className="text-2xl font-bold text-red-800">
+							No Network Connection
+						</h2>
+					</div>
+					<p className="text-red-800 text-lg mb-6">
+						{content[language].intro.noNetworkConnection}
+					</p>
+					<div className="flex items-center justify-center">
+						<span className="ml-2 text-red-800">
+							Waiting for network...
+						</span>
+					</div>
+				</div>
+			</div>
+		);
+	};
+
 	return (
 		<Layout>
 			{loading ? (
 				<Loader />
 			) : (
-				<div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-600">
+				<div className="flex fixed w-full h-screen items-center justify-center bg-gradient-to-br from-blue-100 to-indigo-600">
 					<div className="bg-white p-10 rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300 space-y-8 max-w-md">
 						<div className="text-center space-y-4">
 							<img
@@ -105,7 +175,12 @@ function IntroPageKSB() {
 									setKsbId(e.target.value.slice(0, 8))
 								}
 								maxLength={8}
-								className="w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200"
+								disabled={!isOnline}
+								className={`w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200 ${
+									!isOnline
+										? "bg-gray-200 cursor-not-allowed"
+										: ""
+								}`}
 							/>
 							<FaKey
 								className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -115,7 +190,12 @@ function IntroPageKSB() {
 						<div>
 							<button
 								onClick={handleSignIn}
-								className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 text-lg"
+								disabled={!isOnline}
+								className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition duration-300 text-lg ${
+									isOnline
+										? "bg-blue-600 hover:bg-blue-700"
+										: "bg-gray-400 cursor-not-allowed"
+								}`}
 							>
 								{content[language].intro.send}
 							</button>
@@ -123,6 +203,7 @@ function IntroPageKSB() {
 					</div>
 				</div>
 			)}
+			{showNetworkModal && <NetworkModal />}
 			<Toaster position="bottom-right" />
 		</Layout>
 	);
