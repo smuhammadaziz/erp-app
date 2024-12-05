@@ -15,7 +15,6 @@ function Security() {
 		<>
 			<SectionContainer title="Security">
 				<div className="space-y-4">
-					{/* Current Password Input */}
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
 							Enter Current Password
@@ -74,7 +73,6 @@ function Security() {
 						</div>
 					</div>
 
-					{/* Confirm New Password Input */}
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
 							Enter Your New Password Again

@@ -8,7 +8,14 @@ function PasswordInput({
 	togglePasswordVisibility,
 	content,
 	language,
+	onEnterPress,
 }) {
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			onEnterPress();
+		}
+	};
+
 	return (
 		<div className="mb-6">
 			<label
@@ -26,6 +33,7 @@ function PasswordInput({
 						className="w-full focus:outline-none"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
+						onKeyPress={handleKeyPress}
 						placeholder={content[language].login.enter}
 					/>
 					<div

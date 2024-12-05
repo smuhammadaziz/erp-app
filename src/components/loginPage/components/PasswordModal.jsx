@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 function PasswordModal({
 	isFirstTimePassword,
@@ -7,6 +7,19 @@ function PasswordModal({
 	handleSetPassword,
 	onClose,
 }) {
+	useEffect(() => {
+		const handleKeyPress = (e) => {
+			if (e.key === "Enter" && isFirstTimePassword) {
+				handleSetPassword();
+			} else if (e.key === "Escape") {
+				onClose();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyPress);
+		return () => window.removeEventListener("keydown", handleKeyPress);
+	}, [isFirstTimePassword, handleSetPassword, onClose]);
+
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 			<div className="bg-white p-6 rounded-lg shadow-xl w-96">

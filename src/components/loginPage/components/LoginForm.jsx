@@ -39,6 +39,7 @@ function LoginForm({
 				togglePasswordVisibility={togglePasswordVisibility}
 				content={content}
 				language={language}
+				onEnterPress={handleLogin}
 			/>
 
 			<button
