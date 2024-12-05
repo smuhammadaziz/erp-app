@@ -43,7 +43,7 @@ type Content = {
 const content: Content = {
 	uz: {
 		intro: {
-			welcome: "КСБ Порталга Хуш Келибсиз",
+			welcome: "KSB Порталга Хуш Келибсиз",
 			please: "Давом етиш учун KSB-ID ни киритинг",
 			enter: "KSB-ID ни киритинг",
 			send: "Тизимга Кириш",
