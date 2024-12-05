@@ -87,20 +87,16 @@ function IntroPageKSB() {
 		}
 
 		if (!ksbId) {
-			toast.error(
-				content[language].intro.emptyInput || "Please enter KSB ID",
-				{
-					icon: <FaExclamationCircle />,
-					style: { backgroundColor: "#ef4444", color: "white" },
-				},
-			);
+			toast.error(content[language].intro.pleaseEnterKsb, {
+				icon: <FaExclamationCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
 			return;
 		}
 
 		if (ksbId.length < 8) {
 			toast.error(
-				content[language].intro.incompleteId || "Please enter 8 digits",
-				{
+				content[language].intro.pleaseEnter8 || {
 					icon: <FaExclamationCircle />,
 					style: { backgroundColor: "#ef4444", color: "white" },
 				},
@@ -143,14 +139,10 @@ function IntroPageKSB() {
 		} catch (error) {
 			console.error("Error:", error);
 			if (error.name === "AbortError") {
-				toast.error(
-					content[language].intro.timeout ||
-						"Request timeout. Please try again.",
-					{
-						icon: <FaExclamationCircle />,
-						style: { backgroundColor: "#ef4444", color: "white" },
-					},
-				);
+				toast.error(content[language].intro.requestTimeOut, {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				});
 			} else {
 				toast.error(content[language].intro.serverError, {
 					icon: <FaExclamationCircle />,
@@ -283,8 +275,7 @@ function IntroPageKSB() {
 									<div className="flex items-center justify-center space-x-2">
 										<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
 										<span>
-											{content[language].intro.checking ||
-												"Checking..."}
+											{content[language].intro.checking}
 										</span>
 									</div>
 								) : (

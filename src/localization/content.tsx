@@ -9,6 +9,10 @@ type Content = {
 			send: string;
 			network: string;
 			try: string;
+			pleaseEnterKsb: string;
+			pleaseEnter8: string;
+			requestTimeOut: string;
+			checking: string;
 		};
 		login: {
 			login: string;
@@ -51,6 +55,11 @@ const content: Content = {
 			send: "Тизимга Кириш",
 			network: "Тармоққа уланиш йўқ",
 			try: "Қайта уланишга уриниш...",
+			pleaseEnterKsb: "Илтимос, КСБ ИД ни киритинг",
+			pleaseEnter8: "Илтимос, 8 та рақам киритинг",
+			requestTimeOut:
+				"Сўровни кутиш вақти тугаши. Илтимос, қайта уриниб коʻринг.",
+			checking: "Текширилмоқда...",
 		},
 		login: {
 			login: "Kirish",
@@ -90,6 +99,11 @@ const content: Content = {
 			send: "Войти",
 			network: "Нет сетевого подключения",
 			try: "Попытка повторного подключения...",
+			pleaseEnterKsb: "Пожалуйста, введите KSB ID",
+			pleaseEnter8: "Пожалуйста, введите 8 цифр",
+			requestTimeOut:
+				"Запросить тайм-аут. Пожалуйста, попробуйте еще раз.",
+			checking: "Проверка...",
 		},
 		login: {
 			login: "Войти",
