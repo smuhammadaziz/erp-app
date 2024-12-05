@@ -38,10 +38,12 @@ export const Titlebar: FC = () => {
 					className="menu-icon select-none"
 					alt="amethyst"
 				/>
+				<span className="text-white flex items-center">
+					<p className="mr-2 uppercase">Dekor Land</p>
+					(KSB-MERP)
+				</span>
 			</div>
-			<div className="app-name-container select-none">
-				<p>KSB-MERP v1.0.0 ( Dekor Land )</p>
-			</div>
+			<div className="app-name-container select-none uppercase"></div>
 			<div className="window-controls-container">
 				<button
 					title="Minimize"
