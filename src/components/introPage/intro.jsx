@@ -124,24 +124,26 @@ function IntroPageKSB() {
 
 	const NetworkModal = () => {
 		return (
-			<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-				<div className="w-full max-w-md p-6 rounded-2xl shadow-2xl bg-red-50 border-2 border-red-500">
-					<div className="flex items-center mb-4">
-						<MdOutlinePortableWifiOff
-							className="text-red-500 mr-4"
-							size={40}
-						/>
-						<h2 className="text-2xl font-bold text-red-800">
-							No Network Connection
-						</h2>
-					</div>
-					<p className="text-red-800 text-lg mb-6">
-						{content[language].intro.noNetworkConnection}
-					</p>
-					<div className="flex items-center justify-center">
-						<span className="ml-2 text-red-800">
-							Waiting for network...
-						</span>
+			<div className="fixed inset-0 z-50 flex items-center justify-center">
+				<div className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fadeIn" />
+				<div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 transform animate-slideIn">
+					<div className="p-6">
+						<div className="flex items-start space-x-4">
+							<div className="flex-shrink-0">
+								<div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center animate-pulse">
+									<MdOutlinePortableWifiOff className="text-red-600 w-7 h-7" />
+								</div>
+							</div>
+							<div className="flex-1">
+								<h3 className="text-xl font-semibold text-gray-900 mb-2">
+									{content[language].intro.network}
+								</h3>
+								<div className="flex items-center space-x-2 text-sm text-gray-500">
+									<div className="animate-spin w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full" />
+									<span>{content[language].intro.try}</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -212,3 +214,4 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
+

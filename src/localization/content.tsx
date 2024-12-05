@@ -7,6 +7,8 @@ type Content = {
 			please: string;
 			enter: string;
 			send: string;
+			network: string;
+			try: string;
 		};
 		login: {
 			login: string;
@@ -47,6 +49,8 @@ const content: Content = {
 			please: "Давом етиш учун KSB-ID ни киритинг",
 			enter: "KSB-ID ни киритинг",
 			send: "Тизимга Кириш",
+			network: "Тармоққа уланиш йўқ",
+			try: "Қайта уланишга уриниш...",
 		},
 		login: {
 			login: "Kirish",
@@ -84,6 +88,8 @@ const content: Content = {
 			please: "Пожалуйста, введите свой KSB-ID",
 			enter: "Введите свой KSB-ID",
 			send: "Войти",
+			network: "Нет сетевого подключения",
+			try: "Попытка повторного подключения...",
 		},
 		login: {
 			login: "Войти",
