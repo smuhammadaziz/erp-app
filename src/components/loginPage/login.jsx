@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Layout } from "../../layout/Layout";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,7 +23,9 @@ function LoginPageKSB() {
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [users, setUsers] = useState([]);
 	const [enterprise, setEnterprise] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
+	const abortControllerRef = useRef(null);
 
 	const [language, setLanguage] = useLang("uz");
 
@@ -33,6 +35,85 @@ function LoginPageKSB() {
 	const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
 	const [passwordError, setPasswordError] = useState("");
 
+	useEffect(() => {
+		const fetchLoginData = async () => {
+			if (!ksbId) return;
+
+			setIsLoading(true);
+
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+
+			abortControllerRef.current = new AbortController();
+
+			try {
+				const cachedData = localStorage.getItem(`loginData_${ksbId}`);
+				const cachedTimestamp = localStorage.getItem(
+					`loginDataTimestamp_${ksbId}`,
+				);
+
+				if (cachedData && cachedTimestamp) {
+					const isExpired =
+						Date.now() - parseInt(cachedTimestamp) > 5 * 60 * 1000;
+					if (!isExpired) {
+						const parsedData = JSON.parse(cachedData);
+						setUsers(parsedData.list_users);
+						setEnterprise(parsedData.enterprise);
+						setIsLoading(false);
+						return;
+					}
+				}
+
+				const response = await fetch(
+					`http://localhost:8000/api/login/${ksbId}`,
+					{
+						signal: abortControllerRef.current.signal,
+						headers: {
+							"Cache-Control": "no-cache",
+							Pragma: "no-cache",
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+
+				localStorage.setItem(
+					`loginData_${ksbId}`,
+					JSON.stringify(data),
+				);
+				localStorage.setItem(
+					`loginDataTimestamp_${ksbId}`,
+					Date.now().toString(),
+				);
+
+				setUsers(data.list_users);
+				setEnterprise(data.enterprise);
+			} catch (error) {
+				if (error.name === "AbortError") {
+					console.log("Fetch aborted");
+					return;
+				}
+				console.error("Fetch error:", error);
+				toast.error("Failed to fetch users");
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		fetchLoginData();
+
+		return () => {
+			if (abortControllerRef.current) {
+				abortControllerRef.current.abort();
+			}
+		};
+	}, [ksbId]);
+
 	const handleLogin = async () => {
 		if (!userType) {
 			toast.error("Please select a user type");
@@ -40,6 +121,9 @@ function LoginPageKSB() {
 		}
 
 		try {
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 30000);
+
 			const response = await fetch(
 				"http://localhost:8000/api/authenticate",
 				{
@@ -52,8 +136,53 @@ function LoginPageKSB() {
 						password: password || "",
 						ksbId,
 					}),
+					signal: controller.signal,
 				},
 			);
+
+			clearTimeout(timeoutId);
+
+			if (response.status === 403) {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						Database is blocked
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+				return;
+			}
+
+			if (response.status === 500) {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						Internal server error occurred. Please try again later.
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+				return;
+			}
+
+			if (!response.ok) {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						An unexpected error occurred. Please try again.
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+				return;
+			}
 
 			const data = await response.json();
 
@@ -89,9 +218,42 @@ function LoginPageKSB() {
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error(
-				"Connection error. Please check your internet connection.",
-			);
+			if (error.name === "AbortError") {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						Request timed out. Please check your connection and try
+						again.
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+			} else if (!navigator.onLine) {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						No internet connection. Please check your network and
+						try again.
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+			} else {
+				toast.error(
+					<div className="flex items-center text-white">
+						<FaTimesCircle className="mr-2" size={20} />
+						Connection error. Please check your internet connection.
+					</div>,
+					{
+						position: "bottom-right",
+						style: { backgroundColor: "#ef4444" },
+					},
+				);
+			}
 		}
 	};
 
@@ -139,27 +301,6 @@ function LoginPageKSB() {
 	const togglePasswordVisibility = () => {
 		setIsPasswordVisible(!isPasswordVisible);
 	};
-
-	useEffect(() => {
-		async function fetchLogin() {
-			try {
-				const response = await fetch(
-					`http://localhost:8000/api/login/${ksbId}`,
-				);
-				const data = await response.json();
-
-				setUsers(data.list_users);
-				setEnterprise(data.enterprise);
-				console.log("Users:", data.list_users);
-			} catch (error) {
-				console.log(error);
-				toast.error("Failed to fetch users");
-			}
-		}
-		if (ksbId) {
-			fetchLogin();
-		}
-	}, [ksbId]);
 
 	return (
 		<Layout>
@@ -306,3 +447,4 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
+
