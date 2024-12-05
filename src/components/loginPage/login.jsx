@@ -49,7 +49,7 @@ function LoginPageKSB() {
 					},
 					body: JSON.stringify({
 						userType,
-						password: password || "", // Send empty string if no password
+						password: password || "",
 						ksbId,
 					}),
 				},
@@ -306,4 +306,3 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
-
