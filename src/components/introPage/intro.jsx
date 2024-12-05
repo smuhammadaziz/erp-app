@@ -178,6 +178,11 @@ function IntroPageKSB() {
 								onChange={(e) =>
 									setKsbId(e.target.value.slice(0, 8))
 								}
+								onKeyDown={(e) => {
+									if (e.key === 'Enter' && isOnline) {
+										handleSignIn(e);
+									}
+								}}
 								maxLength={8}
 								disabled={!isOnline}
 								className={`w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200 ${
@@ -214,4 +219,3 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
-
