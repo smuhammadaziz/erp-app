@@ -58,13 +58,20 @@ function LoginPageKSB() {
 					}
 				}
 
+				const username = "User";
+				const password = "123";
+				const credentials = Buffer.from(
+					`${username}:${password}`,
+				).toString("base64");
+
 				const response = await fetch(
-					`http://localhost:8000/api/login/${ksbId}`,
+					`http://217.30.169.88:13080/InfoBase/hs/ksbmerp_pos/users/ksb?text=pos&ksb_id=${ksbId}`,
 					{
 						signal: abortControllerRef.current.signal,
 						headers: {
 							"Cache-Control": "no-cache",
 							Pragma: "no-cache",
+							Authorization: `Basic ${credentials}`,
 						},
 					},
 				);
