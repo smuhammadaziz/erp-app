@@ -1,20 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Layout } from "../../layout/Layout";
 import { useNavigate } from "react-router-dom";
-import {
-	FaUserTie,
-	FaLock,
-	FaChevronDown,
-	FaEye,
-	FaEyeSlash,
-	FaCheckCircle,
-	FaTimesCircle,
-} from "react-icons/fa";
-
+import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { Toaster, toast } from "sonner";
-
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+
+import LoginForm from "./components/LoginForm";
+import PasswordModal from "./components/PasswordModal";
 
 function LoginPageKSB() {
 	const [userType, setUserType] = useState("");
@@ -305,146 +298,38 @@ function LoginPageKSB() {
 	return (
 		<Layout>
 			<div className="flex fixed w-full items-center justify-center h-screen bg-gradient-to-br from-blue-200 to-indigo-700">
-				<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform hover:scale-105 transition-transform duration-300">
-					<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
-						{content[language].login.login}
-					</h2>
-
-					<div className="mb-6">
-						<label className="block text-xl font-medium text-gray-700 mb-2">
-							{content[language].login.select}
-						</label>
-						<div className="relative">
-							<button
-								onClick={toggleDropdown}
-								className="flex items-center justify-between w-full px-4 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-							>
-								<span>{userType || "Select User Type"}</span>
-								<FaChevronDown
-									className={`transition-transform duration-200 ${
-										isDropdownOpen
-											? "transform rotate-180"
-											: ""
-									}`}
-								/>
-							</button>
-							{isDropdownOpen && (
-								<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-									{users.map((user, index) => (
-										<button
-											key={index}
-											onClick={() =>
-												handleSelect(user.login)
-											}
-											className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
-										>
-											{user.login}
-										</button>
-									))}
-								</div>
-							)}
-						</div>
-					</div>
-
-					<div className="mb-6">
-						<label
-							htmlFor="password"
-							className="block text-xl font-medium text-gray-700 mb-2"
-						>
-							{content[language].login.password}
-						</label>
-						<div className="relative">
-							<div className="flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 border-gray-300 rounded-lg text-gray-700">
-								<FaLock
-									className="text-gray-500 mr-3"
-									size={20}
-								/>
-								<input
-									id="password"
-									type={
-										isPasswordVisible ? "text" : "password"
-									}
-									className="w-full focus:outline-none"
-									value={password}
-									onChange={(e) =>
-										setPassword(e.target.value)
-									}
-									placeholder={content[language].login.enter}
-								/>
-								<div
-									className="absolute right-4 cursor-pointer"
-									onClick={togglePasswordVisibility}
-								>
-									{isPasswordVisible ? (
-										<FaEyeSlash
-											className="text-gray-500"
-											size={20}
-										/>
-									) : (
-										<FaEye
-											className="text-gray-500"
-											size={20}
-										/>
-									)}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<button
-						onClick={handleLogin}
-						className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
-					>
-						{content[language].login.login}
-					</button>
-				</div>
+				<LoginForm
+					userType={userType}
+					password={password}
+					isDropdownOpen={isDropdownOpen}
+					isPasswordVisible={isPasswordVisible}
+					users={users}
+					handleLogin={handleLogin}
+					toggleDropdown={toggleDropdown}
+					handleSelect={handleSelect}
+					setPassword={setPassword}
+					togglePasswordVisibility={togglePasswordVisibility}
+					content={content}
+					language={language}
+				/>
 			</div>
 
 			<Toaster position="bottom-right" />
 
 			{showPasswordModal && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white p-6 rounded-lg shadow-xl w-96">
-						<h2 className="text-xl font-bold mb-4">
-							{isFirstTimePassword
-								? "Set Password"
-								: "Password Error"}
-						</h2>
-						{isFirstTimePassword ? (
-							<>
-								<p className="mb-4">
-									Please set a password for {userType}
-								</p>
-								<button
-									onClick={handleSetPassword}
-									className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
-								>
-									Set Password
-								</button>
-							</>
-						) : (
-							<>
-								<p className="text-red-500 mb-4">
-									{passwordError}
-								</p>
-								<p className="mb-4">Please try again</p>
-							</>
-						)}
-						<button
-							onClick={() => {
-								setShowPasswordModal(false);
-								setPasswordError("");
-							}}
-							className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-						>
-							Close
-						</button>
-					</div>
-				</div>
+				<PasswordModal
+					isFirstTimePassword={isFirstTimePassword}
+					userType={userType}
+					passwordError={passwordError}
+					handleSetPassword={handleSetPassword}
+					onClose={() => {
+						setShowPasswordModal(false);
+						setPasswordError("");
+					}}
+				/>
 			)}
 		</Layout>
 	);
 }
 
 export default LoginPageKSB;
-
