@@ -65,8 +65,16 @@ function IntroPageKSB() {
 			return;
 		}
 
-		if (!ksbId || ksbId.length !== 8) {
-			toast.error(content[language].intro.error, {
+		if (!ksbId) {
+			toast.error(content[language].intro.emptyInput || "Please enter KSB ID", {
+				icon: <FaExclamationCircle />,
+				style: { backgroundColor: "#ef4444", color: "white" },
+			});
+			return;
+		}
+
+		if (ksbId.length < 8) {
+			toast.error(content[language].intro.incompleteId || "Please enter 8 digits", {
 				icon: <FaExclamationCircle />,
 				style: { backgroundColor: "#ef4444", color: "white" },
 			});
