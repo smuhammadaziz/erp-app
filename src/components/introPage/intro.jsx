@@ -20,11 +20,181 @@ import { MdOutlinePortableWifiOff } from "react-icons/md";
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [data, setData] = useState();
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 	const [showNetworkModal, setShowNetworkModal] = useState(false);
 	const navigate = useNavigate();
 	const [language] = useLang("uz");
+
+	useEffect(() => {
+		const prefetchApiConnection = async () => {
+			try {
+				const username = "Bot";
+				const password = "123";
+				const credentials = base64.encode(`${username}:${password}`);
+
+				await fetch(`http://localhost:8000/api/health`, {
+					method: "HEAD",
+					headers: {
+						Authorization: `Basic ${credentials}`,
+					},
+					cache: "force-cache",
+				});
+			} catch (error) {
+				console.error("Prefetch error:", error);
+			}
+		};
+
+		prefetchApiConnection();
+	}, []);
+
+	const makeApiRequest = async (ksbId) => {
+		const username = "Bot";
+		const password = "123";
+		const credentials = base64.encode(`${username}:${password}`);
+
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+		try {
+			const response = await fetch(`http://localhost:8000/api/${ksbId}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Basic ${credentials}`,
+					Connection: "keep-alive",
+				},
+				signal: controller.signal,
+				cache: "no-cache",
+				keepalive: true,
+			});
+
+			clearTimeout(timeoutId);
+			return await response.json();
+		} catch (error) {
+			clearTimeout(timeoutId);
+			throw error;
+		}
+	};
+
+	const handleSignIn = async (e) => {
+		e.preventDefault();
+
+		if (!navigator.onLine) {
+			setShowNetworkModal(true);
+			return;
+		}
+
+		if (!ksbId) {
+			toast.error(
+				content[language].intro.emptyInput || "Please enter KSB ID",
+				{
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				},
+			);
+			return;
+		}
+
+		if (ksbId.length < 8) {
+			toast.error(
+				content[language].intro.incompleteId || "Please enter 8 digits",
+				{
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				},
+			);
+			return;
+		}
+
+		setIsSubmitting(true);
+
+		try {
+			const data = await makeApiRequest(ksbId);
+			const getMessage = () => {
+				if (data.message && data.message[language]) {
+					return data.message[language];
+				}
+				return data.message?.uz || "Unknown error";
+			};
+
+			if (data.status === "successfully") {
+				localStorage.setItem("isVerified", "true");
+				localStorage.setItem("ksbIdNumber", ksbId);
+
+				toast.success(data.status, {
+					icon: <FaCheckCircle />,
+					style: { backgroundColor: "#22c55e", color: "white" },
+				});
+				setData(data);
+				navigate("/login");
+			} else if (data.status === "error") {
+				toast.error(getMessage(), {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				});
+			} else {
+				toast(getMessage(), {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#f5c000", color: "black" },
+				});
+			}
+		} catch (error) {
+			console.error("Error:", error);
+			if (error.name === "AbortError") {
+				toast.error(
+					content[language].intro.timeout ||
+						"Request timeout. Please try again.",
+					{
+						icon: <FaExclamationCircle />,
+						style: { backgroundColor: "#ef4444", color: "white" },
+					},
+				);
+			} else {
+				toast.error(content[language].intro.serverError, {
+					icon: <FaExclamationCircle />,
+					style: { backgroundColor: "#ef4444", color: "white" },
+				});
+			}
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter" && isOnline) {
+			handleSignIn(e);
+		}
+	};
+
+	const NetworkModal = () => {
+		return (
+			<div className="fixed inset-0 z-50 flex items-center justify-center">
+				<div className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fadeIn" />
+				<div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 transform animate-slideIn">
+					<div className="p-6">
+						<div className="flex items-start space-x-4">
+							<div className="flex-shrink-0">
+								<div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center animate-pulse">
+									<MdOutlinePortableWifiOff className="text-red-600 w-7 h-7" />
+								</div>
+							</div>
+							<div className="flex-1">
+								<h3 className="text-xl font-semibold text-gray-900 mb-2">
+									{content[language].intro.network}
+								</h3>
+								<div className="flex items-center space-x-2 text-sm text-gray-500">
+									<div className="animate-spin w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full" />
+									<span>{content[language].intro.try}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	};
 
 	useEffect(() => {
 		const loadingTimer = setTimeout(() => setLoading(false), 555);
@@ -57,107 +227,6 @@ function IntroPageKSB() {
 		};
 	}, [language]);
 
-	const handleSignIn = async (e) => {
-		e.preventDefault();
-
-		if (!navigator.onLine) {
-			setShowNetworkModal(true);
-			return;
-		}
-
-		if (!ksbId) {
-			toast.error(content[language].intro.emptyInput || "Please enter KSB ID", {
-				icon: <FaExclamationCircle />,
-				style: { backgroundColor: "#ef4444", color: "white" },
-			});
-			return;
-		}
-
-		if (ksbId.length < 8) {
-			toast.error(content[language].intro.incompleteId || "Please enter 8 digits", {
-				icon: <FaExclamationCircle />,
-				style: { backgroundColor: "#ef4444", color: "white" },
-			});
-			return;
-		}
-
-		try {
-			const username = "Bot";
-			const password = "123";
-			const credentials = base64.encode(`${username}:${password}`);
-			const response = await fetch(`http://localhost:8000/api/${ksbId}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Basic ${credentials}`,
-				},
-			});
-			const data = await response.json();
-			const getMessage = () => {
-				if (data.message && data.message[language]) {
-					return data.message[language];
-				}
-				return data.message?.uz || "Unknown error";
-			};
-
-			if (data.status === "successfully") {
-				localStorage.setItem("isVerified", "true");
-				localStorage.setItem("ksbIdNumber", ksbId);
-
-				toast.success(data.status, {
-					icon: <FaCheckCircle />,
-					style: { backgroundColor: "#22c55e", color: "white" },
-				});
-				setData(data);
-				navigate("/login");
-			} else if (data.status === "error") {
-				toast.error(getMessage(), {
-					icon: <FaExclamationCircle />,
-					style: { backgroundColor: "#ef4444", color: "white" },
-				});
-			} else {
-				toast(getMessage(), {
-					icon: <FaExclamationCircle />,
-					style: { backgroundColor: "#f5c000", color: "black" },
-				});
-			}
-		} catch (error) {
-			console.error("Error:", error);
-			toast.error(content[language].intro.serverError, {
-				icon: <FaExclamationCircle />,
-				style: { backgroundColor: "#ef4444", color: "white" },
-			});
-		}
-	};
-
-	const NetworkModal = () => {
-		return (
-			<div className="fixed inset-0 z-50 flex items-center justify-center">
-				<div className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fadeIn" />
-				<div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 transform animate-slideIn">
-					<div className="p-6">
-						<div className="flex items-start space-x-4">
-							<div className="flex-shrink-0">
-								<div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center animate-pulse">
-									<MdOutlinePortableWifiOff className="text-red-600 w-7 h-7" />
-								</div>
-							</div>
-							<div className="flex-1">
-								<h3 className="text-xl font-semibold text-gray-900 mb-2">
-									{content[language].intro.network}
-								</h3>
-								<div className="flex items-center space-x-2 text-sm text-gray-500">
-									<div className="animate-spin w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full" />
-									<span>{content[language].intro.try}</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	};
-
 	return (
 		<Layout>
 			{loading ? (
@@ -186,11 +255,7 @@ function IntroPageKSB() {
 								onChange={(e) =>
 									setKsbId(e.target.value.slice(0, 8))
 								}
-								onKeyDown={(e) => {
-									if (e.key === 'Enter' && isOnline) {
-										handleSignIn(e);
-									}
-								}}
+								onKeyDown={handleKeyDown}
 								maxLength={8}
 								disabled={!isOnline}
 								className={`w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200 ${
@@ -207,14 +272,24 @@ function IntroPageKSB() {
 						<div>
 							<button
 								onClick={handleSignIn}
-								disabled={!isOnline}
+								disabled={!isOnline || isSubmitting}
 								className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition duration-300 text-lg ${
-									isOnline
+									isOnline && !isSubmitting
 										? "bg-blue-600 hover:bg-blue-700"
 										: "bg-gray-400 cursor-not-allowed"
 								}`}
 							>
-								{content[language].intro.send}
+								{isSubmitting ? (
+									<div className="flex items-center justify-center space-x-2">
+										<div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+										<span>
+											{content[language].intro.checking ||
+												"Checking..."}
+										</span>
+									</div>
+								) : (
+									content[language].intro.send
+								)}
 							</button>
 						</div>
 					</div>
@@ -227,3 +302,4 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
+
