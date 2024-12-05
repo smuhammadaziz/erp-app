@@ -180,6 +180,9 @@ function LoginPageKSB() {
 			const data = await response.json();
 
 			if (data.success) {
+				// Store user type in localStorage
+				localStorage.setItem("userType", userType);
+
 				toast.success(
 					<div className="flex items-center text-white">
 						<FaCheckCircle className="mr-2" size={20} />
@@ -271,6 +274,8 @@ function LoginPageKSB() {
 			const data = await response.json();
 
 			if (data.success) {
+				// Store user type in localStorage
+				localStorage.setItem("userType", userType);
 				setIsFirstTimePassword(false);
 				setShowPasswordModal(false);
 				toast.success("Password set successfully");
@@ -333,3 +338,4 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
+
