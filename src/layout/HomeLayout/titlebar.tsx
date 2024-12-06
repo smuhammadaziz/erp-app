@@ -91,7 +91,11 @@ export const Titlebar: FC = () => {
 						<p className="uppercase ">
 							<span className="mr-4 ">{data.title}</span>
 							<span className="font-bold text-md">
-								(KSB-ID {data.ksb_id})
+								(<span>KSB-ID</span>
+								<span className="underline ml-2">
+									{data.ksb_id}
+								</span>
+								)
 							</span>
 						</p>
 					) : (
