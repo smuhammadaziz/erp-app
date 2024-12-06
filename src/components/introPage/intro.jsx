@@ -188,6 +188,8 @@ function IntroPageKSB() {
 		);
 	};
 
+	//fetchasda
+
 	useEffect(() => {
 		const loadingTimer = setTimeout(() => setLoading(false), 555);
 
