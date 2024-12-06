@@ -18,7 +18,7 @@ function SettingsPage() {
 							activeSection={activeSection}
 							setActiveSection={setActiveSection}
 						/>
-						<div className="w-3/4 space-y-6">
+						<div className="w-3/4">
 							{activeSection === "Personal Information" && (
 								<PersonalInformation />
 							)}
