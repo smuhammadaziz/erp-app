@@ -1,18 +1,70 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import SectionContainer from "./SectionContainer";
+import { toast, Toaster } from "sonner";
 
 function Security() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [currentPassword, setCurrentPassword] = useState("");
+	const [newPassword, setNewPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 
 	const togglePasswordVisibility = (setter, currentState) => {
 		setter(!currentState);
 	};
 
+	const handleUpdatePassword = async () => {
+		const surname = localStorage.getItem("userType");
+
+		if (!currentPassword || !newPassword || !confirmPassword) {
+			toast.error("All fields are required.");
+			return;
+		}
+
+		if (newPassword !== confirmPassword) {
+			toast.error("New password and confirm password do not match.");
+			return;
+		}
+
+		try {
+			const response = await fetch("http://localhost:8000/api/change", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					surname: surname || "",
+					old: currentPassword,
+					news: newPassword,
+				}),
+			});
+
+			const data = await response.json();
+
+			if (!response.ok) {
+				const errorMessage =
+					data.message.uz || "Failed to update password.";
+				toast.error(errorMessage);
+				return;
+			}
+
+			toast.success("Password updated successfully.");
+
+			// Clear inputs on success
+			setCurrentPassword("");
+			setNewPassword("");
+			setConfirmPassword("");
+		} catch (error) {
+			toast.error("An error occurred while updating the password.");
+		}
+	};
+
 	return (
 		<>
+			<Toaster position="bottom-right" richColors />{" "}
+			{/* Add this to enable notifications */}
 			<SectionContainer title="Security">
 				<div className="space-y-4">
 					<div>
@@ -24,6 +76,10 @@ function Security() {
 								type={showCurrentPassword ? "text" : "password"}
 								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 								placeholder="Enter current password"
+								value={currentPassword}
+								onChange={(e) =>
+									setCurrentPassword(e.target.value)
+								}
 							/>
 							<button
 								type="button"
@@ -53,6 +109,8 @@ function Security() {
 								type={showNewPassword ? "text" : "password"}
 								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 								placeholder="Enter new password"
+								value={newPassword}
+								onChange={(e) => setNewPassword(e.target.value)}
 							/>
 							<button
 								type="button"
@@ -82,6 +140,10 @@ function Security() {
 								type={showConfirmPassword ? "text" : "password"}
 								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 								placeholder="Enter new password"
+								value={confirmPassword}
+								onChange={(e) =>
+									setConfirmPassword(e.target.value)
+								}
 							/>
 							<button
 								type="button"
@@ -102,7 +164,10 @@ function Security() {
 						</div>
 					</div>
 
-					<button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors">
+					<button
+						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+						onClick={handleUpdatePassword}
+					>
 						Update Password
 					</button>
 				</div>
