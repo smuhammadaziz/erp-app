@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Layout } from "../layout/Layout";
+import { Layout } from "../layout/HomeLayout/layout";
 import InnerLayoutSection from "../layout/InnerLayout/innerlayout";
 import { NavLink } from "react-router-dom";
 import {

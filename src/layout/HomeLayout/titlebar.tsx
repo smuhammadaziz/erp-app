@@ -1,51 +1,106 @@
 import { FC, useEffect, useState } from "react";
-import {
-	IoCloseOutline,
-	IoContractOutline,
-	IoExpandOutline,
-	IoRemove,
-} from "react-icons/io5";
+import { IoCloseOutline, IoRemove } from "react-icons/io5";
 import logo from "../../assets/icon.png";
-
-import { TbArrowsDiagonalMinimize2 } from "react-icons/tb";
-import { TbMaximize } from "react-icons/tb";
+import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
+// Define the structure of the data received from the API
+interface EnterpriseData {
+	uid: string;
+	title: string;
+	ksb_id: string;
+}
+
 export const Titlebar: FC = () => {
 	const currentWindow = getCurrentWindow();
-	const [maximized, setMaximized] = useState(currentWindow.isMaximized());
+	const [maximized, setMaximized] = useState<boolean>(
+		currentWindow.isMaximized(),
+	);
+	const [data, setData] = useState<EnterpriseData | null>(null);
 
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
-		icon.ondragstart = () => false;
-	});
+		if (icon) {
+			icon.ondragstart = () => false;
+		}
+	}, []);
 
 	const onMinimize = () => currentWindow.minimize();
 	const onMaximize = () => {
-		setMaximized(!currentWindow.isMaximized());
-		currentWindow.isMaximized()
-			? currentWindow.unmaximize()
-			: currentWindow.maximize();
+		const isMaximized = currentWindow.isMaximized();
+		setMaximized(!isMaximized);
+		isMaximized ? currentWindow.unmaximize() : currentWindow.maximize();
 	};
-
 	const onQuit = () => app.quit();
+
+	useEffect(() => {
+		const ksbId = localStorage.getItem("ksbIdNumber");
+
+		const fetchLoginData = async () => {
+			try {
+				const username = "User";
+				const password = "123";
+				const credentials = Buffer.from(
+					`${username}:${password}`,
+				).toString("base64");
+
+				const response = await fetch(
+					`http://217.30.169.88:13080/InfoBase/hs/ksbmerp_pos/users/ksb?text=pos&ksb_id=${ksbId}`,
+					{
+						headers: {
+							Authorization: `Basic ${credentials}`,
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+
+				const result = await response.json();
+
+				if (result.enterprise) {
+					setData(result.enterprise);
+				} else {
+					console.error("Unexpected response structure:", result);
+				}
+			} catch (err) {
+				console.error("Error fetching data:", err);
+			}
+		};
+
+		fetchLoginData();
+	}, []);
+
 	return (
-		<div className="title-bar sticky top-0 select-none">
-			<div className="menu-button-container">
+		<div className="title-bar sticky top-0 select-none justify-between">
+			<div className="menu-button-container flex items-center">
 				<img
 					id="icon"
 					src={logo}
 					className="menu-icon select-none"
 					alt="amethyst"
 				/>
-				<span className="text-white flex items-center">
-					<p className="mr-2 uppercase">Dekor Land</p>
-					(KSB-MERP)
+				<span className="text-white flex items-center ml-1">
+					<p className="text-slate-400">KSB-MERP</p>
 				</span>
 			</div>
-			<div className="app-name-container select-none uppercase"></div>
-			<div className="window-controls-container">
+			<div className="mx-auto text-white items-center mt-1">
+				<span>
+					{data ? (
+						<p className="uppercase ">
+							<span className="mr-4 ">{data.title}</span>
+							<span className="font-bold text-md">
+								(KSB-ID {data.ksb_id})
+							</span>
+						</p>
+					) : (
+						<p className="mr-2 uppercase">Loading...</p>
+					)}
+				</span>
+			</div>
+			<div className="window-controls-container flex items-center">
 				<button
 					title="Minimize"
 					className="minimize-button focus:outline-none hover:bg-gray-700 p-1"
