@@ -5,7 +5,6 @@ import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
-// Define the structure of the data received from the API
 interface EnterpriseData {
 	uid: string;
 	title: string;
