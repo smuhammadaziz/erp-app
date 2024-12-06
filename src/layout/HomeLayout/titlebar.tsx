@@ -28,6 +28,7 @@ export const Titlebar: FC = () => {
 			? currentWindow.unmaximize()
 			: currentWindow.maximize();
 	};
+
 	const onQuit = () => app.quit();
 	return (
 		<div className="title-bar sticky top-0 select-none">
@@ -38,6 +39,10 @@ export const Titlebar: FC = () => {
 					className="menu-icon select-none"
 					alt="amethyst"
 				/>
+				<span className="text-white flex items-center">
+					<p className="mr-2 uppercase">Dekor Land</p>
+					(KSB-MERP)
+				</span>
 			</div>
 			<div className="app-name-container select-none uppercase"></div>
 			<div className="window-controls-container">
