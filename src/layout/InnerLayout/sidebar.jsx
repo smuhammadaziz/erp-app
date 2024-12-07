@@ -30,7 +30,7 @@ function SidebarInner({ onToggle }) {
 
 	return (
 		<div
-			className={`h-full bg-gray-900 text-white fixed flex flex-col items-center py-6 transition-all duration-300 shadow-lg ${
+			className={`h-full bg-gray-900 text-white fixed z-[150] flex flex-col items-center py-6 transition-all duration-300 shadow-lg ${
 				isExpanded ? "w-64" : "w-20"
 			}`}
 		>
