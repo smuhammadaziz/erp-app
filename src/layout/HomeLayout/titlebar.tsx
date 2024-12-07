@@ -16,7 +16,7 @@ interface EnterpriseData {
 interface EnterpriseInfo {
 	ip: string;
 	port: string;
-	infobase: string;
+	info_base: string;
 	its: string;
 }
 
@@ -157,7 +157,9 @@ export const Titlebar: FC = () => {
 					title="informations"
 					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
 					onClick={() => setShowInfoModal(true)}
-					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				>
 					<RiInformation2Fill className="text-gray-400 hover:text-white transition-colors duration-200" />
 				</button>
@@ -165,7 +167,9 @@ export const Titlebar: FC = () => {
 					title="Minimize"
 					className="minimize-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onMinimize}
-					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				>
 					<IoRemove />
 				</button>
@@ -173,7 +177,9 @@ export const Titlebar: FC = () => {
 					title="Maximize"
 					className="min-max-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onMaximize}
-					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				>
 					{maximized ? <TbArrowsDiagonalMinimize2 /> : <TbMaximize />}
 				</button>
@@ -181,7 +187,9 @@ export const Titlebar: FC = () => {
 					title="Close"
 					className="close-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onQuit}
-					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				>
 					<IoCloseOutline />
 				</button>
@@ -194,3 +202,4 @@ export const Titlebar: FC = () => {
 		</div>
 	); //kjb
 };
+
