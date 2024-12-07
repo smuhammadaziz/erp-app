@@ -143,48 +143,46 @@ const IndexPage: FC = () => {
 					</div>
 				) : (
 					<div className="min-h-screen bg-slate-100 space-y-6">
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-							{cards.map((card, index) => (
-								<div
-									key={card.title}
-									style={{
-										animationDelay: `${index * 150}ms`,
-									}}
-									className={`
-                    animate-slideIn relative overflow-hidden
-                    rounded-3xl border ${card.borderColor} bg-white
-                    shadow-xl transition-all duration-500 group
-                  `}
-								>
-									<div className="p-8 relative z-10">
-										<div className="flex justify-between items-start mb-8">
-											<div>
-												<h3 className="text-4xl font-bold text-gray-800 mb-2">
-													{card.value}
-												</h3>
-												<p className="text-gray-500 font-medium">
-													{card.title}
-												</p>
-											</div>
-											<div
-												className={`
+						<div className="space-y-6">
+							<div>
+								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
+									{cards.map((card, index) => (
+										<div
+											key={card.title}
+											style={{
+												animationDelay: `${index * 150}ms`,
+											}}
+											className="animate-slideIn relative overflow-hidden rounded-3xl border bg-white shadow-xl transition-all duration-500 group"
+										>
+											<div className="p-8 relative z-10">
+												<div className="flex justify-between items-start mb-8">
+													<div>
+														<h3 className="text-4xl font-bold text-gray-800 mb-2">
+															{card.value}
+														</h3>
+														<p className="text-gray-500 font-medium">
+															{card.title}
+														</p>
+													</div>
+													<div
+														className={`
                           ${card.bgColor} p-4 rounded-2xl
                           text-white shadow-lg transition-transform
                           duration-500
                         `}
-											>
-												{card.icon}
-											</div>
-										</div>
+													>
+														{card.icon}
+													</div>
+												</div>
 
-										<div className="flex items-center justify-between">
-											<p className="text-green-500 text-sm flex items-center font-semibold bg-green-50 px-3 py-1 rounded-full">
-												<BiTrendingUp className="mr-1" />
-												{card.change}
-											</p>
-											<NavLink
-												to={card.link}
-												className={`
+												<div className="flex items-center justify-between">
+													<p className="text-green-500 text-sm flex items-center font-semibold bg-green-50 px-3 py-1 rounded-full">
+														<BiTrendingUp className="mr-1" />
+														{card.change}
+													</p>
+													<NavLink
+														to={card.link}
+														className={`
                           ${card.bgColor} text-white px-6 py-2.5 rounded-xl
                           font-medium transition-all duration-500
                           hover:shadow-lg hover:scale-105 active:scale-95
@@ -194,48 +192,48 @@ const IndexPage: FC = () => {
                           after:duration-500 hover:after:opacity-100
                           after:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]
                         `}
-											>
-												<span className="relative z-10">
-													{card.linkText}
-												</span>
-											</NavLink>
-										</div>
-									</div>
-									<div
-										className={`
+													>
+														<span className="relative z-10">
+															{card.linkText}
+														</span>
+													</NavLink>
+												</div>
+											</div>
+											<div
+												className={`
                       absolute inset-0 opacity-0 group-hover:opacity-100
                       transition-all duration-500 ${card.hoverBg}
                       backdrop-blur-sm
                     `}
-									/>
+											/>
+										</div>
+									))}
 								</div>
-							))}
-						</div>
 
-						<div className="bg-white/70 backdrop-blur-lg rounded-3xl border border-purple-200 shadow-xl p-8">
-							<div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-								<h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-									<BiTrendingUp className="text-purple-600" />
-									{
-										content[language as string].home
-											.salesChart
-									}
-								</h3>
-								<div className="flex flex-wrap gap-2">
-									{[
-										content[language as string].home.time
-											.day,
-										content[language as string].home.time
-											.week,
-										content[language as string].home.time
-											.month,
-										content[language as string].home.time
-											.year,
-									].map((type) => (
-										<button
-											key={type}
-											onClick={() => setFilter(type)}
-											className={`
+								<div className="bg-white rounded-3xl border shadow-xl p-8 mb-6">
+									<div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+										<h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+											<BiTrendingUp className="text-purple-600" />
+											{
+												content[language as string].home
+													.salesChart
+											}
+										</h3>
+										<div className="flex flex-wrap gap-2">
+											{[
+												content[language as string].home.time
+													.day,
+												content[language as string].home.time
+													.week,
+												content[language as string].home.time
+													.month,
+												content[language as string].home.time
+													.year,
+											].map((type) => (
+												<button
+													key={type}
+													onClick={() => setFilter(type)}
+													className={`
                         px-5 py-2.5 rounded-xl text-sm font-medium
                         transition-all duration-300 
                         hover:scale-105 active:scale-95
@@ -245,70 +243,72 @@ const IndexPage: FC = () => {
 								: "bg-purple-50 text-purple-700 hover:bg-purple-100"
 						}
                       `}
-										>
-											{type.charAt(0).toUpperCase() +
-												type.slice(1)}
-										</button>
-									))}
+												>
+													{type.charAt(0).toUpperCase() +
+														type.slice(1)}
+												</button>
+											))}
+										</div>
+									</div>
+									<div className="h-[35vh] w-full transition-all duration-300">
+										<Line
+											data={generateChartData()}
+											options={{
+												responsive: true,
+												maintainAspectRatio: false,
+												plugins: {
+													legend: {
+														display: false,
+													},
+												},
+												scales: {
+													y: {
+														beginAtZero: true,
+														grid: {
+															color: "rgba(107, 114, 128, 0.1)",
+														},
+													},
+													x: {
+														grid: {
+															display: false,
+														},
+													},
+												},
+											}}
+										/>
+									</div>
 								</div>
-							</div>
-							<div className="h-[35vh] w-full transition-all duration-300">
-								<Line
-									data={generateChartData()}
-									options={{
-										responsive: true,
-										maintainAspectRatio: false,
-										plugins: {
-											legend: {
-												display: false,
-											},
-										},
-										scales: {
-											y: {
-												beginAtZero: true,
-												grid: {
-													color: "rgba(107, 114, 128, 0.1)",
-												},
-											},
-											x: {
-												grid: {
-													display: false,
-												},
-											},
-										},
-									}}
-								/>
-							</div>
-						</div>
 
-						<div className="flex flex-wrap items-center gap-4">
-							{[
-								{
-									to: "/intro",
-									text: "Intro",
-									color: "from-purple-500 to-purple-700",
-								},
-								{
-									to: "/login",
-									text: "Login",
-									color: "from-pink-500 to-pink-700",
-								},
-							].map((link) => (
-								<NavLink
-									key={link.to}
-									to={link.to}
-									className={`
+								<div className="flex flex-wrap items-center gap-4 mb-6">
+									{[
+										{
+											to: "/intro",
+											text: "Intro",
+											color: "from-purple-500 to-purple-700",
+										},
+										{
+											to: "/login",
+											text: "Login",
+											color: "from-pink-500 to-pink-700",
+										},
+									].map((link) => (
+										<NavLink
+											key={link.to}
+											to={link.to}
+											className={`
                     px-8 py-3 bg-gradient-to-r ${link.color}
                     rounded-xl text-white font-medium 
                     hover:shadow-lg transition-all duration-300
                     hover:scale-105 active:scale-95
                     backdrop-blur-lg
                   `}
-								>
-									{link.text}
-								</NavLink>
-							))}
-							<InitialUserSettingsForHome />
+										>
+											{link.text}
+										</NavLink>
+									))}
+									<InitialUserSettingsForHome />
+								</div>
+							</div>
 						</div>
 					</div>
 				)}
@@ -318,4 +318,3 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
-
