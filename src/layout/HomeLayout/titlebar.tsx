@@ -161,7 +161,7 @@ export const Titlebar: FC = () => {
 						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
 					}
 				>
-					<RiInformation2Fill className="text-gray-400 hover:text-white transition-colors duration-200" />
+					<RiInformation2Fill className="text-gray-200 hover:text-white transition-colors duration-200" />
 				</button>
 				<button
 					title="Minimize"
