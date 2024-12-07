@@ -122,7 +122,7 @@ export const Titlebar: FC = () => {
 	}, []);
 
 	return (
-		<div className="title-bar sticky top-0 select-none justify-between">
+		<div className="title-bar sticky top-0 select-none justify-between z-[999]">
 			<div className="menu-button-container flex items-center">
 				<img
 					id="icon"

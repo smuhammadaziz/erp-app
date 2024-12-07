@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Layout } from "../layout/HomeLayout/layout";
 import InnerLayoutSection from "../layout/InnerLayout/innerlayout";
 import { NavLink } from "react-router-dom";
@@ -7,7 +7,8 @@ import {
 	RiCustomerService2Line,
 	RiStore3Line,
 } from "react-icons/ri";
-import { BiTrendingUp } from "react-icons/bi";
+import { BiTrendingUp, BiDotsHorizontalRounded } from "react-icons/bi";
+import { FiLoader } from "react-icons/fi";
 import {
 	Chart as ChartJS,
 	CategoryScale,
@@ -20,6 +21,10 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 
+import content from "../localization/content";
+import useLang from "../hooks/useLang";
+import InitialUserSettingsForHome from "../components/homePage/UserSettings";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -30,16 +35,20 @@ ChartJS.register(
 	Legend,
 );
 
-import content from "../localization/content";
-import useLang from "../hooks/useLang";
-
-import InitialUserSettingsForHome from "../components/homePage/UserSettings";
-
 const IndexPage: FC = () => {
 	const [language, setLanguage] = useLang();
 	const [filter, setFilter] = useState<string>(
 		content[language as string].home.time.month,
 	);
+	const [isLoading, setIsLoading] = useState(true);
+	const [isVisible, setIsVisible] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setIsLoading(false);
+			setIsVisible(true);
+		}, 1000);
+	}, []);
 
 	const generateChartData = () => {
 		let labels: string[] = [];
@@ -86,173 +95,219 @@ const IndexPage: FC = () => {
 		};
 	};
 
-	const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setFilter(e.target.value);
-	};
+	const cards = [
+		{
+			title: content[language as string].home.totalSales,
+			value: "$24,780",
+			change: "+12.5%",
+			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
+			bgColor:
+				"bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700",
+			link: "/sales",
+			linkText: content[language as string].home.salesDashboard,
+			borderColor: "border-purple-300",
+		},
+		{
+			title: content[language as string].home.activeClient,
+			value: "1,482",
+			change: "+8.1%",
+			icon: <RiCustomerService2Line className="text-4xl" />,
+			bgColor: "bg-gradient-to-br from-pink-500 via-pink-600 to-pink-700",
+			link: "/customers",
+			linkText: content[language as string].home.clientManagement,
+			borderColor: "border-pink-300",
+		},
+		{
+			title: content[language as string].home.products,
+			value: "324",
+			change: "+5.3%",
+			icon: <RiStore3Line className="text-4xl" />,
+			bgColor: "bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700",
+			link: "/products",
+			linkText: content[language as string].home.productCatalog,
+			borderColor: "border-cyan-300",
+		},
+	];
 
 	return (
 		<Layout>
 			<InnerLayoutSection>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
-						<div className="flex items-center justify-between">
-							<div>
-								<p className="text-gray-500 text-sm">
-									{
-										content[language as string].home
-											.totalSales
-									}
-								</p>
-								<h3 className="text-2xl font-bold text-gray-800">
-									$24,780
-								</h3>
-								<p className="text-green-500 text-sm mt-2 flex items-center">
-									<BiTrendingUp className="mr-1" />
-									+12.5%
-								</p>
-							</div>
-							<div className="bg-indigo-100 p-3 rounded-lg">
-								<RiMoneyDollarCircleLine className="text-2xl text-indigo-600" />
-							</div>
-						</div>
-						<div className="mt-6">
-							<NavLink
-								to="/sales"
-								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-							>
-								<RiMoneyDollarCircleLine className="text-xl" />
-								<span className="font-medium text-center">
-									{
-										content[language as string].home
-											.salesDashboard
-									}
-								</span>
-							</NavLink>
+				{isLoading ? (
+					<div className="flex items-center justify-center h-screen">
+						<div className="text-purple-600 text-4xl animate-spin">
+							<FiLoader />
 						</div>
 					</div>
-
-					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
-						<div className="flex items-center justify-between">
-							<div>
-								<p className="text-gray-500 text-sm">
-									{
-										content[language as string].home
-											.activeClient
-									}
-								</p>
-								<h3 className="text-2xl font-bold text-gray-800">
-									1,482
-								</h3>
-								<p className="text-green-500 text-sm mt-2 flex items-center">
-									<BiTrendingUp className="mr-1" />
-									+8.1%
-								</p>
-							</div>
-							<div className="bg-indigo-100 p-3 rounded-lg">
-								<RiCustomerService2Line className="text-2xl text-indigo-600" />
-							</div>
-						</div>
-						<div className="mt-6">
-							<NavLink
-								to="/customers"
-								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-							>
-								<RiCustomerService2Line className="text-xl" />
-								<span className="font-medium">
-									{
-										content[language as string].home
-											.clientManagement
-									}
-								</span>
-							</NavLink>
-						</div>
-					</div>
-
-					<div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:border-indigo-500 transition-all duration-300">
-						<div className="flex items-center justify-between">
-							<div>
-								<p className="text-gray-500 text-sm">
-									{content[language as string].home.products}
-								</p>
-								<h3 className="text-2xl font-bold text-gray-800">
-									324
-								</h3>
-								<p className="text-green-500 text-sm mt-2 flex items-center">
-									<BiTrendingUp className="mr-1" />
-									+5.3%
-								</p>
-							</div>
-							<div className="bg-indigo-100 p-3 rounded-lg">
-								<RiStore3Line className="text-2xl text-indigo-600" />
-							</div>
-						</div>
-						<div className="mt-6">
-							<NavLink
-								to="/products"
-								className="flex items-center gap-3 py-3 px-8 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-							>
-								<RiStore3Line className="text-xl" />
-								<span className="font-medium">
-									{
-										content[language as string].home
-											.productCatalog
-									}
-								</span>
-							</NavLink>
-						</div>
-					</div>
-				</div>
-
-				<div className="bg-white rounded-xl w-[50%] h-[51vh] shadow-lg p-6 mt-8 border border-gray-100">
-					<div className="flex items-center justify-between mb-6">
-						<h3 className="text-lg font-bold text-gray-800">
-							{content[language as string].home.salesChart}
-						</h3>
-						<div className="flex gap-2">
-							{[
-								content[language as string].home.time.day,
-								content[language as string].home.time.week,
-								content[language as string].home.time.month,
-								content[language as string].home.time.year,
-							].map((type) => (
-								<button
-									key={type}
-									onClick={() => setFilter(type)}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-										filter === type
-											? "bg-indigo-600 text-white shadow-md"
-											: "bg-gray-100 text-gray-600 hover:bg-gray-200"
-									}`}
+				) : (
+					<div className="min-h-screen bg-slate-100 space-y-6">
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+							{cards.map((card, index) => (
+								<div
+									key={card.title}
+									style={{
+										animationDelay: `${index * 150}ms`,
+										backdropFilter: "blur(20px)",
+									}}
+									className={`
+                    animate-slideIn relative overflow-hidden
+                    rounded-3xl border ${card.borderColor} bg-white/70
+                    backdrop-blur-lg shadow-xl hover:shadow-2xl
+                    transition-all duration-500 group
+                  `}
 								>
-									{type.charAt(0).toUpperCase() +
-										type.slice(1)}
-								</button>
+									<div
+										className={`
+                    absolute inset-0 opacity-0 group-hover:opacity-10 
+                    transition-opacity duration-500 ${card.bgColor}
+                  `}
+									/>
+
+									<div className="p-8">
+										<div className="flex justify-between items-start mb-8">
+											<div>
+												<h3 className="text-4xl font-bold text-gray-800 mb-2">
+													{card.value}
+												</h3>
+												<p className="text-gray-500 font-medium">
+													{card.title}
+												</p>
+											</div>
+											<div
+												className={`
+                        ${card.bgColor} p-4 rounded-2xl
+                        text-white shadow-lg
+                      `}
+											>
+												{card.icon}
+											</div>
+										</div>
+
+										<div className="flex items-center justify-between">
+											<p className="text-green-500 text-sm flex items-center font-semibold bg-green-50 px-3 py-1 rounded-full">
+												<BiTrendingUp className="mr-1" />
+												{card.change}
+											</p>
+											<NavLink
+												to={card.link}
+												className={`
+                          ${card.bgColor} text-white px-6 py-2.5 rounded-xl
+                          font-medium transition-all duration-300
+                          hover:shadow-lg hover:scale-105 active:scale-95
+                          flex items-center gap-2
+                        `}
+											>
+												{card.linkText}
+											</NavLink>
+										</div>
+									</div>
+								</div>
 							))}
 						</div>
-					</div>
-					<div className="h-[35vh] w-[100%]">
-						<Line data={generateChartData()} />
-					</div>
-				</div>
 
-				<div className="flex items-center mt-2">
-					<NavLink
-						to="/intro"
-						className="px-4 mr-2 py-1 bg-blue-700 rounded-lg text-white"
-					>
-						intro
-					</NavLink>
-					<NavLink
-						to="/login"
-						className="px-4 mr-2 py-1 bg-blue-700 rounded-lg text-white"
-					>
-						intro
-					</NavLink>
-					<InitialUserSettingsForHome />
-				</div>
+						<div className="bg-white/70 backdrop-blur-lg rounded-3xl border border-purple-200 shadow-xl p-8">
+							<div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+								<h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+									<BiTrendingUp className="text-purple-600" />
+									{
+										content[language as string].home
+											.salesChart
+									}
+								</h3>
+								<div className="flex flex-wrap gap-2">
+									{[
+										content[language as string].home.time
+											.day,
+										content[language as string].home.time
+											.week,
+										content[language as string].home.time
+											.month,
+										content[language as string].home.time
+											.year,
+									].map((type) => (
+										<button
+											key={type}
+											onClick={() => setFilter(type)}
+											className={`
+                        px-5 py-2.5 rounded-xl text-sm font-medium
+                        transition-all duration-300 
+                        hover:scale-105 active:scale-95
+                        ${
+							filter === type
+								? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg"
+								: "bg-purple-50 text-purple-700 hover:bg-purple-100"
+						}
+                      `}
+										>
+											{type.charAt(0).toUpperCase() +
+												type.slice(1)}
+										</button>
+									))}
+								</div>
+							</div>
+							<div className="h-[35vh] w-full transition-all duration-300">
+								<Line
+									data={generateChartData()}
+									options={{
+										responsive: true,
+										maintainAspectRatio: false,
+										plugins: {
+											legend: {
+												display: false,
+											},
+										},
+										scales: {
+											y: {
+												beginAtZero: true,
+												grid: {
+													color: "rgba(107, 114, 128, 0.1)",
+												},
+											},
+											x: {
+												grid: {
+													display: false,
+												},
+											},
+										},
+									}}
+								/>
+							</div>
+						</div>
+
+						<div className="flex flex-wrap items-center gap-4">
+							{[
+								{
+									to: "/intro",
+									text: "Intro",
+									color: "from-purple-500 to-purple-700",
+								},
+								{
+									to: "/login",
+									text: "Login",
+									color: "from-pink-500 to-pink-700",
+								},
+							].map((link) => (
+								<NavLink
+									key={link.to}
+									to={link.to}
+									className={`
+                    px-8 py-3 bg-gradient-to-r ${link.color}
+                    rounded-xl text-white font-medium 
+                    hover:shadow-lg transition-all duration-300
+                    hover:scale-105 active:scale-95
+                    backdrop-blur-lg
+                  `}
+								>
+									{link.text}
+								</NavLink>
+							))}
+							<InitialUserSettingsForHome />
+						</div>
+					</div>
+				)}
 			</InnerLayoutSection>
 		</Layout>
 	);
 };
 
 export default IndexPage;
+

@@ -11,18 +11,16 @@ function InnerLayoutSection({ children }) {
 	};
 
 	return (
-		<div className="flex h-[95vh] bg-gray-100">
+		<div className="flex h-full bg-slate-100">
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div
-				className={`flex-1 flex flex-col overflow-y-hidden transition-all duration-300 ${
+				className={`flex-1 flex flex-col transition-all duration-300 ${
 					isSidebarExpanded ? "ml-64" : "ml-20"
 				}`}
 			>
 				<HeaderInner />
-				<main className="p-4 h-[90vh] flex-1 overflow-y-hidden">
-					{children}
-				</main>
+				<main className="p-4 h-full flex-1">{children}</main>
 			</div>
 		</div>
 	);
