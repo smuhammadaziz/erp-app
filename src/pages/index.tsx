@@ -106,6 +106,7 @@ const IndexPage: FC = () => {
 			link: "/sales",
 			linkText: content[language as string].home.salesDashboard,
 			borderColor: "border-purple-300",
+			hoverBg: "hover:bg-purple-50",
 		},
 		{
 			title: content[language as string].home.activeClient,
@@ -116,6 +117,7 @@ const IndexPage: FC = () => {
 			link: "/customers",
 			linkText: content[language as string].home.clientManagement,
 			borderColor: "border-pink-300",
+			hoverBg: "hover:bg-pink-50",
 		},
 		{
 			title: content[language as string].home.products,
@@ -126,6 +128,7 @@ const IndexPage: FC = () => {
 			link: "/products",
 			linkText: content[language as string].home.productCatalog,
 			borderColor: "border-cyan-300",
+			hoverBg: "hover:bg-cyan-50",
 		},
 	];
 
@@ -146,23 +149,14 @@ const IndexPage: FC = () => {
 									key={card.title}
 									style={{
 										animationDelay: `${index * 150}ms`,
-										backdropFilter: "blur(20px)",
 									}}
 									className={`
                     animate-slideIn relative overflow-hidden
-                    rounded-3xl border ${card.borderColor} bg-white/70
-                    backdrop-blur-lg shadow-xl hover:shadow-2xl
-                    transition-all duration-500 group
+                    rounded-3xl border ${card.borderColor} bg-white
+                    shadow-xl transition-all duration-500 group
                   `}
 								>
-									<div
-										className={`
-                    absolute inset-0 opacity-0 group-hover:opacity-10 
-                    transition-opacity duration-500 ${card.bgColor}
-                  `}
-									/>
-
-									<div className="p-8">
+									<div className="p-8 relative z-10">
 										<div className="flex justify-between items-start mb-8">
 											<div>
 												<h3 className="text-4xl font-bold text-gray-800 mb-2">
@@ -174,9 +168,10 @@ const IndexPage: FC = () => {
 											</div>
 											<div
 												className={`
-                        ${card.bgColor} p-4 rounded-2xl
-                        text-white shadow-lg
-                      `}
+                          ${card.bgColor} p-4 rounded-2xl
+                          text-white shadow-lg transition-transform
+                          duration-500
+                        `}
 											>
 												{card.icon}
 											</div>
@@ -191,15 +186,28 @@ const IndexPage: FC = () => {
 												to={card.link}
 												className={`
                           ${card.bgColor} text-white px-6 py-2.5 rounded-xl
-                          font-medium transition-all duration-300
+                          font-medium transition-all duration-500
                           hover:shadow-lg hover:scale-105 active:scale-95
-                          flex items-center gap-2
+                          flex items-center gap-2 relative
+                          after:absolute after:inset-0 after:rounded-xl
+                          after:opacity-0 after:transition-opacity
+                          after:duration-500 hover:after:opacity-100
+                          after:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]
                         `}
 											>
-												{card.linkText}
+												<span className="relative z-10">
+													{card.linkText}
+												</span>
 											</NavLink>
 										</div>
 									</div>
+									<div
+										className={`
+                      absolute inset-0 opacity-0 group-hover:opacity-100
+                      transition-all duration-500 ${card.hoverBg}
+                      backdrop-blur-sm
+                    `}
+									/>
 								</div>
 							))}
 						</div>
