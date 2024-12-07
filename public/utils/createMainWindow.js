@@ -23,11 +23,18 @@ exports.createMainWindow = async () => {
 
 	remote.enable(window.webContents);
 
-	await window.loadURL(
-		config.isDev
-			? "http://localhost:3000"
-			: `file://${join(__dirname, "..", "../build/index.html")}`,
-	);
+	const startUrl = config.isDev
+		? 'http://localhost:3000/#/login'
+		: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+
+	await window.loadURL(startUrl);
+
+	// Ensure the login page is loaded
+	window.webContents.on('did-finish-load', () => {
+		if (!window.webContents.getURL().includes('/login')) {
+			window.loadURL(startUrl);
+		}
+	});
 
 	window.once("ready-to-show", () => {
 		autoUpdater.checkForUpdatesAndNotify();
@@ -36,7 +43,6 @@ exports.createMainWindow = async () => {
 	window.on("close", (e) => {
 		if (!config.isQuiting) {
 			e.preventDefault();
-
 			window.hide();
 		}
 	});
