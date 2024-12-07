@@ -20,7 +20,9 @@ function InnerLayoutSection({ children }) {
 				}`}
 			>
 				<HeaderInner />
-				<main className="p-4 h-full flex-1">{children}</main>
+				<main className="p-4 h-full flex-1 bg-slate-100">
+					{children}
+				</main>
 			</div>
 		</div>
 	);
