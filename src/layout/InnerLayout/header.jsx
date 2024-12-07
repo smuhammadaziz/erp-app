@@ -27,16 +27,6 @@ function HeaderInner() {
 					{content[language].header}
 				</h2>
 
-				<div className="text-gray-300 text-md font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-					<HiOutlineCalendar className="text-xl text-blue-400" />
-					{date}
-				</div>
-
-				<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-					<HiOutlineCurrencyDollar className="text-2xl text-green-400" />
-					{currencyRate}
-				</div>
-
 				<div className="relative group ">
 					<select
 						value={language}
@@ -54,9 +44,20 @@ function HeaderInner() {
 						&#x25BC;
 					</span>
 				</div>
+
+				<div className="text-gray-300 text-md font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
+					<HiOutlineCalendar className="text-xl text-blue-400" />
+					{date}
+				</div>
+
+				<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
+					<HiOutlineCurrencyDollar className="text-2xl text-green-400" />
+					{currencyRate}
+				</div>
 			</div>
 		</header>
 	);
 }
 
 export default HeaderInner;
+
