@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { IoCloseOutline, IoRemove } from "react-icons/io5";
 import logo from "../../assets/icon.png";
 import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
+import { RiInformation2Fill } from "react-icons/ri";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -11,12 +12,20 @@ interface EnterpriseData {
 	ksb_id: string;
 }
 
+interface EnterpriseInfo {
+	ip: string;
+	port: string;
+	infobase: string;
+	its: string;
+}
+
 export const Titlebar: FC = () => {
 	const currentWindow = getCurrentWindow();
 	const [maximized, setMaximized] = useState<boolean>(
 		currentWindow.isMaximized(),
 	);
 	const [data, setData] = useState<EnterpriseData | null>(null);
+	const [info, setInfo] = useState<EnterpriseInfo | null>(null);
 
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
@@ -33,9 +42,9 @@ export const Titlebar: FC = () => {
 	};
 	const onQuit = () => app.quit();
 
-	useEffect(() => {
-		const ksbId = localStorage.getItem("ksbIdNumber");
+	const ksbId = localStorage.getItem("ksbIdNumber");
 
+	useEffect(() => {
 		const fetchLoginData = async () => {
 			try {
 				const username = "User";
@@ -66,6 +75,44 @@ export const Titlebar: FC = () => {
 				}
 			} catch (err) {
 				console.error("Error fetching data:", err);
+			}
+		};
+
+		fetchLoginData();
+	}, []);
+
+	useEffect(() => {
+		const fetchLoginData = async () => {
+			try {
+				const username = "Bot";
+				const password = "123";
+				const credentials = Buffer.from(
+					`${username}:${password}`,
+				).toString("base64");
+
+				const response = await fetch(
+					`http://217.30.169.88:13080/KSB_CRM/hs/workplace/ksb-info/${ksbId}`,
+					{
+						headers: {
+							Authorization: `Basic ${credentials}`,
+						},
+					},
+				);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+
+				const result = await response.json();
+
+				if (result) {
+					setInfo(result);
+					console.log(result);
+				} else {
+					console.error("Unexpected response structure:", result);
+				}
+			} catch (err) {
+				console.error("Error fetching info:", err);
 			}
 		};
 
@@ -104,6 +151,12 @@ export const Titlebar: FC = () => {
 				</span>
 			</div>
 			<div className="window-controls-container flex items-center">
+				<button
+					title="informations"
+					className="cursor-pointer focus:outline-none hover:bg-grap-700 p-1 mr-5"
+				>
+					<RiInformation2Fill />
+				</button>
 				<button
 					title="Minimize"
 					className="minimize-button focus:outline-none hover:bg-gray-700 p-1"
