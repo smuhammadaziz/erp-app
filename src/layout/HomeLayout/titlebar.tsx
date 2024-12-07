@@ -131,7 +131,7 @@ export const Titlebar: FC = () => {
 					alt="amethyst"
 				/>
 				<span className="text-white flex items-center ml-1">
-					<p className="text-slate-400">KSB-MERP</p>
+					<p className="text-slate-400 font-bold">KSB-MERP</p>
 				</span>
 			</div>
 			<div className="mx-auto text-white items-center mt-1">
