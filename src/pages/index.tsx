@@ -47,7 +47,7 @@ const IndexPage: FC = () => {
 		setTimeout(() => {
 			setIsLoading(false);
 			setIsVisible(true);
-		}, 1000);
+		}, 300);
 	}, []);
 
 	const generateChartData = () => {
