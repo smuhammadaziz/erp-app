@@ -3,6 +3,7 @@ import { IoCloseOutline, IoRemove } from "react-icons/io5";
 import logo from "../../assets/icon.png";
 import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
 import { RiInformation2Fill } from "react-icons/ri";
+import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -26,6 +27,7 @@ export const Titlebar: FC = () => {
 	);
 	const [data, setData] = useState<EnterpriseData | null>(null);
 	const [info, setInfo] = useState<EnterpriseInfo | null>(null);
+	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
@@ -153,32 +155,42 @@ export const Titlebar: FC = () => {
 			<div className="window-controls-container flex items-center">
 				<button
 					title="informations"
-					className="cursor-pointer focus:outline-none hover:bg-grap-700 p-1 mr-5"
+					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+					onClick={() => setShowInfoModal(true)}
+					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
 				>
-					<RiInformation2Fill />
+					<RiInformation2Fill className="text-gray-400 hover:text-white transition-colors duration-200" />
 				</button>
 				<button
 					title="Minimize"
-					className="minimize-button focus:outline-none hover:bg-gray-700 p-1"
+					className="minimize-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onMinimize}
+					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
 				>
 					<IoRemove />
 				</button>
 				<button
 					title="Maximize"
-					className="min-max-button focus:outline-none hover:bg-gray-700 p-1"
+					className="min-max-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onMaximize}
+					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
 				>
 					{maximized ? <TbArrowsDiagonalMinimize2 /> : <TbMaximize />}
 				</button>
 				<button
 					title="Close"
-					className="close-button focus:outline-none hover:bg-gray-700 p-1"
+					className="close-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					onClick={onQuit}
+					style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
 				>
 					<IoCloseOutline />
 				</button>
 			</div>
+			<EnterpriseInfoModal
+				isOpen={showInfoModal}
+				onClose={() => setShowInfoModal(false)}
+				info={info}
+			/>
 		</div>
-	);
+	); //kjb
 };
