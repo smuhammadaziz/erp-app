@@ -7,6 +7,9 @@ import {
 	FaShieldAlt,
 } from "react-icons/fa";
 import moment from "moment";
+import "moment/locale/uz";
+
+moment.locale('uz');
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
@@ -45,13 +48,13 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	}, [onClose]);
 
 	const infoItems = [
-		{ icon: FaServer, label: "IP Address", value: info.ip },
-		{ icon: FaNetworkWired, label: "Port", value: info.port },
-		{ icon: FaDatabase, label: "Database", value: info.info_base },
+		{ icon: FaServer, label: "IP Манзил", value: info.ip },
+		{ icon: FaNetworkWired, label: "Порт", value: info.port },
+		{ icon: FaDatabase, label: "Маълумотлар базаси", value: info.info_base },
 		{
 			icon: FaShieldAlt,
-			label: "ITS",
-			value: moment(info.its).format("LL"),
+			label: "ИТС",
+			value: `${moment(info.its).format("LL")}, ${moment(info.its).diff(moment(), 'days')} кун қолди`,
 		},
 	];
 
@@ -69,7 +72,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 				<div className="p-3">
 					<div className="flex justify-between items-center mb-2">
 						<h2 className="text-sm font-semibold text-slate-800">
-							Enterprise Info
+							Корхона маълумотлари
 						</h2>
 						<button
 							onClick={onClose}
@@ -102,4 +105,3 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 		</>
 	);
 };
-
