@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Layout } from "../../layout/Layout";
+import { Layout } from "../../layout/HomeLayout/layout";
 import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
 import Sidebar from "../../components/settingsPage/settings/Sidebar";
 import PersonalInformation from "../../components/settingsPage/settings/PersonalInformation";
