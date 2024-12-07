@@ -6,10 +6,6 @@ const config = require("./config");
 
 exports.createMainWindow = async () => {
 	const window = new BrowserWindow({
-		width: 1000,
-		height: 800,
-		resizable: true,
-		frame: true,
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
@@ -19,7 +15,11 @@ exports.createMainWindow = async () => {
 		frame: false,
 		icon: config.icon,
 		title: config.appName,
+		show: false  // Don't show until we maximize
 	});
+
+	window.maximize();  // Maximize the window
+	window.show();     // Show after maximizing
 
 	remote.enable(window.webContents);
 
