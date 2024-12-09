@@ -27,28 +27,6 @@ function IntroPageKSB() {
 	const navigate = useNavigate();
 	const [language] = useLang("uz");
 
-	useEffect(() => {
-		const prefetchApiConnection = async () => {
-			try {
-				const username = "Bot";
-				const password = "123";
-				const credentials = base64.encode(`${username}:${password}`);
-
-				await fetch(`http://localhost:8000/api/health`, {
-					method: "HEAD",
-					headers: {
-						Authorization: `Basic ${credentials}`,
-					},
-					cache: "force-cache",
-				});
-			} catch (error) {
-				console.error("Prefetch error:", error);
-			}
-		};
-
-		prefetchApiConnection();
-	}, []);
-
 	const makeApiRequest = async (ksbId) => {
 		const username = "Bot";
 		const password = "123";
@@ -295,4 +273,3 @@ function IntroPageKSB() {
 }
 
 export default IntroPageKSB;
-
