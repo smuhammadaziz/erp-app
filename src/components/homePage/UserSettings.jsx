@@ -14,7 +14,6 @@ const DownloaderModal = () => {
 	const [progress, setProgress] = useState(0);
 	const [intervalId, setIntervalId] = useState(null);
 
-	// Cleanup interval on unmount
 	useEffect(() => {
 		return () => {
 			if (intervalId) {
@@ -82,7 +81,6 @@ const DownloaderModal = () => {
 				className="bg-white w-full max-w-md rounded-2xl shadow-2xl transform transition-all duration-300 scale-100
                 relative overflow-hidden"
 			>
-				{/* Progress Bar at the top */}
 				{downloadStatus === "downloading" && (
 					<div className="absolute top-0 left-0 w-full h-1 bg-gray-100">
 						<div
