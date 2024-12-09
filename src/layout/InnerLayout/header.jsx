@@ -21,7 +21,7 @@ function HeaderInner() {
 	};
 
 	return (
-		<header className="flex justify-end items-center px-8 py-3 bg-gray-900 shadow-xl border-b border-gray-800 bg-opacity-95">
+		<header className="flex justify-end items-center px-8 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
 			<div className="flex items-center gap-x-6">
 				<h2 className="text-white text-xl font-semibold tracking-wide">
 					{content[language].header}
