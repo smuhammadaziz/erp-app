@@ -5,11 +5,13 @@ import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { Toaster, toast } from "sonner";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+import { useAuth } from "../../context/Auth";
 
 import LoginForm from "./components/LoginForm";
 import PasswordModal from "./components/PasswordModal";
 
 function LoginPageKSB() {
+	const { login } = useAuth();
 	const [userType, setUserType] = useState("");
 	const [password, setPassword] = useState("");
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -114,7 +116,11 @@ function LoginPageKSB() {
 		};
 	}, [ksbId]);
 
-	const handleLogin = async () => {
+	const handleLogin = async (e) => {
+		if (e && e.preventDefault) {
+			e.preventDefault();
+		}
+
 		if (!userType) {
 			toast.error("Please select a user type");
 			return;
@@ -187,9 +193,7 @@ function LoginPageKSB() {
 			const data = await response.json();
 
 			if (data.success) {
-				// Store user type in localStorage
-				localStorage.setItem("userType", userType);
-
+				login(data.token);
 				toast.success(
 					<div className="flex items-center text-white">
 						<FaCheckCircle className="mr-2" size={20} />
@@ -345,4 +349,3 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
-

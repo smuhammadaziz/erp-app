@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import IndexPage from "./pages";
 import { PopupPage } from "./pages/popup";
 
@@ -10,6 +10,7 @@ import SalesMainPage from "./pages/sales/sales";
 import CustomersPage from "./pages/customers/customers";
 import ProductsPage from "./pages/products/products";
 import SettingsPage from "./pages/settings/settings";
+import { AuthProvider, ProtectedRoute } from "./context/Auth";
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -17,22 +18,25 @@ export const Router: FC = () => {
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 555);
 	}, []);
+
 	return loading ? (
 		<Loader />
 	) : (
 		<HashRouter>
-			<Routes>
-				<Route path="/">
-					<Route index element={<IndexPage />} />
-					<Route path="popup" element={<PopupPage />} />
-				</Route>
-				<Route path="/login" element={<LoginPageKSB />} />
-				<Route path="/intro" element={<IntroPageKSB />} />
-				<Route path="/sales" element={<SalesMainPage />} />
-				<Route path="/customers" element={<CustomersPage />} />
-				<Route path="/products" element={<ProductsPage />} />
-				<Route path="/settings" element={<SettingsPage />} />
-			</Routes>
+			<AuthProvider>
+				<Routes>
+					<Route path="/">
+						<Route index element={<ProtectedRoute><IndexPage /></ProtectedRoute>} />
+						<Route path="popup" element={<PopupPage />} />
+					</Route>
+					<Route path="/login" element={<LoginPageKSB />} />
+					<Route path="/intro" element={<IntroPageKSB />} />
+					<Route path="/sales" element={<ProtectedRoute><SalesMainPage /></ProtectedRoute>} />
+					<Route path="/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
+					<Route path="/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
+					<Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+				</Routes>
+			</AuthProvider>
 		</HashRouter>
 	);
 };
