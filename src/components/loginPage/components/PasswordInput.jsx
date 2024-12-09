@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
 function PasswordInput({
@@ -8,8 +8,19 @@ function PasswordInput({
 	togglePasswordVisibility,
 	content,
 	language,
+	userType, // Add userType as a prop
 	onEnterPress,
 }) {
+	// Create a ref for the password input
+	const passwordInputRef = useRef(null);
+
+	// Add an effect to focus the input when a user type is selected
+	useEffect(() => {
+		if (userType && passwordInputRef.current) {
+			passwordInputRef.current.focus();
+		}
+	}, [userType]);
+
 	const handleKeyPress = (e) => {
 		if (e.key === "Enter") {
 			onEnterPress();
@@ -28,6 +39,7 @@ function PasswordInput({
 				<div className="flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 border-gray-300 rounded-lg text-gray-700">
 					<FaLock className="text-gray-500 mr-3" size={20} />
 					<input
+						ref={passwordInputRef} // Attach the ref
 						id="password"
 						type={isPasswordVisible ? "text" : "password"}
 						className="w-full focus:outline-none"
@@ -35,6 +47,8 @@ function PasswordInput({
 						onChange={(e) => setPassword(e.target.value)}
 						onKeyPress={handleKeyPress}
 						placeholder={content[language].login.enter}
+						// Only add the disabled attribute if no user type is selected
+						disabled={!userType}
 					/>
 					<div
 						className="absolute right-4 cursor-pointer"
@@ -47,6 +61,11 @@ function PasswordInput({
 						)}
 					</div>
 				</div>
+				{!userType && (
+					<p className="text-sm text-gray-500 mt-2">
+						Please select a user type first
+					</p>
+				)}
 			</div>
 		</div>
 	);

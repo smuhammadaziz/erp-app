@@ -33,6 +33,7 @@ function LoginForm({
 			/>
 
 			<PasswordInput
+				userType={userType}
 				password={password}
 				setPassword={setPassword}
 				isPasswordVisible={isPasswordVisible}
@@ -53,3 +54,4 @@ function LoginForm({
 }
 
 export default LoginForm;
+
