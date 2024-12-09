@@ -109,3 +109,4 @@ const ProductsPageComponent = () => {
 };
 
 export default ProductsPageComponent;
+

@@ -63,7 +63,7 @@ const CustomersAllDetails = () => {
 								<TbUserSearch className="text-blue-600 text-2xl" />
 							</div>
 							<h1 className="text-2xl font-bold text-gray-800">
-								Product Details
+								Client Details
 							</h1>
 						</div>
 						<div className="flex flex-col sm:flex-row gap-4">
