@@ -27,21 +27,24 @@ const DownloaderModal = () => {
 				return null;
 			}
 
-			const url = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
-			const response = await fetch(url);
+			// First Sync API
+			const syncUrl = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
+			const syncResponse = await fetch(syncUrl);
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
+			if (!syncResponse.ok) {
+				throw new Error(
+					`Sync API error! Status: ${syncResponse.status}`,
+				);
 			}
 
-			const data = await response.json();
-			console.log("Fetched Data:", data);
+			const syncData = await syncResponse.json();
+			console.log("Synced Data:", syncData);
 
 			// Cache the data
-			localStorage.setItem("cachedData", JSON.stringify(data));
+			localStorage.setItem("cachedData", JSON.stringify(syncData));
 
 			// Save the data as a file
-			const blob = new Blob([JSON.stringify(data, null, 2)], {
+			const blob = new Blob([JSON.stringify(syncData, null, 2)], {
 				type: "application/json",
 			});
 			const link = document.createElement("a");
@@ -49,21 +52,81 @@ const DownloaderModal = () => {
 			link.download = "settings.json";
 			link.click();
 
-			return data;
+			return syncData;
 		} catch (error) {
 			console.error("Fetch Error:", error);
 			return null;
 		}
 	};
 
-	const startDownload = () => {
+	const registerDevice = async () => {
+		try {
+			const ksb_id = localStorage.getItem("ksbIdNumber");
+			const device_id = localStorage.getItem("device_id");
+			const user_type = localStorage.getItem("userType");
+			const name_os = localStorage.getItem("device_info");
+
+			if (!ksb_id || !device_id || !user_type || !name_os) {
+				console.error("Missing data in localStorage");
+				return;
+			}
+
+			const requestBody = {
+				ksb_id: ksb_id,
+				device_id: device_id,
+				name: name_os,
+				user_type: user_type,
+			};
+
+			console.log("Register Device Request:", requestBody);
+
+			const username = localStorage.getItem("userType");
+			const password = localStorage.getItem("userPassword");
+
+			if (!username || !password) {
+				console.error("Missing username or password in localStorage");
+				return;
+			}
+
+			const safeEncode = (str) => {
+				try {
+					return btoa(unescape(encodeURIComponent(str))); // Handle special characters
+				} catch (e) {
+					console.error("Encoding error:", e);
+					return "";
+				}
+			};
+
+			const authHeader = `Basic ${safeEncode(username + ":" + password)}`;
+
+			const response = await fetch(
+				"http://localhost:8000/api/register/device",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authHeader,
+					},
+					body: JSON.stringify(requestBody),
+				},
+			);
+
+			const data = await response.json();
+			console.log("Device Registration Data:", data);
+		} catch (error) {
+			console.error("Register Device Error:", error);
+		}
+	};
+
+	const startDownload = async () => {
 		setDownloadStatus("downloading");
 		const newIntervalId = setInterval(() => {
 			setProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(newIntervalId);
+					fetchDeviceData(); // Sync settings during download
+					registerDevice(); // Register device as required
 					setDownloadStatus("completed");
-					fetchDeviceData();
 					return 100;
 				}
 				return prev + 10;
