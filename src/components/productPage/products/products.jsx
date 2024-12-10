@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { SlBasket } from "react-icons/sl";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
 
-import data from "./data.json";
+import data from "../../homePage/settings.json";
 import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
 
+const currentProducts = data.data.detail;
+
 const ProductsPageComponent = () => {
-	const [products, setProducts] = useState(data);
+	const [products, setProducts] = useState(currentProducts);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
@@ -21,6 +23,8 @@ const ProductsPageComponent = () => {
 			.toLowerCase()
 			.includes(searchTerm.toLowerCase()),
 	);
+
+	console.log("Filtered Products:", filteredProducts);
 
 	const handleAddProduct = (newProduct) => {
 		const productToAdd = {
@@ -41,6 +45,8 @@ const ProductsPageComponent = () => {
 		setSelectedProduct(product);
 		setShowViewModal(true);
 	};
+
+	console.log(products);
 
 	return (
 		<div className="h-screen">

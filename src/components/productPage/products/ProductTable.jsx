@@ -8,14 +8,14 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 				<thead className="bg-gray-50 sticky top-0 z-10">
 					<tr>
 						{[
-							"Product Name",
-							"Currency",
-							"Box",
-							"Remaining",
-							"Price in Currency",
-							"Price in UZS",
-							"Warehouse",
-							"Actions",
+							"delete",
+							"name",
+							"archive",
+							"symbol",
+							"сurrency",
+							"article",
+							"type",
+							"box",
 						].map((header) => (
 							<th
 								key={header}
@@ -32,18 +32,28 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 							key={product.id}
 							className="hover:bg-gray-50 transition-colors duration-200"
 						>
-							{Object.keys(product)
-								.filter((key) => key !== "id")
-								.map((key) => (
-									<td
-										key={key}
-										className="px-6 py-4 whitespace-nowrap"
-									>
-										<div className="flex items-center text-sm text-gray-600">
-											{product[key]}
-										</div>
-									</td>
-								))}
+							{/* Render each product's data */}
+							{[
+								"delete",
+								"name",
+								"archive",
+								"symbol",
+								"сurrency",
+								"article",
+								"type",
+								"box",
+							].map((key) => (
+								<td
+									key={key}
+									className="px-6 py-4 whitespace-nowrap"
+								>
+									<div className="flex items-center text-sm text-gray-600">
+										{product[key] !== undefined
+											? product[key]
+											: "-"}
+									</div>
+								</td>
+							))}
 							<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
 								<div className="flex items-center space-x-4">
 									<button
