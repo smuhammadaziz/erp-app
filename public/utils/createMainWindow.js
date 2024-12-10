@@ -15,23 +15,27 @@ exports.createMainWindow = async () => {
 		frame: false,
 		icon: config.icon,
 		title: config.appName,
-		show: false  // Don't show until we maximize
+		show: false, // Don't show until we maximize
 	});
 
-	window.maximize();  // Maximize the window
-	window.show();     // Show after maximizing
+	window.maximize(); // Maximize the window
+	window.show(); // Show after maximizing
 
 	remote.enable(window.webContents);
 
+	// const startUrl = config.isDev
+	// 	? 'http://localhost:3000/#/login'
+	// 	: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+
 	const startUrl = config.isDev
-		? 'http://localhost:3000/#/login'
-		: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+		? "http://localhost:3000/#"
+		: `file://${join(__dirname, "..", "../build/index.html")}`;
 
 	await window.loadURL(startUrl);
 
 	// Ensure the login page is loaded
-	window.webContents.on('did-finish-load', () => {
-		if (!window.webContents.getURL().includes('/login')) {
+	window.webContents.on("did-finish-load", () => {
+		if (!window.webContents.getURL().includes("/login")) {
 			window.loadURL(startUrl);
 		}
 	});
@@ -49,3 +53,4 @@ exports.createMainWindow = async () => {
 
 	return window;
 };
+

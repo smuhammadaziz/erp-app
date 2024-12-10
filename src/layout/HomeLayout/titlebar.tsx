@@ -200,6 +200,6 @@ export const Titlebar: FC = () => {
 				info={info}
 			/>
 		</div>
-	); //kjb
+	);
 };
 

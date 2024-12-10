@@ -93,6 +93,8 @@ function LoginPageKSB() {
 					Date.now().toString(),
 				);
 
+				console.log(data.list_users);
+
 				setUsers(data.list_users);
 				setEnterprise(data.enterprise);
 			} catch (error) {
@@ -194,6 +196,9 @@ function LoginPageKSB() {
 
 			if (data.success) {
 				login(data.token);
+				localStorage.setItem("userType", userType);
+				const passwordToStore = password || "EMPTY_PASSWORD_ALLOWED";
+				localStorage.setItem("userPassword", passwordToStore);
 				toast.success(
 					<div className="flex items-center text-white">
 						<FaCheckCircle className="mr-2" size={20} />
@@ -284,8 +289,9 @@ function LoginPageKSB() {
 
 			const data = await response.json();
 
+			console.log("myyyy:", data);
+
 			if (data.success) {
-				// Store user type in localStorage
 				localStorage.setItem("userType", userType);
 				setIsFirstTimePassword(false);
 				setShowPasswordModal(false);
@@ -349,3 +355,4 @@ function LoginPageKSB() {
 }
 
 export default LoginPageKSB;
+

@@ -25,13 +25,67 @@ const DownloaderModal = () => {
 
 	const openModal = () => setIsModalOpen(true);
 
+	const fetchDeviceData = async () => {
+		try {
+			const ksb_id = localStorage.getItem("ksb_id");
+			const device_id = localStorage.getItem("device_id");
+			const user_type = localStorage.getItem("user_type");
+			const osName = navigator.platform.includes("Win")
+				? "windows"
+				: navigator.platform.includes("Mac")
+				? "macos"
+				: "unknown";
+
+			if (!ksb_id || !device_id || !user_type) {
+				console.error("Missing data in localStorage");
+				return;
+			}
+
+			const requestBody = {
+				ksb_id,
+				device_id,
+				name: osName,
+				user_type,
+			};
+
+			const username = localStorage.getItem("login");
+			const password = localStorage.getItem("password");
+			const authHeader = `Basic ${btoa(`${username}:${password}`)}`;
+
+			const response = await fetch(
+				"http://localhost:8000/api/register/device",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authHeader,
+					},
+					body: JSON.stringify(requestBody),
+				},
+			);
+
+			const data = await response.json();
+			console.log("Response from API:", data);
+
+			if (response.ok) {
+				setDownloadStatus("completed");
+			} else {
+				console.error("API Error:", data);
+				setDownloadStatus("error");
+			}
+		} catch (error) {
+			console.error("Fetch Error:", error);
+			setDownloadStatus("error");
+		}
+	};
+
 	const startDownload = () => {
 		setDownloadStatus("downloading");
 		const newIntervalId = setInterval(() => {
 			setProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(newIntervalId);
-					setDownloadStatus("completed");
+					fetchDeviceData(); // Trigger the API call
 					return 100;
 				}
 				return prev + 10;
@@ -187,6 +241,33 @@ const DownloaderModal = () => {
 							<button
 								onClick={closeModal}
 								className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500
+                                    text-white hover:shadow-lg transition-all duration-300 hover:scale-105 
+                                    active:scale-95"
+							>
+								Close
+							</button>
+						</div>
+					</div>
+				)}
+
+				{downloadStatus === "error" && (
+					<div className="p-6">
+						<div className="flex flex-col items-center justify-center py-4">
+							<div
+								className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-6
+                                animate-zoom-in"
+							>
+								<FaTimes className="text-4xl text-red-500" />
+							</div>
+							<h3 className="text-xl font-semibold text-gray-800 mb-2">
+								Download Failed!
+							</h3>
+							<p className="text-gray-500 text-center mb-6">
+								An error occurred while downloading the settings
+							</p>
+							<button
+								onClick={closeModal}
+								className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-500
                                     text-white hover:shadow-lg transition-all duration-300 hover:scale-105 
                                     active:scale-95"
 							>
