@@ -7,6 +7,7 @@ import {
 	FaCog,
 	FaCloud,
 } from "react-icons/fa";
+import { AiOutlineCloudSync } from "react-icons/ai";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,7 +99,7 @@ const DownloaderModal = () => {
 									className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 
                                     flex items-center justify-center text-white shadow-lg"
 								>
-									<FaCog className="text-2xl animate-spin-slow" />
+									<AiOutlineCloudSync className="text-2xl animate-spin-slow" />
 								</div>
 								<div>
 									<h2 className="text-xl font-semibold text-gray-800">
@@ -125,13 +126,6 @@ const DownloaderModal = () => {
 						</div>
 
 						<div className="flex justify-end gap-3">
-							<button
-								onClick={closeModal}
-								className="px-4 py-2 rounded-lg border border-gray-200 text-gray-600
-                                    hover:bg-gray-50 transition-all duration-300"
-							>
-								Cancel
-							</button>
 							<button
 								onClick={startDownload}
 								className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500
