@@ -29,13 +29,13 @@ exports.createMainWindow = async () => {
 
 	const startUrl = config.isDev
 		? "http://localhost:3000/#"
-		: `file://${join(__dirname, "..", "../build/index.html")}`;
+		: `file://${join(__dirname, "..", "../build/index.html")}#`;
 
 	await window.loadURL(startUrl);
 
 	// Ensure the login page is loaded
 	window.webContents.on("did-finish-load", () => {
-		if (!window.webContents.getURL().includes("/login")) {
+		if (!window.webContents.getURL().includes("/")) {
 			window.loadURL(startUrl);
 		}
 	});

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	FaDownload,
-	FaSpinner,
-	FaCheckCircle,
-	FaTimes,
-	FaCog,
-	FaCloud,
-} from "react-icons/fa";
-import { AiOutlineCloudSync } from "react-icons/ai";
+import { FaDownload, FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,55 +19,40 @@ const DownloaderModal = () => {
 
 	const fetchDeviceData = async () => {
 		try {
-			const ksb_id = localStorage.getItem("ksb_id");
+			const ksb_id = localStorage.getItem("ksbIdNumber");
 			const device_id = localStorage.getItem("device_id");
-			const user_type = localStorage.getItem("user_type");
-			const osName = navigator.platform.includes("Win")
-				? "windows"
-				: navigator.platform.includes("Mac")
-				? "macos"
-				: "unknown";
 
-			if (!ksb_id || !device_id || !user_type) {
-				console.error("Missing data in localStorage");
-				return;
+			if (!ksb_id || !device_id) {
+				console.error("Missing ksb_id or device_id in localStorage");
+				return null;
 			}
 
-			const requestBody = {
-				ksb_id,
-				device_id,
-				name: osName,
-				user_type,
-			};
+			const url = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
+			const response = await fetch(url);
 
-			const username = localStorage.getItem("login");
-			const password = localStorage.getItem("password");
-			const authHeader = `Basic ${btoa(`${username}:${password}`)}`;
-
-			const response = await fetch(
-				"http://localhost:8000/api/register/device",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: authHeader,
-					},
-					body: JSON.stringify(requestBody),
-				},
-			);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 
 			const data = await response.json();
-			console.log("Response from API:", data);
+			console.log("Fetched Data:", data);
 
-			if (response.ok) {
-				setDownloadStatus("completed");
-			} else {
-				console.error("API Error:", data);
-				setDownloadStatus("error");
-			}
+			// Cache the data
+			localStorage.setItem("cachedData", JSON.stringify(data));
+
+			// Save the data as a file
+			const blob = new Blob([JSON.stringify(data, null, 2)], {
+				type: "application/json",
+			});
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(blob);
+			link.download = "settings.json";
+			link.click();
+
+			return data;
 		} catch (error) {
 			console.error("Fetch Error:", error);
-			setDownloadStatus("error");
+			return null;
 		}
 	};
 
@@ -85,7 +62,8 @@ const DownloaderModal = () => {
 			setProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(newIntervalId);
-					fetchDeviceData(); // Trigger the API call
+					setDownloadStatus("completed");
+					fetchDeviceData();
 					return 100;
 				}
 				return prev + 10;
@@ -108,172 +86,67 @@ const DownloaderModal = () => {
 		return (
 			<button
 				onClick={openModal}
-				className="relative group bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl
-                    flex items-center gap-3 transition-all duration-300 hover:scale-105 hover:shadow-xl
-                    hover:shadow-indigo-500/20 active:scale-95"
+				className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
 			>
-				<div
-					className="absolute inset-0 rounded-xl bg-gradient-to-tr from-pink-500 to-indigo-600 opacity-0 
-                    group-hover:opacity-100 transition-all duration-500"
-				></div>
-				<FaCloud className="text-xl relative z-10" />
-				<span className="relative z-10 font-medium">
-					Download Settings
-				</span>
+				Download Settings
 			</button>
 		);
 	}
 
 	return (
-		<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-			<div
-				className="absolute inset-0 bg-black/30 backdrop-blur-sm"
-				onClick={
-					downloadStatus !== "downloading" ? closeModal : undefined
-				}
-			></div>
-			<div
-				className="bg-white w-full max-w-md rounded-2xl shadow-2xl transform transition-all duration-300 scale-100
-                relative overflow-hidden"
-			>
-				{downloadStatus === "downloading" && (
-					<div className="absolute top-0 left-0 w-full h-1 bg-gray-100">
-						<div
-							className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-300"
-							style={{ width: `${progress}%` }}
-						/>
-					</div>
-				)}
-
+		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
+			<div className="bg-white w-96 rounded shadow-lg p-6 relative">
+				<button
+					onClick={closeModal}
+					className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+				>
+					<FaTimes />
+				</button>
 				{downloadStatus === "idle" && (
-					<div className="p-6">
-						<div className="flex justify-between items-start mb-6">
-							<div className="flex items-center gap-4">
-								<div
-									className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 
-                                    flex items-center justify-center text-white shadow-lg"
-								>
-									<AiOutlineCloudSync className="text-2xl animate-spin-slow" />
-								</div>
-								<div>
-									<h2 className="text-xl font-semibold text-gray-800">
-										Download Settings
-									</h2>
-									<p className="text-gray-500 text-sm mt-1">
-										Export your preferences
-									</p>
-								</div>
-							</div>
-							<button
-								onClick={closeModal}
-								className="text-gray-400 hover:text-gray-600 transition-colors"
-							>
-								<FaTimes className="text-xl" />
-							</button>
-						</div>
-
-						<div className="bg-gradient-to-r from-indigo-50 to-pink-50 p-4 rounded-xl mb-6">
-							<p className="text-gray-600">
-								Download and save your current settings
-								configuration for backup or transfer.
-							</p>
-						</div>
-
-						<div className="flex justify-end gap-3">
-							<button
-								onClick={startDownload}
-								className="px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-pink-500
-                                    text-white hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300
-                                    hover:scale-105 active:scale-95 flex items-center gap-2"
-							>
-								<FaDownload /> Start Download
-							</button>
-						</div>
+					<div>
+						<h2 className="text-lg font-semibold text-gray-800 mb-2">
+							Download Settings
+						</h2>
+						<p className="text-gray-600 mb-4">
+							Click below to download your settings.
+						</p>
+						<button
+							onClick={startDownload}
+							className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+						>
+							<FaDownload className="inline mr-2" />
+							Start Download
+						</button>
 					</div>
 				)}
-
 				{downloadStatus === "downloading" && (
-					<div className="p-6">
-						<div className="flex flex-col items-center justify-center py-4">
-							<div className="relative w-24 h-24 mb-6">
-								<div className="absolute inset-0 rounded-full border-8 border-indigo-100"></div>
-								<div
-									className="absolute inset-0 rounded-full border-8 border-indigo-500 border-t-transparent 
-                                    animate-spin"
-									style={{
-										animationDuration: "1s",
-										animationTimingFunction: "linear",
-										animationIterationCount: "infinite",
-									}}
-								></div>
-								<div className="absolute inset-0 flex items-center justify-center">
-									<span className="text-xl font-bold text-indigo-500">
-										{progress}%
-									</span>
-								</div>
-							</div>
-							<h3 className="text-xl font-semibold text-gray-800 mb-2">
-								Downloading Settings...
-							</h3>
-							<p className="text-gray-500 text-center">
-								Please wait while we export your current
-								settings
-							</p>
+					<div className="text-center">
+						<div className="w-full bg-gray-200 h-4 rounded mb-4">
+							<div
+								className="bg-blue-600 h-4 rounded"
+								style={{ width: `${progress}%` }}
+							></div>
 						</div>
+						<p className="text-gray-600">
+							Downloading... {progress}%
+						</p>
 					</div>
 				)}
-
 				{downloadStatus === "completed" && (
-					<div className="p-6">
-						<div className="flex flex-col items-center justify-center py-4">
-							<div
-								className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6
-                                animate-zoom-in"
-							>
-								<FaCheckCircle className="text-4xl text-green-500" />
-							</div>
-							<h3 className="text-xl font-semibold text-gray-800 mb-2">
-								Download Complete!
-							</h3>
-							<p className="text-gray-500 text-center mb-6">
-								Your settings have been successfully downloaded
-							</p>
-							<button
-								onClick={closeModal}
-								className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500
-                                    text-white hover:shadow-lg transition-all duration-300 hover:scale-105 
-                                    active:scale-95"
-							>
-								Close
-							</button>
-						</div>
-					</div>
-				)}
-
-				{downloadStatus === "error" && (
-					<div className="p-6">
-						<div className="flex flex-col items-center justify-center py-4">
-							<div
-								className="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center mb-6
-                                animate-zoom-in"
-							>
-								<FaTimes className="text-4xl text-red-500" />
-							</div>
-							<h3 className="text-xl font-semibold text-gray-800 mb-2">
-								Download Failed!
-							</h3>
-							<p className="text-gray-500 text-center mb-6">
-								An error occurred while downloading the settings
-							</p>
-							<button
-								onClick={closeModal}
-								className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-red-500 to-pink-500
-                                    text-white hover:shadow-lg transition-all duration-300 hover:scale-105 
-                                    active:scale-95"
-							>
-								Close
-							</button>
-						</div>
+					<div className="text-center">
+						<FaCheckCircle className="text-green-500 text-4xl mb-4" />
+						<h2 className="text-lg font-semibold text-gray-800 mb-2">
+							Download Complete!
+						</h2>
+						<p className="text-gray-600 mb-4">
+							Your settings have been downloaded successfully.
+						</p>
+						<button
+							onClick={closeModal}
+							className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+						>
+							Done
+						</button>
 					</div>
 				)}
 			</div>
