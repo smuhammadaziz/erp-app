@@ -48,7 +48,6 @@ function IntroPageKSB() {
 				keepalive: true,
 			});
 
-			clearTimeout(timeoutId);
 			return await response.json();
 		} catch (error) {
 			clearTimeout(timeoutId);
@@ -85,33 +84,35 @@ function IntroPageKSB() {
 		setIsSubmitting(true);
 
 		try {
-			const data = await makeApiRequest(ksbId);
+			const apiResponse = await makeApiRequest(ksbId);
 			const getMessage = () => {
-				if (data.message && data.message[language]) {
-					return data.message[language];
+				if (apiResponse.response?.status === "successfully") {
+					return content[language].intro.success;
 				}
-				return data.message?.uz || "Unknown error";
+				return apiResponse.message?.[language] || "Unknown error";
 			};
 
-			if (data.status === "successfully") {
+			if (apiResponse.response?.status === "successfully") {
+				// Store additional information in localStorage
 				localStorage.setItem("isVerified", "true");
 				localStorage.setItem("ksbIdNumber", ksbId);
+				localStorage.setItem("device_id", apiResponse.device_id);
+				localStorage.setItem("its_deadline", apiResponse.response.its);
+				localStorage.setItem(
+					"device_info",
+					apiResponse[ksbId]?.device_info,
+				);
 
-				toast.success(data.status, {
+				toast.success(getMessage(), {
 					icon: <FaCheckCircle />,
 					style: { backgroundColor: "#22c55e", color: "white" },
 				});
-				setData(data);
+				setData(apiResponse);
 				navigate("/login");
-			} else if (data.status === "error") {
+			} else {
 				toast.error(getMessage(), {
 					icon: <FaExclamationCircle />,
 					style: { backgroundColor: "#ef4444", color: "white" },
-				});
-			} else {
-				toast(getMessage(), {
-					icon: <FaExclamationCircle />,
-					style: { backgroundColor: "#f5c000", color: "black" },
 				});
 			}
 		} catch (error) {
@@ -165,8 +166,6 @@ function IntroPageKSB() {
 			</div>
 		);
 	};
-
-	//fetchasda
 
 	useEffect(() => {
 		const loadingTimer = setTimeout(() => setLoading(false), 555);
