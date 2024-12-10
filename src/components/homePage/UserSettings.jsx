@@ -162,7 +162,8 @@ const DownloaderModal = () => {
 								Downloading Settings...
 							</h3>
 							<p className="text-gray-500 text-center">
-								Please wait while we export your settings
+								Please wait while we export your current
+								settings
 							</p>
 						</div>
 					</div>
