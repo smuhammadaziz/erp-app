@@ -50,10 +50,11 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 								<div className="flex justify-center space-x-4">
 									<button
 										onClick={() => onViewProduct(product)}
-										className="text-blue-600 hover:text-blue-900 transition-colors"
+										className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors rounded px-3 py-1 flex items-center space-x-2"
 										title="View Product"
 									>
 										<FaEye />
+										<span>View</span>
 									</button>
 								</div>
 							</td>
