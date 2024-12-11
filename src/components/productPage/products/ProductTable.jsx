@@ -2,7 +2,6 @@ import React from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 
 const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
-	// Define columns to display
 	const columns = ["name", "type", "symbol", "сurrency", "article", "box"];
 
 	return (

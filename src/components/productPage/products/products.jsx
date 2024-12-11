@@ -1,21 +1,36 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { SlBasket } from "react-icons/sl";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
-import data from "../../homePage/settings.json";
 import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
 
 const ProductsPageComponent = () => {
-	const currentProducts = data.data.detail;
-	const [products, setProducts] = useState(currentProducts);
+	const [products, setProducts] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 
-	// Use useMemo to optimize filtering performance
+	// Fetch products from API
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					"http://localhost:8000/api/get/sync",
+				);
+				const data = await response.json();
+				setProducts(data.products); // assuming the structure of the response
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
+	// Memoize filtered products for performance
 	const filteredProducts = useMemo(
 		() =>
 			products.filter((product) =>
@@ -27,6 +42,7 @@ const ProductsPageComponent = () => {
 		[products, searchTerm],
 	);
 
+	// Handle adding a product
 	const handleAddProduct = (newProduct) => {
 		const productToAdd = {
 			...newProduct,
@@ -36,12 +52,14 @@ const ProductsPageComponent = () => {
 		setShowAddModal(false);
 	};
 
+	// Handle deleting a product
 	const handleDeleteProduct = (id) => {
 		setProducts((prevProducts) =>
 			prevProducts.filter((product) => product.id !== id),
 		);
 	};
 
+	// Handle viewing product details
 	const handleViewProduct = (product) => {
 		setSelectedProduct(product);
 		setShowViewModal(true);
