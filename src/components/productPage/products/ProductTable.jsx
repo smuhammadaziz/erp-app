@@ -10,16 +10,18 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 			<table className="w-full">
 				<thead className="bg-gray-50 sticky top-0 z-10">
 					<tr>
-						{columns.map((column) => (
+						{columns.map((column, index) => (
 							<th
 								key={column}
-								className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+								className={`px-4 py-3 ${
+									index === 0 ? "text-left" : "text-center"
+								} text-xs font-medium text-gray-500 uppercase tracking-wider`}
 							>
 								{column.charAt(0).toUpperCase() +
 									column.slice(1)}
 							</th>
 						))}
-						<th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						<th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
 							Actions
 						</th>
 					</tr>
@@ -30,33 +32,28 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 							key={product.id}
 							className="hover:bg-gray-50 transition-colors duration-200"
 						>
-							{columns.map((column) => (
+							{columns.map((column, index) => (
 								<td
 									key={column}
-									className="px-4 py-3 whitespace-nowrap text-sm text-gray-600"
+									className={`px-4 py-3 whitespace-nowrap text-sm text-gray-600 ${
+										index === 0
+											? "text-left"
+											: "text-center"
+									}`}
 								>
 									{product[column] !== undefined
 										? String(product[column])
 										: "N/A"}
 								</td>
 							))}
-							<td className="px-4 py-3 whitespace-nowrap text-sm font-medium">
-								<div className="flex items-center space-x-4">
+							<td className="px-4 py-3 whitespace-nowrap text-center text-sm font-medium">
+								<div className="flex justify-center space-x-4">
 									<button
 										onClick={() => onViewProduct(product)}
 										className="text-blue-600 hover:text-blue-900 transition-colors"
 										title="View Product"
 									>
 										<FaEye />
-									</button>
-									<button
-										onClick={() =>
-											onDeleteProduct(product.id)
-										}
-										className="text-red-600 hover:text-red-900 transition-colors"
-										title="Delete Product"
-									>
-										<FaTrash />
 									</button>
 								</div>
 							</td>

@@ -48,7 +48,7 @@ const ProductsPageComponent = () => {
 	};
 
 	return (
-		<div className="container mx-auto h-screen">
+		<div className="container mx-auto h-[80vh]">
 			<div className="bg-white rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
 				<div className="p-6 border-b border-gray-200">
 					<div className="flex flex-col space-y-4">
