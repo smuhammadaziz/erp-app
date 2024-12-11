@@ -2,28 +2,26 @@ import React from "react";
 import { FaEye, FaTrash } from "react-icons/fa";
 
 const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
+	// Define columns to display
+	const columns = ["name", "type", "symbol", "сurrency", "article", "box"];
+
 	return (
-		<div className="overflow-x-auto h-[65vh]">
+		<div className="flex-grow overflow-auto">
 			<table className="w-full">
 				<thead className="bg-gray-50 sticky top-0 z-10">
 					<tr>
-						{[
-							"delete",
-							"name",
-							"archive",
-							"symbol",
-							"сurrency",
-							"article",
-							"type",
-							"box",
-						].map((header) => (
+						{columns.map((column) => (
 							<th
-								key={header}
-								className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+								key={column}
+								className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 							>
-								{header} actions
+								{column.charAt(0).toUpperCase() +
+									column.slice(1)}
 							</th>
 						))}
+						<th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+							Actions
+						</th>
 					</tr>
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
@@ -32,45 +30,33 @@ const ProductTable = ({ products, onViewProduct, onDeleteProduct }) => {
 							key={product.id}
 							className="hover:bg-gray-50 transition-colors duration-200"
 						>
-							{/* Render each product's data */}
-							{[
-								"delete",
-								"name",
-								"archive",
-								"symbol",
-								"сurrency",
-								"article",
-								"type",
-								"box",
-							].map((key) => (
+							{columns.map((column) => (
 								<td
-									key={key}
-									className="px-6 py-4 whitespace-nowrap"
+									key={column}
+									className="px-4 py-3 whitespace-nowrap text-sm text-gray-600"
 								>
-									<div className="flex items-center text-sm text-gray-600">
-										{product[key] !== undefined
-											? product[key]
-											: "-"}
-									</div>
+									{product[column] !== undefined
+										? String(product[column])
+										: "N/A"}
 								</td>
 							))}
-							<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+							<td className="px-4 py-3 whitespace-nowrap text-sm font-medium">
 								<div className="flex items-center space-x-4">
 									<button
 										onClick={() => onViewProduct(product)}
-										className="flex items-center text-blue-600 hover:text-blue-900 transition-colors duration-200"
+										className="text-blue-600 hover:text-blue-900 transition-colors"
+										title="View Product"
 									>
-										<FaEye className="mr-1" />
-										<span>View</span>
+										<FaEye />
 									</button>
 									<button
 										onClick={() =>
 											onDeleteProduct(product.id)
 										}
-										className="flex items-center text-red-600 hover:text-red-900 transition-colors duration-200"
+										className="text-red-600 hover:text-red-900 transition-colors"
+										title="Delete Product"
 									>
-										<FaTrash className="mr-1" />
-										<span>Delete</span>
+										<FaTrash />
 									</button>
 								</div>
 							</td>
