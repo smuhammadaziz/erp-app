@@ -198,6 +198,8 @@ function LoginPageKSB() {
 				login(data.token);
 				localStorage.setItem("userType", userType);
 				const passwordToStore = password || "EMPTY_PASSWORD_ALLOWED";
+
+				localStorage.setItem("showSettingsModal", data.showSettings);
 				localStorage.setItem("userPassword", passwordToStore);
 				toast.success(
 					<div className="flex items-center text-white">
