@@ -150,7 +150,9 @@ const IndexPage: FC = () => {
 										<div
 											key={card.title}
 											style={{
-												animationDelay: `${index * 150}ms`,
+												animationDelay: `${
+													index * 150
+												}ms`,
 											}}
 											className="animate-slideIn relative overflow-hidden rounded-3xl border bg-white shadow-xl transition-all duration-500 group"
 										>
@@ -221,18 +223,20 @@ const IndexPage: FC = () => {
 										</h3>
 										<div className="flex flex-wrap gap-2">
 											{[
-												content[language as string].home.time
-													.day,
-												content[language as string].home.time
-													.week,
-												content[language as string].home.time
-													.month,
-												content[language as string].home.time
-													.year,
+												content[language as string].home
+													.time.day,
+												content[language as string].home
+													.time.week,
+												content[language as string].home
+													.time.month,
+												content[language as string].home
+													.time.year,
 											].map((type) => (
 												<button
 													key={type}
-													onClick={() => setFilter(type)}
+													onClick={() =>
+														setFilter(type)
+													}
 													className={`
                         px-5 py-2.5 rounded-xl text-sm font-medium
                         transition-all duration-300 
@@ -244,7 +248,9 @@ const IndexPage: FC = () => {
 						}
                       `}
 												>
-													{type.charAt(0).toUpperCase() +
+													{type
+														.charAt(0)
+														.toUpperCase() +
 														type.slice(1)}
 												</button>
 											))}
@@ -318,3 +324,4 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
+
