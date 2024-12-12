@@ -89,7 +89,7 @@ const DownloaderModal = () => {
 
 			const safeEncode = (str) => {
 				try {
-					return btoa(unescape(encodeURIComponent(str))); // Handle special characters
+					return btoa(unescape(encodeURIComponent(str)));
 				} catch (e) {
 					console.error("Encoding error:", e);
 					return "";
@@ -123,8 +123,8 @@ const DownloaderModal = () => {
 			setProgress((prev) => {
 				if (prev >= 100) {
 					clearInterval(newIntervalId);
-					fetchDeviceData(); // Sync settings during download
-					registerDevice(); // Register device as required
+					fetchDeviceData();
+					registerDevice();
 					setDownloadStatus("completed");
 					return 100;
 				}
