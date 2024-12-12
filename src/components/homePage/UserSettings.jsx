@@ -7,14 +7,21 @@ const DownloaderModal = () => {
 	const [intervalId, setIntervalId] = useState(null);
 
 	useEffect(() => {
+		// Check the value of showSettingsModal from localStorage
+		const showSettingsModal = localStorage.getItem("showSettingsModal");
+
+		if (showSettingsModal === "true") {
+			setIsModalOpen(true);
+		}
+	}, []);
+
+	useEffect(() => {
 		return () => {
 			if (intervalId) {
 				clearInterval(intervalId);
 			}
 		};
 	}, [intervalId]);
-
-	const openModal = () => setIsModalOpen(true);
 
 	const fetchDeviceData = async () => {
 		try {
@@ -137,14 +144,7 @@ const DownloaderModal = () => {
 	};
 
 	if (!isModalOpen) {
-		return (
-			<button
-				onClick={openModal}
-				className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
-			>
-				Download Settings
-			</button>
-		);
+		return null; // Don't render anything if the modal is not open
 	}
 
 	return (
