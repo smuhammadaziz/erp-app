@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaDownload, FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
+import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,6 +12,7 @@ const DownloaderModal = () => {
 
 		if (showSettingsModal === "true") {
 			setIsModalOpen(true);
+			localStorage.setItem("showSettingsModal", false);
 		}
 	}, []);
 
@@ -46,17 +47,11 @@ const DownloaderModal = () => {
 			const syncData = await syncResponse.json();
 			console.log("Synced Data:", syncData);
 
-			// Cache the data
-			localStorage.setItem("cachedData", JSON.stringify(syncData));
-
-			// Save the data as a file
-			const blob = new Blob([JSON.stringify(syncData, null, 2)], {
-				type: "application/json",
-			});
-			const link = document.createElement("a");
-			link.href = URL.createObjectURL(blob);
-			link.download = "settings.json";
-			link.click();
+			// Here we're just logging the data, no file download
+			console.log(
+				"Data to be downloaded:",
+				JSON.stringify(syncData, null, 2),
+			);
 
 			return syncData;
 		} catch (error) {
@@ -162,14 +157,14 @@ const DownloaderModal = () => {
 							Download Settings
 						</h2>
 						<p className="text-gray-600 text-center mb-6">
-							Click below to download your settings.
+							Click below to initiate syncing and logging the
+							data.
 						</p>
 						<button
 							onClick={startDownload}
 							className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
 						>
-							<FaDownload className="inline mr-2" />
-							Start Download
+							Start Sync
 						</button>
 					</div>
 				)}
@@ -178,17 +173,18 @@ const DownloaderModal = () => {
 						<div className="flex justify-center items-center space-x-4 mb-4">
 							<FaSpinner className="animate-spin text-blue-600 text-4xl" />
 						</div>
-						<p className="text-gray-600">Downloading...</p>
+						<p className="text-gray-600">Syncing...</p>
 					</div>
 				)}
 				{downloadStatus === "completed" && (
 					<div className="text-center">
 						<FaCheckCircle className="text-green-500 text-4xl mb-6" />
 						<h2 className="text-xl font-semibold text-gray-800 mb-4">
-							Download Complete!
+							Sync Complete!
 						</h2>
 						<p className="text-gray-600 mb-6">
-							Your settings have been downloaded successfully.
+							Your settings have been synced successfully and
+							logged to the console.
 						</p>
 						<button
 							onClick={closeModal}

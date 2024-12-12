@@ -86,8 +86,8 @@ export const Titlebar: FC = () => {
 	useEffect(() => {
 		const fetchLoginData = async () => {
 			try {
-				const username = "Bot";
-				const password = "123";
+				const username = "Demo";
+				const password = "";
 				const credentials = Buffer.from(
 					`${username}:${password}`,
 				).toString("base64");
