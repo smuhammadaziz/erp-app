@@ -75,7 +75,6 @@ const DownloaderModal = () => {
 				ksb_id: ksb_id,
 				device_id: device_id,
 				name: name_os,
-				user_type: user_type,
 			};
 
 			console.log("Register Device Request:", requestBody);
