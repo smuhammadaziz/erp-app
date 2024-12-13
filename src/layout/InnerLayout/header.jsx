@@ -195,7 +195,7 @@ function HeaderInner({ onRefresh }) {
 						<div
 							ref={dateRef}
 							onClick={toggleCalendar}
-							className="text-gray-300 text-md font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
+							className="text-gray-300 text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
 						>
 							<HiOutlineCalendar className="text-xl text-blue-400" />
 							{format(selectedDate, "MM.dd.yyyy")}
