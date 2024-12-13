@@ -38,16 +38,6 @@ function SidebarInner({ onToggle }) {
 				<div className="text-xl font-bold mb-2 transition-opacity duration-300">
 					{isExpanded ? <img src={logo} alt="" /> : "KSB"}
 				</div>
-				{/* <button
-					onClick={toggleSidebar}
-					className="p-2 text-white hover:bg-gray-700 rounded transition-colors duration-300"
-				>
-					{isExpanded ? (
-						<AiOutlineClose size={24} />
-					) : (
-						<AiOutlineMenu size={24} />
-					)}
-				</button> */}
 			</div>
 			<nav className="flex flex-col gap-6 w-full px-2 mt-4">
 				<NavLink
