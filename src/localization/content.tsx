@@ -20,6 +20,17 @@ type Content = {
 			select: string;
 			password: string;
 			enterPass: string;
+			error: string;
+			selectUserType: string;
+			databaseBlocked: string;
+			serverError: string;
+			fetchError: string;
+			requestTimeOut: string;
+			noInternetConnection: string;
+			connectionError: string;
+			passwordSetSuccessfully: string;
+			failedToSetPassword: string;
+			pleaseEnterPassword: string;
 		};
 		home: {
 			totalSales: string;
@@ -68,6 +79,21 @@ const content: Content = {
 			select: "Foydalanuvchini tanlang",
 			password: "Parol",
 			enterPass: "Parolni kiriting",
+			error: "Фойдаланувчиларни олиб бўлмади",
+			selectUserType: "Илтимос, фойдаланувчи турини танланг",
+			databaseBlocked: "Маълумотлар базаси блокланган",
+			serverError:
+				"Ichki server xatosi yuz berdi. Keyinroq qayta urinib ko‘ring.",
+			fetchError:
+				"Кутилмаган хатолик юз берди. Илтимос, қайта уриниб коʻринг.",
+			requestTimeOut:
+				"Сўров муддати тугади. Илтимос, уланишингизни текширинг ва қайтадан урининг.",
+			noInternetConnection:
+				"Интернет алоқаси ёъқ. Илтимос, тармоқингизни текширинг ва қайтадан урининг.",
+			connectionError: "Уланиш хатоси. Интернет уланишингизни текширинг.",
+			passwordSetSuccessfully: "Парол муваффақиятли оʻрнатилди",
+			failedToSetPassword: "Паролни ўрнатиб бўлмади",
+			pleaseEnterPassword: "Илтимос, паролни киритинг",
 		},
 		home: {
 			totalSales: "Umumiy Savdo Summasi",
@@ -113,6 +139,21 @@ const content: Content = {
 			select: "Выберите пользователя",
 			password: "Пароль",
 			enterPass: "Введите пароль",
+			error: "Не удалось получить пользователей.",
+			selectUserType: "Пожалуйста, выберите тип пользователя",
+			databaseBlocked: "База данных заблокирована",
+			serverError:
+				"Произошла внутренняя ошибка сервера. Повторите попытку позже.",
+			fetchError: "Произошла непредвиденная ошибка. Попробуйте еще раз.",
+			requestTimeOut:
+				"Запрос истек. Проверьте соединение и попробуйте еще раз.",
+			noInternetConnection:
+				"Нет подключения к интернету. Проверьте сеть и попробуйте еще раз.",
+			connectionError:
+				"Ошибка подключения. Проверьте подключение к интернету.",
+			passwordSetSuccessfully: "Пароль успешно установлен",
+			failedToSetPassword: "Не удалось установить пароль.",
+			pleaseEnterPassword: "Пожалуйста, введите пароль",
 		},
 		home: {
 			totalSales: "Общая сумма продаж",

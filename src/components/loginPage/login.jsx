@@ -93,8 +93,6 @@ function LoginPageKSB() {
 					Date.now().toString(),
 				);
 
-				// console.log(data.list_users);
-
 				setUsers(data.list_users);
 				setEnterprise(data.enterprise);
 			} catch (error) {
@@ -103,7 +101,7 @@ function LoginPageKSB() {
 					return;
 				}
 				console.error("Fetch error:", error);
-				toast.error("Failed to fetch users");
+				toast.error(content[language].login.error);
 			} finally {
 				setIsLoading(false);
 			}
@@ -124,7 +122,7 @@ function LoginPageKSB() {
 		}
 
 		if (!userType) {
-			toast.error("Please select a user type");
+			toast.error(content[language].login.selectUserType);
 			return;
 		}
 
@@ -154,7 +152,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						Database is blocked
+						{content[language].login.databaseBlocked}
 					</div>,
 					{
 						position: "bottom-right",
@@ -168,7 +166,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						Internal server error occurred. Please try again later.
+						{content[language].login.serverError}
 					</div>,
 					{
 						position: "bottom-right",
@@ -182,7 +180,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						An unexpected error occurred. Please try again.
+						{content[language].login.fetchError}
 					</div>,
 					{
 						position: "bottom-right",
@@ -236,8 +234,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						Request timed out. Please check your connection and try
-						again.
+						{content[language].login.requestTimeOut}
 					</div>,
 					{
 						position: "bottom-right",
@@ -248,8 +245,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						No internet connection. Please check your network and
-						try again.
+						{content[language].login.noInternetConnection}
 					</div>,
 					{
 						position: "bottom-right",
@@ -260,7 +256,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						Connection error. Please check your internet connection.
+						{content[language].login.connectionError}
 					</div>,
 					{
 						position: "bottom-right",
@@ -273,7 +269,7 @@ function LoginPageKSB() {
 
 	const handleSetPassword = async () => {
 		if (!password) {
-			toast.error("Please enter a password");
+			toast.error(content[language].login.pleaseEnterPassword);
 			return;
 		}
 
@@ -297,14 +293,16 @@ function LoginPageKSB() {
 				localStorage.setItem("userType", userType);
 				setIsFirstTimePassword(false);
 				setShowPasswordModal(false);
-				toast.success("Password set successfully");
+				toast.success(content[language].login.passwordSetSuccessfully);
 				navigate("/");
 			} else {
-				toast.error(data.message || "Failed to set password");
+				toast.error(
+					data.message || content[language].login.failedToSetPassword,
+				);
 			}
 		} catch (error) {
 			console.error(error);
-			toast.error("Failed to set password");
+			toast.error(content[language].login.failedToSetPassword);
 		}
 	};
 
