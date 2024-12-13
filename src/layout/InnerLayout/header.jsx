@@ -5,7 +5,7 @@ import useLang from "../../hooks/useLang";
 import { IoSync } from "react-icons/io5";
 import { FiLoader } from "react-icons/fi";
 
-function HeaderInner() {
+function HeaderInner({ onRefresh }) {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
 	const [language, setLanguage] = useLang("uz");
@@ -42,6 +42,7 @@ function HeaderInner() {
 				},
 			);
 			setIsModalOpen(true); // Show the modal on success
+			if (onRefresh) onRefresh(); // Trigger refresh in parent component
 		} catch (error) {
 			// Optionally handle error
 		} finally {

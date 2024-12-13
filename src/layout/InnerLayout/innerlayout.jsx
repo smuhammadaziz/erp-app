@@ -12,7 +12,7 @@ function InnerLayoutSection({ children }) {
 
 	// Function to trigger updates
 	const handleDataRefresh = () => {
-		setRefreshKey((prevKey) => prevKey + 1); // Increment the key to refresh children
+		setRefreshKey((prevKey) => prevKey + 1);
 	};
 
 	return (
@@ -20,9 +20,7 @@ function InnerLayoutSection({ children }) {
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div className={`flex-1 ${isSidebarExpanded ? "ml-64" : "ml-20"}`}>
-				{/* Pass handleDataRefresh to HeaderInner */}
 				<HeaderInner onRefresh={handleDataRefresh} />
-				{/* Pass refreshKey to children */}
 				<main className="p-4 bg-slate-100" key={refreshKey}>
 					{children}
 				</main>
