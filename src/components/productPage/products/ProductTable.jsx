@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FiLoader } from "react-icons/fi";
+import ProductModal from "./ProductModal";
+import ProductViewDetails from "./ProductViewDetails";
 
 const LoadingSpinner = () => (
 	<tr>
@@ -14,11 +16,23 @@ const LoadingSpinner = () => (
 	</tr>
 );
 
-const ProductTable = ({ products, isLoading, onViewProduct }) => {
+const ProductTable = ({ products, isLoading }) => {
+	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	const columns = ["name", "type", "symbol", "сurrency", "article", "box"];
 
-	// Determine if we should show loader
 	const shouldShowLoader = isLoading || (!isLoading && products.length === 0);
+
+	const handleRowDoubleClick = (product) => {
+		setSelectedProduct(product);
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setSelectedProduct(null);
+	};
 
 	return (
 		<div className="flex-grow overflow-auto relative">
@@ -51,7 +65,10 @@ const ProductTable = ({ products, isLoading, onViewProduct }) => {
 						products.map((product, index) => (
 							<tr
 								key={product.product_id}
-								className="hover:bg-gray-50 transition-colors duration-200"
+								className="hover:bg-gray-50 transition-colors duration-200 active:bg-slate-200 cursor-pointer"
+								onDoubleClick={() =>
+									handleRowDoubleClick(product)
+								}
 							>
 								<td className="px-4 py-3 whitespace-nowrap text-center text-sm text-gray-600">
 									{index + 1}
@@ -74,7 +91,7 @@ const ProductTable = ({ products, isLoading, onViewProduct }) => {
 									<div className="flex justify-center space-x-4">
 										<button
 											onClick={() =>
-												onViewProduct(product)
+												handleRowDoubleClick(product)
 											}
 											className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors rounded px-3 py-1 flex items-center space-x-2"
 											title="View Product"
@@ -89,6 +106,15 @@ const ProductTable = ({ products, isLoading, onViewProduct }) => {
 					)}
 				</tbody>
 			</table>
+
+			{/* Product Modal */}
+			<ProductModal
+				isOpen={isModalOpen}
+				onClose={handleCloseModal}
+				title="Product Details"
+			>
+				<ProductViewDetails product={selectedProduct} />
+			</ProductModal>
 		</div>
 	);
 };
