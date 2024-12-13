@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+import { IoSync } from "react-icons/io5";
 
 function HeaderInner() {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
@@ -21,7 +22,12 @@ function HeaderInner() {
 	};
 
 	return (
-		<header className="flex justify-end items-center px-8 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
+		<header className="flex justify-between items-center px-4 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
+			<button className="text-white px-6 py-2.5 rounded-xl bg-gray-500/50 hover:bg-gray-700/50 flex items-center transition-all duration-300">
+				<IoSync size={20} className="text-blue-400 mr-2" />
+				<span className="font-medium">Синхронизация</span>
+			</button>
+
 			<div className="flex items-center gap-x-6">
 				<h2 className="text-white text-xl font-semibold tracking-wide">
 					{content[language].header}
