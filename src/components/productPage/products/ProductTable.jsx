@@ -50,7 +50,7 @@ const ProductTable = ({ products, isLoading, onViewProduct }) => {
 					) : (
 						products.map((product, index) => (
 							<tr
-								key={product.id}
+								key={product.product_id}
 								className="hover:bg-gray-50 transition-colors duration-200"
 							>
 								<td className="px-4 py-3 whitespace-nowrap text-center text-sm text-gray-600">
