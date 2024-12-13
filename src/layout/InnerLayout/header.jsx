@@ -1,16 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 import { IoSync } from "react-icons/io5";
 import { FiLoader } from "react-icons/fi";
+import {
+	format,
+	startOfMonth,
+	endOfMonth,
+	eachDayOfInterval,
+	isSameDay,
+	isToday,
+	getDay,
+	addDays,
+} from "date-fns";
 
 function HeaderInner({ onRefresh }) {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
+	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
 	const [language, setLanguage] = useLang("uz");
 	const [isSyncing, setIsSyncing] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+	const [currentMonth, setCurrentMonth] = useState(new Date());
+	const calendarRef = useRef(null);
+	const dateRef = useRef(null);
+
+	// Close dropdown if clicked outside
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				calendarRef.current &&
+				!calendarRef.current.contains(event.target) &&
+				dateRef.current &&
+				!dateRef.current.contains(event.target)
+			) {
+				setIsCalendarOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -41,13 +75,62 @@ function HeaderInner({ onRefresh }) {
 					method: "GET",
 				},
 			);
-			setIsModalOpen(true); // Show the modal on success
-			if (onRefresh) onRefresh(); // Trigger refresh in parent component
+			setIsModalOpen(true);
+			if (onRefresh) onRefresh();
 		} catch (error) {
 			// Optionally handle error
 		} finally {
 			setIsSyncing(false);
 		}
+	};
+
+	const toggleCalendar = () => {
+		setIsCalendarOpen(!isCalendarOpen);
+	};
+
+	const handleDateSelect = (date) => {
+		setSelectedDate(date);
+		setIsCalendarOpen(false);
+	};
+
+	const renderCalendarDays = () => {
+		const monthStart = startOfMonth(currentMonth);
+		const monthEnd = endOfMonth(currentMonth);
+		const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
+
+		// Get the first day of the month and calculate the number of leading empty days
+		const firstDayOfMonth = getDay(monthStart);
+		const emptyDays = Array(firstDayOfMonth).fill(null);
+
+		const allDays = [...emptyDays, ...days];
+
+		return allDays.map((day, index) => {
+			if (!day) {
+				return (
+					<div key={index} className="text-xs p-1 text-center"></div>
+				); // Empty cell for alignment
+			}
+			return (
+				<button
+					key={day.toString()}
+					onClick={() => handleDateSelect(day)}
+					className={`
+						p-1 text-center rounded-lg transition-colors duration-200 text-xs
+						${isSameDay(day, selectedDate) ? "bg-blue-500 text-white" : "text-gray-700"}
+						${isToday(day) ? "border-2 border-green-500" : ""}
+						hover:bg-blue-100 focus:outline-none
+					`}
+				>
+					{format(day, "d")}
+				</button>
+			);
+		});
+	};
+
+	const changeMonth = (direction) => {
+		const newMonth = new Date(currentMonth);
+		newMonth.setMonth(newMonth.getMonth() + direction);
+		setCurrentMonth(newMonth);
 	};
 
 	return (
@@ -83,7 +166,7 @@ function HeaderInner({ onRefresh }) {
 						{content[language].header}
 					</h2>
 
-					<div className="relative group ">
+					<div className="relative group">
 						<select
 							value={language}
 							onChange={handleLanguageChange}
@@ -107,9 +190,65 @@ function HeaderInner({ onRefresh }) {
 						</span>
 					</div>
 
-					<div className="text-gray-300 text-md font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-						<HiOutlineCalendar className="text-xl text-blue-400" />
-						{date}
+					{/* Updated Calendar Component */}
+					<div className="relative">
+						<div
+							ref={dateRef}
+							onClick={toggleCalendar}
+							className="text-gray-300 text-md font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
+						>
+							<HiOutlineCalendar className="text-xl text-blue-400" />
+							{format(selectedDate, "MM.dd.yyyy")}
+						</div>
+
+						{/* Calendar Dropdown */}
+						{isCalendarOpen && (
+							<div
+								ref={calendarRef}
+								className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 z-50"
+							>
+								{/* Month Navigation */}
+								<div className="flex justify-between items-center p-4 pb-0">
+									<button
+										onClick={() => changeMonth(-1)}
+										className="text-gray-600 hover:text-blue-500 transition-colors"
+									>
+										←
+									</button>
+									<h2 className="text-xl font-semibold">
+										{format(currentMonth, "MMMM yyyy")}
+									</h2>
+									<button
+										onClick={() => changeMonth(1)}
+										className="text-gray-600 hover:text-blue-500 transition-colors"
+									>
+										→
+									</button>
+								</div>
+
+								{/* Weekday Headers */}
+								<div className="grid grid-cols-7 gap-1 text-center text-gray-500 px-4 pt-2">
+									{[
+										"Sun",
+										"Mon",
+										"Tue",
+										"Wed",
+										"Thu",
+										"Fri",
+										"Sat",
+									].map((day) => (
+										<div key={day} className="text-xs">
+											{day}
+										</div>
+									))}
+								</div>
+
+								{/* Calendar Days */}
+								<div className="grid grid-cols-7 gap-1 p-4">
+									{renderCalendarDays()}
+								</div>
+							</div>
+						)}
 					</div>
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
@@ -119,7 +258,7 @@ function HeaderInner({ onRefresh }) {
 				</div>
 			</header>
 
-			{/* Modal */}
+			{/* Existing Sync Modal */}
 			{isModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg p-6 max-w-sm w-full text-center">
