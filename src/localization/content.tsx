@@ -13,6 +13,7 @@ type Content = {
 			pleaseEnter8: string;
 			requestTimeOut: string;
 			checking: string;
+			error: string;
 		};
 		login: {
 			login: string;
@@ -60,6 +61,7 @@ const content: Content = {
 			requestTimeOut:
 				"Сўровни кутиш вақти тугаши. Илтимос, қайта уриниб коʻринг.",
 			checking: "Текширилмоқда...",
+			error: "Номаълум хатолик",
 		},
 		login: {
 			login: "Kirish",
@@ -104,6 +106,7 @@ const content: Content = {
 			requestTimeOut:
 				"Запросить тайм-аут. Пожалуйста, попробуйте еще раз.",
 			checking: "Проверка...",
+			error: "Неизвестная ошибка",
 		},
 		login: {
 			login: "Войти",
