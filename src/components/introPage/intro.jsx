@@ -89,7 +89,10 @@ function IntroPageKSB() {
 				if (apiResponse.response?.status === "successfully") {
 					return content[language].intro.success;
 				}
-				return apiResponse.message?.[language] || "Unknown error";
+				return (
+					apiResponse.message?.[language] ||
+					content[language].intro.error
+				);
 			};
 
 			if (apiResponse.response?.status === "successfully") {
