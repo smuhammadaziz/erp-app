@@ -15,6 +15,9 @@ import {
 	addDays,
 } from "date-fns";
 
+import { RiExchangeLine } from "react-icons/ri";
+import { MdOutlineCurrencyExchange } from "react-icons/md";
+
 function HeaderInner({ onRefresh }) {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -24,9 +27,14 @@ function HeaderInner({ onRefresh }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 	const [currentMonth, setCurrentMonth] = useState(new Date());
+	const [rate, setRate] = useState([]);
 	const calendarRef = useRef(null);
 	const dateRef = useRef(null);
 
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
+	const basicUsername = localStorage.getItem("userType");
+	const basicPassword = localStorage.getItem("userPassword");
 	// Close dropdown if clicked outside
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -59,8 +67,6 @@ function HeaderInner({ onRefresh }) {
 	};
 
 	const handleSync = async () => {
-		const ksbId = localStorage.getItem("ksbIdNumber");
-		const deviceId = localStorage.getItem("device_id");
 		if (!ksbId || !deviceId) {
 			alert("Missing ksbIdNumber or device_id in localStorage.");
 			return;
@@ -132,6 +138,28 @@ function HeaderInner({ onRefresh }) {
 		newMonth.setMonth(newMonth.getMonth() + direction);
 		setCurrentMonth(newMonth);
 	};
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const credentials = Buffer.from(
+					`${basicUsername}:${basicPassword}`,
+				).toString("base64");
+				const response = await fetch(
+					`http://217.30.169.88:13080/InfoBase/hs/ksbmerp_pos/currency/ksb?text=pos&ksb_id=${ksbId}&device_id=${deviceId}`,
+					{
+						headers: { Authorization: `Basic ${credentials}` },
+					},
+				);
+				const data = await response.json();
+				setRate(data.detail);
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, []);
 
 	return (
 		<>
@@ -252,8 +280,10 @@ function HeaderInner({ onRefresh }) {
 					</div>
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-						<HiOutlineCurrencyDollar className="text-2xl text-green-400" />
-						{currencyRate}
+						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
+						{rate.length > 0 && rate[0].key === "usd"
+							? `1 $ = ${rate[0].rate} сум`
+							: "Loading..."}
 					</div>
 				</div>
 			</header>
