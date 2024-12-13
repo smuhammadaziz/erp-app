@@ -16,6 +16,8 @@ exports.createMainWindow = async () => {
 		icon: config.icon,
 		title: config.appName,
 		show: false, // Don't show until we maximize
+		minWidth: 1000, // Minimum width the user can resize to
+		minHeight: 700, // Minimum height the user can resize to
 	});
 
 	window.maximize(); // Maximize the window
