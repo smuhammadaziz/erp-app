@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import moment from "moment";
 
 const DeviceIcon = ({ type }) => {
 	return (
@@ -194,6 +195,24 @@ const ActiveSessions = () => {
 		},
 	]);
 
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					"http://localhost:8000/api/get/active/users",
+				);
+				const data = await response.json();
+				setUsers(data);
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
 	const handleLogout = (sessionId) => {
 		const session = sessions.find((s) => s.id === sessionId);
 		if (session.isCurrentDevice) {
@@ -213,15 +232,15 @@ const ActiveSessions = () => {
 						Active Sessions
 					</h2>
 					<span className="px-3 py-1 text-sm font-medium text-slate-600 bg-slate-100 rounded-full">
-						{activeCount} active
+						{users.length} active
 					</span>
 				</div>
 			</div>
 
 			<div className="p-6 space-y-4">
-				{sessions.map((session) => (
+				{users.map((session) => (
 					<div
-						key={session.id}
+						key={session.date}
 						className={`group relative overflow-hidden rounded-lg border bg-white p-4 transition-all duration-200 hover:shadow-md
               ${
 					session.isCurrentDevice
@@ -231,15 +250,13 @@ const ActiveSessions = () => {
 					>
 						<div className="flex items-center justify-between gap-4">
 							<div className="flex items-center gap-4">
-								<DeviceIcon type={session.deviceType} />
+								<DeviceIcon type="Laptop" />
 								<div className="space-y-1">
 									<div className="flex items-center gap-2">
 										<h3 className="font-medium text-slate-900">
-											{session.deviceName}
+											{session.usertype}
 										</h3>
-										<StatusBadge
-											isActive={session.isActive}
-										/>
+										<StatusBadge isActive="Active" />
 										{session.isCurrentDevice && (
 											<CurrentDeviceBadge />
 										)}
@@ -269,7 +286,9 @@ const ActiveSessions = () => {
 												></line>
 												<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
 											</svg>
-											{session.location}
+											{session.location
+												? session.location
+												: "Uzbekistan"}
 										</span>
 										<span className="flex items-center gap-1">
 											<svg
@@ -311,19 +330,21 @@ const ActiveSessions = () => {
 													y2="18"
 												></line>
 											</svg>
-											{session.ip}
+											{session.ip_address}
 										</span>
 									</div>
 								</div>
 							</div>
 							<div className="flex items-center gap-4">
 								<span className="text-sm text-slate-400">
-									{session.lastActive}
+									{moment(
+										session.last_entered_time,
+									).fromNow()}
 								</span>
-								<LogoutButton
+								{/* <LogoutButton
 									onClick={() => handleLogout(session.id)}
 									isCurrentDevice={session.isCurrentDevice}
-								/>
+								/> */}
 							</div>
 						</div>
 					</div>
