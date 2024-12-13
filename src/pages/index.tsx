@@ -42,6 +42,7 @@ const IndexPage: FC = () => {
 	);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isVisible, setIsVisible] = useState(false);
+	const [allProducts, setAllProducts] = useState(0);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -95,6 +96,22 @@ const IndexPage: FC = () => {
 		};
 	};
 
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					"http://localhost:8000/api/get/sync",
+				);
+				const data = await response.json();
+				setAllProducts(data.products.length);
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
@@ -121,7 +138,7 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.products,
-			value: "324",
+			value: allProducts,
 			change: "+5.3%",
 			icon: <RiStore3Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700",
