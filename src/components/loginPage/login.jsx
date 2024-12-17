@@ -26,6 +26,8 @@ function LoginPageKSB() {
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
+	const ipAddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
 
 	const [showPasswordModal, setShowPasswordModal] = useState(false);
 	const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
@@ -140,6 +142,8 @@ function LoginPageKSB() {
 						password: password || "",
 						ksbId: ksbId,
 						deviceId: deviceId,
+						ipAddressPort: ipAddressPort,
+						database: mainDatabase,
 					}),
 					signal: controller.signal,
 				},
