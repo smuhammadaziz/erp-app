@@ -25,6 +25,7 @@ function LoginPageKSB() {
 	const [language, setLanguage] = useLang("uz");
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
 
 	const [showPasswordModal, setShowPasswordModal] = useState(false);
 	const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
@@ -79,6 +80,7 @@ function LoginPageKSB() {
 							database: database,
 							userName: userName,
 							userPass: userPass,
+							deviceId: deviceId,
 						}),
 					},
 				);
@@ -136,7 +138,8 @@ function LoginPageKSB() {
 					body: JSON.stringify({
 						userType: userType, // This will now use the correct usertype from the API
 						password: password || "",
-						ksbId,
+						ksbId: ksbId,
+						deviceId: deviceId,
 					}),
 					signal: controller.signal,
 				},
@@ -277,7 +280,12 @@ function LoginPageKSB() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ userType, password }),
+					body: JSON.stringify({
+						userType: userType,
+						password: password,
+						ksbId: ksbId,
+						deviceId: deviceId,
+					}),
 				},
 			);
 
