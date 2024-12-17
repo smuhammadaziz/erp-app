@@ -44,6 +44,8 @@ const IndexPage: FC = () => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [allProducts, setAllProducts] = useState(0);
 
+	const deviceId = localStorage.getItem("device_id");
+	const ksbId = localStorage.getItem("ksbIdNumber");
 	useEffect(() => {
 		setTimeout(() => {
 			setIsLoading(false);
@@ -100,7 +102,7 @@ const IndexPage: FC = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:8000/api/get/sync",
+					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
 				);
 				const data = await response.json();
 				setAllProducts(data.products.length);
