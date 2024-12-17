@@ -35,6 +35,8 @@ function HeaderInner({ onRefresh }) {
 	const deviceId = localStorage.getItem("device_id");
 	const basicUsername = localStorage.getItem("userType");
 	const basicPassword = localStorage.getItem("userPassword");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
 	// Close dropdown if clicked outside
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -78,7 +80,16 @@ function HeaderInner({ onRefresh }) {
 			await fetch(
 				`http://localhost:8000/api/first/sync/${ksbId}/${deviceId}`,
 				{
-					method: "GET",
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: basicUsername,
+						userPassword: basicPassword,
+					}),
 				},
 			);
 			setIsModalOpen(true);
@@ -146,7 +157,7 @@ function HeaderInner({ onRefresh }) {
 					`${basicUsername}:${basicPassword}`,
 				).toString("base64");
 				const response = await fetch(
-					`http://217.30.169.88:13080/InfoBase/hs/ksbmerp_pos/currency/ksb?text=pos&ksb_id=${ksbId}&device_id=${deviceId}`,
+					`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/currency/ksb?text=pos&ksb_id=${ksbId}&device_id=${deviceId}`,
 					{
 						headers: { Authorization: `Basic ${credentials}` },
 					},
