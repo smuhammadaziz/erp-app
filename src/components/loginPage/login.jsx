@@ -48,33 +48,38 @@ function LoginPageKSB() {
 					`loginDataTimestamp_${ksbId}`,
 				);
 
+				// Get connection parameters from localStorage
+				const ipAddressPort =
+					localStorage.getItem("ipaddress:port") || "";
+				const database = localStorage.getItem("mainDatabase") || "";
+				const userName = localStorage.getItem("mainUsername") || "";
+				const userPass = localStorage.getItem("mainPassword") || "";
+
 				if (cachedData && cachedTimestamp) {
 					const isExpired =
 						Date.now() - parseInt(cachedTimestamp) > 5 * 60 * 1000;
 					if (!isExpired) {
 						const parsedData = JSON.parse(cachedData);
-						setUsers(parsedData.list_users);
+						setUsers(parsedData.users);
 						setEnterprise(parsedData.enterprise);
 						setIsLoading(false);
 						return;
 					}
 				}
 
-				// const username = "User";
-				// const password = "123";
-				// const credentials = Buffer.from(
-				// 	`${username}:${password}`,
-				// ).toString("base64");
-
 				const response = await fetch(
 					`http://localhost:8000/api/login/${ksbId}`,
 					{
-						signal: abortControllerRef.current.signal,
+						method: "POST", // Changed to POST method
 						headers: {
-							// "Cache-Control": "no-cache",
-							// Pragma: "no-cache",
-							// Authorization: `Basic ${credentials}`,
+							"Content-Type": "application/json",
 						},
+						body: JSON.stringify({
+							"ipaddress:port": ipAddressPort,
+							database: database,
+							userName: userName,
+							userPass: userPass,
+						}),
 					},
 				);
 
@@ -84,16 +89,7 @@ function LoginPageKSB() {
 
 				const data = await response.json();
 
-				localStorage.setItem(
-					`loginData_${ksbId}`,
-					JSON.stringify(data),
-				);
-				localStorage.setItem(
-					`loginDataTimestamp_${ksbId}`,
-					Date.now().toString(),
-				);
-
-				setUsers(data.list_users);
+				setUsers(data.users);
 				setEnterprise(data.enterprise);
 			} catch (error) {
 				if (error.name === "AbortError") {
@@ -138,7 +134,7 @@ function LoginPageKSB() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						userType,
+						userType: userType, // This will now use the correct usertype from the API
 						password: password || "",
 						ksbId,
 					}),

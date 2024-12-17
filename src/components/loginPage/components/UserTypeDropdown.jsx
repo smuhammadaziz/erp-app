@@ -32,10 +32,10 @@ function UserTypeDropdown({
 						{users.map((user, index) => (
 							<button
 								key={index}
-								onClick={() => handleSelect(user.login)}
+								onClick={() => handleSelect(user.usertype)}
 								className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
 							>
-								{user.login}
+								{user.usertype}
 							</button>
 						))}
 					</div>
@@ -46,3 +46,4 @@ function UserTypeDropdown({
 }
 
 export default UserTypeDropdown;
+
