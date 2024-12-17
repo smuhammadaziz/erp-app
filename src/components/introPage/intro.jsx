@@ -94,22 +94,65 @@ function IntroPageKSB() {
 			};
 
 			if (apiResponse.response?.status === "successfully") {
-				// Store additional information in localStorage
-				localStorage.setItem("isVerified", "true");
-				localStorage.setItem("ksbIdNumber", ksbId);
-				localStorage.setItem("device_id", apiResponse.device_id);
-				localStorage.setItem("its_deadline", apiResponse.response.its);
-				localStorage.setItem(
-					"device_info",
-					apiResponse[ksbId]?.device_info,
+				const deviceId = apiResponse.storage?.[
+					Object.keys(apiResponse.storage)[0]
+				]?.find(
+					(item) => item.ksb_id === apiResponse.response.ksb_id,
+				)?.device_id;
+
+				const matchedDevice = apiResponse.storage?.[deviceId]?.find(
+					(item) => item.ksb_id === apiResponse.response.ksb_id,
 				);
 
-				toast.success(getMessage(), {
-					icon: <FaCheckCircle />,
-					style: { backgroundColor: "#22c55e", color: "white" },
-				});
-				setData(apiResponse);
-				navigate("/login");
+				if (matchedDevice) {
+					localStorage.setItem("isVerified", "true");
+					localStorage.setItem(
+						"ksbIdNumber",
+						apiResponse.response.ksb_id,
+					);
+					localStorage.setItem("device_id", matchedDevice.device_id);
+					localStorage.setItem(
+						"device_info",
+						matchedDevice.device_info,
+					);
+					localStorage.setItem(
+						"entered_date_time",
+						matchedDevice.entered_date,
+					);
+					localStorage.setItem(
+						"its_deadline",
+						apiResponse.response.its,
+					);
+					localStorage.setItem(
+						"mainUsername",
+						apiResponse.response.user,
+					);
+					localStorage.setItem(
+						"mainPassword",
+						apiResponse.response.password,
+					);
+					localStorage.setItem(
+						"mainDatabase",
+						apiResponse.response.info_base,
+					);
+					localStorage.setItem(
+						"ipaddress:port",
+						`${apiResponse.response.ip}:${apiResponse.response.port}`,
+					);
+
+					toast.success(getMessage(), {
+						icon: <FaCheckCircle />,
+						style: { backgroundColor: "#22c55e", color: "white" },
+					});
+
+					setData(apiResponse);
+					navigate("/login");
+				} else {
+					toast.error("Device information not found!", {
+						icon: <FaExclamationCircle />,
+						style: { backgroundColor: "#ef4444", color: "white" },
+					});
+				}
 			} else {
 				toast.error(getMessage(), {
 					icon: <FaExclamationCircle />,
