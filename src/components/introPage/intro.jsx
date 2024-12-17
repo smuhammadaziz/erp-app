@@ -28,10 +28,6 @@ function IntroPageKSB() {
 	const [language] = useLang("uz");
 
 	const makeApiRequest = async (ksbId) => {
-		const username = "Bot";
-		const password = "123";
-		const credentials = base64.encode(`${username}:${password}`);
-
 		const controller = new AbortController();
 		const timeoutId = setTimeout(() => controller.abort(), 5000);
 
@@ -40,7 +36,6 @@ function IntroPageKSB() {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Basic ${credentials}`,
 					Connection: "keep-alive",
 				},
 				signal: controller.signal,
@@ -85,6 +80,9 @@ function IntroPageKSB() {
 
 		try {
 			const apiResponse = await makeApiRequest(ksbId);
+
+			console.log(apiResponse);
+
 			const getMessage = () => {
 				if (apiResponse.response?.status === "successfully") {
 					return content[language].intro.success;
