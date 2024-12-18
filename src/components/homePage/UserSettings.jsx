@@ -6,6 +6,11 @@ const DownloaderModal = () => {
 	const [downloadStatus, setDownloadStatus] = useState("idle");
 	const [intervalId, setIntervalId] = useState(null);
 
+	const basicUsername = localStorage.getItem("userType");
+	const basicPassword = localStorage.getItem("userPassword");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
+
 	useEffect(() => {
 		// Check the value of showSettingsModal from localStorage
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
@@ -35,8 +40,22 @@ const DownloaderModal = () => {
 			}
 
 			// First Sync API
-			const syncUrl = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
-			const syncResponse = await fetch(syncUrl);
+			// const syncUrl = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
+			const syncResponse = await fetch(
+				`http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: basicUsername,
+						userPassword: basicPassword,
+					}),
+				},
+			);
 
 			if (!syncResponse.ok) {
 				throw new Error(
@@ -76,6 +95,8 @@ const DownloaderModal = () => {
 				ksb_id: ksb_id,
 				device_id: device_id,
 				name: name_os,
+				"ipaddress:port": ipaddressPort,
+				database: mainDatabase,
 			};
 
 			console.log("Register Device Request:", requestBody);
