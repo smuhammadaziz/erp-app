@@ -13,12 +13,15 @@ const ProductsPageComponent = () => {
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
+
 	// Fetch products from API
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:8000/api/get/sync",
+					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
 				);
 				const data = await response.json();
 				setProducts(data.products); // assuming the structure of the response

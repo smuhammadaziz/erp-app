@@ -49,6 +49,12 @@ function LoginForm({
 			>
 				{content[language].login.login}
 			</button>
+			{/* <a
+				href="/"
+				className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
+			>
+				{content[language].login.login}
+			</a> */}
 		</div>
 	);
 }
