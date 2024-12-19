@@ -45,6 +45,8 @@ export const Titlebar: FC = () => {
 	const onQuit = () => app.quit();
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
 
 	useEffect(() => {
 		const fetchLoginData = async () => {
