@@ -230,10 +230,10 @@ const ActiveSessions = () => {
 	const activeCount = sessions.filter((s) => s.isActive).length;
 
 	return (
-		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden mt-6">
+		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
 			<div className="p-6 border-b border-slate-100">
 				<div className="flex items-center justify-between">
-					<h2 className="text-xl font-semibold text-slate-800">
+					<h2 className="text-xl font-bold text-slate-800">
 						Active Sessions
 					</h2>
 					<span className="px-3 py-1 text-sm font-medium text-slate-600 bg-slate-100 rounded-full">

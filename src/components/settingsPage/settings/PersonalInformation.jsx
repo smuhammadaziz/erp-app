@@ -5,7 +5,7 @@ import ActiveSessions from "./settings";
 function PersonalInformation() {
 	return (
 		<>
-			<SectionContainer title="Personal Information">
+			{/* <SectionContainer title="Personal Information">
 				<div className="grid grid-cols-2 gap-4">
 					<div>
 						<label className="block text-sm font-medium text-gray-700 mb-2">
@@ -38,7 +38,7 @@ function PersonalInformation() {
 						/>
 					</div>
 				</div>
-			</SectionContainer>
+			</SectionContainer> */}
 			<ActiveSessions />
 		</>
 	);
