@@ -306,36 +306,6 @@ const IndexPage: FC = () => {
 										/>
 									</div>
 								</div>
-
-								<div className="flex flex-wrap items-center gap-4 mb-6">
-									{[
-										{
-											to: "/intro",
-											text: "Intro",
-											color: "from-purple-500 to-purple-700",
-										},
-										{
-											to: "/login",
-											text: "Login",
-											color: "from-pink-500 to-pink-700",
-										},
-									].map((link) => (
-										<NavLink
-											key={link.to}
-											to={link.to}
-											className={`
-                    px-8 py-3 bg-gradient-to-r ${link.color}
-                    rounded-xl text-white font-medium 
-                    hover:shadow-lg transition-all duration-300
-                    hover:scale-105 active:scale-95
-                    backdrop-blur-lg
-                  `}
-										>
-											{link.text}
-										</NavLink>
-									))}
-									<InitialUserSettingsForHome />
-								</div>
 							</div>
 						</div>
 					</div>
