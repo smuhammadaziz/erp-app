@@ -196,12 +196,17 @@ const ActiveSessions = () => {
 	]);
 
 	const [users, setUsers] = useState([]);
+	const device_id = localStorage.getItem("device_id");
+	const ksb_id = localStorage.getItem("ksbIdNumber");
 
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					"http://localhost:8000/api/get/active/users",
+					`http://localhost:8000/api/get/active/users/${device_id}/${ksb_id}`,
+					{
+						method: "POST",
+					},
 				);
 				const data = await response.json();
 				setUsers(data);
