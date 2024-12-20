@@ -104,8 +104,8 @@ const IndexPage: FC = () => {
 				const response = await fetch(
 					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
 					{
-						method: "POST"
-					}
+						method: "POST",
+					},
 				);
 				const data = await response.json();
 				setAllProducts(data.products.length);
@@ -120,7 +120,7 @@ const IndexPage: FC = () => {
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
-			value: "$24,780",
+			value: "0",
 			change: "+12.5%",
 			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
 			bgColor:
@@ -132,7 +132,7 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.activeClient,
-			value: "1,482",
+			value: "0",
 			change: "+8.1%",
 			icon: <RiCustomerService2Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-pink-500 via-pink-600 to-pink-700",
