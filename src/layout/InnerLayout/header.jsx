@@ -37,7 +37,7 @@ function HeaderInner({ onRefresh }) {
 	const basicPassword = localStorage.getItem("userPassword");
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
-	// Close dropdown if clicked outside
+
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (
@@ -115,7 +115,6 @@ function HeaderInner({ onRefresh }) {
 		const monthEnd = endOfMonth(currentMonth);
 		const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
-		// Get the first day of the month and calculate the number of leading empty days
 		const firstDayOfMonth = getDay(monthStart);
 		const emptyDays = Array(firstDayOfMonth).fill(null);
 
@@ -125,7 +124,7 @@ function HeaderInner({ onRefresh }) {
 			if (!day) {
 				return (
 					<div key={index} className="text-xs p-1 text-center"></div>
-				); // Empty cell for alignment
+				);
 			}
 			return (
 				<button
@@ -229,7 +228,6 @@ function HeaderInner({ onRefresh }) {
 						</span>
 					</div>
 
-					{/* Updated Calendar Component */}
 					<div className="relative">
 						<div
 							ref={dateRef}
@@ -240,13 +238,11 @@ function HeaderInner({ onRefresh }) {
 							{format(selectedDate, "MM.dd.yyyy")}
 						</div>
 
-						{/* Calendar Dropdown */}
 						{isCalendarOpen && (
 							<div
 								ref={calendarRef}
 								className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 z-50"
 							>
-								{/* Month Navigation */}
 								<div className="flex justify-between items-center p-4 pb-0">
 									<button
 										onClick={() => changeMonth(-1)}
@@ -299,7 +295,6 @@ function HeaderInner({ onRefresh }) {
 				</div>
 			</header>
 
-			{/* Existing Sync Modal */}
 			{isModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg p-6 max-w-sm w-full text-center">
