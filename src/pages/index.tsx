@@ -103,6 +103,9 @@ const IndexPage: FC = () => {
 			try {
 				const response = await fetch(
 					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
+					{
+						method: "POST"
+					}
 				);
 				const data = await response.json();
 				setAllProducts(data.products.length);
