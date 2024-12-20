@@ -111,7 +111,6 @@ export const Titlebar: FC = () => {
 
 				if (result) {
 					setInfo(result);
-					// console.log(result);
 				} else {
 					console.error("Unexpected response structure:", result);
 				}
