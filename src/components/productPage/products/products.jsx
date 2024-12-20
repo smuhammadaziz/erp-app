@@ -22,9 +22,12 @@ const ProductsPageComponent = () => {
 			try {
 				const response = await fetch(
 					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
+					{
+						method: "POST",
+					},
 				);
 				const data = await response.json();
-				setProducts(data.products); // assuming the structure of the response
+				setProducts(data.products);
 			} catch (error) {
 				console.error("Error fetching products:", error);
 			}
@@ -33,7 +36,6 @@ const ProductsPageComponent = () => {
 		fetchProducts();
 	}, []);
 
-	// Memoize filtered products for performance
 	const filteredProducts = useMemo(
 		() =>
 			products.filter((product) =>
@@ -45,7 +47,6 @@ const ProductsPageComponent = () => {
 		[products, searchTerm],
 	);
 
-	// Handle adding a product
 	const handleAddProduct = (newProduct) => {
 		const productToAdd = {
 			...newProduct,
@@ -55,14 +56,12 @@ const ProductsPageComponent = () => {
 		setShowAddModal(false);
 	};
 
-	// Handle deleting a product
 	const handleDeleteProduct = (id) => {
 		setProducts((prevProducts) =>
 			prevProducts.filter((product) => product.id !== id),
 		);
 	};
 
-	// Handle viewing product details
 	const handleViewProduct = (product) => {
 		setSelectedProduct(product);
 		setShowViewModal(true);
