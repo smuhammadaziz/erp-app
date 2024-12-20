@@ -53,10 +53,8 @@ export const Titlebar: FC = () => {
 	useEffect(() => {
 		const fetchLoginData = async () => {
 			try {
-				const username = "User";
-				const password = "123";
 				const credentials = Buffer.from(
-					`${username}:${password}`,
+					`${mainUserType}:${mainUserPass}`,
 				).toString("base64");
 
 				const response = await fetch(
