@@ -47,6 +47,8 @@ export const Titlebar: FC = () => {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
+	const mainUserType = localStorage.getItem("mainUsername");
+	const mainUserPass = localStorage.getItem("mainPassword");
 
 	useEffect(() => {
 		const fetchLoginData = async () => {
@@ -58,7 +60,7 @@ export const Titlebar: FC = () => {
 				).toString("base64");
 
 				const response = await fetch(
-					`http://217.30.169.88:13080/InfoBase/hs/ksbmerp_pos/users/ksb?text=pos&ksb_id=${ksbId}`,
+					`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/users/ksb?text=pos&ksb_id=${ksbId}`,
 					{
 						headers: {
 							Authorization: `Basic ${credentials}`,
