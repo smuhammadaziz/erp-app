@@ -151,13 +151,20 @@ function HeaderInner({ onRefresh }) {
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
-				const credentials = Buffer.from(
-					`${basicUsername}:${basicPassword}`,
-				).toString("base64");
 				const response = await fetch(
-					`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/currency/ksb?text=pos&ksb_id=${ksbId}&device_id=${deviceId}`,
+					`${nodeUrl}/api/currency/${ksbId}`,
 					{
-						headers: { Authorization: `Basic ${credentials}` },
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							ipaddressPort: ipaddressPort,
+							database: mainDatabase,
+							userUsername: basicUsername,
+							userPassword: basicPassword,
+							deviceId: deviceId,
+						}),
 					},
 				);
 				const data = await response.json();
