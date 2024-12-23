@@ -149,7 +149,7 @@ function LoginPageKSB() {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						userType: userType, // This will now use the correct usertype from the API
+						userType: userType,
 						password: password || "",
 						ksbId: ksbId,
 						deviceId: deviceId,
