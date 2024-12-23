@@ -108,8 +108,6 @@ export const Titlebar: FC = () => {
 
 				const result = await response.json();
 
-				console.log(result);
-
 				if (result) {
 					setInfo(result.response);
 				} else {
