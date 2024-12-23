@@ -35,6 +35,8 @@ ChartJS.register(
 	Legend,
 );
 
+import nodeUrl from "../links";
+
 const IndexPage: FC = () => {
 	const [language, setLanguage] = useLang();
 	const [filter, setFilter] = useState<string>(
@@ -102,7 +104,7 @@ const IndexPage: FC = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
+					`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
 					{
 						method: "POST",
 					},
