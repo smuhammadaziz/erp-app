@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Layout } from "../../layout/Layout";
+import { Layout } from "../../layout/HomeLayout/layout";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import { Toaster, toast } from "sonner";
