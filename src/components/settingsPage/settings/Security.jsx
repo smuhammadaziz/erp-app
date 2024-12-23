@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import SectionContainer from "./SectionContainer";
 import { toast, Toaster } from "sonner";
 
-import nodeUrl from "../../links";
+import nodeUrl from "../../../links";
 
 function Security() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);

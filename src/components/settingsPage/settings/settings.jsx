@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
+import nodeUrl from "../../../links";
+
 const DeviceIcon = ({ type }) => {
 	return (
 		<div className="relative">
@@ -203,7 +205,7 @@ const ActiveSessions = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/get/active/users/${device_id}/${ksb_id}`,
+					`${nodeUrl}/api/get/active/users/${device_id}/${ksb_id}`,
 					{
 						method: "POST",
 					},

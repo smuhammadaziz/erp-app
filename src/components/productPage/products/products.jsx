@@ -6,7 +6,7 @@ import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
 
-import nodeUrl from "../../links";
+import nodeUrl from "../../../links";
 
 const ProductsPageComponent = () => {
 	const [products, setProducts] = useState([]);
