@@ -51,7 +51,6 @@ function LoginPageKSB() {
 					`loginDataTimestamp_${ksbId}`,
 				);
 
-				// Get connection parameters from localStorage
 				const ipAddressPort =
 					localStorage.getItem("ipaddress:port") || "";
 				const database = localStorage.getItem("mainDatabase") || "";
@@ -73,7 +72,7 @@ function LoginPageKSB() {
 				const response = await fetch(
 					`http://localhost:8000/api/login/${ksbId}`,
 					{
-						method: "POST", // Changed to POST method
+						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 						},
@@ -84,6 +83,7 @@ function LoginPageKSB() {
 							userPass: userPass,
 							deviceId: deviceId,
 						}),
+						signal: abortControllerRef.current.signal,
 					},
 				);
 
@@ -95,6 +95,14 @@ function LoginPageKSB() {
 
 				setUsers(data.users);
 				setEnterprise(data.enterprise);
+				localStorage.setItem(
+					`loginData_${ksbId}`,
+					JSON.stringify(data),
+				);
+				localStorage.setItem(
+					`loginDataTimestamp_${ksbId}`,
+					Date.now().toString(),
+				);
 			} catch (error) {
 				if (error.name === "AbortError") {
 					console.log("Fetch aborted");
@@ -107,9 +115,12 @@ function LoginPageKSB() {
 			}
 		};
 
-		fetchLoginData();
+		const intervalId = setInterval(() => {
+			fetchLoginData();
+		}, 1000);
 
 		return () => {
+			clearInterval(intervalId);
 			if (abortControllerRef.current) {
 				abortControllerRef.current.abort();
 			}
