@@ -18,6 +18,8 @@ import {
 import { RiExchangeLine } from "react-icons/ri";
 import { MdOutlineCurrencyExchange } from "react-icons/md";
 
+import nodeUrl from "../../links";
+
 function HeaderInner({ onRefresh }) {
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -77,21 +79,18 @@ function HeaderInner({ onRefresh }) {
 		setIsSyncing(true);
 
 		try {
-			await fetch(
-				`http://localhost:8000/api/first/sync/${ksbId}/${deviceId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						"ipaddress:port": ipaddressPort,
-						database: mainDatabase,
-						userName: basicUsername,
-						userPassword: basicPassword,
-					}),
+			await fetch(`${nodeUrl}/api/first/sync/${ksbId}/${deviceId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify({
+					"ipaddress:port": ipaddressPort,
+					database: mainDatabase,
+					userName: basicUsername,
+					userPassword: basicPassword,
+				}),
+			});
 			setIsModalOpen(true);
 			if (onRefresh) onRefresh();
 		} catch (error) {
