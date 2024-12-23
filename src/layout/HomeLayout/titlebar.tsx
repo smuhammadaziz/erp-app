@@ -7,6 +7,8 @@ import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
+import nodeUrl from "../../links";
+
 interface EnterpriseData {
 	uid: string;
 	title: string;
@@ -94,14 +96,11 @@ export const Titlebar: FC = () => {
 					`${username}:${password}`,
 				).toString("base64");
 
-				const response = await fetch(
-					`http://217.30.169.88:13080/KSB_CRM/hs/workplace/ksb-info/${ksbId}`,
-					{
-						headers: {
-							Authorization: `Basic ${credentials}`,
-						},
+				const response = await fetch(`${nodeUrl}/api/${ksbId}`, {
+					headers: {
+						Authorization: `Basic ${credentials}`,
 					},
-				);
+				});
 
 				if (!response.ok) {
 					throw new Error(`HTTP error! Status: ${response.status}`);
@@ -109,8 +108,10 @@ export const Titlebar: FC = () => {
 
 				const result = await response.json();
 
+				console.log(result);
+
 				if (result) {
-					setInfo(result);
+					setInfo(result.response);
 				} else {
 					console.error("Unexpected response structure:", result);
 				}
