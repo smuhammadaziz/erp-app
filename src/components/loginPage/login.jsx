@@ -10,6 +10,8 @@ import { useAuth } from "../../context/Auth";
 import LoginForm from "./components/LoginForm";
 import PasswordModal from "./components/PasswordModal";
 
+import nodeUrl from "../../links";
+
 function LoginPageKSB() {
 	const { login } = useAuth();
 	const [userType, setUserType] = useState("");
@@ -69,23 +71,20 @@ function LoginPageKSB() {
 					}
 				}
 
-				const response = await fetch(
-					`http://localhost:8000/api/login/${ksbId}`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							"ipaddress:port": ipAddressPort,
-							database: database,
-							userName: userName,
-							userPass: userPass,
-							deviceId: deviceId,
-						}),
-						signal: abortControllerRef.current.signal,
+				const response = await fetch(`${nodeUrl}/api/login/${ksbId}`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
 					},
-				);
+					body: JSON.stringify({
+						"ipaddress:port": ipAddressPort,
+						database: database,
+						userName: userName,
+						userPass: userPass,
+						deviceId: deviceId,
+					}),
+					signal: abortControllerRef.current.signal,
+				});
 
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
@@ -141,24 +140,21 @@ function LoginPageKSB() {
 			const controller = new AbortController();
 			const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-			const response = await fetch(
-				"http://localhost:8000/api/authenticate",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						userType: userType,
-						password: password || "",
-						ksbId: ksbId,
-						deviceId: deviceId,
-						ipAddressPort: ipAddressPort,
-						database: mainDatabase,
-					}),
-					signal: controller.signal,
+			const response = await fetch(`${nodeUrl}/api/authenticate`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify({
+					userType: userType,
+					password: password || "",
+					ksbId: ksbId,
+					deviceId: deviceId,
+					ipAddressPort: ipAddressPort,
+					database: mainDatabase,
+				}),
+				signal: controller.signal,
+			});
 
 			clearTimeout(timeoutId);
 
@@ -288,21 +284,18 @@ function LoginPageKSB() {
 		}
 
 		try {
-			const response = await fetch(
-				"http://localhost:8000/api/set-password",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						userType: userType,
-						password: password,
-						ksbId: ksbId,
-						deviceId: deviceId,
-					}),
+			const response = await fetch(`${nodeUrl}/api/set-password`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify({
+					userType: userType,
+					password: password,
+					ksbId: ksbId,
+					deviceId: deviceId,
+				}),
+			});
 
 			const data = await response.json();
 
