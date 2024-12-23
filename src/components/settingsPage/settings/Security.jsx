@@ -3,6 +3,8 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import SectionContainer from "./SectionContainer";
 import { toast, Toaster } from "sonner";
 
+import nodeUrl from "../../links";
+
 function Security() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 	const [showNewPassword, setShowNewPassword] = useState(false);
@@ -29,7 +31,7 @@ function Security() {
 		}
 
 		try {
-			const response = await fetch("http://localhost:8000/api/change", {
+			const response = await fetch(`${nodeUrl}/api/change`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -52,7 +54,6 @@ function Security() {
 
 			toast.success("Password updated successfully.");
 
-			// Clear inputs on success
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmPassword("");
@@ -64,7 +65,6 @@ function Security() {
 	return (
 		<>
 			<Toaster position="bottom-right" richColors />{" "}
-			{/* Add this to enable notifications */}
 			<SectionContainer title="Security">
 				<div className="space-y-4">
 					<div>
