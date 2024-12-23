@@ -9,8 +9,9 @@ import {
 } from "react-icons/fa";
 import moment from "moment";
 import "moment/locale/uz";
+import { NavLink } from "react-router-dom";
 
-moment.locale('uz');
+moment.locale("uz");
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
@@ -53,12 +54,16 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			<>
 				<div
 					className="fixed inset-0"
-					style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				/>
 				<div
 					ref={modalRef}
 					className="absolute top-8 right-20 w-72 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9999]"
-					style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 				>
 					<div className="p-4">
 						<div className="flex flex-col items-center text-center">
@@ -67,7 +72,8 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 								Хатолик юз берди
 							</h2>
 							<p className="text-xs text-slate-600">
-								Маълумотларни юклашда хатолик юз берди. Илтимос, қайта уриниб кўринг
+								Маълумотларни юклашда хатолик юз берди. Илтимос,
+								қайта уриниб кўринг
 							</p>
 							<button
 								onClick={onClose}
@@ -85,11 +91,18 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	const infoItems = [
 		{ icon: FaServer, label: "IP Манзил", value: info.ip },
 		{ icon: FaNetworkWired, label: "Порт", value: info.port },
-		{ icon: FaDatabase, label: "Маълумотлар базаси", value: info.info_base },
+		{
+			icon: FaDatabase,
+			label: "Маълумотлар базаси",
+			value: info.info_base,
+		},
 		{
 			icon: FaShieldAlt,
 			label: "ИТС",
-			value: `${moment(info.its).format("LL")}, ${moment(info.its).diff(moment(), 'days')} кун қолди`,
+			value: `${moment(info.its).format("LL")}, ${moment(info.its).diff(
+				moment(),
+				"days",
+			)} кун қолди`,
 		},
 	];
 
@@ -137,8 +150,19 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 							</div>
 						))}
 					</div>
+					<hr className="my-3 text-slate-500" />
+
+					<div className="mt-2">
+						<NavLink
+							to="/intro"
+							className="bg-red-500 text-white py-2 px-3 block text-center w-full rounded-sm hover:bg-red-600"
+						>
+							KSB-ID dan chiqish
+						</NavLink>
+					</div>
 				</div>
 			</div>
 		</>
 	);
 };
+
