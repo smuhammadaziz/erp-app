@@ -4,13 +4,12 @@ import SidebarInner from "./sidebar";
 
 function InnerLayoutSection({ children }) {
 	const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
-	const [refreshKey, setRefreshKey] = useState(0); // State to trigger updates
+	const [refreshKey, setRefreshKey] = useState(0);
 
 	const handleSidebarToggle = (expanded) => {
 		setIsSidebarExpanded(expanded);
 	};
 
-	// Function to trigger updates
 	const handleDataRefresh = () => {
 		setRefreshKey((prevKey) => prevKey + 1);
 	};
