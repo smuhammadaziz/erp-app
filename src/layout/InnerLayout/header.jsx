@@ -294,9 +294,9 @@ function HeaderInner({ onRefresh }) {
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
 						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
-						{rate.length > 0 && rate[0].key === "usd"
+						{/* {rate.length > 0 && rate[0].key === "usd"
 							? `1 $ = ${rate[0].rate} сум`
-							: "Loading..."}
+							: "Loading..."} */}
 					</div>
 				</div>
 			</header>
