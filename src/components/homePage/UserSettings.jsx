@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
 
+import nodeUrl from "../../links";
+
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
@@ -12,7 +14,6 @@ const DownloaderModal = () => {
 	const mainDatabase = localStorage.getItem("mainDatabase");
 
 	useEffect(() => {
-		// Check the value of showSettingsModal from localStorage
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
 
 		if (showSettingsModal === "true") {
@@ -39,10 +40,8 @@ const DownloaderModal = () => {
 				return null;
 			}
 
-			// First Sync API
-			// const syncUrl = `http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`;
 			const syncResponse = await fetch(
-				`http://localhost:8000/api/first/sync/${ksb_id}/${device_id}`,
+				`${nodeUrl}/api/first/sync/${ksb_id}/${device_id}`,
 				{
 					method: "POST",
 					headers: {
@@ -64,13 +63,6 @@ const DownloaderModal = () => {
 			}
 
 			const syncData = await syncResponse.json();
-			console.log("Synced Data:", syncData);
-
-			// Here we're just logging the data, no file download
-			console.log(
-				"Data to be downloaded:",
-				JSON.stringify(syncData, null, 2),
-			);
 
 			return syncData;
 		} catch (error) {
@@ -120,20 +112,16 @@ const DownloaderModal = () => {
 
 			const authHeader = `Basic ${safeEncode(username + ":" + password)}`;
 
-			const response = await fetch(
-				"http://localhost:8000/api/register/device",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: authHeader,
-					},
-					body: JSON.stringify(requestBody),
+			const response = await fetch(`${nodeUrl}/api/register/device`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: authHeader,
 				},
-			);
+				body: JSON.stringify(requestBody),
+			});
 
 			const data = await response.json();
-			console.log("Device Registration Data:", data);
 		} catch (error) {
 			console.error("Register Device Error:", error);
 		}
@@ -146,7 +134,7 @@ const DownloaderModal = () => {
 			clearInterval(newIntervalId);
 			fetchDeviceData();
 			registerDevice();
-		}, 3000); // Mocking 3 seconds download
+		}, 3000);
 		setIntervalId(newIntervalId);
 	};
 
@@ -160,7 +148,7 @@ const DownloaderModal = () => {
 	};
 
 	if (!isModalOpen) {
-		return null; // Don't render anything if the modal is not open
+		return null;
 	}
 
 	return (
