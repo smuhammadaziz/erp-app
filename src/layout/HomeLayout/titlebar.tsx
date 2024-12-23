@@ -55,16 +55,21 @@ export const Titlebar: FC = () => {
 	useEffect(() => {
 		const fetchLoginData = async () => {
 			try {
-				const credentials = Buffer.from(
-					`${mainUserType}:${mainUserPass}`,
-				).toString("base64");
+				const bodyData = {
+					ipaddressPort: ipaddressPort,
+					database: mainDatabase,
+					userUsername: mainUserType,
+					userPassword: mainUserPass,
+				};
 
 				const response = await fetch(
-					`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/users/ksb?text=pos&ksb_id=${ksbId}`,
+					`${nodeUrl}/api/enterprise/${ksbId}`,
 					{
+						method: "POST",
 						headers: {
-							Authorization: `Basic ${credentials}`,
+							"Content-Type": "application/json",
 						},
+						body: JSON.stringify(bodyData),
 					},
 				);
 
