@@ -3,7 +3,6 @@ import React from "react";
 const ProductViewDetails = ({ product }) => {
 	if (!product) return null;
 
-	// Define a display order and custom labels for fields
 	const fieldDisplayOrder = [
 		{ key: "name", label: "Product Name" },
 		{ key: "type", label: "Product Type" },

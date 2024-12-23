@@ -6,6 +6,8 @@ import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
 
+import nodeUrl from "../../links";
+
 const ProductsPageComponent = () => {
 	const [products, setProducts] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -21,7 +23,7 @@ const ProductsPageComponent = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/get/sync/${deviceId}/${ksbId}`,
+					`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
 					{
 						method: "POST",
 					},
