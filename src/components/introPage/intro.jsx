@@ -17,6 +17,8 @@ import useLang from "../../hooks/useLang";
 import base64 from "base-64";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 
+import nodeUrl from "../../links";
+
 function IntroPageKSB() {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
@@ -32,7 +34,7 @@ function IntroPageKSB() {
 		const timeoutId = setTimeout(() => controller.abort(), 5000);
 
 		try {
-			const response = await fetch(`http://localhost:8000/api/${ksbId}`, {
+			const response = await fetch(`${nodeUrl}/api/${ksbId}`, {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
