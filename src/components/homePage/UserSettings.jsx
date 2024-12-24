@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
-
 import nodeUrl from "../../links";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
+	const [error, setError] = useState(null);
 
-	const basicUsername = localStorage.getItem("userType");
-	const basicPassword = localStorage.getItem("userPassword");
-	const ipaddressPort = localStorage.getItem("ipaddress:port");
-	const mainDatabase = localStorage.getItem("mainDatabase");
+	// Get credentials and settings from localStorage
+	const getStorageItem = (key, required = true) => {
+		const value = localStorage.getItem(key);
+		if (!value && required) {
+			throw new Error(`Missing required value for ${key}`);
+		}
+		return value;
+	};
 
 	useEffect(() => {
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
-
 		if (showSettingsModal === "true") {
-			console.log("Opening modal as showSettingsModal is true");
 			setIsModalOpen(true);
 			localStorage.setItem("showSettingsModal", "false");
 		}
@@ -24,29 +26,19 @@ const DownloaderModal = () => {
 
 	const registerDevice = async () => {
 		try {
-			const ksb_id = localStorage.getItem("ksbIdNumber");
-			const device_id = localStorage.getItem("device_id");
-			const user_type = localStorage.getItem("userType");
-			const name_os = localStorage.getItem("device_info");
-			let password = localStorage.getItem("userPassword");
-
-			if (!ksb_id || !device_id || !user_type || !name_os) {
-				console.error("Missing data in localStorage");
-				return false;
-			}
-
-			if (password === "EMPTY_PASSWORD_ALLOWED") {
-				password = "";
-			}
-
+			// Get all required data with error handling
 			const requestBody = {
-				ksb_id: ksb_id,
-				device_id: device_id,
-				name: name_os,
-				"ipaddress:port": ipaddressPort,
-				database: mainDatabase,
-				username: user_type,
-				password: password,
+				ksb_id: getStorageItem("ksbIdNumber"),
+				device_id: getStorageItem("device_id"),
+				name: getStorageItem("device_info"),
+				"ipaddress:port": getStorageItem("ipaddress:port"),
+				database: getStorageItem("mainDatabase"),
+				username: getStorageItem("userType"),
+				password:
+					localStorage.getItem("userPassword") ===
+					"EMPTY_PASSWORD_ALLOWED"
+						? ""
+						: getStorageItem("userPassword"),
 			};
 
 			const response = await fetch(`${nodeUrl}/api/register/device`, {
@@ -57,30 +49,33 @@ const DownloaderModal = () => {
 				body: JSON.stringify(requestBody),
 			});
 
-			if (response.status === 200) {
-				console.log("Device Registered Successfully");
-				return true;
-			} else {
-				console.error(
-					`Device Registration Failed! Status: ${response.status}`,
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error(
+					`Device registration failed: ${response.status} ${
+						errorData?.message || response.statusText
+					}`,
 				);
-				return false;
 			}
+
+			const data = await response.json();
+			console.log("Device registered successfully:", data);
+			return true;
 		} catch (error) {
 			console.error("Register Device Error:", error);
+			setError(error.message);
 			return false;
 		}
 	};
 
 	const fetchDeviceData = async () => {
 		try {
-			const ksb_id = localStorage.getItem("ksbIdNumber");
-			const device_id = localStorage.getItem("device_id");
-
-			if (!ksb_id || !device_id) {
-				console.error("Missing ksb_id or device_id in localStorage");
-				return;
-			}
+			const ksb_id = getStorageItem("ksbIdNumber");
+			const device_id = getStorageItem("device_id");
+			const ipaddressPort = getStorageItem("ipaddress:port");
+			const mainDatabase = getStorageItem("mainDatabase");
+			const basicUsername = getStorageItem("userType");
+			const basicPassword = getStorageItem("userPassword");
 
 			const response = await fetch(
 				`${nodeUrl}/api/first/sync/${ksb_id}/${device_id}`,
@@ -98,37 +93,55 @@ const DownloaderModal = () => {
 				},
 			);
 
-			if (response.ok) {
-				const data = await response.json();
-				console.log("Sync Data:", data);
-			} else {
-				throw new Error(`Sync API error! Status: ${response.status}`);
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error(
+					`Data sync failed: ${response.status} ${
+						errorData?.message || response.statusText
+					}`,
+				);
 			}
+
+			const data = await response.json();
+			if (!data) {
+				throw new Error("Received empty response from sync API");
+			}
+
+			console.log("Sync completed successfully:", data);
+			return data;
 		} catch (error) {
 			console.error("Fetch Device Data Error:", error);
+			setError(error.message);
+			throw error;
 		}
 	};
 
 	const startDownload = async () => {
 		setDownloadStatus("downloading");
+		setError(null);
 
-		const isRegistered = await registerDevice();
-		if (isRegistered) {
+		try {
+			const isRegistered = await registerDevice();
+			if (!isRegistered) {
+				throw new Error("Device registration failed");
+			}
+
 			await fetchDeviceData();
 			setDownloadStatus("completed");
-		} else {
-			setDownloadStatus("idle");
+		} catch (error) {
+			console.error("Download process failed:", error);
+			setDownloadStatus("error");
+			setError(error.message);
 		}
 	};
 
 	const closeModal = () => {
 		setIsModalOpen(false);
 		setDownloadStatus("idle");
+		setError(null);
 	};
 
-	if (!isModalOpen) {
-		return null;
-	}
+	if (!isModalOpen) return null;
 
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
@@ -139,6 +152,7 @@ const DownloaderModal = () => {
 				>
 					<FaTimes />
 				</button>
+
 				{downloadStatus === "idle" && (
 					<div>
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
@@ -156,6 +170,7 @@ const DownloaderModal = () => {
 						</button>
 					</div>
 				)}
+
 				{downloadStatus === "downloading" && (
 					<div className="text-center">
 						<div className="flex justify-center items-center space-x-4 mb-4">
@@ -164,6 +179,7 @@ const DownloaderModal = () => {
 						<p className="text-gray-600">Syncing...</p>
 					</div>
 				)}
+
 				{downloadStatus === "completed" && (
 					<div className="text-center">
 						<FaCheckCircle className="text-green-500 text-4xl mb-6" />
@@ -171,14 +187,31 @@ const DownloaderModal = () => {
 							Sync Complete!
 						</h2>
 						<p className="text-gray-600 mb-6">
-							Your settings have been synced successfully and
-							logged to the console.
+							Your settings have been synced successfully.
 						</p>
 						<button
 							onClick={closeModal}
 							className="w-full bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition"
 						>
 							Done
+						</button>
+					</div>
+				)}
+
+				{downloadStatus === "error" && (
+					<div className="text-center">
+						<FaTimes className="text-red-500 text-4xl mb-6" />
+						<h2 className="text-xl font-semibold text-gray-800 mb-4">
+							Sync Failed
+						</h2>
+						<p className="text-red-600 mb-6">
+							{error || "An unexpected error occurred"}
+						</p>
+						<button
+							onClick={() => setDownloadStatus("idle")}
+							className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+						>
+							Try Again
 						</button>
 					</div>
 				)}
