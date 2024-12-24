@@ -48,6 +48,11 @@ function LoginPageKSB() {
 			abortControllerRef.current = new AbortController();
 
 			try {
+				const cachedData = localStorage.getItem(`loginData_${ksbId}`);
+				const cachedTimestamp = localStorage.getItem(
+					`loginDataTimestamp_${ksbId}`,
+				);
+
 				const ipAddressPort =
 					localStorage.getItem("ipaddress:port") || "";
 				const database = localStorage.getItem("mainDatabase") || "";
