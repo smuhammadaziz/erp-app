@@ -6,7 +6,6 @@ import nodeUrl from "../../links";
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
-	const [intervalId, setIntervalId] = useState(null);
 
 	const basicUsername = localStorage.getItem("userType");
 	const basicPassword = localStorage.getItem("userPassword");
@@ -23,13 +22,55 @@ const DownloaderModal = () => {
 		}
 	}, []);
 
-	useEffect(() => {
-		return () => {
-			if (intervalId) {
-				clearInterval(intervalId);
+	const registerDevice = async () => {
+		try {
+			const ksb_id = localStorage.getItem("ksbIdNumber");
+			const device_id = localStorage.getItem("device_id");
+			const user_type = localStorage.getItem("userType");
+			const name_os = localStorage.getItem("device_info");
+			let password = localStorage.getItem("userPassword");
+
+			if (!ksb_id || !device_id || !user_type || !name_os) {
+				console.error("Missing data in localStorage");
+				return false;
 			}
-		};
-	}, [intervalId]);
+
+			if (password === "EMPTY_PASSWORD_ALLOWED") {
+				password = "";
+			}
+
+			const requestBody = {
+				ksb_id: ksb_id,
+				device_id: device_id,
+				name: name_os,
+				"ipaddress:port": ipaddressPort,
+				database: mainDatabase,
+				username: user_type,
+				password: password,
+			};
+
+			const response = await fetch(`${nodeUrl}/api/register/device`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestBody),
+			});
+
+			if (response.status === 200) {
+				console.log("Device Registered Successfully");
+				return true;
+			} else {
+				console.error(
+					`Device Registration Failed! Status: ${response.status}`,
+				);
+				return false;
+			}
+		} catch (error) {
+			console.error("Register Device Error:", error);
+			return false;
+		}
+	};
 
 	const fetchDeviceData = async () => {
 		try {
@@ -38,10 +79,10 @@ const DownloaderModal = () => {
 
 			if (!ksb_id || !device_id) {
 				console.error("Missing ksb_id or device_id in localStorage");
-				return null;
+				return;
 			}
 
-			const syncResponse = await fetch(
+			const response = await fetch(
 				`${nodeUrl}/api/first/sync/${ksb_id}/${device_id}`,
 				{
 					method: "POST",
@@ -57,95 +98,32 @@ const DownloaderModal = () => {
 				},
 			);
 
-			if (!syncResponse.ok) {
-				throw new Error(
-					`Sync API error! Status: ${syncResponse.status}`,
-				);
+			if (response.ok) {
+				const data = await response.json();
+				console.log("Sync Data:", data);
+			} else {
+				throw new Error(`Sync API error! Status: ${response.status}`);
 			}
-
-			const syncData = await syncResponse.json();
-
-			return syncData;
 		} catch (error) {
-			console.error("Fetch Error:", error);
-			return null;
-		}
-	};
-
-	const registerDevice = async () => {
-		try {
-			const ksb_id = localStorage.getItem("ksbIdNumber");
-			const device_id = localStorage.getItem("device_id");
-			const user_type = localStorage.getItem("userType");
-			const name_os = localStorage.getItem("device_info");
-
-			if (!ksb_id || !device_id || !user_type || !name_os) {
-				console.error("Missing data in localStorage");
-				return;
-			}
-
-			const requestBody = {
-				ksb_id: ksb_id,
-				device_id: device_id,
-				name: name_os,
-				"ipaddress:port": ipaddressPort,
-				database: mainDatabase,
-			};
-
-			console.log("Register Device Request:", requestBody);
-
-			const username = localStorage.getItem("userType");
-			const password = localStorage.getItem("userPassword");
-
-			if (!username || !password) {
-				console.error("Missing username or password in localStorage");
-				return;
-			}
-
-			const safeEncode = (str) => {
-				try {
-					return btoa(unescape(encodeURIComponent(str)));
-				} catch (e) {
-					console.error("Encoding error:", e);
-					return "";
-				}
-			};
-
-			const authHeader = `Basic ${safeEncode(username + ":" + password)}`;
-
-			const response = await fetch(`${nodeUrl}/api/register/device`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: authHeader,
-				},
-				body: JSON.stringify(requestBody),
-			});
-
-			const data = await response.json();
-		} catch (error) {
-			console.error("Register Device Error:", error);
+			console.error("Fetch Device Data Error:", error);
 		}
 	};
 
 	const startDownload = async () => {
 		setDownloadStatus("downloading");
-		const newIntervalId = setInterval(() => {
+
+		const isRegistered = await registerDevice();
+		if (isRegistered) {
+			await fetchDeviceData();
 			setDownloadStatus("completed");
-			clearInterval(newIntervalId);
-			fetchDeviceData();
-			registerDevice();
-		}, 3000);
-		setIntervalId(newIntervalId);
+		} else {
+			setDownloadStatus("idle");
+		}
 	};
 
 	const closeModal = () => {
-		if (intervalId) {
-			clearInterval(intervalId);
-		}
 		setIsModalOpen(false);
 		setDownloadStatus("idle");
-		setIntervalId(null);
 	};
 
 	if (!isModalOpen) {

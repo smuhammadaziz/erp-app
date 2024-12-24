@@ -94,14 +94,6 @@ function LoginPageKSB() {
 
 				setUsers(data.users);
 				setEnterprise(data.enterprise);
-				localStorage.setItem(
-					`loginData_${ksbId}`,
-					JSON.stringify(data),
-				);
-				localStorage.setItem(
-					`loginDataTimestamp_${ksbId}`,
-					Date.now().toString(),
-				);
 			} catch (error) {
 				if (error.name === "AbortError") {
 					console.log("Fetch aborted");
