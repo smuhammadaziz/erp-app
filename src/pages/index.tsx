@@ -48,11 +48,19 @@ const IndexPage: FC = () => {
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
+
 	useEffect(() => {
 		setTimeout(() => {
 			setIsLoading(false);
 			setIsVisible(true);
 		}, 300);
+	}, []);
+
+	useEffect(() => {
+		const showSettingsModal = localStorage.getItem("showSettingsModal");
+		if (showSettingsModal === "true") {
+			localStorage.setItem("showSettingsModal", "true");
+		}
 	}, []);
 
 	const generateChartData = () => {
@@ -310,6 +318,7 @@ const IndexPage: FC = () => {
 								</div>
 							</div>
 						</div>
+						<InitialUserSettingsForHome />
 					</div>
 				)}
 			</InnerLayoutSection>

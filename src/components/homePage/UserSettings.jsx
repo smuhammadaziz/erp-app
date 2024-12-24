@@ -17,8 +17,9 @@ const DownloaderModal = () => {
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
 
 		if (showSettingsModal === "true") {
+			console.log("Opening modal as showSettingsModal is true");
 			setIsModalOpen(true);
-			localStorage.setItem("showSettingsModal", false);
+			localStorage.setItem("showSettingsModal", "false");
 		}
 	}, []);
 
