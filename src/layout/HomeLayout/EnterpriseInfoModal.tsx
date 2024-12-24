@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import "moment/locale/uz";
 import { NavLink } from "react-router-dom";
+import { FaSignOutAlt } from "react-icons/fa";
 
 moment.locale("uz");
 
@@ -155,9 +156,10 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 					<div className="mt-2">
 						<NavLink
 							to="/intro"
-							className="bg-red-500 text-white py-2 px-3 block text-center w-full rounded-sm hover:bg-red-600"
+							className="bg-red-500 flex text-center items-center text-white py-2 px-3 block text-center w-full rounded-md hover:bg-red-600"
 						>
-							KSB-ID dan chiqish
+							<FaSignOutAlt className="mr-2" />
+							<span>KSB-ID dan chiqish</span>
 						</NavLink>
 					</div>
 				</div>
