@@ -36,10 +36,13 @@ function HeaderInner({ onRefresh }) {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 	const basicUsername = localStorage.getItem("userType");
-	const basicPassword = localStorage.getItem("userPassword");
+	let basicPassword = localStorage.getItem("userPassword");
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
 
+	if (basicPassword === "EMPTY_PASSWORD_ALLOWED") {
+		basicPassword = "";
+	}
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (
@@ -294,9 +297,9 @@ function HeaderInner({ onRefresh }) {
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
 						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
-						{/* {rate.length > 0 && rate[0].key === "usd"
+						{rate && rate.length > 0 && rate[0].key === "usd"
 							? `1 $ = ${rate[0].rate} сум`
-							: "Loading..."} */}
+							: "Loading..."}
 					</div>
 				</div>
 			</header>
