@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
 function UserTypeDropdown({
@@ -10,6 +10,16 @@ function UserTypeDropdown({
 	content,
 	language,
 }) {
+	const [isLoading, setIsLoading] = useState(true);
+
+	// Simulate loading state, you can replace it with real API call logic
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsLoading(false); // Simulate loading complete
+		}, 1000); // 1.5 seconds loading time
+		return () => clearTimeout(timer);
+	}, []);
+
 	return (
 		<div className="mb-6">
 			<label className="block text-xl font-medium text-gray-700 mb-2">
@@ -29,15 +39,21 @@ function UserTypeDropdown({
 				</button>
 				{isDropdownOpen && (
 					<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-						{users.map((user, index) => (
-							<button
-								key={index}
-								onClick={() => handleSelect(user.usertype)}
-								className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
-							>
-								{user.usertype}
-							</button>
-						))}
+						{isLoading ? (
+							<div className="flex justify-center items-center py-2">
+								<div className="w-6 h-6 border-4 border-t-transparent border-slate-500 rounded-full animate-spin"></div>
+							</div>
+						) : (
+							users.map((user, index) => (
+								<button
+									key={index}
+									onClick={() => handleSelect(user.usertype)}
+									className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
+								>
+									{user.usertype}
+								</button>
+							))
+						)}
 					</div>
 				)}
 			</div>
