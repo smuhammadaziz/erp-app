@@ -5,20 +5,22 @@ import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
-
 import nodeUrl from "../../../links";
 
 const ProductsPageComponent = () => {
 	const [products, setProducts] = useState([]);
+	const [displayedProducts, setDisplayedProducts] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [hasMore, setHasMore] = useState(true);
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	// Fetch products from API
+	// Fetch all products initially
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
@@ -30,11 +32,13 @@ const ProductsPageComponent = () => {
 				);
 				const data = await response.json();
 				setProducts(data.products);
+				setDisplayedProducts(data.products.slice(0, 50));
+				setIsLoading(false);
 			} catch (error) {
 				console.error("Error fetching products:", error);
+				setIsLoading(false);
 			}
 		};
-
 		fetchProducts();
 	}, []);
 
@@ -49,19 +53,37 @@ const ProductsPageComponent = () => {
 		[products, searchTerm],
 	);
 
+	// Update displayed products when search term changes
+	useEffect(() => {
+		setDisplayedProducts(filteredProducts.slice(0, 50));
+		setHasMore(filteredProducts.length > 50);
+	}, [filteredProducts]);
+
+	const loadMore = () => {
+		const currentLength = displayedProducts.length;
+		const nextBatch = filteredProducts.slice(
+			currentLength,
+			currentLength + 50,
+		);
+		if (nextBatch.length > 0) {
+			setDisplayedProducts((prev) => [...prev, ...nextBatch]);
+			setHasMore(currentLength + 50 < filteredProducts.length);
+		} else {
+			setHasMore(false);
+		}
+	};
+
 	const handleAddProduct = (newProduct) => {
 		const productToAdd = {
 			...newProduct,
 			id: products.length + 1,
 		};
-		setProducts((prevProducts) => [...prevProducts, productToAdd]);
+		setProducts((prev) => [...prev, productToAdd]);
 		setShowAddModal(false);
 	};
 
 	const handleDeleteProduct = (id) => {
-		setProducts((prevProducts) =>
-			prevProducts.filter((product) => product.id !== id),
-		);
+		setProducts((prev) => prev.filter((product) => product.id !== id));
 	};
 
 	const handleViewProduct = (product) => {
@@ -98,13 +120,14 @@ const ProductsPageComponent = () => {
 						</div>
 					</div>
 				</div>
-
 				<ProductTable
-					products={filteredProducts}
+					products={displayedProducts}
+					isLoading={isLoading}
+					hasMore={hasMore}
+					onLoadMore={loadMore}
 					onViewProduct={handleViewProduct}
 					onDeleteProduct={handleDeleteProduct}
 				/>
-
 				<ProductModal
 					isOpen={showAddModal}
 					onClose={() => setShowAddModal(false)}
@@ -115,7 +138,6 @@ const ProductsPageComponent = () => {
 						onCancel={() => setShowAddModal(false)}
 					/>
 				</ProductModal>
-
 				<ProductModal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
@@ -129,4 +151,3 @@ const ProductsPageComponent = () => {
 };
 
 export default ProductsPageComponent;
-
