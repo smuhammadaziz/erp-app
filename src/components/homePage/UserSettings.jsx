@@ -7,7 +7,6 @@ const DownloaderModal = () => {
 	const [downloadStatus, setDownloadStatus] = useState("idle");
 	const [error, setError] = useState(null);
 
-	// Get credentials and settings from localStorage
 	const getStorageItem = (key, required = true) => {
 		const value = localStorage.getItem(key);
 		if (!value && required) {
@@ -26,7 +25,6 @@ const DownloaderModal = () => {
 
 	const registerDevice = async () => {
 		try {
-			// Get all required data with error handling
 			const requestBody = {
 				ksb_id: getStorageItem("ksbIdNumber"),
 				device_id: getStorageItem("device_id"),
