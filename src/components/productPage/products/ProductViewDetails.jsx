@@ -127,7 +127,7 @@ const ProductViewDetails = ({ product }) => {
 	};
 
 	return (
-		<div className="bg-white shadow-lg rounded-lg">
+		<div className="bg-white rounded-lg">
 			{/* Tabs for Menu */}
 			<div className="flex border-b">
 				{Object.keys(fieldDisplayOrder).map((menu) => (

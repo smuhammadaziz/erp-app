@@ -42,7 +42,7 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 				</div>
 
 				{/* Modal Content with Scroll */}
-				<div className="p-6 h-[calc(100%-72px)] overflow-y-auto">
+				<div className=" h-[calc(100%-72px)] overflow-y-auto">
 					{children}
 				</div>
 			</div>
