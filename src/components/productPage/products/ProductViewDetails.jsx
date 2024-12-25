@@ -128,7 +128,6 @@ const ProductViewDetails = ({ product }) => {
 
 	return (
 		<div className="bg-white rounded-lg">
-			{/* Tabs for Menu */}
 			<div className="flex border-b">
 				{Object.keys(fieldDisplayOrder).map((menu) => (
 					<button
@@ -145,11 +144,7 @@ const ProductViewDetails = ({ product }) => {
 				))}
 			</div>
 
-			{/* Content Area */}
-			<div
-				className="p-4 overflow-y-auto"
-				style={{ maxHeight: "400px" }} // Keep modal height fixed
-			>
+			<div className="p-4 overflow-y-auto" style={{ maxHeight: "400px" }}>
 				<table className="min-w-full table-auto">
 					<thead className="bg-gray-50 text-gray-600">
 						<tr>

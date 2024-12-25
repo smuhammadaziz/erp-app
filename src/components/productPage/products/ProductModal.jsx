@@ -28,7 +28,6 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 				className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[600px] overflow-hidden"
 				onClick={(e) => e.stopPropagation()}
 			>
-				{/* Modal Header */}
 				<div className="p-6 flex justify-between items-center border-b border-gray-300">
 					<h2 className="text-3xl font-semibold text-gray-800">
 						{title}
@@ -41,7 +40,6 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 					</button>
 				</div>
 
-				{/* Modal Content with Scroll */}
 				<div className=" h-[calc(100%-72px)] overflow-y-auto">
 					{children}
 				</div>
