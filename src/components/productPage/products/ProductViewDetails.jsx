@@ -1,106 +1,118 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	BiPackage,
 	BiStore,
 	BiTag,
 	BiMoney,
 	BiBookmark,
-	BiBox,
-	BiTrash,
-	BiArchive,
-	BiBarcode,
 	BiBuilding,
 	BiCoinStack,
+	BiBarcode,
 } from "react-icons/bi";
 
 const ProductViewDetails = ({ product }) => {
+	const [activeMenu, setActiveMenu] = useState("Main");
+
 	if (!product) return null;
 
-	const fieldDisplayOrder = [
-		{ key: "name", label: "Product Name", icon: <BiPackage size={20} /> },
-		{ key: "type", label: "Product Type", icon: <BiStore size={20} /> },
-		{ key: "symbol", label: "Symbol", icon: <BiTag size={20} /> },
-		{ key: "сurrency", label: "Currency", icon: <BiMoney size={20} /> },
-		{ key: "article", label: "Article", icon: <BiBookmark size={20} /> },
-		{ key: "box", label: "Box", icon: <BiBox size={20} /> },
-		{ key: "delete", label: "Deletable", icon: <BiTrash size={20} /> },
-		{ key: "archive", label: "Archived", icon: <BiArchive size={20} /> },
-		{
-			key: "stock",
-			label: "Stock",
-			icon: <BiBuilding size={20} />,
-			customRender: (value) =>
-				value && value.length > 0 ? (
-					value.map((item, index) => (
-						<div key={index} className="mb-3">
-							<p className="text-gray-700 font-medium">
-								Warehouse:{" "}
-								<span className="text-gray-500">
-									{item.warehouse}
-								</span>
-							</p>
-							<p className="text-gray-700 font-medium">
-								Quantity:{" "}
-								<span className="text-gray-500">
-									{item.qty}
-								</span>
-							</p>
-							<p className="text-gray-700 font-medium">
-								Sum:{" "}
-								<span className="text-gray-500">
-									{item.sum}
-								</span>
-							</p>
-						</div>
-					))
-				) : (
-					<span className="text-gray-500">No Stock Data</span>
-				),
-		},
-		{
-			key: "price",
-			label: "Price",
-			icon: <BiCoinStack size={20} />,
-			customRender: (value) =>
-				value && value.length > 0 ? (
-					value.map((item, index) => (
-						<div key={index} className="mb-3">
-							<p className="text-gray-700 font-medium">
-								Type:{" "}
-								<span className="text-gray-500">
-									{item.type}
-								</span>
-							</p>
-							<p className="text-gray-700 font-medium">
-								Sale:{" "}
-								<span className="text-gray-500">
-									{item.sale}
-								</span>
-							</p>
-							<p className="text-gray-700 font-medium">
-								Buy:{" "}
-								<span className="text-gray-500">
-									{item.buy}
-								</span>
-							</p>
-						</div>
-					))
-				) : (
-					<span className="text-gray-500">No Price Data</span>
-				),
-		},
-		{
-			key: "barcode",
-			label: "Barcode",
-			icon: <BiBarcode size={20} />,
-			customRender: (value) =>
-				value && value.length > 0 ? (
-					value.join(", ")
-				) : (
-					<span className="text-gray-500">No Barcode Data</span>
-				),
-		},
-	];
+	const fieldDisplayOrder = {
+		Main: [
+			{
+				key: "name",
+				label: "Product Name",
+				icon: <BiPackage size={20} />,
+			},
+			{ key: "type", label: "Product Type", icon: <BiStore size={20} /> },
+			{ key: "symbol", label: "Symbol", icon: <BiTag size={20} /> },
+			{ key: "сurrency", label: "Currency", icon: <BiMoney size={20} /> },
+			{
+				key: "article",
+				label: "Article",
+				icon: <BiBookmark size={20} />,
+			},
+		],
+		Stock: [
+			{
+				key: "stock",
+				label: "Stock",
+				icon: <BiBuilding size={20} />,
+				customRender: (value) =>
+					value && value.length > 0 ? (
+						value.map((item, index) => (
+							<div key={index} className="mb-3">
+								<p className="text-gray-700 font-medium">
+									Warehouse:{" "}
+									<span className="text-gray-500">
+										{item.warehouse}
+									</span>
+								</p>
+								<p className="text-gray-700 font-medium">
+									Quantity:{" "}
+									<span className="text-gray-500">
+										{item.qty}
+									</span>
+								</p>
+								<p className="text-gray-700 font-medium">
+									Sum:{" "}
+									<span className="text-gray-500">
+										{item.sum}
+									</span>
+								</p>
+							</div>
+						))
+					) : (
+						<span className="text-gray-500">No Stock Data</span>
+					),
+			},
+		],
+		Price: [
+			{
+				key: "price",
+				label: "Price",
+				icon: <BiCoinStack size={20} />,
+				customRender: (value) =>
+					value && value.length > 0 ? (
+						value.map((item, index) => (
+							<div key={index} className="mb-3">
+								<p className="text-gray-700 font-medium">
+									Type:{" "}
+									<span className="text-gray-500">
+										{item.type}
+									</span>
+								</p>
+								<p className="text-gray-700 font-medium">
+									Sale:{" "}
+									<span className="text-gray-500">
+										{item.sale}
+									</span>
+								</p>
+								<p className="text-gray-700 font-medium">
+									Buy:{" "}
+									<span className="text-gray-500">
+										{item.buy}
+									</span>
+								</p>
+							</div>
+						))
+					) : (
+						<span className="text-gray-500">No Price Data</span>
+					),
+			},
+		],
+		Barcodes: [
+			{
+				key: "barcode",
+				label: "Barcode",
+				icon: <BiBarcode size={20} />,
+				customRender: (value) =>
+					value && value.length > 0 ? (
+						value.join(", ")
+					) : (
+						<span className="text-gray-500">No Barcode Data</span>
+					),
+			},
+		],
+	};
 
 	const renderValue = (key, value, customRender) => {
 		if (customRender) return customRender(value);
@@ -111,31 +123,33 @@ const ProductViewDetails = ({ product }) => {
 				</span>
 			);
 
-		if (typeof value === "boolean") {
-			return (
-				<span
-					className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium ${
-						value
-							? "bg-green-50 text-green-700 border border-green-100"
-							: "bg-gray-50 text-gray-700 border border-gray-100"
-					}`}
-				>
-					<span
-						className={`w-2 h-2 rounded-full ${
-							value ? "bg-green-500" : "bg-gray-400"
-						}`}
-					/>
-					{value ? "Yes" : "No"}
-				</span>
-			);
-		}
-
 		return <span className="text-gray-700">{String(value)}</span>;
 	};
 
 	return (
 		<div className="bg-white shadow-lg rounded-lg">
-			<div className="overflow-x-auto">
+			{/* Tabs for Menu */}
+			<div className="flex border-b">
+				{Object.keys(fieldDisplayOrder).map((menu) => (
+					<button
+						key={menu}
+						className={`px-4 py-2 text-sm font-medium ${
+							activeMenu === menu
+								? "border-b-2 border-fuchsia-600 text-fuchsia-600"
+								: "text-gray-500 hover:text-fuchsia-600"
+						}`}
+						onClick={() => setActiveMenu(menu)}
+					>
+						{menu}
+					</button>
+				))}
+			</div>
+
+			{/* Content Area */}
+			<div
+				className="p-4 overflow-y-auto"
+				style={{ maxHeight: "400px" }} // Keep modal height fixed
+			>
 				<table className="min-w-full table-auto">
 					<thead className="bg-gray-50 text-gray-600">
 						<tr>
@@ -148,7 +162,7 @@ const ProductViewDetails = ({ product }) => {
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-200">
-						{fieldDisplayOrder.map(
+						{fieldDisplayOrder[activeMenu].map(
 							({ key, label, icon, customRender }) => (
 								<tr
 									key={key}

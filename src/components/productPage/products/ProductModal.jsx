@@ -25,9 +25,10 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 			onClick={onClose}
 		>
 			<div
-				className="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[95vh] overflow-y-auto"
+				className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[600px] overflow-hidden"
 				onClick={(e) => e.stopPropagation()}
 			>
+				{/* Modal Header */}
 				<div className="p-6 flex justify-between items-center border-b border-gray-300">
 					<h2 className="text-3xl font-semibold text-gray-800">
 						{title}
@@ -39,7 +40,11 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 						✕
 					</button>
 				</div>
-				<div className="p-6">{children}</div>
+
+				{/* Modal Content with Scroll */}
+				<div className="p-6 h-[calc(100%-72px)] overflow-y-auto">
+					{children}
+				</div>
 			</div>
 		</div>
 	);
