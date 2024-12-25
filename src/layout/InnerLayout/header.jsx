@@ -97,7 +97,7 @@ function HeaderInner({ onRefresh }) {
 			setIsModalOpen(true);
 			if (onRefresh) onRefresh();
 		} catch (error) {
-			// Optionally handle error
+			console.log(error);
 		} finally {
 			setIsSyncing(false);
 		}
@@ -287,7 +287,6 @@ function HeaderInner({ onRefresh }) {
 									))}
 								</div>
 
-								{/* Calendar Days */}
 								<div className="grid grid-cols-7 gap-1 p-4">
 									{renderCalendarDays()}
 								</div>

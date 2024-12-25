@@ -25,7 +25,6 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 
 	const columns = ["name", "type", "symbol", "сurrency", "article", "box"];
 
-	// Intersection Observer setup
 	useEffect(() => {
 		const options = {
 			root: null,

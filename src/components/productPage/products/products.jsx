@@ -53,7 +53,6 @@ const ProductsPageComponent = () => {
 		[products, searchTerm],
 	);
 
-	// Update displayed products when search term changes
 	useEffect(() => {
 		setDisplayedProducts(filteredProducts.slice(0, 50));
 		setHasMore(filteredProducts.length > 50);
@@ -151,3 +150,4 @@ const ProductsPageComponent = () => {
 };
 
 export default ProductsPageComponent;
+

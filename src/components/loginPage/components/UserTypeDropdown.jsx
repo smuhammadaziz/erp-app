@@ -12,11 +12,10 @@ function UserTypeDropdown({
 }) {
 	const [isLoading, setIsLoading] = useState(true);
 
-	// Simulate loading state, you can replace it with real API call logic
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			setIsLoading(false); // Simulate loading complete
-		}, 1000); // 1.5 seconds loading time
+			setIsLoading(false);
+		}, 1000);
 		return () => clearTimeout(timer);
 	}, []);
 
