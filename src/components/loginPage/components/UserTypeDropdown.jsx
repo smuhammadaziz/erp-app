@@ -27,9 +27,9 @@ function UserTypeDropdown({
 			<div className="relative">
 				<button
 					onClick={toggleDropdown}
-					className="flex items-center justify-between w-full px-4 py-2 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+					className="flex items-center justify-between w-full px-4 py-4 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 				>
-					<span>{userType || "Select User Type"}</span>
+					<span>{userType || ""}</span>
 					<FaChevronDown
 						className={`transition-transform duration-200 ${
 							isDropdownOpen ? "transform rotate-180" : ""
