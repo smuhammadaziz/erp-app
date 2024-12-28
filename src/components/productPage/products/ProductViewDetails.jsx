@@ -8,6 +8,8 @@ import {
 	BiBuilding,
 	BiCoinStack,
 	BiBarcode,
+	BiCopy,
+	BiCheck,
 } from "react-icons/bi";
 
 import nodeUrl from "../../../links";
@@ -18,12 +20,14 @@ const ProductViewDetails = ({ product }) => {
 	const [symbolName, setSymbolName] = useState("");
 	const [warehouseName, setwarehouseName] = useState("");
 	const [priceTypeName, setpriceTypeName] = useState("");
+	const [copiedField, setCopiedField] = useState(null);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 
 	if (!product) return null;
 
+	// Your existing useEffect hooks remain the same...
 	useEffect(() => {
 		const fetchCurrencyData = async () => {
 			if (product.currency) {
@@ -53,7 +57,6 @@ const ProductViewDetails = ({ product }) => {
 						`${nodeUrl}/api/get/symbol/data/${deviceId}/${ksbIdNumber}/${product.symbol}`,
 					);
 					const data = await response.json();
-
 					const currencyData =
 						data?.[0]?.name || "Currency not found";
 					setSymbolName(currencyData);
@@ -75,10 +78,8 @@ const ProductViewDetails = ({ product }) => {
 						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbIdNumber}/${product.stock[0].warehouse}`,
 					);
 					const data = await response.json();
-
 					const warehouseData =
 						data?.[0]?.name || "Warehouse not found";
-
 					setwarehouseName(warehouseData);
 				} catch (error) {
 					console.error("Error fetching currency data", error);
@@ -98,10 +99,8 @@ const ProductViewDetails = ({ product }) => {
 						`${nodeUrl}/api/get/price/data/${deviceId}/${ksbIdNumber}/${product.price[0].type}`,
 					);
 					const data = await response.json();
-
 					const warehouseData =
 						data?.[0]?.name || "Price Type not found";
-
 					setpriceTypeName(warehouseData);
 				} catch (error) {
 					console.error("Error fetching currency data", error);
@@ -113,115 +112,145 @@ const ProductViewDetails = ({ product }) => {
 		fetchCurrencyData();
 	}, [product.price[0].type]);
 
-	const fieldDisplayOrder = {
-		Main: [
-			{
-				key: "name",
-				label: "Product Name",
-				icon: <BiPackage size={20} />,
-			},
-			{ key: "type", label: "Product Type", icon: <BiStore size={20} /> },
-			{ key: "symbol", label: "Symbol", icon: <BiTag size={20} /> },
-			{ key: "сurrency", label: "Currency", icon: <BiMoney size={20} /> },
-			{
-				key: "article",
-				label: "Article",
-				icon: <BiBookmark size={20} />,
-			},
-		],
-		Stock: [
-			{
-				key: "stock",
-				label: "Stock",
-				icon: <BiBuilding size={20} />,
-				customRender: (value) =>
-					value && value.length > 0 ? (
-						value.map((item, index) => (
-							<div key={index} className="mb-3">
-								<p className="text-gray-700 font-medium">
-									Warehouse:{" "}
-									<span className="text-gray-500">
-										{warehouseName}
-									</span>
-								</p>
-								<p className="text-gray-700 font-medium">
-									Quantity:{" "}
-									<span className="text-gray-500">
-										{item.qty}
-									</span>
-								</p>
-							</div>
-						))
-					) : (
-						<span className="text-gray-500">No Stock Data</span>
-					),
-			},
-		],
-		Price: [
-			{
-				key: "price",
-				label: "Price",
-				icon: <BiCoinStack size={20} />,
-				customRender: (value) =>
-					value && value.length > 0 ? (
-						value.map((item, index) => (
-							<div key={index} className="mb-3">
-								<p className="text-gray-700 font-medium">
-									Type:{" "}
-									<span className="text-gray-500">
-										{priceTypeName}
-									</span>
-								</p>
-								<p className="text-gray-700 font-medium">
-									Sale:{" "}
-									<span className="text-gray-500">
-										{item.sale}
-									</span>
-								</p>
-							</div>
-						))
-					) : (
-						<span className="text-gray-500">No Price Data</span>
-					),
-			},
-		],
-		Barcodes: [
-			{
-				key: "barcode",
-				label: "Barcode",
-				icon: <BiBarcode size={20} />,
-				customRender: (value) =>
-					value && value.length > 0 ? (
-						value.join(", ")
-					) : (
-						<span className="text-gray-500">No Barcode Data</span>
-					),
-			},
-		],
+	const handleCopy = (value, key) => {
+		navigator.clipboard.writeText(String(value));
+		setCopiedField(key);
+		setTimeout(() => setCopiedField(null), 2000);
 	};
 
-	const renderValue = (key, value, customRender) => {
-		if (customRender) return customRender(value);
-		if (value === undefined || value === null)
-			return (
-				<span className="inline-flex items-center px-3 py-2 rounded-md bg-gray-100 text-gray-500 text-sm">
-					Not Available
-				</span>
-			);
+	const renderMainContent = () => {
+		const entries = Object.entries(product).filter(
+			([key]) => !["stock", "price", "barcode"].includes(key),
+		);
 
-		return <span className="text-gray-700">{String(value)}</span>;
+		return (
+			<div className="grid grid-cols-2 gap-4">
+				{entries.map(([key, value]) => {
+					const displayValue =
+						key === "currency"
+							? currencyName
+							: key === "symbol"
+							? symbolName
+							: value;
+
+					return (
+						<div key={key} className="relative group">
+							<input
+								type="text"
+								value={String(displayValue || "")}
+								disabled
+								placeholder={
+									key.charAt(0).toUpperCase() + key.slice(1)
+								}
+								className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 cursor-text focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent placeholder-gray-400"
+							/>
+							<button
+								onClick={() => handleCopy(displayValue, key)}
+								className="absolute right-3 top-1/2 -translate-y-1/2 transition-opacity duration-200"
+								title="Copy to clipboard"
+							>
+								{copiedField === key ? (
+									<div className="flex items-center text-green-500">
+										<BiCheck size={20} />
+									</div>
+								) : (
+									<BiCopy
+										size={18}
+										className="text-gray-500 hover:text-fuchsia-600"
+									/>
+								)}
+							</button>
+							{copiedField === key && (
+								<div className="absolute -top-8 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-lg">
+									Copied!
+								</div>
+							)}
+						</div>
+					);
+				})}
+			</div>
+		);
 	};
+
+	// Your existing render functions for Stock, Price, and Barcodes remain the same...
+	const renderStockContent = () => (
+		<table className="min-w-full divide-y divide-gray-200">
+			<thead className="bg-gray-50">
+				<tr>
+					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						{warehouseName}
+					</th>
+					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						Quantity
+					</th>
+				</tr>
+			</thead>
+			<tbody className="bg-white divide-y divide-gray-200">
+				{product.stock.map((item, index) => (
+					<tr key={index} className="hover:bg-gray-50">
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+							{warehouseName}
+						</td>
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+							{item.qty}
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	);
+
+	const renderPriceContent = () => (
+		<table className="min-w-full divide-y divide-gray-200">
+			<thead className="bg-gray-50">
+				<tr>
+					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						{priceTypeName}
+					</th>
+					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						Sale
+					</th>
+				</tr>
+			</thead>
+			<tbody className="bg-white divide-y divide-gray-200">
+				{product.price.map((item, index) => (
+					<tr key={index} className="hover:bg-gray-50">
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+							{priceTypeName}
+						</td>
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+							{item.sale}
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	);
+
+	const renderBarcodesContent = () => (
+		<div className="space-y-2">
+			{product.barcode.map((code, index) => (
+				<div
+					key={index}
+					className="flex items-center space-x-2 bg-gray-50 p-3 rounded-md"
+				>
+					<BiBarcode size={24} className="text-gray-500" />
+					<span className="text-gray-700">{code}</span>
+				</div>
+			))}
+		</div>
+	);
 
 	return (
-		<div className="bg-white rounded-lg">
+		<div className="bg-white">
 			<div className="flex border-b">
-				{Object.keys(fieldDisplayOrder).map((menu) => (
+				{["Main", "Stock", "Price", "Barcodes"].map((menu) => (
 					<button
 						key={menu}
-						className={`px-4 py-2 text-sm font-medium ${
+						className={`px-6 py-3 text-sm font-medium transition-colors duration-200 ${
 							activeMenu === menu
 								? "border-b-2 border-fuchsia-600 text-fuchsia-600"
-								: "text-gray-500 hover:text-fuchsia-600"
+								: "text-gray-500 hover:text-fuchsia-600 hover:bg-fuchsia-50"
 						}`}
 						onClick={() => setActiveMenu(menu)}
 					>
@@ -230,55 +259,11 @@ const ProductViewDetails = ({ product }) => {
 				))}
 			</div>
 
-			<div className="p-4 overflow-y-auto" style={{ maxHeight: "400px" }}>
-				<table className="min-w-full table-auto">
-					<thead className="bg-gray-50 text-gray-600">
-						<tr>
-							<th className="px-6 py-3 text-left font-semibold text-lg">
-								Field
-							</th>
-							<th className="px-6 py-3 text-left font-semibold text-lg">
-								Value
-							</th>
-						</tr>
-					</thead>
-					<tbody className="divide-y divide-gray-200">
-						{fieldDisplayOrder[activeMenu].map(
-							({ key, label, icon, customRender }) => (
-								<tr
-									key={key}
-									className="hover:bg-gray-100 transition-colors duration-200"
-								>
-									<td className="px-6 py-3 flex items-center space-x-3">
-										<div className="text-gray-500">
-											{icon}
-										</div>
-										<span className="text-gray-700 font-medium">
-											{label}
-										</span>
-									</td>
-									<td className="px-6 py-3 text-gray-800">
-										{key === "сurrency" ? (
-											<span className="text-gray-700">
-												{currencyName || "Loading..."}
-											</span>
-										) : key === "symbol" ? (
-											<span className="text-gray-700">
-												{symbolName || "Loading..."}
-											</span>
-										) : (
-											renderValue(
-												key,
-												product[key],
-												customRender,
-											)
-										)}
-									</td>
-								</tr>
-							),
-						)}
-					</tbody>
-				</table>
+			<div className="p-6 overflow-y-auto max-h-[600px]">
+				{activeMenu === "Main" && renderMainContent()}
+				{activeMenu === "Stock" && renderStockContent()}
+				{activeMenu === "Price" && renderPriceContent()}
+				{activeMenu === "Barcodes" && renderBarcodesContent()}
 			</div>
 		</div>
 	);
