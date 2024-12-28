@@ -55,6 +55,10 @@ type Content = {
 			rus: string;
 			uz: string;
 		};
+		enterpriseInfo: {
+			infos: string;
+			signout: string;
+		};
 	};
 };
 
@@ -118,6 +122,10 @@ const content: Content = {
 			rus: "Рус",
 			uz: "Узб",
 		},
+		enterpriseInfo: {
+			infos: "Корхона маълумотлари",
+			signout: "KSB-ID дан чиқиш",
+		},
 	},
 	ru: {
 		intro: {
@@ -177,6 +185,10 @@ const content: Content = {
 			settings: "Настройки",
 			rus: "Рус",
 			uz: "Узб",
+		},
+		enterpriseInfo: {
+			infos: "Информация о компании",
+			signout: "Выйти из KSB-ID",
 		},
 	},
 };

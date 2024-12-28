@@ -25,12 +25,16 @@ interface EnterpriseInfoModalProps {
 	} | null;
 }
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	isOpen,
 	onClose,
 	info,
 }) => {
 	if (!isOpen) return null;
+	const [language, setLanguage] = useLang();
 
 	const modalRef = useRef<HTMLDivElement>(null);
 
@@ -90,20 +94,17 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	}
 
 	const infoItems = [
-		{ icon: FaServer, label: "IP Манзил", value: info.ip },
+		{ icon: FaServer, label: "Ип Адрес", value: info.ip },
 		{ icon: FaNetworkWired, label: "Порт", value: info.port },
 		{
 			icon: FaDatabase,
-			label: "Маълумотлар базаси",
+			label: "Датабаза",
 			value: info.info_base,
 		},
 		{
 			icon: FaShieldAlt,
 			label: "ИТС",
-			value: `${moment(info.its).format("LL")}, ${moment(info.its).diff(
-				moment(),
-				"days",
-			)} кун қолди`,
+			value: `${moment(info.its).format("LL")}`,
 		},
 	];
 
@@ -121,7 +122,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 				<div className="p-3">
 					<div className="flex justify-between items-center mb-3 pb-2 border-b border-slate-200">
 						<h2 className="text-sm font-semibold text-slate-800">
-							Корхона маълумотлари
+							{content[language as string].enterpriseInfo.infos}
 						</h2>
 						<button
 							onClick={onClose}
@@ -159,7 +160,12 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 							className="bg-red-500 flex text-center items-center text-white py-2 px-3 block text-center w-full rounded-md hover:bg-red-600"
 						>
 							<FaSignOutAlt className="mr-2" />
-							<span>KSB-ID dan chiqish</span>
+							<span>
+								{
+									content[language as string].enterpriseInfo
+										.signout
+								}
+							</span>
 						</NavLink>
 					</div>
 				</div>
