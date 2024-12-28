@@ -34,7 +34,13 @@ function PasswordInput({
 				{content[language].login.password}
 			</label>
 			<div className="relative">
-				<div className="flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 border-gray-300 rounded-lg text-gray-700">
+				<div
+					className={`flex items-center mt-2 p-4 pl-4 pr-4 w-full border-2 ${
+						userType
+							? "border-gray-100"
+							: "border-gray-200 bg-gray-100"
+					} rounded-lg text-gray-700`}
+				>
 					<FaLock className="text-gray-500 mr-3" size={20} />
 					<input
 						ref={passwordInputRef}
@@ -42,25 +48,41 @@ function PasswordInput({
 						type={isPasswordVisible ? "text" : "password"}
 						className="w-full focus:outline-none"
 						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						onChange={(e) =>
+							userType && setPassword(e.target.value)
+						}
 						onKeyPress={handleKeyPress}
 						placeholder={content[language].login.enter}
 						disabled={!userType}
 					/>
 					<div
-						className="absolute right-4 cursor-pointer"
-						onClick={togglePasswordVisibility}
+						className={`absolute right-4 cursor-pointer ${
+							!userType && "pointer-events-none"
+						}`}
+						onClick={
+							userType ? togglePasswordVisibility : undefined
+						}
 					>
 						{isPasswordVisible ? (
-							<FaEyeSlash className="text-gray-500" size={20} />
+							<FaEyeSlash
+								className={`text-gray-500 ${
+									!userType && "text-gray-300"
+								}`}
+								size={20}
+							/>
 						) : (
-							<FaEye className="text-gray-500" size={20} />
+							<FaEye
+								className={`text-gray-500 ${
+									!userType && "text-gray-300"
+								}`}
+								size={20}
+							/>
 						)}
 					</div>
 				</div>
 				{!userType && (
 					<p className="text-sm text-gray-500 mt-2">
-						Please select a user type first
+						{content[language].login.selectUserType}
 					</p>
 				)}
 			</div>

@@ -80,7 +80,7 @@ const content: Content = {
 			password: "Парол",
 			enterPass: "Паролни киритинг",
 			error: "Фойдаланувчиларни олиб бўлмади",
-			selectUserType: "Илтимос, фойдаланувчи турини танланг",
+			selectUserType: "Фойдаланувчи турини танланг",
 			databaseBlocked: "Маълумотлар базаси блокланган",
 			serverError:
 				"Ichki server xatosi yuz berdi. Keyinroq qayta urinib ko‘ring.",
@@ -140,7 +140,7 @@ const content: Content = {
 			password: "Пароль",
 			enterPass: "Введите пароль",
 			error: "Не удалось получить пользователей.",
-			selectUserType: "Пожалуйста, выберите тип пользователя",
+			selectUserType: "Выберите тип пользователя",
 			databaseBlocked: "База данных заблокирована",
 			serverError:
 				"Произошла внутренняя ошибка сервера. Повторите попытку позже.",
