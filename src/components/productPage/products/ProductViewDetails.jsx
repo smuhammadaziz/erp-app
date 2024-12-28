@@ -65,7 +65,7 @@ const ProductViewDetails = ({ product }) => {
 		};
 
 		fetchCurrencyData();
-	}, [product.currency]);
+	}, [product.symbol]);
 
 	const fieldDisplayOrder = {
 		Main: [
