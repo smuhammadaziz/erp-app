@@ -20,6 +20,7 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [currencyData, setCurrencyData] = useState({});
 	const [symbolData, setSymbolData] = useState({});
 
 	const observer = useRef();
@@ -85,6 +86,36 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 
 		fetchSymbolData();
 	}, [products, symbolData]);
+
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			for (const product of products) {
+				if (product.currency && !currencyData[product.currency]) {
+					const deviceId = localStorage.getItem("device_id");
+					const ksbId = localStorage.getItem("ksbIdNumber");
+
+					try {
+						const response = await fetch(
+							`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbId}/${product.currency}`,
+						);
+						const data = await response.json();
+						setCurrencyData((prev) => ({
+							...prev,
+							[product.currency]: data[0]?.name || "N/A",
+						}));
+					} catch (error) {
+						console.error("Failed to fetch currency data", error);
+						setCurrencyData((prev) => ({
+							...prev,
+							[product.currency]: "N/A",
+						}));
+					}
+				}
+			}
+		};
+
+		fetchCurrencyData();
+	}, [products, currencyData]);
 
 	const handleRowDoubleClick = (product) => {
 		setSelectedProduct(product);
@@ -154,6 +185,9 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 								>
 									{column === "symbol"
 										? symbolData[product.symbol] || "N/A"
+										: column === "currency"
+										? currencyData[product.currency] ||
+										  "N/A"
 										: product[column] !== undefined
 										? String(product[column])
 										: "N/A"}
