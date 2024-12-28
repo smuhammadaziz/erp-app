@@ -19,6 +19,8 @@ function Security() {
 
 	const handleUpdatePassword = async () => {
 		const surname = localStorage.getItem("userType");
+		const ipaddressPort = localStorage.getItem("ipaddress:port");
+		const database = localStorage.getItem("mainDatabase");
 
 		if (!currentPassword || !newPassword || !confirmPassword) {
 			toast.error("All fields are required.");
@@ -40,6 +42,8 @@ function Security() {
 					surname: surname || "",
 					old: currentPassword,
 					news: newPassword,
+					ipAddressPort: ipaddressPort,
+					database: database,
 				}),
 			});
 
