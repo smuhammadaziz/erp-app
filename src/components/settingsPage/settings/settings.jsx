@@ -274,7 +274,7 @@ const ActiveSessions = () => {
 								<span className="text-sm text-slate-400">
 									{moment(
 										session.last_entered_time,
-									).fromNow()}
+									).calendar()}
 								</span>
 								{/* <LogoutButton
 									onClick={() => handleLogout(session.id)}
