@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	BiPackage,
 	BiStore,
@@ -10,10 +10,37 @@ import {
 	BiBarcode,
 } from "react-icons/bi";
 
+import nodeUrl from "../../../links";
+
 const ProductViewDetails = ({ product }) => {
 	const [activeMenu, setActiveMenu] = useState("Main");
+	const [currencyName, setCurrencyName] = useState("");
+
+	const deviceId = localStorage.getItem("device_id");
+	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 
 	if (!product) return null;
+
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			if (product.currency) {
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbIdNumber}/${product.currency}`,
+					);
+					const data = await response.json();
+					const currencyData =
+						data?.[0]?.name || "Currency not found";
+					setCurrencyName(currencyData);
+				} catch (error) {
+					console.error("Error fetching currency data", error);
+					setCurrencyName("Error loading currency");
+				}
+			}
+		};
+
+		fetchCurrencyData();
+	}, [product.currency]);
 
 	const fieldDisplayOrder = {
 		Main: [
@@ -172,10 +199,16 @@ const ProductViewDetails = ({ product }) => {
 										</span>
 									</td>
 									<td className="px-6 py-3 text-gray-800">
-										{renderValue(
-											key,
-											product[key],
-											customRender,
+										{key === "сurrency" ? (
+											<span className="text-gray-700">
+												{currencyName || "Loading..."}
+											</span>
+										) : (
+											renderValue(
+												key,
+												product[key],
+												customRender,
+											)
 										)}
 									</td>
 								</tr>
