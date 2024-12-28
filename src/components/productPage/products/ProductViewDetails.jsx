@@ -27,7 +27,6 @@ const ProductViewDetails = ({ product }) => {
 
 	if (!product) return null;
 
-	// Your existing useEffect hooks remain the same...
 	useEffect(() => {
 		const fetchCurrencyData = async () => {
 			if (product.currency) {
@@ -119,18 +118,15 @@ const ProductViewDetails = ({ product }) => {
 	};
 
 	const renderMainContent = () => {
-		// Define the order of fields we want to display
 		const fieldsToShow = ["name", "symbol", "currency", "type", "box"];
 
-		// Add article only if it exists in product
 		if (product.article) {
-			fieldsToShow.splice(3, 0, "article"); // Insert article after currency
+			fieldsToShow.splice(3, 0, "article");
 		}
 
 		return (
 			<div className="grid grid-cols-2 gap-4">
 				{fieldsToShow.map((key) => {
-					// Skip if the field doesn't exist in product
 					if (!product.hasOwnProperty(key)) return null;
 
 					const displayValue =
@@ -185,7 +181,6 @@ const ProductViewDetails = ({ product }) => {
 		);
 	};
 
-	// Your existing render functions for Stock, Price, and Barcodes remain the same...
 	const renderStockContent = () => (
 		<table className="min-w-full divide-y divide-gray-200">
 			<thead className="bg-gray-50">
