@@ -67,6 +67,30 @@ const ProductViewDetails = ({ product }) => {
 		fetchCurrencyData();
 	}, [product.symbol]);
 
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			if (product.stock[0].warehouse) {
+				try {
+					// Make the API call using the dynamic warehouse value
+					const response = await fetch(
+						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbIdNumber}/${product.stock[0].warehouse}`,
+					);
+					const data = await response.json();
+
+					const warehouseData =
+						data?.[0]?.name || "Warehouse not found";
+
+					setwarehouseName(warehouseData);
+				} catch (error) {
+					console.error("Error fetching currency data", error);
+					setwarehouseName("Error loading warehouse ID");
+				}
+			}
+		};
+
+		fetchCurrencyData();
+	}, [product.stock[0].warehouse]);
+
 	const fieldDisplayOrder = {
 		Main: [
 			{
@@ -95,19 +119,13 @@ const ProductViewDetails = ({ product }) => {
 								<p className="text-gray-700 font-medium">
 									Warehouse:{" "}
 									<span className="text-gray-500">
-										{item.warehouse}
+										{warehouseName}
 									</span>
 								</p>
 								<p className="text-gray-700 font-medium">
 									Quantity:{" "}
 									<span className="text-gray-500">
 										{item.qty}
-									</span>
-								</p>
-								<p className="text-gray-700 font-medium">
-									Sum:{" "}
-									<span className="text-gray-500">
-										{item.sum}
 									</span>
 								</p>
 							</div>
@@ -136,12 +154,6 @@ const ProductViewDetails = ({ product }) => {
 									Sale:{" "}
 									<span className="text-gray-500">
 										{item.sale}
-									</span>
-								</p>
-								<p className="text-gray-700 font-medium">
-									Buy:{" "}
-									<span className="text-gray-500">
-										{item.buy}
 									</span>
 								</p>
 							</div>
