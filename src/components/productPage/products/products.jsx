@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { SlBasket } from "react-icons/sl";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
 import ProductTable from "./ProductTable";
@@ -19,6 +19,21 @@ const ProductsPageComponent = () => {
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
+
+	// Debounce function to limit the rate of API calls
+	const debounce = (func, delay) => {
+		let timeout;
+		return (...args) => {
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func(...args), delay);
+		};
+	};
+
+	// Debounced search handler
+	const debouncedSearch = useCallback(
+		debounce((term) => setSearchTerm(term), 300),
+		[],
+	);
 
 	// Fetch all products initially
 	useEffect(() => {
@@ -58,7 +73,7 @@ const ProductsPageComponent = () => {
 		setHasMore(filteredProducts.length > 50);
 	}, [filteredProducts]);
 
-	const loadMore = () => {
+	const loadMore = useCallback(() => {
 		const currentLength = displayedProducts.length;
 		const nextBatch = filteredProducts.slice(
 			currentLength,
@@ -70,25 +85,28 @@ const ProductsPageComponent = () => {
 		} else {
 			setHasMore(false);
 		}
-	};
+	}, [displayedProducts, filteredProducts]);
 
-	const handleAddProduct = (newProduct) => {
-		const productToAdd = {
-			...newProduct,
-			id: products.length + 1,
-		};
-		setProducts((prev) => [...prev, productToAdd]);
-		setShowAddModal(false);
-	};
+	const handleAddProduct = useCallback(
+		(newProduct) => {
+			const productToAdd = {
+				...newProduct,
+				id: products.length + 1,
+			};
+			setProducts((prev) => [...prev, productToAdd]);
+			setShowAddModal(false);
+		},
+		[products],
+	);
 
-	const handleDeleteProduct = (id) => {
+	const handleDeleteProduct = useCallback((id) => {
 		setProducts((prev) => prev.filter((product) => product.id !== id));
-	};
+	}, []);
 
-	const handleViewProduct = (product) => {
+	const handleViewProduct = useCallback((product) => {
 		setSelectedProduct(product);
 		setShowViewModal(true);
-	};
+	}, []);
 
 	return (
 		<div className="container mx-auto h-[80vh]">
@@ -110,7 +128,7 @@ const ProductsPageComponent = () => {
 									placeholder="Search products..."
 									value={searchTerm}
 									onChange={(e) =>
-										setSearchTerm(e.target.value)
+										debouncedSearch(e.target.value)
 									}
 									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>

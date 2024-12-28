@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
 	BiPackage,
 	BiStore,
@@ -18,8 +18,8 @@ const ProductViewDetails = ({ product }) => {
 	const [activeMenu, setActiveMenu] = useState("Main");
 	const [currencyName, setCurrencyName] = useState("");
 	const [symbolName, setSymbolName] = useState("");
-	const [warehouseName, setwarehouseName] = useState("");
-	const [priceTypeName, setpriceTypeName] = useState("");
+	const [warehouseName, setWarehouseName] = useState("");
+	const [priceTypeName, setPriceTypeName] = useState("");
 	const [copiedField, setCopiedField] = useState(null);
 
 	const deviceId = localStorage.getItem("device_id");
@@ -27,95 +27,70 @@ const ProductViewDetails = ({ product }) => {
 
 	if (!product) return null;
 
-	useEffect(() => {
-		const fetchCurrencyData = async () => {
-			if (product.currency) {
-				try {
-					const response = await fetch(
-						`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbIdNumber}/${product.currency}`,
-					);
-					const data = await response.json();
-					const currencyData =
-						data?.[0]?.name || "Currency not found";
-					setCurrencyName(currencyData);
-				} catch (error) {
-					console.error("Error fetching currency data", error);
-					setCurrencyName("Error loading currency");
-				}
+	// Function to fetch data based on type
+	const fetchData = useCallback(
+		async (type, id, setter, errorSetter) => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/get/${type}/data/${deviceId}/${ksbIdNumber}/${id}`,
+				);
+				const data = await response.json();
+				const name =
+					data?.[0]?.name ||
+					`${type.charAt(0).toUpperCase() + type.slice(1)} not found`;
+				setter(name);
+			} catch (error) {
+				console.error(`Error fetching ${type} data`, error);
+				errorSetter(`Error loading ${type}`);
 			}
-		};
-
-		fetchCurrencyData();
-	}, [product.currency]);
-
-	useEffect(() => {
-		const fetchCurrencyData = async () => {
-			if (product.symbol) {
-				try {
-					const response = await fetch(
-						`${nodeUrl}/api/get/symbol/data/${deviceId}/${ksbIdNumber}/${product.symbol}`,
-					);
-					const data = await response.json();
-					const currencyData =
-						data?.[0]?.name || "Currency not found";
-					setSymbolName(currencyData);
-				} catch (error) {
-					console.error("Error fetching currency data", error);
-					setCurrencyName("Error loading currency");
-				}
-			}
-		};
-
-		fetchCurrencyData();
-	}, [product.symbol]);
+		},
+		[deviceId, ksbIdNumber],
+	);
 
 	useEffect(() => {
-		const fetchCurrencyData = async () => {
-			if (product.stock[0].warehouse) {
-				try {
-					const response = await fetch(
-						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbIdNumber}/${product.stock[0].warehouse}`,
-					);
-					const data = await response.json();
-					const warehouseData =
-						data?.[0]?.name || "Warehouse not found";
-					setwarehouseName(warehouseData);
-				} catch (error) {
-					console.error("Error fetching currency data", error);
-					setwarehouseName("Error loading warehouse ID");
-				}
-			}
-		};
-
-		fetchCurrencyData();
-	}, [product.stock[0].warehouse]);
+		if (product.currency) {
+			fetchData(
+				"currency",
+				product.currency,
+				setCurrencyName,
+				setCurrencyName,
+			);
+		}
+	}, [product.currency, fetchData]);
 
 	useEffect(() => {
-		const fetchCurrencyData = async () => {
-			if (product.price[0].type) {
-				try {
-					const response = await fetch(
-						`${nodeUrl}/api/get/price/data/${deviceId}/${ksbIdNumber}/${product.price[0].type}`,
-					);
-					const data = await response.json();
-					const warehouseData =
-						data?.[0]?.name || "Price Type not found";
-					setpriceTypeName(warehouseData);
-				} catch (error) {
-					console.error("Error fetching currency data", error);
-					setwarehouseName("Error loading warehouse ID");
-				}
-			}
-		};
+		if (product.symbol) {
+			fetchData("symbol", product.symbol, setSymbolName, setSymbolName);
+		}
+	}, [product.symbol, fetchData]);
 
-		fetchCurrencyData();
-	}, [product.price[0].type]);
+	useEffect(() => {
+		if (product.stock[0]?.warehouse) {
+			fetchData(
+				"warehouse",
+				product.stock[0].warehouse,
+				setWarehouseName,
+				setWarehouseName,
+			);
+		}
+	}, [product.stock, fetchData]);
 
-	const handleCopy = (value, key) => {
+	useEffect(() => {
+		if (product.price[0]?.type) {
+			fetchData(
+				"price",
+				product.price[0].type,
+				setPriceTypeName,
+				setPriceTypeName,
+			);
+		}
+	}, [product.price, fetchData]);
+
+	const handleCopy = useCallback((value, key) => {
 		navigator.clipboard.writeText(String(value));
 		setCopiedField(key);
 		setTimeout(() => setCopiedField(null), 2000);
-	};
+	}, []);
 
 	const renderMainContent = () => {
 		const fieldsToShow = ["name", "symbol", "currency", "type", "box"];
@@ -150,8 +125,8 @@ const ProductViewDetails = ({ product }) => {
 								value={String(displayValue || "")}
 								disabled
 								className="w-full px-4 py-3 bg-gray-50 border border-gray-200 
-										 rounded-md text-gray-700 cursor-text focus:outline-none 
-										 focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent"
+                         rounded-md text-gray-700 cursor-text focus:outline-none 
+                         focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent"
 							/>
 							<button
 								onClick={() => handleCopy(displayValue, key)}
@@ -286,3 +261,4 @@ const ProductViewDetails = ({ product }) => {
 };
 
 export default ProductViewDetails;
+
