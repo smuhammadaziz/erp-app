@@ -28,7 +28,9 @@ function PasswordModal({
 				</h2>
 				{isFirstTimePassword ? (
 					<>
-						<p className="mb-4">Please set a password for {userType}</p>
+						<p className="mb-4">
+							Please set a password for {userType}
+						</p>
 						<button
 							onClick={handleSetPassword}
 							className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
@@ -54,3 +56,4 @@ function PasswordModal({
 }
 
 export default PasswordModal;
+
