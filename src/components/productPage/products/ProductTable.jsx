@@ -83,13 +83,13 @@ const ProductTable = React.memo(
 						const data = await response.json();
 						setSymbolData((prev) => ({
 							...prev,
-							[product.symbol]: data[0]?.name || "N/A",
+							[product.symbol]: data[0]?.name || "-",
 						}));
 					} catch (error) {
 						console.error("Failed to fetch symbol data", error);
 						setSymbolData((prev) => ({
 							...prev,
-							[product.symbol]: "N/A",
+							[product.symbol]: "-",
 						}));
 					}
 				}
@@ -109,13 +109,13 @@ const ProductTable = React.memo(
 						const data = await response.json();
 						setCurrencyData((prev) => ({
 							...prev,
-							[product.currency]: data[0]?.name || "N/A",
+							[product.currency]: data[0]?.name || "-",
 						}));
 					} catch (error) {
 						console.error("Failed to fetch currency data", error);
 						setCurrencyData((prev) => ({
 							...prev,
-							[product.currency]: "N/A",
+							[product.currency]: "-",
 						}));
 					}
 				}
