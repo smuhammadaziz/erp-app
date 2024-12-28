@@ -100,7 +100,7 @@ const ProductViewDetails = ({ product }) => {
 					const data = await response.json();
 
 					const warehouseData =
-						data?.[0]?.name || "Warehouse not found";
+						data?.[0]?.name || "Price Type not found";
 
 					setpriceTypeName(warehouseData);
 				} catch (error) {
@@ -111,7 +111,7 @@ const ProductViewDetails = ({ product }) => {
 		};
 
 		fetchCurrencyData();
-	}, [product.stock[0].warehouse]);
+	}, [product.price[0].type]);
 
 	const fieldDisplayOrder = {
 		Main: [
