@@ -91,6 +91,30 @@ const ProductViewDetails = ({ product }) => {
 		fetchCurrencyData();
 	}, [product.stock[0].warehouse]);
 
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			if (product.price[0].type) {
+				try {
+					// Make the API call using the dynamic warehouse value
+					const response = await fetch(
+						`${nodeUrl}/api/get/price/data/${deviceId}/${ksbIdNumber}/${product.price[0].type}`,
+					);
+					const data = await response.json();
+
+					const warehouseData =
+						data?.[0]?.name || "Warehouse not found";
+
+					setpriceTypeName(warehouseData);
+				} catch (error) {
+					console.error("Error fetching currency data", error);
+					setwarehouseName("Error loading warehouse ID");
+				}
+			}
+		};
+
+		fetchCurrencyData();
+	}, [product.stock[0].warehouse]);
+
 	const fieldDisplayOrder = {
 		Main: [
 			{
@@ -147,7 +171,7 @@ const ProductViewDetails = ({ product }) => {
 								<p className="text-gray-700 font-medium">
 									Type:{" "}
 									<span className="text-gray-500">
-										{item.type}
+										{priceTypeName}
 									</span>
 								</p>
 								<p className="text-gray-700 font-medium">
