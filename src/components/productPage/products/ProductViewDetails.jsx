@@ -35,9 +35,7 @@ const ProductViewDetails = ({ product }) => {
 					`${nodeUrl}/api/get/${type}/data/${deviceId}/${ksbIdNumber}/${id}`,
 				);
 				const data = await response.json();
-				const name =
-					data?.[0]?.name ||
-					`${type.charAt(0).toUpperCase() + type.slice(1)} not found`;
+				const name = data?.[0]?.name || `-`;
 				setter(name);
 			} catch (error) {
 				console.error(`Error fetching ${type} data`, error);
