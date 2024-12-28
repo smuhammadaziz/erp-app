@@ -5,6 +5,9 @@ import useLang from "../../hooks/useLang";
 import { IoSync } from "react-icons/io5";
 import { FiLoader } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import { TbUserHexagon } from "react-icons/tb";
+import { HiOutlineUserCircle } from "react-icons/hi2";
 import {
 	format,
 	startOfMonth,
@@ -212,10 +215,6 @@ function HeaderInner({ onRefresh }) {
 				{/* <p className="text-white text-lg">{basicUsername}</p> */}
 
 				<div className="flex items-center gap-x-6">
-					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-						<FaUser className="text-xl text-white mr-2" />
-						{basicUsername ? basicUsername : "Loading..."}
-					</div>
 					<h2 className="text-white text-xl font-semibold tracking-wide">
 						{content[language].header}
 					</h2>
@@ -306,6 +305,10 @@ function HeaderInner({ onRefresh }) {
 						{rate && rate.length > 0 && rate[0].key === "usd"
 							? `1 $ = ${rate[0].rate} сум`
 							: "Loading..."}
+					</div>
+					<div className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
+						{basicUsername ? basicUsername : "Loading..."}
+						<HiOutlineUserCircle className="text-xl text-white ml-2" />
 					</div>
 				</div>
 			</header>
