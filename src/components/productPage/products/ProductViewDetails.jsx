@@ -15,6 +15,9 @@ import nodeUrl from "../../../links";
 const ProductViewDetails = ({ product }) => {
 	const [activeMenu, setActiveMenu] = useState("Main");
 	const [currencyName, setCurrencyName] = useState("");
+	const [symbolName, setSymbolName] = useState("");
+	const [warehouseName, setwarehouseName] = useState("");
+	const [priceTypeName, setpriceTypeName] = useState("");
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
@@ -32,6 +35,28 @@ const ProductViewDetails = ({ product }) => {
 					const currencyData =
 						data?.[0]?.name || "Currency not found";
 					setCurrencyName(currencyData);
+				} catch (error) {
+					console.error("Error fetching currency data", error);
+					setCurrencyName("Error loading currency");
+				}
+			}
+		};
+
+		fetchCurrencyData();
+	}, [product.currency]);
+
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			if (product.symbol) {
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/symbol/data/${deviceId}/${ksbIdNumber}/${product.symbol}`,
+					);
+					const data = await response.json();
+
+					const currencyData =
+						data?.[0]?.name || "Currency not found";
+					setSymbolName(currencyData);
 				} catch (error) {
 					console.error("Error fetching currency data", error);
 					setCurrencyName("Error loading currency");
@@ -202,6 +227,10 @@ const ProductViewDetails = ({ product }) => {
 										{key === "сurrency" ? (
 											<span className="text-gray-700">
 												{currencyName || "Loading..."}
+											</span>
+										) : key === "symbol" ? (
+											<span className="text-gray-700">
+												{symbolName || "Loading..."}
 											</span>
 										) : (
 											renderValue(
