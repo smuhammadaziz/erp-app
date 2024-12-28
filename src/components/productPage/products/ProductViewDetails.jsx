@@ -242,15 +242,23 @@ const ProductViewDetails = ({ product }) => {
 
 	const renderBarcodesContent = () => (
 		<div className="space-y-2">
-			{product.barcode.map((code, index) => (
-				<div
-					key={index}
-					className="flex items-center space-x-2 bg-gray-50 p-3 rounded-md"
-				>
-					<BiBarcode size={24} className="text-gray-500" />
-					<span className="text-gray-700">{code}</span>
+			{product.barcode && product.barcode.length > 0 ? (
+				product.barcode.map((code, index) => (
+					<div
+						key={index}
+						className="flex items-center space-x-2 bg-gray-50 p-3 rounded-md"
+					>
+						<BiBarcode size={24} className="text-gray-500" />
+						<span className="text-gray-700">{code}</span>
+					</div>
+				))
+			) : (
+				<div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-md">
+					<span className="text-gray-700">
+						Barcodes not available
+					</span>
 				</div>
-			))}
+			)}
 		</div>
 	);
 
