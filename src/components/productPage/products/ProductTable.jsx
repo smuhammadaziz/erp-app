@@ -3,6 +3,7 @@ import { FaEye } from "react-icons/fa";
 import { FiLoader } from "react-icons/fi";
 import ProductModal from "./ProductModal";
 import ProductViewDetails from "./ProductViewDetails";
+import nodeUrl from "../../../links";
 
 const LoadingSpinner = () => (
 	<div className="flex items-center justify-center py-4">
@@ -19,11 +20,12 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [symbolData, setSymbolData] = useState({});
 
 	const observer = useRef();
 	const lastProductRef = useRef();
 
-	const columns = ["name", "type", "symbol", "сurrency", "article", "box"];
+	const columns = ["name", "type", "symbol", "currency", "article", "box"];
 
 	useEffect(() => {
 		const options = {
@@ -53,6 +55,36 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 			}
 		};
 	}, [hasMore, isLoadingMore, onLoadMore]);
+
+	useEffect(() => {
+		const fetchSymbolData = async () => {
+			for (const product of products) {
+				if (product.symbol && !symbolData[product.symbol]) {
+					const deviceId = localStorage.getItem("device_id");
+					const ksbId = localStorage.getItem("ksbIdNumber");
+
+					try {
+						const response = await fetch(
+							`${nodeUrl}/api/get/symbol/data/${deviceId}/${ksbId}/${product.symbol}`,
+						);
+						const data = await response.json();
+						setSymbolData((prev) => ({
+							...prev,
+							[product.symbol]: data[0]?.name || "N/A",
+						}));
+					} catch (error) {
+						console.error("Failed to fetch symbol data", error);
+						setSymbolData((prev) => ({
+							...prev,
+							[product.symbol]: "N/A",
+						}));
+					}
+				}
+			}
+		};
+
+		fetchSymbolData();
+	}, [products, symbolData]);
 
 	const handleRowDoubleClick = (product) => {
 		setSelectedProduct(product);
@@ -120,7 +152,9 @@ const ProductTable = ({ products, isLoading, hasMore, onLoadMore }) => {
 											: "text-center"
 									}`}
 								>
-									{product[column] !== undefined
+									{column === "symbol"
+										? symbolData[product.symbol] || "N/A"
+										: product[column] !== undefined
 										? String(product[column])
 										: "N/A"}
 								</td>
