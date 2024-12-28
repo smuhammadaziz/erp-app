@@ -119,30 +119,43 @@ const ProductViewDetails = ({ product }) => {
 	};
 
 	const renderMainContent = () => {
-		const entries = Object.entries(product).filter(
-			([key]) => !["stock", "price", "barcode"].includes(key),
-		);
+		// Define the order of fields we want to display
+		const fieldsToShow = ["name", "symbol", "currency", "type", "box"];
+
+		// Add article only if it exists in product
+		if (product.article) {
+			fieldsToShow.splice(3, 0, "article"); // Insert article after currency
+		}
 
 		return (
 			<div className="grid grid-cols-2 gap-4">
-				{entries.map(([key, value]) => {
+				{fieldsToShow.map((key) => {
+					// Skip if the field doesn't exist in product
+					if (!product.hasOwnProperty(key)) return null;
+
 					const displayValue =
 						key === "currency"
 							? currencyName
 							: key === "symbol"
 							? symbolName
-							: value;
+							: product[key];
 
 					return (
 						<div key={key} className="relative group">
+							<label
+								htmlFor={key}
+								className="block mb-1 text-sm font-medium text-gray-600"
+							>
+								{key.charAt(0).toUpperCase() + key.slice(1)}
+							</label>
 							<input
+								id={key}
 								type="text"
 								value={String(displayValue || "")}
 								disabled
-								placeholder={
-									key.charAt(0).toUpperCase() + key.slice(1)
-								}
-								className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 cursor-text focus:outline-none focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent placeholder-gray-400"
+								className="w-full px-4 py-3 bg-gray-50 border border-gray-200 
+										 rounded-md text-gray-700 cursor-text focus:outline-none 
+										 focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent"
 							/>
 							<button
 								onClick={() => handleCopy(displayValue, key)}
@@ -178,7 +191,7 @@ const ProductViewDetails = ({ product }) => {
 			<thead className="bg-gray-50">
 				<tr>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						{warehouseName}
+						Name
 					</th>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 						Quantity
@@ -205,7 +218,7 @@ const ProductViewDetails = ({ product }) => {
 			<thead className="bg-gray-50">
 				<tr>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						{priceTypeName}
+						Name
 					</th>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 						Sale
