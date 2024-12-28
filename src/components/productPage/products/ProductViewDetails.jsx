@@ -71,7 +71,6 @@ const ProductViewDetails = ({ product }) => {
 		const fetchCurrencyData = async () => {
 			if (product.stock[0].warehouse) {
 				try {
-					// Make the API call using the dynamic warehouse value
 					const response = await fetch(
 						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbIdNumber}/${product.stock[0].warehouse}`,
 					);
@@ -95,7 +94,6 @@ const ProductViewDetails = ({ product }) => {
 		const fetchCurrencyData = async () => {
 			if (product.price[0].type) {
 				try {
-					// Make the API call using the dynamic warehouse value
 					const response = await fetch(
 						`${nodeUrl}/api/get/price/data/${deviceId}/${ksbIdNumber}/${product.price[0].type}`,
 					);
