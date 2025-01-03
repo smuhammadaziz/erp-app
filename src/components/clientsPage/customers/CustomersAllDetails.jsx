@@ -165,38 +165,100 @@ const CustomersAllDetails = () => {
 				<Modal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
-					title="View Customer Details"
+					title="Client Details"
 				>
 					{selectedCustomer && (
-						<div className="space-y-2">
-							<p>
-								<strong>Name:</strong> {selectedCustomer.name}
-							</p>
-							<p>
-								<strong>Phone:</strong>{" "}
-								{selectedCustomer.phone_number ||
-									"No phone number"}
-							</p>
-							<p>
-								<strong>Client ID:</strong>{" "}
-								{selectedCustomer.client_id}
-							</p>
-							<p>
-								<strong>Delete:</strong>{" "}
-								{selectedCustomer.delete ? "Yes" : "No"}
-							</p>
-							<p>
-								<strong>Archive:</strong>{" "}
-								{selectedCustomer.archive ? "Yes" : "No"}
-							</p>
-							<p>
-								<strong>Negative Balance:</strong>{" "}
-								{selectedCustomer.negative_balance.length}
-							</p>
-							<p>
-								<strong>Positive Balance:</strong>{" "}
-								{selectedCustomer.positive_balance.length}
-							</p>
+						<div className="space-y-6">
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								<div className="space-y-2">
+									<label className="block text-sm font-medium text-gray-500">
+										Name
+									</label>
+									<p className="text-gray-900">
+										{selectedCustomer.name}
+									</p>
+								</div>
+								<div className="space-y-2">
+									<label className="block text-sm font-medium text-gray-500">
+										Phone
+									</label>
+									<p className="text-gray-900">
+										{selectedCustomer.phone_number ||
+											"No phone number"}
+									</p>
+								</div>
+								<div className="space-y-2">
+									<label className="block text-sm font-medium text-gray-500">
+										Client ID
+									</label>
+									<p className="text-gray-900">
+										{selectedCustomer.client_id}
+									</p>
+								</div>
+								<div className="space-y-2">
+									<label className="block text-sm font-medium text-gray-500">
+										Status
+									</label>
+									<div className="flex space-x-4">
+										<span
+											className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+												selectedCustomer.delete
+													? "bg-red-100 text-red-800"
+													: "bg-green-100 text-green-800"
+											}`}
+										>
+											{selectedCustomer.delete
+												? "Deleted"
+												: "Active"}
+										</span>
+										<span
+											className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+												selectedCustomer.archive
+													? "bg-gray-100 text-gray-800"
+													: "bg-green-100 text-green-800"
+											}`}
+										>
+											{selectedCustomer.archive
+												? "Archived"
+												: "Current"}
+										</span>
+									</div>
+								</div>
+							</div>
+
+							<div className="border-t border-gray-200 pt-6">
+								<h3 className="text-lg font-medium text-gray-900 mb-4">
+									Balance History
+								</h3>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div className="bg-red-50 rounded-lg p-4">
+										<div className="flex items-center justify-between">
+											<span className="text-sm font-medium text-red-700">
+												Negative Balance
+											</span>
+											<span className="text-2xl font-semibold text-red-700">
+												{
+													selectedCustomer
+														.negative_balance.length
+												}
+											</span>
+										</div>
+									</div>
+									<div className="bg-green-50 rounded-lg p-4">
+										<div className="flex items-center justify-between">
+											<span className="text-sm font-medium text-green-700">
+												Positive Balance
+											</span>
+											<span className="text-2xl font-semibold text-green-700">
+												{
+													selectedCustomer
+														.positive_balance.length
+												}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					)}
 				</Modal>
