@@ -71,13 +71,6 @@ const CustomersAllDetails = () => {
 								value={searchTerm}
 								onChange={setSearchTerm}
 							/>
-							<button
-								onClick={() => setShowAddModal(true)}
-								className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-							>
-								<FaUserPlus className="mr-2" />
-								<span>Add Customer</span>
-							</button>
 						</div>
 					</div>
 				</div>

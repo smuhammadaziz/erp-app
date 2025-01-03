@@ -31,17 +31,11 @@ const CustomerRow = ({ customer, onView, onDelete }) => {
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">
 				<div className="flex items-center text-sm text-gray-600">
-					<FaEnvelope className="mr-2 text-gray-400" />
-					{customer.email}
-				</div>
-			</td>
-			<td className="px-6 py-4 whitespace-nowrap">
-				<div className="flex items-center text-sm text-gray-600">
 					<FaPhone className="mr-2 text-gray-400" />
 					{customer.phone_number}
 				</div>
 			</td>
-			<td className="px-6 py-4 whitespace-nowrap">
+			{/* <td className="px-6 py-4 whitespace-nowrap">
 				<span
 					className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
 						customer.status,
@@ -54,22 +48,16 @@ const CustomerRow = ({ customer, onView, onDelete }) => {
 					)}
 					{customer.status}
 				</span>
-			</td>
+			</td> */}
 			<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-				<div className="flex items-center space-x-4">
+				<div className="flex justify-center space-x-4">
 					<button
 						onClick={() => onView(customer)}
-						className="flex items-center text-blue-600 hover:text-blue-900 transition-colors duration-200"
+						className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors rounded px-3 py-1 flex items-center space-x-2"
+						title="View Product"
 					>
-						<FaEye className="mr-1" />
+						<FaEye />
 						<span>View</span>
-					</button>
-					<button
-						onClick={() => onDelete(customer.id)}
-						className="flex items-center text-red-600 hover:text-red-900 transition-colors duration-200"
-					>
-						<FaTrash className="mr-1" />
-						<span>Delete</span>
 					</button>
 				</div>
 			</td>
