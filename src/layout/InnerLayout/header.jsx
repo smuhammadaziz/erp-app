@@ -156,8 +156,11 @@ function HeaderInner({ onRefresh }) {
 	};
 
 	useEffect(() => {
+		const localStorageKey = "currency_rate";
+
 		const fetchProducts = async () => {
 			try {
+				// Fetch fresh data from the API
 				const response = await fetch(
 					`${nodeUrl}/api/currency/${ksbId}`,
 					{
@@ -174,13 +177,32 @@ function HeaderInner({ onRefresh }) {
 						}),
 					},
 				);
+
 				const data = await response.json();
+
+				// Update local storage and state
+				localStorage.setItem(
+					localStorageKey,
+					JSON.stringify(data.detail),
+				);
 				setRate(data.detail);
 			} catch (error) {
 				console.error("Error fetching products:", error);
 			}
 		};
 
+		// Check local storage first
+		const cachedRate = localStorage.getItem(localStorageKey);
+
+		if (cachedRate) {
+			// If data exists in local storage, use it immediately
+			setRate(JSON.parse(cachedRate));
+		} else {
+			// If no cached data, fetch from API
+			fetchProducts();
+		}
+
+		// Optionally, refresh data in the background
 		fetchProducts();
 	}, []);
 
@@ -304,7 +326,7 @@ function HeaderInner({ onRefresh }) {
 						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
 						{rate && rate.length > 0 && rate[0].key === "usd"
 							? `1 $ = ${rate[0].rate} сум`
-							: "Loading..."}
+							: "No data available"}
 					</div>
 					<div className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
 						{basicUsername ? basicUsername : "Loading..."}
