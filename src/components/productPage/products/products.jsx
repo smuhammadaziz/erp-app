@@ -20,7 +20,6 @@ const ProductsPageComponent = () => {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	// Debounce function to limit the rate of API calls
 	const debounce = (func, delay) => {
 		let timeout;
 		return (...args) => {
@@ -29,13 +28,11 @@ const ProductsPageComponent = () => {
 		};
 	};
 
-	// Debounced search handler
 	const debouncedSearch = useCallback(
 		debounce((term) => setSearchTerm(term), 300),
 		[],
 	);
 
-	// Fetch all products initially
 	useEffect(() => {
 		const fetchProducts = async () => {
 			try {
