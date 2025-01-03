@@ -78,3 +78,4 @@ const CustomerRow = ({ customer, onView, onDelete }) => {
 };
 
 export default CustomerRow;
+
