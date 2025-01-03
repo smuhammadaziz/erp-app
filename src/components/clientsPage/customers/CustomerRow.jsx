@@ -34,7 +34,7 @@ const CustomerRow = ({ customer, onView, index }) => {
 				</div>
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-				<div className="flex justify-center space-x-4">
+				<div className="whitespace-nowrap text-center">
 					<button
 						onClick={() => onView(customer)}
 						className="bg-blue-100 text-blue-600 hover:bg-blue-200 transition-colors rounded px-3 py-1 flex items-center space-x-2"
