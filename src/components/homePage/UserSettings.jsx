@@ -66,15 +66,15 @@ const DownloaderModal = () => {
 		}
 	};
 
+	const ksb_id = getStorageItem("ksbIdNumber");
+	const device_id = getStorageItem("device_id");
+	const ipaddressPort = getStorageItem("ipaddress:port");
+	const mainDatabase = getStorageItem("mainDatabase");
+	const basicUsername = getStorageItem("userType");
+	const basicPassword = getStorageItem("userPassword");
+
 	const fetchDeviceData = async () => {
 		try {
-			const ksb_id = getStorageItem("ksbIdNumber");
-			const device_id = getStorageItem("device_id");
-			const ipaddressPort = getStorageItem("ipaddress:port");
-			const mainDatabase = getStorageItem("mainDatabase");
-			const basicUsername = getStorageItem("userType");
-			const basicPassword = getStorageItem("userPassword");
-
 			const response = await fetch(
 				`${nodeUrl}/api/first/sync/${ksb_id}/${device_id}`,
 				{
@@ -114,6 +114,44 @@ const DownloaderModal = () => {
 		}
 	};
 
+	const fetchClientData = async () => {
+		try {
+			const requestBody = {
+				ipaddressPort: ipaddressPort,
+				database: mainDatabase,
+				deviceId: device_id,
+				ksbId: ksb_id,
+				username: basicUsername,
+				password: basicPassword,
+			};
+
+			const response = await fetch(`${nodeUrl}/api/get/client`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestBody),
+			});
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error(
+					`Client data fetch failed: ${response.status} ${
+						errorData?.message || response.statusText
+					}`,
+				);
+			}
+
+			const data = await response.json();
+			console.log("Client data fetched successfully:", data);
+			return data;
+		} catch (error) {
+			console.error("Fetch Client Data Error:", error);
+			setError(error.message);
+			throw error;
+		}
+	};
+
 	const startDownload = async () => {
 		setDownloadStatus("downloading");
 		setError(null);
@@ -125,6 +163,7 @@ const DownloaderModal = () => {
 			}
 
 			await fetchDeviceData();
+			await fetchClientData(); // Fetch client data
 			setDownloadStatus("completed");
 		} catch (error) {
 			console.error("Download process failed:", error);

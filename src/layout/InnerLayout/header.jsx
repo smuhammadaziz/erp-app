@@ -195,8 +195,14 @@ function HeaderInner({ onRefresh }) {
 		const cachedRate = localStorage.getItem(localStorageKey);
 
 		if (cachedRate) {
-			// If data exists in local storage, use it immediately
-			setRate(JSON.parse(cachedRate));
+			try {
+				// Safely parse and set the data
+				setRate(JSON.parse(cachedRate));
+			} catch (error) {
+				console.error("Error parsing localStorage data:", error);
+				// If parsing fails, fetch fresh data and reset localStorage
+				fetchProducts();
+			}
 		} else {
 			// If no cached data, fetch from API
 			fetchProducts();
