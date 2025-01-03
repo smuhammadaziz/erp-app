@@ -118,7 +118,8 @@ const IndexPage: FC = () => {
 					},
 				);
 				const data = await response.json();
-				setAllProducts(12);
+				console.log(data);
+				setAllProducts(data.products.length);
 			} catch (error) {
 				console.error("Error fetching products:", error);
 			}
