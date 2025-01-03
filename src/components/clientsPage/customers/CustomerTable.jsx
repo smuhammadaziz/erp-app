@@ -7,6 +7,9 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 			<thead className="bg-gray-50 sticky top-0 z-10">
 				<tr>
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+						No
+					</th>
+					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
 						Name
 					</th>
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
@@ -18,12 +21,13 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 				</tr>
 			</thead>
 			<tbody className="bg-white divide-y divide-gray-200">
-				{customers.map((customer) => (
+				{customers.map((customer, index) => (
 					<CustomerRow
 						key={customer.id}
 						customer={customer}
 						onView={onView}
 						onDelete={onDelete}
+						index={index + 1}
 					/>
 				))}
 			</tbody>
@@ -32,4 +36,3 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 );
 
 export default CustomerTable;
-

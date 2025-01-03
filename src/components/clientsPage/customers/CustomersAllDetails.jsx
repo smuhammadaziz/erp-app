@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import SearchBar from "./SearchBar";
 import CustomerTable from "./CustomerTable";
 import InputField from "./InputField";
-import data from "./data.json";
 import { TbUserSearch } from "react-icons/tb";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
 
 const CustomersAllDetails = () => {
-	const [customers, setCustomers] = useState(data);
+	const [customers, setCustomers] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
@@ -20,6 +19,25 @@ const CustomersAllDetails = () => {
 		phone_number: "",
 		status: "Active",
 	});
+
+	useEffect(() => {
+		const fetchCustomers = async () => {
+			try {
+				const ksbIdNumber = localStorage.getItem("ksbIdNumber");
+				const device_id = localStorage.getItem("device_id");
+
+				const response = await fetch(
+					`http://localhost:8000/api/get/client/${ksbIdNumber}/${device_id}`
+				);
+				const result = await response.json();
+				setCustomers(result.data);
+			} catch (error) {
+				console.error("Error fetching customers:", error);
+			}
+		};
+
+		fetchCustomers();
+	}, []);
 
 	const filteredCustomers = customers.filter((customer) =>
 		Object.values(customer)
@@ -151,19 +169,25 @@ const CustomersAllDetails = () => {
 					{selectedCustomer && (
 						<div className="space-y-2">
 							<p>
-								<strong>Name:</strong> {selectedCustomer.name}{" "}
-								{selectedCustomer.surname}
+								<strong>Name:</strong> {selectedCustomer.name}
 							</p>
 							<p>
-								<strong>Email:</strong> {selectedCustomer.email}
+								<strong>Phone:</strong> {selectedCustomer.phone_number || "No phone number"}
 							</p>
 							<p>
-								<strong>Phone:</strong>{" "}
-								{selectedCustomer.phone_number}
+								<strong>Client ID:</strong> {selectedCustomer.client_id}
 							</p>
 							<p>
-								<strong>Status:</strong>{" "}
-								{selectedCustomer.status}
+								<strong>Delete:</strong> {selectedCustomer.delete ? "Yes" : "No"}
+							</p>
+							<p>
+								<strong>Archive:</strong> {selectedCustomer.archive ? "Yes" : "No"}
+							</p>
+							<p>
+								<strong>Negative Balance:</strong> {selectedCustomer.negative_balance.length}
+							</p>
+							<p>
+								<strong>Positive Balance:</strong> {selectedCustomer.positive_balance.length}
 							</p>
 						</div>
 					)}
@@ -174,4 +198,3 @@ const CustomersAllDetails = () => {
 };
 
 export default CustomersAllDetails;
-
