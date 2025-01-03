@@ -5,6 +5,7 @@ import CustomerTable from "./CustomerTable";
 import InputField from "./InputField";
 import { TbUserSearch } from "react-icons/tb";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
+import nodeUrl from "../../../links";
 
 const CustomersAllDetails = () => {
 	const [customers, setCustomers] = useState([]);
@@ -27,7 +28,7 @@ const CustomersAllDetails = () => {
 				const device_id = localStorage.getItem("device_id");
 
 				const response = await fetch(
-					`http://localhost:8000/api/get/client/${ksbIdNumber}/${device_id}`
+					`${nodeUrl}/api/get/client/${ksbIdNumber}/${device_id}`,
 				);
 				const result = await response.json();
 				setCustomers(result.data);
@@ -172,22 +173,29 @@ const CustomersAllDetails = () => {
 								<strong>Name:</strong> {selectedCustomer.name}
 							</p>
 							<p>
-								<strong>Phone:</strong> {selectedCustomer.phone_number || "No phone number"}
+								<strong>Phone:</strong>{" "}
+								{selectedCustomer.phone_number ||
+									"No phone number"}
 							</p>
 							<p>
-								<strong>Client ID:</strong> {selectedCustomer.client_id}
+								<strong>Client ID:</strong>{" "}
+								{selectedCustomer.client_id}
 							</p>
 							<p>
-								<strong>Delete:</strong> {selectedCustomer.delete ? "Yes" : "No"}
+								<strong>Delete:</strong>{" "}
+								{selectedCustomer.delete ? "Yes" : "No"}
 							</p>
 							<p>
-								<strong>Archive:</strong> {selectedCustomer.archive ? "Yes" : "No"}
+								<strong>Archive:</strong>{" "}
+								{selectedCustomer.archive ? "Yes" : "No"}
 							</p>
 							<p>
-								<strong>Negative Balance:</strong> {selectedCustomer.negative_balance.length}
+								<strong>Negative Balance:</strong>{" "}
+								{selectedCustomer.negative_balance.length}
 							</p>
 							<p>
-								<strong>Positive Balance:</strong> {selectedCustomer.positive_balance.length}
+								<strong>Positive Balance:</strong>{" "}
+								{selectedCustomer.positive_balance.length}
 							</p>
 						</div>
 					)}
