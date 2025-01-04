@@ -23,7 +23,6 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 			<tbody className="bg-white divide-y divide-gray-200">
 				{(() => {
 					try {
-						// Map through customers and render each CustomerRow
 						return customers.map((customer, index) => (
 							<CustomerRow
 								key={customer.client_id}
@@ -41,7 +40,7 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 									colSpan="4"
 									className="text-center text-gray-500"
 								>
-									No data available
+									-
 								</td>
 							</tr>
 						);
