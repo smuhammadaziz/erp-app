@@ -123,6 +123,8 @@ const CustomersAllDetails = () => {
 							console.error("Invalid customer ID for deletion");
 						}
 					}}
+					content={content}
+					language={language}
 				/>
 				<Modal
 					isOpen={showViewModal}

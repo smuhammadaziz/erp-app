@@ -1,7 +1,7 @@
 import React from "react";
 import CustomerRow from "./CustomerRow";
 
-const CustomerTable = ({ customers, onView, onDelete }) => (
+const CustomerTable = ({ customers, onView, onDelete, content, language }) => (
 	<div className="overflow-x-auto h-[60vh]">
 		<table className="w-full">
 			<thead className="bg-gray-50 sticky top-0 z-10">
@@ -10,13 +10,13 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 						No
 					</th>
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-						Name
+						{content[language].client.name}
 					</th>
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-						Phone
+						{content[language].client.phone}
 					</th>
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-						Actions
+						{content[language].client.actions}
 					</th>
 				</tr>
 			</thead>
