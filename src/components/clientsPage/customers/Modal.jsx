@@ -12,7 +12,7 @@ const Modal = ({ isOpen, onClose, children, title }) => {
 
 	return (
 		<div
-			className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+			className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[777]"
 			onClick={handleOverlayClick} // Close modal when clicking on overlay
 		>
 			<div className="bg-white rounded-lg p-6 w-full max-w-lg shadow-lg overflow-hidden">
