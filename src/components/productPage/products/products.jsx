@@ -54,55 +54,78 @@ const ProductsPageComponent = () => {
 		fetchProducts();
 	}, []);
 
-	const filteredProducts = useMemo(
-		() =>
-			products.filter((product) =>
+	const filteredProducts = useMemo(() => {
+		try {
+			return products.filter((product) =>
 				Object.values(product)
 					.join(" ")
 					.toLowerCase()
 					.includes(searchTerm.toLowerCase()),
-			),
-		[products, searchTerm],
-	);
+			);
+		} catch (error) {
+			console.error("Error filtering products:", error);
+			return []; // Return an empty array in case of error
+		}
+	}, [products, searchTerm]);
 
 	useEffect(() => {
-		setDisplayedProducts(filteredProducts.slice(0, 50));
-		setHasMore(filteredProducts.length > 50);
+		try {
+			setDisplayedProducts(filteredProducts.slice(0, 50));
+			setHasMore(filteredProducts.length > 50);
+		} catch (error) {
+			console.error("Error updating displayed products:", error);
+		}
 	}, [filteredProducts]);
 
 	const loadMore = useCallback(() => {
-		const currentLength = displayedProducts.length;
-		const nextBatch = filteredProducts.slice(
-			currentLength,
-			currentLength + 50,
-		);
-		if (nextBatch.length > 0) {
-			setDisplayedProducts((prev) => [...prev, ...nextBatch]);
-			setHasMore(currentLength + 50 < filteredProducts.length);
-		} else {
-			setHasMore(false);
+		try {
+			const currentLength = displayedProducts.length;
+			const nextBatch = filteredProducts.slice(
+				currentLength,
+				currentLength + 50,
+			);
+			if (nextBatch.length > 0) {
+				setDisplayedProducts((prev) => [...prev, ...nextBatch]);
+				setHasMore(currentLength + 50 < filteredProducts.length);
+			} else {
+				setHasMore(false);
+			}
+		} catch (error) {
+			console.error("Error loading more products:", error);
 		}
 	}, [displayedProducts, filteredProducts]);
 
 	const handleAddProduct = useCallback(
 		(newProduct) => {
-			const productToAdd = {
-				...newProduct,
-				id: products.length + 1,
-			};
-			setProducts((prev) => [...prev, productToAdd]);
-			setShowAddModal(false);
+			try {
+				const productToAdd = {
+					...newProduct,
+					id: products.length + 1,
+				};
+				setProducts((prev) => [...prev, productToAdd]);
+				setShowAddModal(false);
+			} catch (error) {
+				console.error("Error adding product:", error);
+			}
 		},
 		[products],
 	);
 
 	const handleDeleteProduct = useCallback((id) => {
-		setProducts((prev) => prev.filter((product) => product.id !== id));
+		try {
+			setProducts((prev) => prev.filter((product) => product.id !== id));
+		} catch (error) {
+			console.error("Error deleting product:", error);
+		}
 	}, []);
 
 	const handleViewProduct = useCallback((product) => {
-		setSelectedProduct(product);
-		setShowViewModal(true);
+		try {
+			setSelectedProduct(product);
+			setShowViewModal(true);
+		} catch (error) {
+			console.error("Error viewing product:", error);
+		}
 	}, []);
 
 	return (
