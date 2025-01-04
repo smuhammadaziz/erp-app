@@ -223,7 +223,9 @@ function HeaderInner({ onRefresh }) {
 								size={20}
 								className="animate-spin text-blue-400 mr-2"
 							/>
-							<span className="font-medium">Syncing...</span>
+							<span className="font-medium">
+								Синхронизация...
+							</span>
 						</>
 					) : (
 						<>
