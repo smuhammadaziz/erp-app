@@ -159,7 +159,19 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.activeClient,
-			value: allClient.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "),
+			value: (() => {
+				try {
+					// Attempt to format the data if it's valid
+					return allClient
+						? allClient
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+						: "no data";
+				} catch (error) {
+					// If there's any error, fallback to "no data"
+					return "no data";
+				}
+			})(),
 			change: "+8.1%",
 			icon: <RiCustomerService2Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-pink-500 via-pink-600 to-pink-700",
@@ -170,7 +182,19 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.products,
-			value: allProducts.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "),
+			value: (() => {
+				try {
+					// Attempt to format the data if it's valid
+					return allProducts
+						? allProducts
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+						: "no data";
+				} catch (error) {
+					// If there's any error, fallback to "no data"
+					return "no data";
+				}
+			})(),
 			change: "+5.3%",
 			icon: <RiStore3Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700",
