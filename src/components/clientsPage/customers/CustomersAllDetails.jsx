@@ -97,6 +97,8 @@ const CustomersAllDetails = () => {
 							<SearchBar
 								value={searchTerm}
 								onChange={setSearchTerm}
+								content={content}
+								language={language}
 							/>
 						</div>
 					</div>
@@ -129,7 +131,7 @@ const CustomersAllDetails = () => {
 				<Modal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
-					title="Client Details"
+					title={content[language].client.detail}
 					className="p-0 bg-white shadow-2xl rounded-2xl max-w-xl mx-auto overflow-hidden"
 				>
 					{selectedCustomer && (
