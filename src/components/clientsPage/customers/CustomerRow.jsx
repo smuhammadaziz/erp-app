@@ -11,8 +11,8 @@ import {
 
 const CustomerRow = ({ customer, onView, index }) => {
 	return (
-		<tr className="hover:bg-gray-50 transition-colors duration-200">
-			<td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+		<tr className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer">
+			<td className="px-6 whitespace-nowrap text-sm font-medium text-gray-900">
 				{index}
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">

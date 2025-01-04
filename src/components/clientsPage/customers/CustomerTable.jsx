@@ -2,7 +2,7 @@ import React from "react";
 import CustomerRow from "./CustomerRow";
 
 const CustomerTable = ({ customers, onView, onDelete }) => (
-	<div className="overflow-x-auto h-[65vh]">
+	<div className="overflow-x-auto h-[60vh]">
 		<table className="w-full">
 			<thead className="bg-gray-50 sticky top-0 z-10">
 				<tr>
