@@ -348,16 +348,16 @@ function HeaderInner({ onRefresh }) {
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg p-6 max-w-sm w-full text-center">
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
-							Sync Completed
+							{content[language].syncing.complete}
 						</h2>
 						<p className="text-gray-600 mb-6">
-							Your data has been successfully synchronized!
+							{content[language].syncing.data}
 						</p>
 						<button
-							className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
+							className="bg-blue-500 text-white px-8 py-1 rounded-lg hover:bg-blue-600 transition-all duration-300"
 							onClick={() => setIsModalOpen(false)}
 						>
-							Close
+							{content[language].syncing.close}
 						</button>
 					</div>
 				</div>

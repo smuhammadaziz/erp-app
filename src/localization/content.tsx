@@ -59,6 +59,11 @@ type Content = {
 			infos: string;
 			signout: string;
 		};
+		syncing: {
+			complete: string;
+			data: string;
+			close: string;
+		};
 	};
 };
 
@@ -126,6 +131,11 @@ const content: Content = {
 			infos: "Корхона маълумотлари",
 			signout: "KSB-ID дан чиқиш",
 		},
+		syncing: {
+			complete: "Синхронизация тугади",
+			data: "Маълумотларингиз муваффақиятли синхронлаштирилди!",
+			close: "Ok",
+		},
 	},
 	ru: {
 		intro: {
@@ -189,6 +199,11 @@ const content: Content = {
 		enterpriseInfo: {
 			infos: "Информация о компании",
 			signout: "Выйти из KSB-ID",
+		},
+		syncing: {
+			complete: "Синхронизация завершена",
+			data: "Ваши данные успешно синхронизированы!",
+			close: "Ok",
 		},
 	},
 };
