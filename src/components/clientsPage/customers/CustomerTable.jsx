@@ -21,15 +21,32 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 				</tr>
 			</thead>
 			<tbody className="bg-white divide-y divide-gray-200">
-				{customers.map((customer, index) => (
-					<CustomerRow
-						key={customer.client_id}
-						customer={customer}
-						onView={onView}
-						onDelete={onDelete}
-						index={index + 1}
-					/>
-				))}
+				{(() => {
+					try {
+						// Map through customers and render each CustomerRow
+						return customers.map((customer, index) => (
+							<CustomerRow
+								key={customer.client_id}
+								customer={customer}
+								onView={onView}
+								onDelete={onDelete}
+								index={index + 1}
+							/>
+						));
+					} catch (error) {
+						console.error("Error rendering customers:", error);
+						return (
+							<tr>
+								<td
+									colSpan="4"
+									className="text-center text-gray-500"
+								>
+									No data available
+								</td>
+							</tr>
+						);
+					}
+				})()}
 			</tbody>
 		</table>
 	</div>

@@ -51,36 +51,29 @@ const CustomersAllDetails = () => {
 		fetchCustomers();
 	}, []);
 
-	const filteredCustomers = customers.filter((customer) =>
-		Object.values(customer)
-			.join(" ")
-			.toLowerCase()
-			.includes(searchTerm.toLowerCase()),
-	);
-
-	const handleAddCustomer = (e) => {
-		e.preventDefault();
-		const customerToAdd = {
-			...newCustomer,
-			id: customers.length + 1,
-		};
-
-		setCustomers([...customers, customerToAdd]);
-		setShowAddModal(false);
-		setNewCustomer({
-			name: "",
-			surname: "",
-			email: "",
-			phone_number: "",
-			status: "Active",
-		});
-	};
+	const filteredCustomers = (() => {
+		try {
+			return customers.filter((customer) =>
+				Object.values(customer)
+					.join(" ")
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()),
+			);
+		} catch (error) {
+			console.error("Error filtering customers");
+			return [];
+		}
+	})();
 
 	const handleDeleteCustomer = (id) => {
-		const updatedCustomers = customers.filter(
-			(customer) => customer.id !== id,
-		);
-		setCustomers(updatedCustomers);
+		try {
+			const updatedCustomers = customers.filter(
+				(customer) => customer.id !== id,
+			);
+			setCustomers(updatedCustomers);
+		} catch (error) {
+			console.error("Error deleting customer:");
+		}
 	};
 
 	return (
@@ -106,12 +99,26 @@ const CustomersAllDetails = () => {
 				</div>
 
 				<CustomerTable
-					customers={filteredCustomers}
+					customers={
+						Array.isArray(filteredCustomers)
+							? filteredCustomers
+							: []
+					}
 					onView={(customer) => {
-						setSelectedCustomer(customer);
-						setShowViewModal(true);
+						if (customer) {
+							setSelectedCustomer(customer);
+							setShowViewModal(true);
+						} else {
+							console.error("Invalid customer data");
+						}
 					}}
-					onDelete={handleDeleteCustomer}
+					onDelete={(customerId) => {
+						if (customerId) {
+							handleDeleteCustomer(customerId);
+						} else {
+							console.error("Invalid customer ID for deletion");
+						}
+					}}
 				/>
 				<Modal
 					isOpen={showViewModal}
