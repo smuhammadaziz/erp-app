@@ -74,6 +74,25 @@ type Content = {
 			contact: string;
 			search: string;
 		};
+		product: {
+			detail: string;
+			search: string;
+			name: string;
+			type: string;
+			symbol: string;
+			currency: string;
+			article: string;
+			box: string;
+			extra: string;
+			view: string;
+			main: string;
+			stock: string;
+			price: string;
+			barcodes: string;
+			quantity: string;
+			sale: string;
+			not_available: string;
+		};
 	};
 };
 
@@ -156,6 +175,25 @@ const content: Content = {
 			contact: "Контакт маълумотлари",
 			search: "Мижозларни қидириш",
 		},
+		product: {
+			detail: "Маҳсулот маълумотлари",
+			search: "Маҳсулот Қидириш",
+			name: "Имя",
+			type: "тури",
+			symbol: "ўлчов",
+			currency: "валюта",
+			article: "Статья",
+			box: "Коробка",
+			extra: "қўшимча",
+			view: "кўпроқ",
+			main: "асосий",
+			stock: "Запас",
+			price: "нарх",
+			barcodes: "Штрих-кодлар",
+			quantity: "миқдор",
+			sale: "сотиш",
+			not_available: "Запасда йўқ",
+		},
 	},
 	ru: {
 		intro: {
@@ -234,6 +272,25 @@ const content: Content = {
 			view: "Более",
 			contact: "Контактные данные",
 			search: "Поиск клиентов",
+		},
+		product: {
+			detail: "Информация о продукте",
+			search: "Поиск продуктов",
+			name: "Имя",
+			type: "Тип",
+			symbol: "Измерение",
+			currency: "Валюта",
+			article: "Статья",
+			box: "Коробка",
+			extra: "Дополнительный",
+			view: "Более",
+			main: "Главная",
+			stock: "Запас",
+			price: "Цена",
+			barcodes: "Штрих-коды",
+			quantity: "Количество",
+			sale: "Распродажа",
+			not_available: "нет в наличии",
 		},
 	},
 };
