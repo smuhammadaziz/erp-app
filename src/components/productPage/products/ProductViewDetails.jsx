@@ -27,7 +27,6 @@ const ProductViewDetails = ({ product }) => {
 
 	if (!product) return null;
 
-	// Function to fetch data based on type
 	const fetchData = useCallback(
 		async (type, id, setter, errorSetter) => {
 			try {
