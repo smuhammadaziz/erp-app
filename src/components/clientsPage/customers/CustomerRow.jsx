@@ -11,7 +11,10 @@ import {
 
 const CustomerRow = ({ customer, onView, index }) => {
 	return (
-		<tr className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer">
+		<tr
+			className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer"
+			onDoubleClick={() => onView(customer)}
+		>
 			<td className="px-6 whitespace-nowrap text-sm font-medium text-gray-900">
 				{index}
 			</td>
