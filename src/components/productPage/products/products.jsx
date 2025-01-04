@@ -64,7 +64,7 @@ const ProductsPageComponent = () => {
 			);
 		} catch (error) {
 			console.error("Error filtering products:", error);
-			return []; // Return an empty array in case of error
+			return [];
 		}
 	}, [products, searchTerm]);
 
