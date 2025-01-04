@@ -9,7 +9,7 @@ import {
 	FaTrash,
 } from "react-icons/fa";
 
-const CustomerRow = ({ customer, onView, index }) => {
+const CustomerRow = ({ customer, onView, index, content, language }) => {
 	return (
 		<tr
 			className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer"
@@ -32,8 +32,7 @@ const CustomerRow = ({ customer, onView, index }) => {
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">
 				<div className="flex items-center text-sm text-gray-600">
-					<FaPhone className="mr-2 text-gray-400" />
-					{customer.phone_number || "No phone number"}
+					{customer.phone_number || content[language].client.no_phone}
 				</div>
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -44,7 +43,7 @@ const CustomerRow = ({ customer, onView, index }) => {
 						title="View Details"
 					>
 						<FaEye />
-						<span>View</span>
+						<span>{content[language].client.view}</span>
 					</button>
 				</div>
 			</td>

@@ -30,6 +30,8 @@ const CustomerTable = ({ customers, onView, onDelete, content, language }) => (
 								onView={onView}
 								onDelete={onDelete}
 								index={index + 1}
+								content={content}
+								language={language}
 							/>
 						));
 					} catch (error) {
