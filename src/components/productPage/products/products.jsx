@@ -7,6 +7,9 @@ import ProductAddForm from "./ProductAddForm";
 import ProductViewDetails from "./ProductViewDetails";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const ProductsPageComponent = () => {
 	const [products, setProducts] = useState([]);
 	const [displayedProducts, setDisplayedProducts] = useState([]);
@@ -16,6 +19,8 @@ const ProductsPageComponent = () => {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasMore, setHasMore] = useState(true);
+
+	const [language, setLanguage] = useLang("uz");
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
@@ -138,14 +143,16 @@ const ProductsPageComponent = () => {
 								<SlBasket className="text-blue-600 text-2xl" />
 							</div>
 							<h1 className="text-2xl font-bold text-gray-800">
-								Product Details
+								{content[language].product.detail}
 							</h1>
 						</div>
 						<div className="flex flex-col sm:flex-row gap-4">
 							<div className="relative flex-grow">
 								<input
 									type="text"
-									placeholder="Search products..."
+									placeholder={
+										content[language].product.search
+									}
 									value={searchTerm}
 									onChange={(e) =>
 										debouncedSearch(e.target.value)
@@ -178,7 +185,7 @@ const ProductsPageComponent = () => {
 				<ProductModal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
-					title="Product Details"
+					title={content[language].product.detail}
 				>
 					<ProductViewDetails product={selectedProduct} />
 				</ProductModal>
