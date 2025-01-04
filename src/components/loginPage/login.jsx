@@ -216,7 +216,7 @@ function LoginPageKSB() {
 				toast.error(
 					<div className="flex items-center text-white">
 						<FaTimesCircle className="mr-2" size={20} />
-						{data.message}
+						{content[language].login.failedToSetPassword}
 					</div>,
 					{
 						position: "bottom-right",
@@ -291,8 +291,6 @@ function LoginPageKSB() {
 
 			const data = await response.json();
 
-			console.log("myyyy:", data);
-
 			if (data.success) {
 				localStorage.setItem("userType", userType);
 				setIsFirstTimePassword(false);
@@ -300,9 +298,7 @@ function LoginPageKSB() {
 				toast.success(content[language].login.passwordSetSuccessfully);
 				navigate("/");
 			} else {
-				toast.error(
-					data.message || content[language].login.failedToSetPassword,
-				);
+				toast.error(content[language].login.failedToSetPassword);
 			}
 		} catch (error) {
 			console.error(error);

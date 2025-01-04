@@ -87,7 +87,7 @@ const content: Content = {
 			selectUserType: "Фойдаланувчи турини танланг",
 			databaseBlocked: "Маълумотлар базаси блокланган",
 			serverError:
-				"Ichki server xatosi yuz berdi. Keyinroq qayta urinib ko‘ring.",
+				"Ички сервер хатоси юз берди.  Кейинроқ қайта уриниб кўринг.",
 			fetchError:
 				"Кутилмаган хатолик юз берди. Илтимос, қайта уриниб коʻринг.",
 			requestTimeOut:
@@ -96,7 +96,7 @@ const content: Content = {
 				"Интернет алоқаси ёъқ. Илтимос, тармоқингизни текширинг ва қайтадан урининг.",
 			connectionError: "Уланиш хатоси. Интернет уланишингизни текширинг.",
 			passwordSetSuccessfully: "Парол муваффақиятли оʻрнатилди",
-			failedToSetPassword: "Паролни ўрнатиб бўлмади",
+			failedToSetPassword: "Нотўғри парол",
 			pleaseEnterPassword: "Илтимос, паролни киритинг",
 		},
 		home: {
@@ -160,7 +160,7 @@ const content: Content = {
 			connectionError:
 				"Ошибка подключения. Проверьте подключение к интернету.",
 			passwordSetSuccessfully: "Пароль успешно установлен",
-			failedToSetPassword: "Не удалось установить пароль.",
+			failedToSetPassword: "Неправильный пароль",
 			pleaseEnterPassword: "Пожалуйста, введите пароль",
 		},
 		home: {
