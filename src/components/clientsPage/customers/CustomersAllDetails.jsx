@@ -17,12 +17,16 @@ import {
 } from "react-icons/bi";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const CustomersAllDetails = () => {
 	const [customers, setCustomers] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState(null);
+	const [language, setLanguage] = useLang("uz");
 	const [newCustomer, setNewCustomer] = useState({
 		name: "",
 		surname: "",
@@ -86,7 +90,7 @@ const CustomersAllDetails = () => {
 								<TbUserSearch className="text-blue-600 text-2xl" />
 							</div>
 							<h1 className="text-2xl font-bold text-gray-800">
-								Client Details
+								{content[language].client.detail}
 							</h1>
 						</div>
 						<div className="flex flex-col sm:flex-row gap-4">
@@ -128,7 +132,6 @@ const CustomersAllDetails = () => {
 				>
 					{selectedCustomer && (
 						<div>
-							{/* Header Section with Background */}
 							<div className="bg-gradient-to-r from-blue-500 rounded-lg to-purple-600 p-8 text-white">
 								<div className="flex items-center gap-4">
 									<div className="bg-white/20 p-4 rounded-2xl">
@@ -142,22 +145,21 @@ const CustomersAllDetails = () => {
 								</div>
 							</div>
 
-							{/* Content Section */}
 							<div className="py-6 space-y-6">
-								{/* Contact Info Card */}
 								<div className="bg-gray-50 rounded-xl p-4">
 									<div className="flex items-center gap-3 mb-4">
 										<div className="bg-blue-100 p-2 rounded-lg">
 											<BiPhone className="w-5 h-5 text-blue-600" />
 										</div>
 										<h3 className="font-semibold text-gray-700">
-											Contact Details
+											{content[language].client.contact}
 										</h3>
 									</div>
 									<div className="pl-12">
 										<p className="text-gray-600">
 											{selectedCustomer.phone_number ||
-												"No phone number"}
+												content[language].client
+													.no_phone}
 										</p>
 									</div>
 								</div>
