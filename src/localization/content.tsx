@@ -64,6 +64,16 @@ type Content = {
 			data: string;
 			close: string;
 		};
+		client: {
+			detail: string;
+			name: string;
+			phone: string;
+			no_phone: string;
+			actions: string;
+			view: string;
+			contact: string;
+			search: string;
+		};
 	};
 };
 
@@ -136,6 +146,16 @@ const content: Content = {
 			data: "Маълумотларингиз муваффақиятли синхронлаштирилди!",
 			close: "Ok",
 		},
+		client: {
+			detail: "Мижоз маълумотлари",
+			name: "Тўлиқ исми",
+			phone: "Телефон",
+			no_phone: "-",
+			actions: "Қўшимча",
+			view: "Кўпроқ",
+			contact: "Контакт маълумотлари",
+			search: "Мижозларни қидириш",
+		},
 	},
 	ru: {
 		intro: {
@@ -204,6 +224,16 @@ const content: Content = {
 			complete: "Синхронизация завершена",
 			data: "Ваши данные успешно синхронизированы!",
 			close: "Ok",
+		},
+		client: {
+			detail: "Информация для клиентов",
+			name: "Полное имя",
+			phone: "Телефон",
+			no_phone: "-",
+			actions: "Дополнительно",
+			view: "Более",
+			contact: "Контактные данные",
+			search: "Поиск клиентов",
 		},
 	},
 };
