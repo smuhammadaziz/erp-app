@@ -86,6 +86,15 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 							>
 								Ёпиш
 							</button>
+							<NavLink
+								to="/intro"
+								className="mt-3 px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
+							>
+								{
+									content[language as string].enterpriseInfo
+										.signout
+								}
+							</NavLink>
 						</div>
 					</div>
 				</div>
@@ -154,18 +163,12 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 					</div>
 					<hr className="my-3 text-slate-500" />
 
-					<div className="mt-2">
+					<div className="mt-2 mx-auto justify-center block">
 						<NavLink
 							to="/intro"
-							className="bg-red-500 flex text-center items-center text-white py-2 px-3 block text-center w-full rounded-md hover:bg-red-600"
+							className="mt-3 px-6 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
 						>
-							<FaSignOutAlt className="mr-2" />
-							<span>
-								{
-									content[language as string].enterpriseInfo
-										.signout
-								}
-							</span>
+							{content[language as string].enterpriseInfo.signout}
 						</NavLink>
 					</div>
 				</div>
