@@ -161,14 +161,12 @@ const IndexPage: FC = () => {
 			title: content[language as string].home.activeClient,
 			value: (() => {
 				try {
-					// Attempt to format the data if it's valid
 					return allClient
 						? allClient
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 						: "no data";
 				} catch (error) {
-					// If there's any error, fallback to "no data"
 					return "no data";
 				}
 			})(),
@@ -184,14 +182,12 @@ const IndexPage: FC = () => {
 			title: content[language as string].home.products,
 			value: (() => {
 				try {
-					// Attempt to format the data if it's valid
 					return allProducts
 						? allProducts
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 						: "no data";
 				} catch (error) {
-					// If there's any error, fallback to "no data"
 					return "no data";
 				}
 			})(),
