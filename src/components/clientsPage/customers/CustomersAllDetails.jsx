@@ -202,7 +202,7 @@ const CustomersAllDetails = () => {
 								</div> */}
 
 								{/* Balance History Cards */}
-								<div className="grid grid-cols-2 gap-4">
+								{/* <div className="grid grid-cols-2 gap-4">
 									<div className="bg-gradient-to-br from-red-50 via-red-100 to-red-50 p-6 rounded-xl border border-red-200">
 										<div className="flex justify-between items-start mb-4">
 											<h4 className="text-red-700 font-medium">
@@ -236,7 +236,7 @@ const CustomersAllDetails = () => {
 											}
 										</p>
 									</div>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					)}
