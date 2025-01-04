@@ -45,6 +45,7 @@ const IndexPage: FC = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isVisible, setIsVisible] = useState(false);
 	const [allProducts, setAllProducts] = useState(0);
+	const [allClient, setAllClient] = useState(0);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
@@ -127,6 +128,22 @@ const IndexPage: FC = () => {
 		fetchProducts();
 	}, []);
 
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/get/client/${ksbId}/${deviceId}`,
+				);
+				const data = await response.json();
+				setAllClient(data.data.length);
+			} catch (error) {
+				console.error("Error fetching products:", error);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
@@ -142,7 +159,7 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.activeClient,
-			value: "0",
+			value: allClient.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "),
 			change: "+8.1%",
 			icon: <RiCustomerService2Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-pink-500 via-pink-600 to-pink-700",
@@ -153,7 +170,7 @@ const IndexPage: FC = () => {
 		},
 		{
 			title: content[language as string].home.products,
-			value: allProducts,
+			value: allProducts.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "),
 			change: "+5.3%",
 			icon: <RiStore3Line className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700",
