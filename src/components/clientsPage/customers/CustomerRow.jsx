@@ -50,4 +50,3 @@ const CustomerRow = ({ customer, onView, index }) => {
 };
 
 export default CustomerRow;
-

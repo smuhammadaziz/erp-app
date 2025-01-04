@@ -23,7 +23,7 @@ const CustomerTable = ({ customers, onView, onDelete }) => (
 			<tbody className="bg-white divide-y divide-gray-200">
 				{customers.map((customer, index) => (
 					<CustomerRow
-						key={customer.id}
+						key={customer.client_id}
 						customer={customer}
 						onView={onView}
 						onDelete={onDelete}

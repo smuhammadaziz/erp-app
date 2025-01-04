@@ -4,7 +4,17 @@ import SearchBar from "./SearchBar";
 import CustomerTable from "./CustomerTable";
 import InputField from "./InputField";
 import { TbUserSearch } from "react-icons/tb";
-import { FaUserPlus, FaSearch } from "react-icons/fa";
+import {
+	BiUser,
+	BiIdCard,
+	BiPhone,
+	BiStats,
+	BiCheck,
+	BiX,
+	BiArchive,
+	BiTrendingUp,
+	BiTrendingDown,
+} from "react-icons/bi";
 import nodeUrl from "../../../links";
 
 const CustomersAllDetails = () => {
@@ -31,6 +41,7 @@ const CustomersAllDetails = () => {
 					`${nodeUrl}/api/get/client/${ksbIdNumber}/${device_id}`,
 				);
 				const result = await response.json();
+
 				setCustomers(result.data);
 			} catch (error) {
 				console.error("Error fetching customers:", error);
@@ -102,160 +113,128 @@ const CustomersAllDetails = () => {
 					}}
 					onDelete={handleDeleteCustomer}
 				/>
-
-				<Modal
-					isOpen={showAddModal}
-					onClose={() => setShowAddModal(false)}
-					title="Add Customer"
-				>
-					<form onSubmit={handleAddCustomer}>
-						<InputField
-							label="First Name"
-							name="name"
-							value={newCustomer.name}
-							onChange={(e) =>
-								setNewCustomer({
-									...newCustomer,
-									name: e.target.value,
-								})
-							}
-						/>
-						<InputField
-							label="Last Name"
-							name="surname"
-							value={newCustomer.surname}
-							onChange={(e) =>
-								setNewCustomer({
-									...newCustomer,
-									surname: e.target.value,
-								})
-							}
-						/>
-						<InputField
-							label="Email"
-							name="email"
-							value={newCustomer.email}
-							onChange={(e) =>
-								setNewCustomer({
-									...newCustomer,
-									email: e.target.value,
-								})
-							}
-						/>
-						<InputField
-							label="Phone Number"
-							name="phone_number"
-							value={newCustomer.phone_number}
-							onChange={(e) =>
-								setNewCustomer({
-									...newCustomer,
-									phone_number: e.target.value,
-								})
-							}
-						/>
-						<button
-							type="submit"
-							className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-						>
-							Add Customer
-						</button>
-					</form>
-				</Modal>
-
 				<Modal
 					isOpen={showViewModal}
 					onClose={() => setShowViewModal(false)}
 					title="Client Details"
+					className="p-0 bg-white shadow-2xl rounded-2xl max-w-xl mx-auto overflow-hidden"
 				>
 					{selectedCustomer && (
-						<div className="space-y-6">
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								<div className="space-y-2">
-									<label className="block text-sm font-medium text-gray-500">
-										Name
-									</label>
-									<p className="text-gray-900">
-										{selectedCustomer.name}
-									</p>
+						<div>
+							{/* Header Section with Background */}
+							<div className="bg-gradient-to-r from-blue-500 rounded-lg to-purple-600 p-8 text-white">
+								<div className="flex items-center gap-4">
+									<div className="bg-white/20 p-4 rounded-2xl">
+										<BiUser className="w-7 h-7" />
+									</div>
+									<div>
+										<h2 className="text-xl font-bold">
+											{selectedCustomer.name}
+										</h2>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<label className="block text-sm font-medium text-gray-500">
-										Phone
-									</label>
-									<p className="text-gray-900">
-										{selectedCustomer.phone_number ||
-											"No phone number"}
-									</p>
+							</div>
+
+							{/* Content Section */}
+							<div className="py-6 space-y-6">
+								{/* Contact Info Card */}
+								<div className="bg-gray-50 rounded-xl p-4">
+									<div className="flex items-center gap-3 mb-4">
+										<div className="bg-blue-100 p-2 rounded-lg">
+											<BiPhone className="w-5 h-5 text-blue-600" />
+										</div>
+										<h3 className="font-semibold text-gray-700">
+											Contact Details
+										</h3>
+									</div>
+									<div className="pl-12">
+										<p className="text-gray-600">
+											{selectedCustomer.phone_number ||
+												"No phone number"}
+										</p>
+									</div>
 								</div>
-								<div className="space-y-2">
-									<label className="block text-sm font-medium text-gray-500">
-										Client ID
-									</label>
-									<p className="text-gray-900">
-										{selectedCustomer.client_id}
-									</p>
-								</div>
-								<div className="space-y-2">
-									<label className="block text-sm font-medium text-gray-500">
-										Status
-									</label>
-									<div className="flex space-x-4">
+
+								{/* Status Section */}
+								{/* <div className="bg-gray-50 rounded-xl p-4">
+									<div className="flex items-center gap-3 mb-4">
+										<div className="bg-purple-100 p-2 rounded-lg">
+											<BiStats className="w-5 h-5 text-purple-600" />
+										</div>
+										<h3 className="font-semibold text-gray-700">
+											Account Status
+										</h3>
+									</div>
+									<div className="flex flex-wrap gap-3 pl-12">
 										<span
-											className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+											className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
 												selectedCustomer.delete
-													? "bg-red-100 text-red-800"
-													: "bg-green-100 text-green-800"
+													? "bg-red-100 text-red-700"
+													: "bg-emerald-100 text-emerald-700"
 											}`}
 										>
+											{selectedCustomer.delete ? (
+												<BiX className="w-4 h-4" />
+											) : (
+												<BiCheck className="w-4 h-4" />
+											)}
 											{selectedCustomer.delete
 												? "Deleted"
 												: "Active"}
 										</span>
 										<span
-											className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+											className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${
 												selectedCustomer.archive
-													? "bg-gray-100 text-gray-800"
-													: "bg-green-100 text-green-800"
+													? "bg-gray-200 text-gray-700"
+													: "bg-emerald-100 text-emerald-700"
 											}`}
 										>
+											{selectedCustomer.archive ? (
+												<BiArchive className="w-4 h-4" />
+											) : (
+												<BiCheck className="w-4 h-4" />
+											)}
 											{selectedCustomer.archive
 												? "Archived"
 												: "Current"}
 										</span>
 									</div>
-								</div>
-							</div>
+								</div> */}
 
-							<div className="border-t border-gray-200 pt-6">
-								<h3 className="text-lg font-medium text-gray-900 mb-4">
-									Balance History
-								</h3>
-								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-									<div className="bg-red-50 rounded-lg p-4">
-										<div className="flex items-center justify-between">
-											<span className="text-sm font-medium text-red-700">
+								{/* Balance History Cards */}
+								<div className="grid grid-cols-2 gap-4">
+									<div className="bg-gradient-to-br from-red-50 via-red-100 to-red-50 p-6 rounded-xl border border-red-200">
+										<div className="flex justify-between items-start mb-4">
+											<h4 className="text-red-700 font-medium">
 												Negative Balance
-											</span>
-											<span className="text-2xl font-semibold text-red-700">
-												{
-													selectedCustomer
-														.negative_balance.length
-												}
-											</span>
+											</h4>
+											<div className="bg-red-200 p-2 rounded-lg">
+												<BiTrendingDown className="w-5 h-5 text-red-700" />
+											</div>
 										</div>
+										<p className="text-3xl font-bold text-red-700">
+											{
+												selectedCustomer
+													.negative_balance.length
+											}
+										</p>
 									</div>
-									<div className="bg-green-50 rounded-lg p-4">
-										<div className="flex items-center justify-between">
-											<span className="text-sm font-medium text-green-700">
+
+									<div className="bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 p-6 rounded-xl border border-emerald-200">
+										<div className="flex justify-between items-start mb-4">
+											<h4 className="text-emerald-700 font-medium">
 												Positive Balance
-											</span>
-											<span className="text-2xl font-semibold text-green-700">
-												{
-													selectedCustomer
-														.positive_balance.length
-												}
-											</span>
+											</h4>
+											<div className="bg-emerald-200 p-2 rounded-lg">
+												<BiTrendingUp className="w-5 h-5 text-emerald-700" />
+											</div>
 										</div>
+										<p className="text-3xl font-bold text-emerald-700">
+											{
+												selectedCustomer
+													.positive_balance.length
+											}
+										</p>
 									</div>
 								</div>
 							</div>
