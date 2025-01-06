@@ -165,9 +165,9 @@ const IndexPage: FC = () => {
 						? allClient
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-						: "no data";
+						: "-";
 				} catch (error) {
-					return "no data";
+					return "-";
 				}
 			})(),
 			change: "+8.1%",
@@ -186,9 +186,9 @@ const IndexPage: FC = () => {
 						? allProducts
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-						: "no data";
+						: "-";
 				} catch (error) {
-					return "no data";
+					return "-";
 				}
 			})(),
 			change: "+5.3%",
