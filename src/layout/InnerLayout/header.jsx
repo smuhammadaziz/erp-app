@@ -196,13 +196,13 @@ function HeaderInner({ onRefresh }) {
 				setRate(JSON.parse(cachedRate));
 			} catch (error) {
 				console.error("Error parsing localStorage data:", error);
-				fetchProducts();
 			}
-		} else {
-			fetchProducts();
 		}
 
-		fetchProducts();
+		const intervalId = setInterval(() => {
+			fetchProducts();
+		}, 1000);
+		return () => clearInterval(intervalId);
 	}, []);
 
 	return (
