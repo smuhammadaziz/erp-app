@@ -34,7 +34,7 @@ const ProductsPageComponent = () => {
 	};
 
 	const debouncedSearch = useCallback(
-		debounce((term) => setSearchTerm(term), 300),
+		debounce((term) => setSearchTerm(term)),
 		[],
 	);
 

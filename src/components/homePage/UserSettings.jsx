@@ -114,43 +114,43 @@ const DownloaderModal = () => {
 		}
 	};
 
-	const fetchClientData = async () => {
-		try {
-			const requestBody = {
-				ipaddressPort: ipaddressPort,
-				database: mainDatabase,
-				deviceId: device_id,
-				ksbId: ksb_id,
-				username: basicUsername,
-				password: basicPassword,
-			};
+	// const fetchClientData = async () => {
+	// 	try {
+	// 		const requestBody = {
+	// 			ipaddressPort: ipaddressPort,
+	// 			database: mainDatabase,
+	// 			deviceId: device_id,
+	// 			ksbId: ksb_id,
+	// 			username: basicUsername,
+	// 			password: basicPassword,
+	// 		};
 
-			const response = await fetch(`${nodeUrl}/api/get/client`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(requestBody),
-			});
+	// 		const response = await fetch(`${nodeUrl}/api/get/client`, {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(requestBody),
+	// 		});
 
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => null);
-				throw new Error(
-					`Client data fetch failed: ${response.status} ${
-						errorData?.message || response.statusText
-					}`,
-				);
-			}
+	// 		if (!response.ok) {
+	// 			const errorData = await response.json().catch(() => null);
+	// 			throw new Error(
+	// 				`Client data fetch failed: ${response.status} ${
+	// 					errorData?.message || response.statusText
+	// 				}`,
+	// 			);
+	// 		}
 
-			const data = await response.json();
-			console.log("Client data fetched successfully:", data);
-			return data;
-		} catch (error) {
-			console.error("Fetch Client Data Error:", error);
-			setError(error.message);
-			throw error;
-		}
-	};
+	// 		const data = await response.json();
+	// 		console.log("Client data fetched successfully:", data);
+	// 		return data;
+	// 	} catch (error) {
+	// 		console.error("Fetch Client Data Error:", error);
+	// 		setError(error.message);
+	// 		throw error;
+	// 	}
+	// };
 
 	const startDownload = async () => {
 		setDownloadStatus("downloading");
@@ -163,7 +163,7 @@ const DownloaderModal = () => {
 			}
 
 			await fetchDeviceData();
-			await fetchClientData(); // Fetch client data
+			// await fetchClientData();
 			setDownloadStatus("completed");
 		} catch (error) {
 			console.error("Download process failed:", error);
