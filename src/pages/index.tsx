@@ -125,7 +125,10 @@ const IndexPage: FC = () => {
 			}
 		};
 
-		fetchProducts();
+		const intervalId = setInterval(() => {
+			fetchProducts();
+		}, 1000);
+		return () => clearInterval(intervalId);
 	}, []);
 
 	useEffect(() => {
@@ -141,7 +144,10 @@ const IndexPage: FC = () => {
 			}
 		};
 
-		fetchProducts();
+		const intervalId = setInterval(() => {
+			fetchProducts();
+		}, 1000);
+		return () => clearInterval(intervalId);
 	}, []);
 
 	const cards = [
