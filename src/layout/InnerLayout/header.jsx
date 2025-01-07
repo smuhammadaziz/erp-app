@@ -107,6 +107,37 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
+	const handleDeleteItems = async () => {
+		if (!ksbId || !deviceId) {
+			alert("Missing ksbIdNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/remove/items/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: basicUsername,
+						userPassword: basicPassword,
+					}),
+				},
+			);
+
+			const data = await response.json();
+
+			console.log(data.message);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const toggleCalendar = () => {
 		setIsCalendarOpen(!isCalendarOpen);
 	};
@@ -355,7 +386,10 @@ function HeaderInner({ onRefresh }) {
 						</p>
 						<button
 							className="bg-blue-500 text-white px-8 py-1 rounded-lg hover:bg-blue-600 transition-all duration-300"
-							onClick={() => setIsModalOpen(false)}
+							onClick={() => {
+								setIsModalOpen(false);
+								handleDeleteItems();
+							}}
 						>
 							{content[language].syncing.close}
 						</button>
