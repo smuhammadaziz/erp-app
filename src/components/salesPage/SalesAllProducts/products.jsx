@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchBar from "./SearchBar";
 import ProductsTable from "./ProductsTable";
 import ProductModal from "./ProductModal";
+import nodeUrl from "../../../links";
 
 function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -19,13 +20,25 @@ function SalesMainAllProducts() {
 	const searchInputRef = useRef(null);
 	const fetchIntervalRef = useRef(null);
 
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
+
 	const fetchProducts = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/products`);
+			const response = await fetch(
+				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+				},
+			);
 			if (!response.ok) {
 				throw new Error("Failed to fetch products");
 			}
-			const data = await response.json();
+			const result = await response.json();
+
+			const data = result.products;
+
+			console.log(data);
 
 			if (data.length === 0) {
 				setOriginalData([]);

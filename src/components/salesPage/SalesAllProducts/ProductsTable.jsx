@@ -15,7 +15,7 @@ function ProductsTable({
 			<table className="min-w-full bg-white border border-gray-200">
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-2 px-5 border-b text-left">
 							Product Name
 						</th>
 						<th className="py-2 px-5 border-b text-center">
@@ -26,7 +26,7 @@ function ProductsTable({
 							Remaining
 						</th>
 						<th className="py-2 px-5 border-b text-center">
-							Price ($)
+							Price (Currency)
 						</th>
 						<th className="py-2 px-5 border-b text-center">
 							Price (UZS)
@@ -53,7 +53,7 @@ function ProductsTable({
 					) : filteredData.length > 0 ? (
 						filteredData.map((product, index) => (
 							<tr
-								key={product.id}
+								key={product.product_id}
 								ref={
 									selectedRow === index
 										? selectedRowRef
@@ -68,26 +68,26 @@ function ProductsTable({
 									handleRowDoubleClick(product)
 								}
 							>
-								<td className="py-1 px-5 border-b text-center">
-									{product.product_name}
+								<td className="py-0.5 px-5 border-b text-left">
+									{product.name}
 								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.currency}
+								<td className="py-0.5 px-5 border-b text-center">
+									{/* {product.currency} */}sum
 								</td>
-								<td className="py-1 px-5 border-b text-center">
+								<td className="py-0.5 px-5 border-b text-center">
 									{product.box}
 								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.remaining}
+								<td className="py-0.5 px-5 border-b text-center">
+									{product.remaining} remain
 								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.price_in_currency}
+								<td className="py-0.5 px-5 border-b text-center">
+									{product.price_in_currency} price ty
 								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.price_in_UZS}
+								<td className="py-0.5 px-5 border-b text-center">
+									{/* {product.price_in_UZS} */} 520000
 								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.warehouse}
+								<td className="py-0.5 px-5 border-b text-center">
+									{/* {product.warehouse} */} asosiy
 								</td>
 							</tr>
 						))
