@@ -14,10 +14,9 @@ function ProductsTable({
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
-	const displatedData = filteredData.slice(0, 50);
 
 	const fetchCurrencyData = useCallback(async () => {
-		for (const product of displatedData) {
+		for (const product of filteredData) {
 			if (product.currency && !currencyData[product.currency]) {
 				const deviceId = localStorage.getItem("device_id");
 				const ksbId = localStorage.getItem("ksbIdNumber");
@@ -40,14 +39,14 @@ function ProductsTable({
 				}
 			}
 		}
-	}, [displatedData, currencyData]);
+	}, [filteredData, currencyData]);
 
 	useEffect(() => {
 		fetchCurrencyData();
 	}, [fetchCurrencyData]);
 
 	const fetchWarehouseData = useCallback(async () => {
-		for (const product of displatedData) {
+		for (const product of filteredData) {
 			if (
 				product.stock[0].warehouse &&
 				!warehouseData[product.stock[0].warehouse]
@@ -73,7 +72,7 @@ function ProductsTable({
 				}
 			}
 		}
-	}, [displatedData, warehouseData]);
+	}, [filteredData, warehouseData]);
 
 	useEffect(() => {
 		fetchWarehouseData();
@@ -121,8 +120,8 @@ function ProductsTable({
 								</p>
 							</td>
 						</tr>
-					) : displatedData.length > 0 ? (
-						displatedData.map((product, index) => (
+					) : filteredData.length > 0 ? (
+						filteredData.map((product, index) => (
 							<tr
 								key={product.product_id}
 								ref={
