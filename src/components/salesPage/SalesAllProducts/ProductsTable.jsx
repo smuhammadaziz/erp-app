@@ -105,6 +105,12 @@ function ProductsTable({
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
+	useEffect(() => {
+		if (isSelectionEnabled) {
+			setClickedRow(null);
+		}
+	}, [isSelectionEnabled]);
+
 	return (
 		<CustomScroll className="flex-1" ref={tableRef}>
 			<table className="min-w-full bg-white border border-gray-200">
