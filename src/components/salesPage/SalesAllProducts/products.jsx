@@ -207,11 +207,11 @@ function SalesMainAllProducts() {
 	}
 
 	return (
-		<div 
-			className="py-1 h-[50vh] focus:outline-none" 
-			tabIndex={0} 
+		<div
+			className="py-1 h-[50vh] focus:outline-none"
+			tabIndex={0}
 			onKeyDown={handleKeyDown}
-			style={{ outline: 'none' }}
+			style={{ outline: "none" }}
 		>
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				<SearchBar
@@ -245,3 +245,4 @@ function SalesMainAllProducts() {
 }
 
 export default SalesMainAllProducts;
+
