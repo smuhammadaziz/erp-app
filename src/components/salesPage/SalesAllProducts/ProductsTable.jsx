@@ -347,7 +347,7 @@ function ProductsTable({
 											: "-"}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-center ${
+										className={`py-1.5 px-5 border-b border-r text-right ${
 											selectedCell.row === index &&
 											selectedCell.col === 3
 												? "bg-blue-500 text-white"
@@ -366,7 +366,7 @@ function ProductsTable({
 										{product.stock[0].qty}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-center ${
+										className={`py-1.5 px-5 border-b border-r text-right ${
 											selectedCell.row === index &&
 											selectedCell.col === 4
 												? "bg-blue-500 text-white"
@@ -386,7 +386,7 @@ function ProductsTable({
 										valyuta
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-center ${
+										className={`py-1.5 px-5 border-b border-r text-right ${
 											selectedCell.row === index &&
 											selectedCell.col === 5
 												? "bg-blue-500 text-white"
@@ -411,7 +411,7 @@ function ProductsTable({
 										)}
 									</td>
 									<td
-										className={`py-1 px-5 border-b text-center ${
+										className={`py-1 px-5 border-b text-left ${
 											selectedCell.row === index &&
 											selectedCell.col === 6
 												? "bg-blue-500 text-white"
