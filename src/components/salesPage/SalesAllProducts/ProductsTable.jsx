@@ -160,8 +160,8 @@ function ProductsTable({
 	}, [handleKeyDown]);
 
 	return (
-		<CustomScroll className="flex-1" ref={tableRef}>
-			<table className="min-w-full bg-white border border-gray-200">
+		<CustomScroll className="flex-1 focus:outline-none" ref={tableRef} style={{ outline: 'none' }}>
+			<table className="min-w-full bg-white border border-gray-200 focus:outline-none" style={{ outline: 'none' }}>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
 						<th className="py-1.5 px-5 border-b border-r text-left">
@@ -218,7 +218,7 @@ function ProductsTable({
 											setClickedRow(index);
 										}
 									}}
-									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 ${
+									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 focus:outline-none ${
 										selectedRow === index &&
 										isSelectionEnabled
 											? "bg-blue-500 text-white"
@@ -228,6 +228,7 @@ function ProductsTable({
 											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
 											: ""
 									}`}
+									style={{ outline: 'none' }}
 									onDoubleClick={() =>
 										handleRowDoubleClick(product)
 									}
