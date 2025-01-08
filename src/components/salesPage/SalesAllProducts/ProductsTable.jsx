@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import nodeUrl from "../../../links";
 
 function ProductsTable({
 	filteredData,
@@ -10,29 +11,95 @@ function ProductsTable({
 	handleRowDoubleClick,
 	error,
 }) {
+	const [currencyData, setCurrencyData] = useState({});
+	const [warehouseData, setWarehouseData] = useState({});
+	const displatedData = filteredData.slice(0, 50);
+
+	const fetchCurrencyData = useCallback(async () => {
+		for (const product of displatedData) {
+			if (product.currency && !currencyData[product.currency]) {
+				const deviceId = localStorage.getItem("device_id");
+				const ksbId = localStorage.getItem("ksbIdNumber");
+
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbId}/${product.currency}`,
+					);
+					const data = await response.json();
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.currency]: data[0]?.name || "-",
+					}));
+				} catch (error) {
+					console.error("Failed to fetch currency data", error);
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.currency]: "-",
+					}));
+				}
+			}
+		}
+	}, [displatedData, currencyData]);
+
+	useEffect(() => {
+		fetchCurrencyData();
+	}, [fetchCurrencyData]);
+
+	const fetchWarehouseData = useCallback(async () => {
+		for (const product of displatedData) {
+			if (
+				product.stock[0].warehouse &&
+				!warehouseData[product.stock[0].warehouse]
+			) {
+				const deviceId = localStorage.getItem("device_id");
+				const ksbId = localStorage.getItem("ksbIdNumber");
+
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.stock[0].warehouse}`,
+					);
+					const data = await response.json();
+					setWarehouseData((prev) => ({
+						...prev,
+						[product.stock[0].warehouse]: data[0]?.name || "-",
+					}));
+				} catch (error) {
+					console.error("Failed to fetch currency data", error);
+					setWarehouseData((prev) => ({
+						...prev,
+						[product.stock[0].warehouse]: "-",
+					}));
+				}
+			}
+		}
+	}, [displatedData, warehouseData]);
+
+	useEffect(() => {
+		fetchWarehouseData();
+	}, [fetchWarehouseData]);
+
 	return (
 		<div className="overflow-y-auto flex-1" ref={tableRef}>
 			<table className="min-w-full bg-white border border-gray-200">
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-1 px-5 border-b text-left">#</th>
-						<th className="py-1 px-5 border-b text-left">
+						<th className="py-1.5 px-5 border-b text-left">#</th>
+						<th className="py-1.5 px-5 border-b text-left">
 							Product Name
 						</th>
-						<th className="py-1 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center">
 							Currency
 						</th>
-						<th className="py-1 px-5 border-b text-center">Box</th>
-						<th className="py-1 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center">
 							Remaining
 						</th>
-						<th className="py-1 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center">
 							Price (Currency)
 						</th>
-						<th className="py-1 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center">
 							Price (UZS)
 						</th>
-						<th className="py-1 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center">
 							Warehouse
 						</th>
 					</tr>
@@ -51,8 +118,8 @@ function ProductsTable({
 								</p>
 							</td>
 						</tr>
-					) : filteredData.length > 0 ? (
-						filteredData.slice(0, 50).map((product, index) => (
+					) : displatedData.length > 0 ? (
+						displatedData.map((product, index) => (
 							<tr
 								key={product.product_id}
 								ref={
@@ -69,29 +136,38 @@ function ProductsTable({
 									handleRowDoubleClick(product)
 								}
 							>
-								<td className="py-0.5 px-5 border-b text-left">
+								<td className="py-1.5 px-5 border-b text-left">
 									{index + 1}
 								</td>
-								<td className="py-0.5 px-5 border-b text-left">
+								<td className="py-1.5 px-5 border-b text-left">
 									{product.name}
 								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{/* {product.currency} */}sum
+								<td className="py-1.5 px-5 border-b text-center">
+									{product.currency
+										? currencyData[product.currency] || "-"
+										: "-"}
 								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{product.box}
+								<td className="py-1.5 px-5 border-b text-center">
+									{product.stock[0].qty}
 								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{product.remaining} remain
+								<td className="py-1.5 px-5 border-b text-center">
+									{product.price_in_currency} narxi valyuta
 								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{product.price_in_currency} price ty
+								<td className="py-1.5 px-5 border-b text-center">
+									{product.price[0].sale.toLocaleString(
+										"ru-RU",
+										{
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										},
+									)}
 								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{/* {product.price_in_UZS} */} 520000
-								</td>
-								<td className="py-0.5 px-5 border-b text-center">
-									{/* {product.warehouse} */} asosiy
+								<td className="py-1 px-5 border-b text-center">
+									{product.stock[0].warehouse
+										? warehouseData[
+												product.stock[0].warehouse
+										  ] || "-"
+										: "-"}
 								</td>
 							</tr>
 						))
@@ -112,3 +188,4 @@ function ProductsTable({
 }
 
 export default ProductsTable;
+
