@@ -16,6 +16,7 @@ function ProductsTable({
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
+	const [clickedRow, setClickedRow] = useState(null);
 	const loadingRef = useRef(null);
 
 	const observer = useRef(null);
@@ -158,10 +159,17 @@ function ProductsTable({
 											? selectedRowRef
 											: null
 									}
-									className={`text-gray-800 font-semibold text-xs hover:bg-slate-50 ${
+									onClick={() => {
+										if (!isSelectionEnabled) {
+											setClickedRow(index);
+										}
+									}}
+									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 ${
 										selectedRow === index &&
 										isSelectionEnabled
 											? "bg-orange-200"
+											: clickedRow === index
+											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
 											: ""
 									}`}
 									onDoubleClick={() =>
