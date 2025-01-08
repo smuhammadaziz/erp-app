@@ -106,51 +106,69 @@ function ProductsTable({
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
+	const handleKeyDown = useCallback(
+		(e) => {
+			if (!selectedCell.row && selectedCell.row !== 0) return;
+			if (isSelectionEnabled) return;
+
+			const totalColumns = 7;
+			const totalRows = filteredData.length;
+
+			switch (e.key) {
+				case "ArrowUp":
+					e.preventDefault();
+					setSelectedCell((prev) => ({
+						row: Math.max(0, prev.row - 1),
+						col: prev.col,
+					}));
+					break;
+				case "ArrowDown":
+					e.preventDefault();
+					setSelectedCell((prev) => ({
+						row: Math.min(totalRows - 1, prev.row + 1),
+						col: prev.col,
+					}));
+					break;
+				case "ArrowLeft":
+					e.preventDefault();
+					setSelectedCell((prev) => ({
+						row: prev.row,
+						col: Math.max(0, prev.col - 1),
+					}));
+					break;
+				case "ArrowRight":
+					e.preventDefault();
+					setSelectedCell((prev) => ({
+						row: prev.row,
+						col: Math.min(totalColumns - 1, prev.col + 1),
+					}));
+					break;
+				default:
+					break;
+			}
+		},
+		[selectedCell.row, filteredData.length, isSelectionEnabled],
+	);
+
 	useEffect(() => {
 		if (isSelectionEnabled) {
+			setSelectedCell({ row: null, col: null });
 			setClickedRow(null);
 		}
 	}, [isSelectionEnabled]);
 
-	const handleKeyDown = useCallback((e) => {
-		if (!selectedCell.row && selectedCell.row !== 0) return;
-
-		const totalColumns = 7; // Total number of columns in the table
-		const totalRows = filteredData.length;
-
-		switch (e.key) {
-			case "ArrowUp":
-				e.preventDefault();
-				setSelectedCell((prev) => ({
-					row: Math.max(0, prev.row - 1),
-					col: prev.col,
-				}));
-				break;
-			case "ArrowDown":
-				e.preventDefault();
-				setSelectedCell((prev) => ({
-					row: Math.min(totalRows - 1, prev.row + 1),
-					col: prev.col,
-				}));
-				break;
-			case "ArrowLeft":
-				e.preventDefault();
-				setSelectedCell((prev) => ({
-					row: prev.row,
-					col: Math.max(0, prev.col - 1),
-				}));
-				break;
-			case "ArrowRight":
-				e.preventDefault();
-				setSelectedCell((prev) => ({
-					row: prev.row,
-					col: Math.min(totalColumns - 1, prev.col + 1),
-				}));
-				break;
-			default:
-				break;
+	useEffect(() => {
+		if (
+			selectedRow !== null &&
+			selectedRowRef.current &&
+			tableRef.current
+		) {
+			selectedRowRef.current.scrollIntoView({
+				block: "nearest",
+				behavior: "smooth",
+			});
 		}
-	}, [selectedCell.row, filteredData.length]);
+	}, [selectedRow]);
 
 	useEffect(() => {
 		window.addEventListener("keydown", handleKeyDown);
@@ -160,8 +178,15 @@ function ProductsTable({
 	}, [handleKeyDown]);
 
 	return (
-		<CustomScroll className="flex-1 focus:outline-none" ref={tableRef} style={{ outline: 'none' }}>
-			<table className="min-w-full bg-white border border-gray-200 focus:outline-none" style={{ outline: 'none' }}>
+		<CustomScroll
+			className="flex-1 focus:outline-none"
+			ref={tableRef}
+			style={{ outline: "none" }}
+		>
+			<table
+				className="min-w-full bg-white border border-gray-200 focus:outline-none"
+				style={{ outline: "none" }}
+			>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
 						<th className="py-1.5 px-5 border-b border-r text-left">
@@ -216,19 +241,24 @@ function ProductsTable({
 									onClick={() => {
 										if (!isSelectionEnabled) {
 											setClickedRow(index);
+											setSelectedCell({
+												row: null,
+												col: null,
+											});
 										}
 									}}
 									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 focus:outline-none ${
 										selectedRow === index &&
 										isSelectionEnabled
 											? "bg-blue-500 text-white"
-											: clickedRow === index
-											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
-											: selectedCell.row === index
-											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
-											: ""
+											: !isSelectionEnabled &&
+											  (clickedRow === index
+													? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+													: selectedCell.row === index
+													? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+													: "")
 									}`}
-									style={{ outline: 'none' }}
+									style={{ outline: "none" }}
 									onDoubleClick={() =>
 										handleRowDoubleClick(product)
 									}
@@ -241,11 +271,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 0,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 0,
+												});
+											}
 										}}
 									>
 										{index + 1}
@@ -258,11 +290,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 1,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 1,
+												});
+											}
 										}}
 									>
 										{product.name}
@@ -275,11 +309,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 2,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 2,
+												});
+											}
 										}}
 									>
 										{product.currency
@@ -295,11 +331,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 3,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 3,
+												});
+											}
 										}}
 									>
 										{product.stock[0].qty}
@@ -312,11 +350,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 4,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 4,
+												});
+											}
 										}}
 									>
 										{product.price_in_currency} narxi
@@ -330,11 +370,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 5,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 5,
+												});
+											}
 										}}
 									>
 										{product.price[0].sale.toLocaleString(
@@ -353,11 +395,13 @@ function ProductsTable({
 												: ""
 										}`}
 										onClick={(e) => {
-											e.stopPropagation();
-											setSelectedCell({
-												row: index,
-												col: 6,
-											});
+											if (!isSelectionEnabled) {
+												e.stopPropagation();
+												setSelectedCell({
+													row: index,
+													col: 6,
+												});
+											}
 										}}
 									>
 										{product.stock[0].warehouse
@@ -398,3 +442,4 @@ function ProductsTable({
 }
 
 export default ProductsTable;
+
