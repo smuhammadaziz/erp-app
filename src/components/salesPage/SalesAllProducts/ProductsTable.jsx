@@ -112,6 +112,53 @@ function ProductsTable({
 		}
 	}, [isSelectionEnabled]);
 
+	const handleKeyDown = useCallback((e) => {
+		if (!selectedCell.row && selectedCell.row !== 0) return;
+
+		const totalColumns = 7; // Total number of columns in the table
+		const totalRows = filteredData.length;
+
+		switch (e.key) {
+			case "ArrowUp":
+				e.preventDefault();
+				setSelectedCell((prev) => ({
+					row: Math.max(0, prev.row - 1),
+					col: prev.col,
+				}));
+				break;
+			case "ArrowDown":
+				e.preventDefault();
+				setSelectedCell((prev) => ({
+					row: Math.min(totalRows - 1, prev.row + 1),
+					col: prev.col,
+				}));
+				break;
+			case "ArrowLeft":
+				e.preventDefault();
+				setSelectedCell((prev) => ({
+					row: prev.row,
+					col: Math.max(0, prev.col - 1),
+				}));
+				break;
+			case "ArrowRight":
+				e.preventDefault();
+				setSelectedCell((prev) => ({
+					row: prev.row,
+					col: Math.min(totalColumns - 1, prev.col + 1),
+				}));
+				break;
+			default:
+				break;
+		}
+	}, [selectedCell.row, filteredData.length]);
+
+	useEffect(() => {
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [handleKeyDown]);
+
 	return (
 		<CustomScroll className="flex-1" ref={tableRef}>
 			<table className="min-w-full bg-white border border-gray-200">
@@ -350,4 +397,3 @@ function ProductsTable({
 }
 
 export default ProductsTable;
-
