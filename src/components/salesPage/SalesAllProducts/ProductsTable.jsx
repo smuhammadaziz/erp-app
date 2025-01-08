@@ -234,9 +234,6 @@ function ProductsTable({
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
 						<th className="py-1.5 px-5 border-b border-r text-left">
-							#
-						</th>
-						<th className="py-1.5 px-5 border-b border-r text-left">
 							Product Name
 						</th>
 						<th className="py-1.5 px-5 border-b border-r text-center">
@@ -292,41 +289,22 @@ function ProductsTable({
 											});
 										}
 									}}
-									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 focus:outline-none ${
+									className={`text-gray-800 font-semibold cursor-pointer text-xs  transition-all duration-150 focus:outline-none ${
 										selectedRow === index &&
 										isSelectionEnabled
 											? "bg-blue-500 text-white"
 											: !isSelectionEnabled &&
 											  (clickedRow === index
-													? "bg-slate-400 text-white hover:bg-slate-400 hover:text-white"
+													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
 													: selectedCell.row === index
-													? "bg-slate-400 text-white hover:bg-slate-400 hover:text-white"
-													: "")
+													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
+													: "hover:bg-slate-50")
 									}`}
 									style={{ outline: "none" }}
 									onDoubleClick={() =>
 										handleRowDoubleClick(product)
 									}
 								>
-									<td
-										className={`py-1.5 px-5 border-b border-r text-left ${
-											selectedCell.row === index &&
-											selectedCell.col === 0
-												? "bg-blue-500 text-white"
-												: ""
-										}`}
-										onClick={(e) => {
-											if (!isSelectionEnabled) {
-												e.stopPropagation();
-												setSelectedCell({
-													row: index,
-													col: 0,
-												});
-											}
-										}}
-									>
-										{index + 1}
-									</td>
 									<td
 										className={`py-1.5 px-5 border-b border-r text-left ${
 											selectedCell.row === index &&
