@@ -201,8 +201,10 @@ function ProductsTable({
 			filteredData.length > 0
 		) {
 			// Find the row element using data-row-index
-			const selectedRowElement = document.querySelector(`tr[data-row-index="${selectedRow}"]`);
-			
+			const selectedRowElement = document.querySelector(
+				`tr[data-row-index="${selectedRow}"]`,
+			);
+
 			if (selectedRowElement) {
 				selectedRowElement.scrollIntoView({
 					block: "center",
@@ -296,9 +298,9 @@ function ProductsTable({
 											? "bg-blue-500 text-white"
 											: !isSelectionEnabled &&
 											  (clickedRow === index
-													? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+													? "bg-slate-400 text-white hover:bg-slate-400 hover:text-white"
 													: selectedCell.row === index
-													? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+													? "bg-slate-400 text-white hover:bg-slate-400 hover:text-white"
 													: "")
 									}`}
 									style={{ outline: "none" }}
@@ -310,7 +312,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-left ${
 											selectedCell.row === index &&
 											selectedCell.col === 0
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -329,7 +331,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-left ${
 											selectedCell.row === index &&
 											selectedCell.col === 1
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -348,7 +350,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-center ${
 											selectedCell.row === index &&
 											selectedCell.col === 2
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -370,7 +372,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-center ${
 											selectedCell.row === index &&
 											selectedCell.col === 3
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -389,7 +391,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-center ${
 											selectedCell.row === index &&
 											selectedCell.col === 4
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -409,7 +411,7 @@ function ProductsTable({
 										className={`py-1.5 px-5 border-b border-r text-center ${
 											selectedCell.row === index &&
 											selectedCell.col === 5
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -434,7 +436,7 @@ function ProductsTable({
 										className={`py-1 px-5 border-b text-center ${
 											selectedCell.row === index &&
 											selectedCell.col === 6
-												? "bg-red-500 text-white"
+												? "bg-blue-500 text-white"
 												: ""
 										}`}
 										onClick={(e) => {
@@ -485,3 +487,4 @@ function ProductsTable({
 }
 
 export default ProductsTable;
+
