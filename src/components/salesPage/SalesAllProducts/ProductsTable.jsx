@@ -158,7 +158,7 @@ function ProductsTable({
 											? selectedRowRef
 											: null
 									}
-									className={`text-gray-800 font-semibold text-xs hover:bg-slate-200 ${
+									className={`text-gray-800 font-semibold text-xs hover:bg-slate-50 ${
 										selectedRow === index &&
 										isSelectionEnabled
 											? "bg-orange-200"
