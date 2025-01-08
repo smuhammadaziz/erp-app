@@ -46,11 +46,10 @@ function SalesMainAllProducts() {
 			const result = await response.json();
 			const data = result.products || [];
 
-			// Only update if data has actually changed
 			if (JSON.stringify(currentData.current) !== JSON.stringify(data)) {
 				currentData.current = data;
 				setOriginalData(data);
-				
+
 				if (!isSearching) {
 					setFilteredData(data);
 					// Only set initial display data if none exists
@@ -59,7 +58,7 @@ function SalesMainAllProducts() {
 					}
 				}
 			}
-			
+
 			setLoading(false);
 			setError(null);
 			lastFetchTime.current = now;
@@ -241,3 +240,4 @@ function SalesMainAllProducts() {
 }
 
 export default SalesMainAllProducts;
+
