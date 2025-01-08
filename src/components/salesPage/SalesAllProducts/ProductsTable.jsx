@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import nodeUrl from "../../../links";
 import CustomScroll from "./CustomScroll";
 
@@ -11,9 +11,35 @@ function ProductsTable({
 	selectedRowRef,
 	handleRowDoubleClick,
 	error,
+	onLoadMore,
+	hasMore,
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
+	const loadingRef = useRef(null);
+
+	const observer = useRef(null);
+	const lastRowRef = useCallback(
+		(node) => {
+			if (observer.current) observer.current.disconnect();
+
+			observer.current = new IntersectionObserver(
+				(entries) => {
+					if (entries[0].isIntersecting && hasMore) {
+						onLoadMore();
+					}
+				},
+				{
+					root: tableRef.current,
+					rootMargin: "100px",
+					threshold: 0.1,
+				},
+			);
+
+			if (node) observer.current.observe(node);
+		},
+		[hasMore, onLoadMore],
+	);
 
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of filteredData) {
@@ -121,58 +147,77 @@ function ProductsTable({
 							</td>
 						</tr>
 					) : filteredData.length > 0 ? (
-						filteredData.map((product, index) => (
-							<tr
-								key={product.product_id}
-								ref={
-									selectedRow === index
-										? selectedRowRef
-										: null
-								}
-								className={`text-gray-800 font-semibold text-xs hover:bg-slate-200 ${
-									selectedRow === index && isSelectionEnabled
-										? "bg-orange-200"
-										: ""
-								}`}
-								onDoubleClick={() =>
-									handleRowDoubleClick(product)
-								}
-							>
-								<td className="py-1.5 px-5 border-b border-r text-left">
-									{index + 1}
-								</td>
-								<td className="py-1.5 px-5 border-b border-r text-left">
-									{product.name}
-								</td>
-								<td className="py-1.5 px-5 border-b border-r text-center">
-									{product.currency
-										? currencyData[product.currency] || "-"
-										: "-"}
-								</td>
-								<td className="py-1.5 px-5 border-b border-r text-center">
-									{product.stock[0].qty}
-								</td>
-								<td className="py-1.5 px-5 border-b border-r text-center">
-									{product.price_in_currency} narxi valyuta
-								</td>
-								<td className="py-1.5 px-5 border-b border-r text-center">
-									{product.price[0].sale.toLocaleString(
-										"ru-RU",
-										{
-											minimumFractionDigits: 2,
-											maximumFractionDigits: 2,
-										},
-									)}
-								</td>
-								<td className="py-1 px-5 border-b text-center">
-									{product.stock[0].warehouse
-										? warehouseData[
-												product.stock[0].warehouse
-										  ] || "-"
-										: "-"}
-								</td>
-							</tr>
-						))
+						<>
+							{filteredData.map((product, index) => (
+								<tr
+									key={product.product_id}
+									ref={
+										index === filteredData.length - 1
+											? lastRowRef
+											: selectedRow === index
+											? selectedRowRef
+											: null
+									}
+									className={`text-gray-800 font-semibold text-xs hover:bg-slate-200 ${
+										selectedRow === index &&
+										isSelectionEnabled
+											? "bg-orange-200"
+											: ""
+									}`}
+									onDoubleClick={() =>
+										handleRowDoubleClick(product)
+									}
+								>
+									<td className="py-1.5 px-5 border-b border-r text-left">
+										{index + 1}
+									</td>
+									<td className="py-1.5 px-5 border-b border-r text-left">
+										{product.name}
+									</td>
+									<td className="py-1.5 px-5 border-b border-r text-center">
+										{product.currency
+											? currencyData[product.currency] ||
+											  "-"
+											: "-"}
+									</td>
+									<td className="py-1.5 px-5 border-b border-r text-center">
+										{product.stock[0].qty}
+									</td>
+									<td className="py-1.5 px-5 border-b border-r text-center">
+										{product.price_in_currency} narxi
+										valyuta
+									</td>
+									<td className="py-1.5 px-5 border-b border-r text-center">
+										{product.price[0].sale.toLocaleString(
+											"ru-RU",
+											{
+												minimumFractionDigits: 2,
+												maximumFractionDigits: 2,
+											},
+										)}
+									</td>
+									<td className="py-1 px-5 border-b text-center">
+										{product.stock[0].warehouse
+											? warehouseData[
+													product.stock[0].warehouse
+											  ] || "-"
+											: "-"}
+									</td>
+								</tr>
+							))}
+							{hasMore && (
+								<tr ref={loadingRef}>
+									<td
+										colSpan="7"
+										className="py-2 text-center"
+									>
+										<div className="text-sm text-gray-500">
+											Loading more products...
+										</div>
+									</td>
+								</tr>
+							)}
+						</>
 					) : (
 						<tr>
 							<td

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import SearchBar from "./SearchBar";
 import ProductsTable from "./ProductsTable";
 import ProductModal from "./ProductModal";
@@ -8,6 +8,7 @@ function SalesMainAllProducts() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [originalData, setOriginalData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
+	const [displayedData, setDisplayedData] = useState([]);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [selectedRow, setSelectedRow] = useState(null);
@@ -15,16 +16,23 @@ function SalesMainAllProducts() {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [isSearching, setIsSearching] = useState(false);
+	const [page, setPage] = useState(1);
+	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const itemsPerPage = 50;
 
 	const tableRef = useRef(null);
 	const selectedRowRef = useRef(null);
 	const searchInputRef = useRef(null);
 	const fetchIntervalRef = useRef(null);
-
+	const lastFetchTime = useRef(0);
+	const currentData = useRef([]);
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	const fetchProducts = async () => {
+	const fetchProducts = useCallback(async () => {
+		const now = Date.now();
+		if (now - lastFetchTime.current < 500) return;
+
 		try {
 			const response = await fetch(
 				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
@@ -36,30 +44,41 @@ function SalesMainAllProducts() {
 				throw new Error("Failed to fetch products");
 			}
 			const result = await response.json();
+			const data = result.products || [];
 
-			const data = result.products;
-
-			setOriginalData(data || []);
-			if (!isSearching) {
-				setFilteredData(data || []);
+			// Only update if data has actually changed
+			if (JSON.stringify(currentData.current) !== JSON.stringify(data)) {
+				currentData.current = data;
+				setOriginalData(data);
+				
+				if (!isSearching) {
+					setFilteredData(data);
+					// Only set initial display data if none exists
+					if (displayedData.length === 0) {
+						setDisplayedData(data.slice(0, itemsPerPage));
+					}
+				}
 			}
+			
 			setLoading(false);
 			setError(null);
+			lastFetchTime.current = now;
 		} catch (err) {
 			setError(err.message);
 			setOriginalData([]);
 			if (!isSearching) {
 				setFilteredData([]);
+				setDisplayedData([]);
 			}
 			setLoading(false);
 		}
-	};
+	}, [isSearching, displayedData.length, deviceId, ksbId]);
 
 	useEffect(() => {
 		fetchProducts();
 
 		fetchIntervalRef.current = setInterval(() => {
-			if (!isSearching) {
+			if (!isLoadingMore) {
 				fetchProducts();
 			}
 		}, 500);
@@ -69,7 +88,7 @@ function SalesMainAllProducts() {
 				clearInterval(fetchIntervalRef.current);
 			}
 		};
-	}, [isSearching]);
+	}, [fetchProducts, isLoadingMore]);
 
 	useEffect(() => {
 		if (searchQuery) {
@@ -79,13 +98,78 @@ function SalesMainAllProducts() {
 				product.name?.toLowerCase().includes(lowercasedQuery),
 			);
 			setFilteredData(filtered);
+			setPage(1);
+			setDisplayedData(filtered.slice(0, itemsPerPage));
 		} else {
 			setIsSearching(false);
 			setFilteredData(originalData);
+			setPage(1);
+			setDisplayedData(originalData.slice(0, itemsPerPage));
 			setSelectedRow(null);
 			setIsSelectionEnabled(false);
 		}
 	}, [searchQuery, originalData]);
+
+	const loadMoreItems = useCallback(() => {
+		if (isLoadingMore) return;
+		setIsLoadingMore(true);
+
+		const nextPage = page + 1;
+		const startIndex = 0;
+		const endIndex = nextPage * itemsPerPage;
+		const newItems = filteredData.slice(startIndex, endIndex);
+
+		setDisplayedData(newItems);
+		setPage(nextPage);
+		setIsLoadingMore(false);
+	}, [filteredData, page, isLoadingMore]);
+
+	const handleKeyDown = (e) => {
+		if (
+			!isSelectionEnabled &&
+			e.key === "Enter" &&
+			searchQuery &&
+			filteredData.length > 0
+		) {
+			e.preventDefault();
+			setIsSelectionEnabled(true);
+			setSelectedRow(0);
+			return;
+		}
+
+		if (!isSelectionEnabled) return;
+
+		if (e.key === "ArrowDown") {
+			e.preventDefault();
+			setSelectedRow((prev) =>
+				prev === null
+					? 0
+					: Math.min(prev + 1, displayedData.length - 1),
+			);
+		} else if (e.key === "ArrowUp") {
+			e.preventDefault();
+			setSelectedRow((prev) =>
+				prev === null ? null : Math.max(prev - 1, 0),
+			);
+		} else if (e.key === "Enter" && selectedRow !== null) {
+			handleAddProduct(displayedData[selectedRow]);
+		} else if (e.key === "Escape") {
+			setIsSelectionEnabled(false);
+			setSelectedRow(null);
+			setSearchQuery("");
+			searchInputRef.current?.focus();
+		}
+	};
+
+	const handleAddProduct = (product) => {
+		setSelectedProduct(product);
+		setIsModalOpen(true);
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setSelectedProduct(null);
+	};
 
 	useEffect(() => {
 		if (
@@ -113,51 +197,6 @@ function SalesMainAllProducts() {
 		}
 	}, [selectedRow]);
 
-	const handleKeyDown = (e) => {
-		if (
-			!isSelectionEnabled &&
-			e.key === "Enter" &&
-			searchQuery &&
-			filteredData.length > 0
-		) {
-			e.preventDefault();
-			setIsSelectionEnabled(true);
-			setSelectedRow(0);
-			return;
-		}
-
-		if (!isSelectionEnabled) return;
-
-		if (e.key === "ArrowDown") {
-			e.preventDefault();
-			setSelectedRow((prev) =>
-				prev === null ? 0 : Math.min(prev + 1, filteredData.length - 1),
-			);
-		} else if (e.key === "ArrowUp") {
-			e.preventDefault();
-			setSelectedRow((prev) =>
-				prev === null ? null : Math.max(prev - 1, 0),
-			);
-		} else if (e.key === "Enter" && selectedRow !== null) {
-			handleAddProduct(filteredData[selectedRow]);
-		} else if (e.key === "Escape") {
-			setIsSelectionEnabled(false);
-			setSelectedRow(null);
-			setSearchQuery("");
-			searchInputRef.current?.focus();
-		}
-	};
-
-	const handleAddProduct = (product) => {
-		setSelectedProduct(product);
-		setIsModalOpen(true);
-	};
-
-	const handleCloseModal = () => {
-		setIsModalOpen(false);
-		setSelectedProduct(null);
-	};
-
 	if (loading) {
 		return (
 			<div className="py-1 h-[40vh]">
@@ -179,7 +218,7 @@ function SalesMainAllProducts() {
 					setSelectedRow={setSelectedRow}
 				/>
 				<ProductsTable
-					filteredData={filteredData}
+					filteredData={displayedData}
 					selectedRow={selectedRow}
 					setSelectedRow={setSelectedRow}
 					isSelectionEnabled={isSelectionEnabled}
@@ -187,6 +226,8 @@ function SalesMainAllProducts() {
 					selectedRowRef={selectedRowRef}
 					handleRowDoubleClick={handleAddProduct}
 					error={error}
+					onLoadMore={loadMoreItems}
+					hasMore={displayedData.length < filteredData.length}
 				/>
 			</div>
 			{isModalOpen && selectedProduct && (
@@ -200,4 +241,3 @@ function SalesMainAllProducts() {
 }
 
 export default SalesMainAllProducts;
-
