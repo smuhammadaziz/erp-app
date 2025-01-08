@@ -10,7 +10,7 @@ function CustomScroll({ children, className }) {
 
 		const handleWheel = (e) => {
 			e.preventDefault();
-			container.scrollTop += e.deltaY * 1.8; // Increased scroll speed
+			container.scrollTop += e.deltaY * 0.8; // Reduced scroll speed
 		};
 
 		container.addEventListener("wheel", handleWheel, { passive: false });
