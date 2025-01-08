@@ -83,20 +83,22 @@ function ProductsTable({
 			<table className="min-w-full bg-white border border-gray-200">
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-1.5 px-5 border-b text-left">#</th>
-						<th className="py-1.5 px-5 border-b text-left">
+						<th className="py-1.5 px-5 border-b border-r text-left">
+							#
+						</th>
+						<th className="py-1.5 px-5 border-b border-r text-left">
 							Product Name
 						</th>
-						<th className="py-1.5 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center">
 							Currency
 						</th>
-						<th className="py-1.5 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center">
 							Remaining
 						</th>
-						<th className="py-1.5 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center">
 							Price (Currency)
 						</th>
-						<th className="py-1.5 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center">
 							Price (UZS)
 						</th>
 						<th className="py-1.5 px-5 border-b text-center">
@@ -136,24 +138,24 @@ function ProductsTable({
 									handleRowDoubleClick(product)
 								}
 							>
-								<td className="py-1.5 px-5 border-b text-left">
+								<td className="py-1.5 px-5 border-b border-r text-left">
 									{index + 1}
 								</td>
-								<td className="py-1.5 px-5 border-b text-left">
+								<td className="py-1.5 px-5 border-b border-r text-left">
 									{product.name}
 								</td>
-								<td className="py-1.5 px-5 border-b text-center">
+								<td className="py-1.5 px-5 border-b border-r text-center">
 									{product.currency
 										? currencyData[product.currency] || "-"
 										: "-"}
 								</td>
-								<td className="py-1.5 px-5 border-b text-center">
+								<td className="py-1.5 px-5 border-b border-r text-center">
 									{product.stock[0].qty}
 								</td>
-								<td className="py-1.5 px-5 border-b text-center">
+								<td className="py-1.5 px-5 border-b border-r text-center">
 									{product.price_in_currency} narxi valyuta
 								</td>
-								<td className="py-1.5 px-5 border-b text-center">
+								<td className="py-1.5 px-5 border-b border-r text-center">
 									{product.price[0].sale.toLocaleString(
 										"ru-RU",
 										{
