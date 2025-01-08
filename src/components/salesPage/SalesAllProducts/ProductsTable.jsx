@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import nodeUrl from "../../../links";
+import CustomScroll from "./CustomScroll";
 
 function ProductsTable({
 	filteredData,
@@ -79,7 +80,7 @@ function ProductsTable({
 	}, [fetchWarehouseData]);
 
 	return (
-		<div className="overflow-y-auto flex-1" ref={tableRef}>
+		<CustomScroll className="flex-1" ref={tableRef}>
 			<table className="min-w-full bg-white border border-gray-200">
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
@@ -185,7 +186,7 @@ function ProductsTable({
 					)}
 				</tbody>
 			</table>
-		</div>
+		</CustomScroll>
 	);
 }
 

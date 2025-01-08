@@ -14,6 +14,7 @@ function SalesMainAllProducts() {
 	const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [isSearching, setIsSearching] = useState(false);
 
 	const tableRef = useRef(null);
 	const selectedRowRef = useRef(null);
@@ -38,21 +39,18 @@ function SalesMainAllProducts() {
 
 			const data = result.products;
 
-			console.log(data);
-
-			if (data.length === 0) {
-				setOriginalData([]);
-				setFilteredData([]);
-			} else {
-				setOriginalData(data);
-				setFilteredData(data);
+			setOriginalData(data || []);
+			if (!isSearching) {
+				setFilteredData(data || []);
 			}
 			setLoading(false);
 			setError(null);
 		} catch (err) {
 			setError(err.message);
 			setOriginalData([]);
-			setFilteredData([]);
+			if (!isSearching) {
+				setFilteredData([]);
+			}
 			setLoading(false);
 		}
 	};
@@ -61,7 +59,9 @@ function SalesMainAllProducts() {
 		fetchProducts();
 
 		fetchIntervalRef.current = setInterval(() => {
-			fetchProducts();
+			if (!isSearching) {
+				fetchProducts();
+			}
 		}, 500);
 
 		return () => {
@@ -69,16 +69,18 @@ function SalesMainAllProducts() {
 				clearInterval(fetchIntervalRef.current);
 			}
 		};
-	}, []);
+	}, [isSearching]);
 
 	useEffect(() => {
 		if (searchQuery) {
+			setIsSearching(true);
 			const lowercasedQuery = searchQuery.toLowerCase();
 			const filtered = originalData.filter((product) =>
-				product.product_name.toLowerCase().includes(lowercasedQuery),
+				product.name?.toLowerCase().includes(lowercasedQuery),
 			);
 			setFilteredData(filtered);
 		} else {
+			setIsSearching(false);
 			setFilteredData(originalData);
 			setSelectedRow(null);
 			setIsSelectionEnabled(false);
@@ -198,3 +200,4 @@ function SalesMainAllProducts() {
 }
 
 export default SalesMainAllProducts;
+
