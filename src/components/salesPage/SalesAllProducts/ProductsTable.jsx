@@ -17,6 +17,7 @@ function ProductsTable({
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
 	const [clickedRow, setClickedRow] = useState(null);
+	const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 	const loadingRef = useRef(null);
 
 	const observer = useRef(null);
@@ -173,8 +174,10 @@ function ProductsTable({
 									className={`text-gray-800 font-semibold cursor-pointer text-xs hover:bg-slate-50 transition-all duration-150 ${
 										selectedRow === index &&
 										isSelectionEnabled
-											? "bg-orange-200"
+											? "bg-blue-500 text-white"
 											: clickedRow === index
+											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
+											: selectedCell.row === index
 											? "bg-blue-500 text-white hover:bg-blue-500 hover:text-white"
 											: ""
 									}`}
@@ -182,26 +185,110 @@ function ProductsTable({
 										handleRowDoubleClick(product)
 									}
 								>
-									<td className="py-1.5 px-5 border-b border-r text-left">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-left ${
+											selectedCell.row === index &&
+											selectedCell.col === 0
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 0,
+											});
+										}}
+									>
 										{index + 1}
 									</td>
-									<td className="py-1.5 px-5 border-b border-r text-left">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-left ${
+											selectedCell.row === index &&
+											selectedCell.col === 1
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 1,
+											});
+										}}
+									>
 										{product.name}
 									</td>
-									<td className="py-1.5 px-5 border-b border-r text-center">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-center ${
+											selectedCell.row === index &&
+											selectedCell.col === 2
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 2,
+											});
+										}}
+									>
 										{product.currency
 											? currencyData[product.currency] ||
 											  "-"
 											: "-"}
 									</td>
-									<td className="py-1.5 px-5 border-b border-r text-center">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-center ${
+											selectedCell.row === index &&
+											selectedCell.col === 3
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 3,
+											});
+										}}
+									>
 										{product.stock[0].qty}
 									</td>
-									<td className="py-1.5 px-5 border-b border-r text-center">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-center ${
+											selectedCell.row === index &&
+											selectedCell.col === 4
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 4,
+											});
+										}}
+									>
 										{product.price_in_currency} narxi
 										valyuta
 									</td>
-									<td className="py-1.5 px-5 border-b border-r text-center">
+									<td
+										className={`py-1.5 px-5 border-b border-r text-center ${
+											selectedCell.row === index &&
+											selectedCell.col === 5
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 5,
+											});
+										}}
+									>
 										{product.price[0].sale.toLocaleString(
 											"ru-RU",
 											{
@@ -210,7 +297,21 @@ function ProductsTable({
 											},
 										)}
 									</td>
-									<td className="py-1 px-5 border-b text-center">
+									<td
+										className={`py-1 px-5 border-b text-center ${
+											selectedCell.row === index &&
+											selectedCell.col === 6
+												? "bg-red-500 text-white"
+												: ""
+										}`}
+										onClick={(e) => {
+											e.stopPropagation();
+											setSelectedCell({
+												row: index,
+												col: 6,
+											});
+										}}
+									>
 										{product.stock[0].warehouse
 											? warehouseData[
 													product.stock[0].warehouse
