@@ -30,6 +30,18 @@ function ProductsTable({
 					if (entries[0].isIntersecting && hasMore) {
 						onLoadMore();
 					}
+					// Adjust scroll and reset selection when the last row is visible
+					if (entries[0].isIntersecting && !hasMore) {
+						entries[0].target.scrollIntoView({
+							block: "nearest",
+							behavior: "smooth",
+						});
+
+						// Reset selection states
+						setSelectedCell({ row: null, col: null });
+						setClickedRow(null);
+						setSelectedRow(null);
+					}
 				},
 				{
 					root: tableRef.current,
@@ -40,7 +52,7 @@ function ProductsTable({
 
 			if (node) observer.current.observe(node);
 		},
-		[hasMore, onLoadMore],
+		[hasMore, onLoadMore, tableRef, setSelectedRow],
 	);
 
 	const fetchCurrencyData = useCallback(async () => {
@@ -117,17 +129,42 @@ function ProductsTable({
 			switch (e.key) {
 				case "ArrowUp":
 					e.preventDefault();
+					const newUpRow = Math.max(0, selectedCell.row - 1);
 					setSelectedCell((prev) => ({
-						row: Math.max(0, prev.row - 1),
+						row: newUpRow,
 						col: prev.col,
 					}));
+					// Scroll to the new row if it's out of view
+					const upRowElement = document.querySelector(
+						`tr[data-row-index="${newUpRow}"]`,
+					);
+					if (upRowElement) {
+						upRowElement.scrollIntoView({
+							block: "nearest",
+							behavior: "smooth",
+						});
+					}
 					break;
 				case "ArrowDown":
 					e.preventDefault();
+					const newDownRow = Math.min(
+						totalRows - 1,
+						selectedCell.row + 1,
+					);
 					setSelectedCell((prev) => ({
-						row: Math.min(totalRows - 1, prev.row + 1),
+						row: newDownRow,
 						col: prev.col,
 					}));
+					// Scroll to the new row if it's out of view
+					const downRowElement = document.querySelector(
+						`tr[data-row-index="${newDownRow}"]`,
+					);
+					if (downRowElement) {
+						downRowElement.scrollIntoView({
+							block: "nearest",
+							behavior: "smooth",
+						});
+					}
 					break;
 				case "ArrowLeft":
 					e.preventDefault();
@@ -160,15 +197,20 @@ function ProductsTable({
 	useEffect(() => {
 		if (
 			selectedRow !== null &&
-			selectedRowRef.current &&
-			tableRef.current
+			selectedRow !== undefined &&
+			filteredData.length > 0
 		) {
-			selectedRowRef.current.scrollIntoView({
-				block: "nearest",
-				behavior: "smooth",
-			});
+			// Find the row element using data-row-index
+			const selectedRowElement = document.querySelector(`tr[data-row-index="${selectedRow}"]`);
+			
+			if (selectedRowElement) {
+				selectedRowElement.scrollIntoView({
+					block: "center",
+					behavior: "smooth",
+				});
+			}
 		}
-	}, [selectedRow]);
+	}, [selectedRow, filteredData]);
 
 	useEffect(() => {
 		window.addEventListener("keydown", handleKeyDown);
@@ -231,6 +273,7 @@ function ProductsTable({
 							{filteredData.map((product, index) => (
 								<tr
 									key={product.product_id}
+									data-row-index={index}
 									ref={
 										index === filteredData.length - 1
 											? lastRowRef
