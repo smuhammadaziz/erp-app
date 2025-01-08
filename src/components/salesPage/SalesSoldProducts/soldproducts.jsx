@@ -54,7 +54,7 @@ function SalesSoldProducts() {
 	}, []);
 
 	return (
-		<div className="py-1 h-[40vh]">
+		<div className="py-1 h-[33vh]">
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				{/* Table */}
 				<div className="overflow-x-auto overflow-y-auto flex-grow">

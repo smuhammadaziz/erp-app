@@ -15,23 +15,24 @@ function ProductsTable({
 			<table className="min-w-full bg-white border border-gray-200">
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-2 px-5 border-b text-left">
+						<th className="py-1 px-5 border-b text-left">#</th>
+						<th className="py-1 px-5 border-b text-left">
 							Product Name
 						</th>
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-1 px-5 border-b text-center">
 							Currency
 						</th>
-						<th className="py-2 px-5 border-b text-center">Box</th>
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-1 px-5 border-b text-center">Box</th>
+						<th className="py-1 px-5 border-b text-center">
 							Remaining
 						</th>
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-1 px-5 border-b text-center">
 							Price (Currency)
 						</th>
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-1 px-5 border-b text-center">
 							Price (UZS)
 						</th>
-						<th className="py-2 px-5 border-b text-center">
+						<th className="py-1 px-5 border-b text-center">
 							Warehouse
 						</th>
 					</tr>
@@ -51,7 +52,7 @@ function ProductsTable({
 							</td>
 						</tr>
 					) : filteredData.length > 0 ? (
-						filteredData.map((product, index) => (
+						filteredData.slice(0, 50).map((product, index) => (
 							<tr
 								key={product.product_id}
 								ref={
@@ -59,7 +60,7 @@ function ProductsTable({
 										? selectedRowRef
 										: null
 								}
-								className={`text-gray-800 text-xs hover:bg-slate-200 ${
+								className={`text-gray-800 font-semibold text-xs hover:bg-slate-200 ${
 									selectedRow === index && isSelectionEnabled
 										? "bg-orange-200"
 										: ""
@@ -68,6 +69,9 @@ function ProductsTable({
 									handleRowDoubleClick(product)
 								}
 							>
+								<td className="py-0.5 px-5 border-b text-left">
+									{index + 1}
+								</td>
 								<td className="py-0.5 px-5 border-b text-left">
 									{product.name}
 								</td>

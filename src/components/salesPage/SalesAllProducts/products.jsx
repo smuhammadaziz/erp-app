@@ -167,7 +167,7 @@ function SalesMainAllProducts() {
 	}
 
 	return (
-		<div className="py-1 h-[40vh]" tabIndex={0} onKeyDown={handleKeyDown}>
+		<div className="py-1 h-[50vh]" tabIndex={0} onKeyDown={handleKeyDown}>
 			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 				<SearchBar
 					searchQuery={searchQuery}
