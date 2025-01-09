@@ -27,8 +27,6 @@ export const Titlebar: FC = () => {
 	const [maximized, setMaximized] = useState<boolean>(
 		currentWindow.isMaximized(),
 	);
-	const [data, setData] = useState<EnterpriseData | null>(null);
-	const [info, setInfo] = useState<EnterpriseInfo | null>(null);
 	const [showInfoModal, setShowInfoModal] = useState(false);
 
 	useEffect(() => {
@@ -47,84 +45,6 @@ export const Titlebar: FC = () => {
 	const onQuit = () => app.quit();
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
-	const ipaddressPort = localStorage.getItem("ipaddress:port");
-	const mainDatabase = localStorage.getItem("mainDatabase");
-	const mainUserType = localStorage.getItem("mainUsername");
-	const mainUserPass = localStorage.getItem("mainPassword");
-
-	useEffect(() => {
-		const fetchLoginData = async () => {
-			try {
-				const bodyData = {
-					ipaddressPort: ipaddressPort,
-					database: mainDatabase,
-					userUsername: mainUserType,
-					userPassword: mainUserPass,
-				};
-
-				const response = await fetch(
-					`${nodeUrl}/api/enterprise/${ksbId}`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(bodyData),
-					},
-				);
-
-				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
-				}
-
-				const result = await response.json();
-
-				if (result.enterprise) {
-					setData(result.enterprise);
-				} else {
-					console.error("Unexpected response structure:", result);
-				}
-			} catch (err) {
-				console.error("Error fetching data:", err);
-			}
-		};
-
-		fetchLoginData();
-	}, []);
-
-	useEffect(() => {
-		const fetchLoginData = async () => {
-			try {
-				const username = "Demo";
-				const password = "";
-				const credentials = Buffer.from(
-					`${username}:${password}`,
-				).toString("base64");
-
-				const response = await fetch(`${nodeUrl}/api/${ksbId}`, {
-					headers: {
-						Authorization: `Basic ${credentials}`,
-					},
-				});
-
-				if (!response.ok) {
-					throw new Error(`HTTP error! Status: ${response.status}`);
-				}
-
-				const result = await response.json();
-
-				if (result) {
-					setInfo(result.response);
-				} else {
-					console.error("Unexpected response structure:", result);
-				}
-			} catch (err) {
-				console.error("Error fetching info:", err);
-			}
-		};
-
-		fetchLoginData();
-	}, []);
 
 	return (
 		<div className="title-bar sticky top-0 select-none justify-between z-[999]">
@@ -141,19 +61,15 @@ export const Titlebar: FC = () => {
 			</div>
 			<div className="mx-auto text-white items-center mt-1">
 				<span>
-					{data ? (
+					{ksbId ? (
 						<p className="uppercase ">
-							<span className="mr-4 ">{data.title}</span>
 							<span className="font-bold text-md">
-								(<span>KSB-ID</span>
-								<span className="underline ml-2">
-									{data.ksb_id}
-								</span>
-								)
+								(<span>KSB-ID </span>
+								<span className="underline ml-1">{ksbId}</span>)
 							</span>
 						</p>
 					) : (
-						<p className="mr-2 uppercase">Loading...</p>
+						<p className="mr-2 uppercase">-</p>
 					)}
 				</span>
 			</div>
@@ -202,7 +118,6 @@ export const Titlebar: FC = () => {
 			<EnterpriseInfoModal
 				isOpen={showInfoModal}
 				onClose={() => setShowInfoModal(false)}
-				info={info}
 			/>
 		</div>
 	);

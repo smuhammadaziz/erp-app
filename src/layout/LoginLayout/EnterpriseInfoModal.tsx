@@ -8,7 +8,7 @@ import {
 	FaExclamationTriangle,
 } from "react-icons/fa";
 import moment from "moment";
-import "moment/locale/uz";
+import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
 
 moment.locale("ru");

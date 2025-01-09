@@ -8,21 +8,14 @@ import {
 	FaExclamationTriangle,
 } from "react-icons/fa";
 import moment from "moment";
-import "moment/locale/uz";
+import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa";
 
-moment.locale("uz");
+moment.locale("ru");
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	info: {
-		ip: string;
-		port: string;
-		info_base: string;
-		its: string;
-	} | null;
 }
 
 import content from "../../localization/content";
@@ -31,8 +24,11 @@ import useLang from "../../hooks/useLang";
 export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	isOpen,
 	onClose,
-	info,
 }) => {
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
+	const itsDeadline = localStorage.getItem("its_deadline");
+
 	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
@@ -54,66 +50,17 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 		};
 	}, [onClose]);
 
-	if (!info) {
-		return (
-			<>
-				<div
-					className="fixed inset-0"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
-				/>
-				<div
-					ref={modalRef}
-					className="absolute top-8 right-20 w-72 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9999]"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
-				>
-					<div className="p-4">
-						<div className="flex flex-col items-center text-center">
-							<FaExclamationTriangle className="w-8 h-8 text-amber-500 mb-2" />
-							<h2 className="text-sm font-semibold text-slate-800 mb-1">
-								Хатолик юз берди
-							</h2>
-							<p className="text-xs text-slate-600">
-								Маълумотларни юклашда хатолик юз берди. Илтимос,
-								қайта уриниб кўринг
-							</p>
-							<button
-								onClick={onClose}
-								className="mt-3 px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
-							>
-								Ёпиш
-							</button>
-							<NavLink
-								to="/intro"
-								className="mt-3 px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
-							>
-								{
-									content[language as string].enterpriseInfo
-										.signout
-								}
-							</NavLink>
-						</div>
-					</div>
-				</div>
-			</>
-		);
-	}
-
 	const infoItems = [
-		{ icon: FaServer, label: "Ип Адрес", value: info.ip },
-		{ icon: FaNetworkWired, label: "Порт", value: info.port },
+		{ icon: FaServer, label: "ИпАдрес:Порт", value: ipaddressPort },
 		{
 			icon: FaDatabase,
 			label: "Датабаза",
-			value: info.info_base,
+			value: mainDatabase,
 		},
 		{
 			icon: FaShieldAlt,
 			label: "ИТС",
-			value: `${moment(info.its).format("LL")}`,
+			value: `${moment(itsDeadline).format("LL")}`,
 		},
 	];
 
