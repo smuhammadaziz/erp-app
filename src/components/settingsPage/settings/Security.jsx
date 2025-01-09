@@ -2,8 +2,35 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import SectionContainer from "./SectionContainer";
 import { toast, Toaster } from "sonner";
-
 import nodeUrl from "../../../links";
+
+const PasswordInput = ({
+	label,
+	value,
+	onChange,
+	showPassword,
+	onToggleVisibility,
+}) => (
+	<div className="w-full space-y-2">
+		<label className="text-sm font-medium text-gray-700">{label}</label>
+		<div className="relative group">
+			<input
+				type={showPassword ? "text" : "password"}
+				value={value}
+				onChange={onChange}
+				className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none"
+				placeholder="Enter password"
+			/>
+			<button
+				type="button"
+				onClick={onToggleVisibility}
+				className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+			>
+				{showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
+			</button>
+		</div>
+	</div>
+);
 
 function Security() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -12,10 +39,6 @@ function Security() {
 	const [currentPassword, setCurrentPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-
-	const togglePasswordVisibility = (setter, currentState) => {
-		setter(!currentState);
-	};
 
 	const handleUpdatePassword = async () => {
 		const surname = localStorage.getItem("userType");
@@ -50,14 +73,11 @@ function Security() {
 			const data = await response.json();
 
 			if (!response.ok) {
-				const errorMessage =
-					data.message.uz || "Failed to update password.";
-				toast.error(errorMessage);
+				toast.error(data.message.uz || "Failed to update password.");
 				return;
 			}
 
 			toast.success("Password updated successfully.");
-
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmPassword("");
@@ -68,112 +88,71 @@ function Security() {
 
 	return (
 		<>
-			<Toaster position="bottom-right" richColors />{" "}
+			<Toaster position="bottom-right" richColors />
 			<SectionContainer title="Security">
-				<div className="space-y-4">
-					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Enter Current Password
-						</label>
-						<div className="relative">
-							<input
-								type={showCurrentPassword ? "text" : "password"}
-								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-								placeholder="Enter current password"
-								value={currentPassword}
-								onChange={(e) =>
-									setCurrentPassword(e.target.value)
-								}
-							/>
+				<div className="bg-white">
+					<div className="space-y-6">
+						<div className="grid grid-cols-12 gap-6">
+							{/* Current Password - Full Width */}
+							<div className="col-span-12">
+								<PasswordInput
+									label="Current Password"
+									value={currentPassword}
+									onChange={(e) =>
+										setCurrentPassword(e.target.value)
+									}
+									showPassword={showCurrentPassword}
+									onToggleVisibility={() =>
+										setShowCurrentPassword(
+											!showCurrentPassword,
+										)
+									}
+								/>
+							</div>
+
+							{/* New Password - Half Width */}
+							<div className="col-span-12 md:col-span-6">
+								<PasswordInput
+									label="New Password"
+									value={newPassword}
+									onChange={(e) =>
+										setNewPassword(e.target.value)
+									}
+									showPassword={showNewPassword}
+									onToggleVisibility={() =>
+										setShowNewPassword(!showNewPassword)
+									}
+								/>
+							</div>
+
+							{/* Confirm Password - Half Width */}
+							<div className="col-span-12 md:col-span-6">
+								<PasswordInput
+									label="Confirm New Password"
+									value={confirmPassword}
+									onChange={(e) =>
+										setConfirmPassword(e.target.value)
+									}
+									showPassword={showConfirmPassword}
+									onToggleVisibility={() =>
+										setShowConfirmPassword(
+											!showConfirmPassword,
+										)
+									}
+								/>
+							</div>
+						</div>
+
+						{/* Update Button */}
+						<div className="flex justify-end">
 							<button
-								type="button"
-								onClick={() =>
-									togglePasswordVisibility(
-										setShowCurrentPassword,
-										showCurrentPassword,
-									)
-								}
-								className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
+								onClick={handleUpdatePassword}
+								className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-all duration-200 font-medium"
 							>
-								{showCurrentPassword ? (
-									<FaEyeSlash size={20} />
-								) : (
-									<FaEye size={20} />
-								)}
+								Update Password
 							</button>
 						</div>
 					</div>
-
-					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Enter New Password
-						</label>
-						<div className="relative">
-							<input
-								type={showNewPassword ? "text" : "password"}
-								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-								placeholder="Enter new password"
-								value={newPassword}
-								onChange={(e) => setNewPassword(e.target.value)}
-							/>
-							<button
-								type="button"
-								onClick={() =>
-									togglePasswordVisibility(
-										setShowNewPassword,
-										showNewPassword,
-									)
-								}
-								className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
-							>
-								{showNewPassword ? (
-									<FaEyeSlash size={20} />
-								) : (
-									<FaEye size={20} />
-								)}
-							</button>
-						</div>
-					</div>
-
-					<div>
-						<label className="block text-sm font-medium text-gray-700 mb-2">
-							Enter Your New Password Again
-						</label>
-						<div className="relative">
-							<input
-								type={showConfirmPassword ? "text" : "password"}
-								className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-								placeholder="Enter new password"
-								value={confirmPassword}
-								onChange={(e) =>
-									setConfirmPassword(e.target.value)
-								}
-							/>
-							<button
-								type="button"
-								onClick={() =>
-									togglePasswordVisibility(
-										setShowConfirmPassword,
-										showConfirmPassword,
-									)
-								}
-								className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
-							>
-								{showConfirmPassword ? (
-									<FaEyeSlash size={20} />
-								) : (
-									<FaEye size={20} />
-								)}
-							</button>
-						</div>
-					</div>
-
-					<button
-						className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
-						onClick={handleUpdatePassword}
-					>
-						Update Password
-					</button>
 				</div>
 			</SectionContainer>
 		</>
