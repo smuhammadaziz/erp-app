@@ -435,7 +435,7 @@ function HeaderInner({ onRefresh }) {
 			</header>
 
 			{isModalOpen && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[790]">
 					<div className="bg-white rounded-lg p-6 max-w-sm w-full text-center">
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
 							{content[language].syncing.complete}
