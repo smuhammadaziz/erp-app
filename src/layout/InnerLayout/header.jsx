@@ -30,18 +30,12 @@ function HeaderInner({ onRefresh }) {
 	const { isOnline, networkStatus, checkNetworkConnection } =
 		useNetworkStatus();
 
-	const [date, setDate] = useState(new Date().toLocaleDateString());
-	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
 	const [language, setLanguage] = useLang("uz");
 	const [isSyncing, setIsSyncing] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const [rate, setRate] = useState([]);
 	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
-	const calendarRef = useRef(null);
-	const dateRef = useRef(null);
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
@@ -60,7 +54,6 @@ function HeaderInner({ onRefresh }) {
 
 	const checkInternetConnection = async () => {
 		try {
-			// Try multiple reliable endpoints with a short timeout
 			const endpoints = [
 				"https://www.google.com",
 				"https://www.cloudflare.com",
@@ -134,7 +127,6 @@ function HeaderInner({ onRefresh }) {
 	};
 
 	const handleSync = async () => {
-		// Quick network check
 		const hasInternet = await checkNetworkConnection();
 
 		if (!hasInternet) {
@@ -207,80 +199,6 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
-	const toggleCalendar = () => {
-		setIsCalendarOpen(!isCalendarOpen);
-	};
-
-	const handleDateSelect = (date) => {
-		setSelectedDate(date);
-		setIsCalendarOpen(false);
-	};
-
-	const renderCalendarDays = () => {
-		const monthStart = startOfMonth(currentMonth);
-		const monthEnd = endOfMonth(currentMonth);
-		const days = eachDayOfInterval({ start: monthStart, end: monthEnd });
-
-		const firstDayOfMonth = getDay(monthStart);
-		const emptyDays = Array(firstDayOfMonth).fill(null);
-
-		const allDays = [...emptyDays, ...days];
-
-		return allDays.map((day, index) => {
-			if (!day) {
-				return (
-					<div key={index} className="text-xs p-1 text-center"></div>
-				);
-			}
-			return (
-				<button
-					key={day.toString()}
-					onClick={() => handleDateSelect(day)}
-					className={`
-						p-1 text-center rounded-lg transition-colors duration-200 text-xs
-						${isSameDay(day, selectedDate) ? "bg-blue-500 text-white" : "text-gray-700"}
-						${isToday(day) ? "border-2 border-green-500" : ""}
-						hover:bg-blue-100 focus:outline-none
-					`}
-				>
-					{format(day, "d")}
-				</button>
-			);
-		});
-	};
-
-	const changeMonth = (direction) => {
-		const newMonth = new Date(currentMonth);
-		newMonth.setMonth(newMonth.getMonth() + direction);
-		setCurrentMonth(newMonth);
-	};
-
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (
-				calendarRef.current &&
-				!calendarRef.current.contains(event.target) &&
-				dateRef.current &&
-				!dateRef.current.contains(event.target)
-			) {
-				setIsCalendarOpen(false);
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setDate(new Date().toLocaleDateString());
-		}, 60000);
-
-		return () => clearInterval(interval);
-	}, []);
-
 	useEffect(() => {
 		if (isOnline) {
 			fetchProducts();
@@ -290,7 +208,6 @@ function HeaderInner({ onRefresh }) {
 	return (
 		<>
 			<header className="flex justify-between items-center px-4 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
-				{/* Network Status Indicator */}
 				<div
 					className={`h-2 w-2 rounded-full absolute top-2 left-2 ${
 						isOnline ? "bg-green-500" : "bg-red-500"
