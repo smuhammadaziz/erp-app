@@ -45,6 +45,7 @@ export const Titlebar: FC = () => {
 	const onQuit = () => app.quit();
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
+	const enterpriseTitle = localStorage.getItem("enterpriseName");
 
 	return (
 		<div className="title-bar sticky top-0 select-none justify-between z-[999]">
@@ -63,6 +64,9 @@ export const Titlebar: FC = () => {
 				<span>
 					{ksbId ? (
 						<p className="uppercase ">
+							<span className="font-bold text-md mr-3">
+								{enterpriseTitle}
+							</span>
 							<span className="font-bold text-md">
 								(<span>KSB-ID </span>
 								<span className="underline ml-1">{ksbId}</span>)
