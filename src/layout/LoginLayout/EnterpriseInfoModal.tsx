@@ -10,7 +10,6 @@ import {
 import moment from "moment";
 import "moment/locale/uz";
 import { NavLink } from "react-router-dom";
-import { FaSignOutAlt } from "react-icons/fa";
 
 moment.locale("ru");
 
@@ -36,6 +35,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
 	const itsDeadline = localStorage.getItem("its_deadline");
+
 	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
