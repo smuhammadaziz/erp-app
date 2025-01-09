@@ -64,6 +64,11 @@ type Content = {
 			data: string;
 			close: string;
 		};
+		noInternet: {
+			title: string;
+			message: string;
+			close: string;
+		};
 		client: {
 			detail: string;
 			name: string;
@@ -165,6 +170,11 @@ const content: Content = {
 			data: "Маълумотларингиз муваффақиятли синхронлаштирилди!",
 			close: "Ok",
 		},
+		noInternet: {
+			title: "Интернет алоқаси йўқ",
+			message: "Илтимос, тармоқ уланишингизни текширинг ва қайтадан уриниб кўринг.",
+			close: "Ёпиш"
+		},
 		client: {
 			detail: "Мижоз маълумотлари",
 			name: "Тўлиқ исми",
@@ -261,16 +271,21 @@ const content: Content = {
 		syncing: {
 			complete: "Синхронизация завершена",
 			data: "Ваши данные успешно синхронизированы!",
-			close: "Ok",
+			close: "Ок",
+		},
+		noInternet: {
+			title: "Нет подключения к интернету",
+			message: "Пожалуйста, проверьте сетевое подключение и попробуйте снова.",
+			close: "Закрыть"
 		},
 		client: {
-			detail: "Информация для клиентов",
+			detail: "Информация о клиенте",
 			name: "Полное имя",
 			phone: "Телефон",
 			no_phone: "-",
 			actions: "Дополнительно",
-			view: "Более",
-			contact: "Контактные данные",
+			view: "Подробнее",
+			contact: "Контактная информация",
 			search: "Поиск клиентов",
 		},
 		product: {

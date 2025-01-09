@@ -8,6 +8,7 @@ import { FaUser } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { TbUserHexagon } from "react-icons/tb";
 import { HiOutlineUserCircle } from "react-icons/hi2";
+import { MdOutlinePortableWifiOff } from "react-icons/md";
 import {
 	format,
 	startOfMonth,
@@ -23,8 +24,12 @@ import { RiExchangeLine } from "react-icons/ri";
 import { MdOutlineCurrencyExchange } from "react-icons/md";
 
 import nodeUrl from "../../links";
+import useNetworkStatus from "../../hooks/useNetworkStatus";
 
 function HeaderInner({ onRefresh }) {
+	const { isOnline, networkStatus, checkNetworkConnection } =
+		useNetworkStatus();
+
 	const [date, setDate] = useState(new Date().toLocaleDateString());
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
@@ -34,6 +39,7 @@ function HeaderInner({ onRefresh }) {
 	const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const [rate, setRate] = useState([]);
+	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
 	const calendarRef = useRef(null);
 	const dateRef = useRef(null);
 
@@ -47,37 +53,95 @@ function HeaderInner({ onRefresh }) {
 	if (basicPassword === "EMPTY_PASSWORD_ALLOWED") {
 		basicPassword = "";
 	}
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (
-				calendarRef.current &&
-				!calendarRef.current.contains(event.target) &&
-				dateRef.current &&
-				!dateRef.current.contains(event.target)
-			) {
-				setIsCalendarOpen(false);
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, []);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setDate(new Date().toLocaleDateString());
-		}, 60000);
-
-		return () => clearInterval(interval);
-	}, []);
 
 	const handleLanguageChange = (e) => {
 		setLanguage(e.target.value);
 	};
 
+	const checkInternetConnection = async () => {
+		try {
+			// Try multiple reliable endpoints with a short timeout
+			const endpoints = [
+				"https://www.google.com",
+				"https://www.cloudflare.com",
+				nodeUrl,
+			];
+
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+			for (const url of endpoints) {
+				try {
+					console.log(`Checking connectivity with: ${url}`);
+					const startTime = Date.now();
+					const response = await fetch(url, {
+						method: "HEAD",
+						signal: controller.signal,
+						cache: "no-store",
+					});
+					const endTime = Date.now();
+
+					console.log(`Connectivity check for ${url}:`, {
+						status: response.status,
+						ok: response.ok,
+						responseTime: endTime - startTime + "ms",
+					});
+
+					if (response.ok) {
+						clearTimeout(timeoutId);
+						return true;
+					}
+				} catch (error) {
+					console.error(
+						`Connectivity check failed for ${url}:`,
+						error.message,
+					);
+					continue;
+				}
+			}
+
+			console.error("All connectivity checks failed");
+			return false;
+		} catch (error) {
+			console.error("Network check error:", error);
+			return false;
+		}
+	};
+
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch(`${nodeUrl}/api/currency/${ksbId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					ipaddressPort: ipaddressPort,
+					database: mainDatabase,
+					userUsername: basicUsername,
+					userPassword: basicPassword,
+					deviceId: deviceId,
+				}),
+			});
+
+			const data = await response.json();
+
+			localStorage.setItem("currency_rate", JSON.stringify(data.detail));
+			setRate(data.detail);
+		} catch (error) {
+			console.error("Error fetching products:", error);
+		}
+	};
+
 	const handleSync = async () => {
+		// Quick network check
+		const hasInternet = await checkNetworkConnection();
+
+		if (!hasInternet) {
+			setIsNoInternetModalOpen(true);
+			return;
+		}
+
 		if (!ksbId || !deviceId) {
 			alert("Missing ksbIdNumber or device_id in localStorage.");
 			return;
@@ -86,22 +150,27 @@ function HeaderInner({ onRefresh }) {
 		setIsSyncing(true);
 
 		try {
-			await fetch(`${nodeUrl}/api/first/sync/${ksbId}/${deviceId}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+			const syncResponse = await fetch(
+				`${nodeUrl}/api/first/sync/${ksbId}/${deviceId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: basicUsername,
+						userPassword: basicPassword,
+					}),
 				},
-				body: JSON.stringify({
-					"ipaddress:port": ipaddressPort,
-					database: mainDatabase,
-					userName: basicUsername,
-					userPassword: basicPassword,
-				}),
-			});
+			);
+
 			setIsModalOpen(true);
 			if (onRefresh) onRefresh();
 		} catch (error) {
-			console.log(error);
+			console.error("Sync error:", error);
+			setIsNoInternetModalOpen(true);
 		} finally {
 			setIsSyncing(false);
 		}
@@ -187,62 +256,52 @@ function HeaderInner({ onRefresh }) {
 	};
 
 	useEffect(() => {
-		const localStorageKey = "currency_rate";
-
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/currency/${ksbId}`,
-					{
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							ipaddressPort: ipaddressPort,
-							database: mainDatabase,
-							userUsername: basicUsername,
-							userPassword: basicPassword,
-							deviceId: deviceId,
-						}),
-					},
-				);
-
-				const data = await response.json();
-
-				localStorage.setItem(
-					localStorageKey,
-					JSON.stringify(data.detail),
-				);
-				setRate(data.detail);
-			} catch (error) {
-				console.error("Error fetching products:", error);
+		const handleClickOutside = (event) => {
+			if (
+				calendarRef.current &&
+				!calendarRef.current.contains(event.target) &&
+				dateRef.current &&
+				!dateRef.current.contains(event.target)
+			) {
+				setIsCalendarOpen(false);
 			}
 		};
 
-		const cachedRate = localStorage.getItem(localStorageKey);
-
-		if (cachedRate) {
-			try {
-				setRate(JSON.parse(cachedRate));
-			} catch (error) {
-				console.error("Error parsing localStorage data:", error);
-			}
-		}
-
-		const intervalId = setInterval(() => {
-			fetchProducts();
-		}, 1000);
-		return () => clearInterval(intervalId);
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
 	}, []);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setDate(new Date().toLocaleDateString());
+		}, 60000);
+
+		return () => clearInterval(interval);
+	}, []);
+
+	useEffect(() => {
+		if (isOnline) {
+			fetchProducts();
+		}
+	}, [isOnline]);
 
 	return (
 		<>
 			<header className="flex justify-between items-center px-4 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
+				{/* Network Status Indicator */}
+				<div
+					className={`h-2 w-2 rounded-full absolute top-2 left-2 ${
+						isOnline ? "bg-green-500" : "bg-red-500"
+					}`}
+					title={`Network: ${isOnline ? "Online" : "Offline"}`}
+				/>
+
 				<button
 					className={`text-white px-6 py-2.5 rounded-xl flex items-center transition-all duration-300 ${
 						isSyncing
-							? "bg-gray-700 cursor-not-allowed"
+							? "bg-gray-700"
 							: "bg-gray-500/50 hover:bg-gray-700/50"
 					}`}
 					onClick={handleSync}
@@ -392,6 +451,35 @@ function HeaderInner({ onRefresh }) {
 							}}
 						>
 							{content[language].syncing.close}
+						</button>
+					</div>
+				</div>
+			)}
+
+			{isNoInternetModalOpen && (
+				<div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[790] p-4">
+					<div className="bg-white rounded-2xl max-w-md w-full shadow-2xl transform transition-all duration-300 ease-in-out scale-100 opacity-100 p-6 text-center">
+						<div className="mb-6">
+							<span className="text-center mx-auto justify-center block">
+								<MdOutlinePortableWifiOff
+									size={70}
+									className="text-center mx-auto inline-block py-5"
+								/>
+							</span>
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								{content[language].noInternet?.title ||
+									"No Internet Connection"}
+							</h2>
+							<p className="text-gray-600 mb-4">
+								{content[language].noInternet?.message ||
+									"Please check your network connection and try again."}
+							</p>
+						</div>
+						<button
+							onClick={() => setIsNoInternetModalOpen(false)}
+							className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-colors duration-300 font-semibold"
+						>
+							{content[language].noInternet?.close || "Close"}
 						</button>
 					</div>
 				</div>
