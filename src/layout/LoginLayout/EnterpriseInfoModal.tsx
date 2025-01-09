@@ -16,12 +16,6 @@ moment.locale("ru");
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
 	onClose: () => void;
-	info: {
-		ip: string;
-		port: string;
-		info_base: string;
-		its: string;
-	} | null;
 }
 
 import content from "../../localization/content";
@@ -30,7 +24,6 @@ import useLang from "../../hooks/useLang";
 export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	isOpen,
 	onClose,
-	info,
 }) => {
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
