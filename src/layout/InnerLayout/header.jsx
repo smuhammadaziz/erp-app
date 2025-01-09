@@ -279,9 +279,9 @@ function HeaderInner({ onRefresh }) {
 									rate.length > 0 &&
 									rate[0].key === "usd"
 									? `1 $ = ${rate[0].rate} сум`
-									: "No data";
+									: "-";
 							} catch (error) {
-								return "No data";
+								return "-";
 							}
 						})()}
 					</div>
