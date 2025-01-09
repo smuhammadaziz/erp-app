@@ -325,8 +325,6 @@ function HeaderInner({ onRefresh }) {
 					)}
 				</button>
 
-				{/* <p className="text-white text-lg">{basicUsername}</p> */}
-
 				<div className="flex items-center gap-x-6">
 					<h2 className="text-white text-xl font-semibold tracking-wide">
 						{content[language].header}
@@ -354,63 +352,6 @@ function HeaderInner({ onRefresh }) {
 						<span className="absolute top-1/2 transform -translate-y-1/2 right-4 text-white pointer-events-none transition-transform duration-300 group-hover:translate-y-[-45%]">
 							&#x25BC;
 						</span>
-					</div>
-
-					<div className="relative">
-						<div
-							ref={dateRef}
-							onClick={toggleCalendar}
-							className="text-gray-300 text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
-						>
-							<HiOutlineCalendar className="text-xl text-blue-400" />
-							{format(selectedDate, "MM.dd.yyyy")}
-						</div>
-
-						{isCalendarOpen && (
-							<div
-								ref={calendarRef}
-								className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 z-50"
-							>
-								<div className="flex justify-between items-center p-4 pb-0">
-									<button
-										onClick={() => changeMonth(-1)}
-										className="text-gray-600 hover:text-blue-500 transition-colors"
-									>
-										←
-									</button>
-									<h2 className="text-xl font-semibold">
-										{format(currentMonth, "MMMM yyyy")}
-									</h2>
-									<button
-										onClick={() => changeMonth(1)}
-										className="text-gray-600 hover:text-blue-500 transition-colors"
-									>
-										→
-									</button>
-								</div>
-
-								{/* Weekday Headers */}
-								<div className="grid grid-cols-7 gap-1 text-center text-gray-500 px-4 pt-2">
-									{[
-										"Sun",
-										"Mon",
-										"Tue",
-										"Wed",
-										"Thu",
-										"Fri",
-										"Sat",
-									].map((day) => (
-										<div key={day} className="text-xs">
-											{day}
-										</div>
-									))}
-								</div>
-
-								<div className="grid grid-cols-7 gap-1 p-4">
-									{renderCalendarDays()}
-								</div>
-							</div>
-						)}
 					</div>
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
