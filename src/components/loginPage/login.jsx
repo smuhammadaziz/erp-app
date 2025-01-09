@@ -94,6 +94,12 @@ function LoginPageKSB() {
 
 				const data = await response.json();
 
+				localStorage.setItem(
+					"enterpriseName",
+					data.enterpriseInfo.title,
+				);
+				localStorage.setItem("enterpriseUUID", data.enterpriseInfo.uid);
+
 				setUsers(data.users);
 				setEnterprise(data.enterprise);
 			} catch (error) {
