@@ -12,7 +12,7 @@ import "moment/locale/uz";
 import { NavLink } from "react-router-dom";
 import { FaSignOutAlt } from "react-icons/fa";
 
-moment.locale("uz");
+moment.locale("ru");
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
@@ -56,54 +56,6 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, [onClose]);
-
-	if (!info) {
-		return (
-			<>
-				<div
-					className="fixed inset-0"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
-				/>
-				<div
-					ref={modalRef}
-					className="absolute top-8 right-20 w-72 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9999]"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
-				>
-					<div className="p-4">
-						<div className="flex flex-col items-center text-center">
-							<FaExclamationTriangle className="w-8 h-8 text-amber-500 mb-2" />
-							<h2 className="text-sm font-semibold text-slate-800 mb-1">
-								Хатолик юз берди
-							</h2>
-							<p className="text-xs text-slate-600">
-								Маълумотларни юклашда хатолик юз берди. Илтимос,
-								қайта уриниб кўринг
-							</p>
-							<button
-								onClick={onClose}
-								className="mt-3 px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
-							>
-								Ёпиш
-							</button>
-							<NavLink
-								to="/intro"
-								className="mt-3 px-4 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-md text-xs font-medium transition-colors"
-							>
-								{
-									content[language as string].enterpriseInfo
-										.signout
-								}
-							</NavLink>
-						</div>
-					</div>
-				</div>
-			</>
-		);
-	}
 
 	const infoItems = [
 		{ icon: FaServer, label: "ИпАдрес:Порт", value: ipaddressPort },
