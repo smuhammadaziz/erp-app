@@ -33,6 +33,9 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	onClose,
 	info,
 }) => {
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
+	const itsDeadline = localStorage.getItem("its_deadline");
 	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
@@ -103,17 +106,16 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	}
 
 	const infoItems = [
-		{ icon: FaServer, label: "Ип Адрес", value: info.ip },
-		{ icon: FaNetworkWired, label: "Порт", value: info.port },
+		{ icon: FaServer, label: "ИпАдрес:Порт", value: ipaddressPort },
 		{
 			icon: FaDatabase,
 			label: "Датабаза",
-			value: info.info_base,
+			value: mainDatabase,
 		},
 		{
 			icon: FaShieldAlt,
 			label: "ИТС",
-			value: `${moment(info.its).format("LL")}`,
+			value: `${moment(itsDeadline).format("LL")}`,
 		},
 	];
 
