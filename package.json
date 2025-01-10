@@ -1,65 +1,65 @@
 {
-	"name": "ksb-merp",
-	"version": "1.0.0",
-	"private": true,
-	"main": "public/electron.js",
-	"devDependencies": {
-		"@types/node": "^18.11.10",
-		"@types/react": "^18.0.26",
-		"@types/react-dom": "^18.0.9",
-		"autoprefixer": "^10.4.13",
-		"concurrently": "^8.0.1",
-		"cross-env": "^7.0.3",
-		"electron": "^22.0.0",
-		"electron-builder": "^23.6.0",
-		"postcss": "^8.4.19",
-		"rimraf": "^3.0.2",
-		"tailwindcss": "3.2.4",
-		"typescript": "^4.9.3",
-		"wait-on": "^6.0.1"
-	},
-	"dependencies": {
-		"@electron/remote": "^2.0.8",
-		"auto-launch": "^5.0.5",
-		"base-64": "^1.0.0",
-		"bcryptjs": "^2.4.3",
-		"chart.js": "^4.4.6",
-		"crypto-browserify": "^3.12.1",
-		"electron-is-dev": "^2.0.0",
-		"electron-reloader": "^1.2.3",
-		"electron-updater": "^5.3.0",
-		"framer-motion": "^11.13.1",
-		"moment": "^2.30.1",
-		"react": "^18.2.0",
-		"react-chartjs-2": "^5.2.0",
-		"react-dom": "^18.2.0",
-		"react-icons": "^5.3.0",
-		"react-router-dom": "^6.4.4",
-		"react-scripts": "^5.0.1",
-		"react-toastify": "^9.1.1",
-		"react-use": "^17.4.0",
-		"sonner": "^1.7.0"
-	},
-	"scripts": {
-		"dev": "concurrently \"npm run react:dev\" \"npm run electron:wait\"",
-		"react:dev": "cross-env BROWSER=none GENERATE_SOURCEMAP=false react-scripts start",
-		"electron:wait": "wait-on tcp:3000 && npm run electron:dev",
-		"electron:dev": "electron . --disable-dev-shm-usage",
-		"prebuild": "rimraf build && rimraf dist",
-		"react:build": "cross-env NODE_ENV=production react-scripts build",
-		"electron:build": "electron-builder build --win --publish never --config.asar=true",
-		"build": "npm run react:build && npm run electron:build"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+  "name": "ksb-merp",
+  "version": "1.0.0",
+  "private": true,
+  "main": "public/electron.js",
+  "devDependencies": {
+    "@types/node": "^18.11.10",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "autoprefixer": "^10.4.13",
+    "concurrently": "^8.0.1",
+    "cross-env": "^7.0.3",
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "postcss": "^8.4.19",
+    "rimraf": "^3.0.2",
+    "tailwindcss": "3.2.4",
+    "typescript": "^4.9.3",
+    "wait-on": "^6.0.1"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "auto-launch": "^5.0.5",
+    "base-64": "^1.0.0",
+    "bcryptjs": "^2.4.3",
+    "chart.js": "^4.4.6",
+    "crypto-browserify": "^3.12.1",
+    "electron-is-dev": "^2.0.0",
+    "electron-reloader": "^1.2.3",
+    "electron-updater": "^5.3.0",
+    "framer-motion": "^11.13.1",
+    "moment": "^2.30.1",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^5.3.0",
+    "react-router-dom": "^6.4.4",
+    "react-scripts": "^5.0.1",
+    "react-toastify": "^9.1.1",
+    "react-use": "^17.4.0",
+    "sonner": "^1.7.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "react-start": "react-scripts start",
+    "backend-start": "cd ../back-app && npm run dev",
+    "dev": "concurrently \"npm run backend-start\" \"npm run react-start\" \"npm run start\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "electron-dev": "wait-on http://localhost:3000 && electron ."
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
