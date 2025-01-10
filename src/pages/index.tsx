@@ -217,7 +217,7 @@ const IndexPage: FC = () => {
 						</div>
 					</div>
 				) : (
-					<div className="min-h-screen bg-slate-100 space-y-6">
+					<div className="h-[80vh] bg-slate-100 space-y-6">
 						<div className="space-y-6">
 							<div>
 								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-6">
