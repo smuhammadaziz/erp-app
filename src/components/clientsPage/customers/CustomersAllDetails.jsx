@@ -81,7 +81,7 @@ const CustomersAllDetails = () => {
 	};
 
 	return (
-		<div className="h-screen">
+		<div className="h-[80vh]">
 			<div className="h-[80vh] mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
 				<div className="p-6 border-b border-gray-200">
 					<div className="flex flex-col space-y-4">

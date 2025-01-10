@@ -12,7 +12,7 @@ function SettingsPage() {
 	return (
 		<Layout>
 			<InnerLayoutSection>
-				<div className="min-h-screen bg-gray-100">
+				<div className="h-[80vh] bg-gray-100">
 					<div className="container mx-auto flex space-x-6">
 						<Sidebar
 							activeSection={activeSection}
