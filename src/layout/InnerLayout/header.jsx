@@ -43,6 +43,7 @@ function HeaderInner({ onRefresh }) {
 	let basicPassword = localStorage.getItem("userPassword");
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
+	const userId = localStorage.getItem("user_id");
 
 	if (basicPassword === "EMPTY_PASSWORD_ALLOWED") {
 		basicPassword = "";
@@ -216,6 +217,32 @@ function HeaderInner({ onRefresh }) {
 
 			const settingsData = await responseSettings.json();
 			const cashData = await responseCash.json();
+
+			const exactUser = settingsData.find(
+				(user) => user.user_id === userId,
+			);
+
+			if (exactUser) {
+				localStorage.setItem(
+					"settingsWarehouse",
+					JSON.stringify(exactUser.warehouse),
+				);
+				localStorage.setItem(
+					"settingsPriceType",
+					JSON.stringify(exactUser.price_types),
+				);
+				localStorage.setItem(
+					"settingsCash",
+					JSON.stringify(exactUser.cash),
+				);
+				localStorage.setItem("settingsCurrency", exactUser.currency);
+				localStorage.setItem(
+					"settingsMaxDiscount",
+					exactUser.max_discount,
+				);
+			} else {
+				console.log("User not found in settingsData.");
+			}
 
 			localStorage.setItem("settingsCashData", JSON.stringify(cashData));
 		} catch (err) {
