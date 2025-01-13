@@ -171,7 +171,7 @@ function HeaderInner({ onRefresh }) {
 
 	const handleDeleteItems = async () => {
 		if (!ksbId || !deviceId) {
-			alert("Missing ksbIdNumber or device_id in localStorage.");
+			console.log("Missing ksbIdNumber or device_id in localStorage.");
 			return;
 		}
 
