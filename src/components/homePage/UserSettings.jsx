@@ -58,6 +58,7 @@ const DownloaderModal = () => {
 
 			const data = await response.json();
 			console.log("Device registered successfully:", data);
+			localStorage.setItem("user_id", data.user_id);
 			return true;
 		} catch (error) {
 			console.error("Register Device Error:", error);

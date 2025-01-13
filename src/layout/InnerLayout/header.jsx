@@ -199,6 +199,30 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
+	const handleUserSettings = async () => {
+		if (!ksbId || !deviceId) {
+			alert("Missing ksbIdNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const responseSettings = await fetch(
+				`${nodeUrl}/api/get/settings/${deviceId}/${ksbId}`,
+			);
+
+			const responseCash = await fetch(
+				`${nodeUrl}/api/get/cash/${deviceId}/${ksbId}`,
+			);
+
+			const settingsData = await responseSettings.json();
+			const cashData = await responseCash.json();
+
+			localStorage.setItem("settingsCashData", JSON.stringify(cashData));
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	useEffect(() => {
 		if (isOnline) {
 			fetchProducts();
@@ -306,6 +330,7 @@ function HeaderInner({ onRefresh }) {
 							onClick={() => {
 								setIsModalOpen(false);
 								handleDeleteItems();
+								handleUserSettings();
 							}}
 						>
 							{content[language].syncing.close}
