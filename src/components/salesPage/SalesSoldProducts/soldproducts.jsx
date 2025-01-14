@@ -28,27 +28,25 @@ function SalesSoldProducts() {
 	};
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					"http://localhost:5000/api/products/selling",
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
-				setProducts(data.items);
-				setError(null);
-				setLoading(false);
-			} catch (err) {
-				setError(err.message);
-				setLoading(false);
-			}
-		};
+		// const fetchProducts = async () => {
+		// 	try {
+		// 		const response = await fetch("");
+		// 		if (!response.ok) {
+		// 			throw new Error("Failed to fetch products");
+		// 		}
+		// 		const data = await response.json();
+		// 		setProducts(data.items);
+		// 		setError(null);
+		// 		setLoading(false);
+		// 	} catch (err) {
+		// 		setError(err.message);
+		// 		setLoading(false);
+		// 	}
+		// };
 
-		fetchProducts();
+		// fetchProducts();
 
-		const intervalId = setInterval(fetchProducts, 1000);
+		const intervalId = setInterval([], 1000);
 
 		return () => clearInterval(intervalId);
 	}, []);

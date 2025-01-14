@@ -17,25 +17,25 @@ function SalespageSummaSection() {
 			.replace(/,/g, " ");
 
 	useEffect(() => {
-		const fetchOverallSum = async () => {
-			try {
-				const response = await fetch(
-					"http://localhost:5000/api/products/selling",
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch price data.");
-				}
-				const data = await response.json();
-				setPrice(data.overall_summa);
-				setFinalPrice(
-					data.overall_summa - (data.overall_summa * discount) / 100,
-				);
-			} catch (error) {
-				console.error("Error fetching price:", error);
-			}
-		};
+		// const fetchOverallSum = async () => {
+		// 	try {
+		// 		const response = await fetch(
+		// 			"http://localhost:5000/api/products/selling",
+		// 		);
+		// 		if (!response.ok) {
+		// 			throw new Error("Failed to fetch price data.");
+		// 		}
+		// 		const data = await response.json();
+		// 		setPrice(data.overall_summa);
+		// 		setFinalPrice(
+		// 			data.overall_summa - (data.overall_summa * discount) / 100,
+		// 		);
+		// 	} catch (error) {
+		// 		console.error("Error fetching price:", error);
+		// 	}
+		// };
 
-		const intervalId = setInterval(fetchOverallSum, 500);
+		const intervalId = setInterval([], 500);
 
 		return () => clearInterval(intervalId);
 	}, [discount]);
