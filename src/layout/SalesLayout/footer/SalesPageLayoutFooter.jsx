@@ -97,6 +97,18 @@ const SalesPageLayoutFooter = () => {
 		fetchPrices();
 	}, [deviceId, ksbId]);
 
+	useEffect(() => {
+		// Ensure the initial currency is set correctly
+		const initialCurrencyKey = localStorage.getItem("currencyKey") || "usd";
+		const matchingCurrency = currencies.find(
+			(currency) => currency.key === initialCurrencyKey,
+		);
+
+		if (matchingCurrency && matchingCurrency.key !== initialCurrencyKey) {
+			localStorage.setItem("currencyKey", matchingCurrency.key);
+		}
+	}, [currencies]);
+
 	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
 
 	const displayMessage =
@@ -135,7 +147,19 @@ const SalesPageLayoutFooter = () => {
 								</option>
 							))}
 						</select>
-						<select className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
+						<select
+							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
+							onChange={(e) => {
+								localStorage.setItem(
+									"currencyKey",
+									e.target.value,
+								);
+								// Dispatch custom event to trigger updates
+								window.dispatchEvent(
+									new Event("currencyChanged"),
+								);
+							}}
+						>
 							{currencies.map((currency) => (
 								<option
 									key={currency.item_id}
@@ -196,3 +220,4 @@ const SalesPageLayoutFooter = () => {
 };
 
 export default SalesPageLayoutFooter;
+

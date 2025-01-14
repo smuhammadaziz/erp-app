@@ -18,6 +18,9 @@ function ProductsTable({
 	const [warehouseData, setWarehouseData] = useState({});
 	const [clickedRow, setClickedRow] = useState(null);
 	const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
+	const [currencyKey, setCurrencyKey] = useState(
+		localStorage.getItem("currencyKey") || "usd",
+	);
 	const loadingRef = useRef(null);
 
 	const settingsWarehouse = JSON.parse(
@@ -242,6 +245,21 @@ function ProductsTable({
 		};
 	}, [handleKeyDown]);
 
+	useEffect(() => {
+		const handleCurrencyChange = () => {
+			const newCurrencyKey = localStorage.getItem("currencyKey") || "usd";
+			setCurrencyKey(newCurrencyKey);
+		};
+
+		// Add event listener
+		window.addEventListener("currencyChanged", handleCurrencyChange);
+
+		// Cleanup listener
+		return () => {
+			window.removeEventListener("currencyChanged", handleCurrencyChange);
+		};
+	}, []);
+
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
@@ -428,13 +446,44 @@ function ProductsTable({
 											}
 										}}
 									>
-										{product.price[0].sale.toLocaleString(
-											"ru-RU",
-											{
-												minimumFractionDigits: 2,
-												maximumFractionDigits: 2,
-											},
-										)}
+										{(() => {
+											const currencyRateData = JSON.parse(
+												localStorage.getItem(
+													"currency_rate",
+												) || "{}",
+											);
+
+											const convertPrice = (
+												originalPrice,
+											) => {
+												if (currencyKey === "usd") {
+													return (
+														originalPrice /
+														currencyRateData.usd
+													);
+												} else if (
+													currencyKey === "uzs"
+												) {
+													return (
+														originalPrice *
+														currencyRateData.usd
+													);
+												}
+												return originalPrice;
+											};
+
+											const convertedPrice = convertPrice(
+												product.price[0].sale,
+											);
+
+											return convertedPrice.toLocaleString(
+												"ru-RU",
+												{
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											);
+										})()}
 									</td>
 									<td
 										className={`py-1 px-5 border-b text-left ${
@@ -491,3 +540,4 @@ function ProductsTable({
 }
 
 export default ProductsTable;
+
