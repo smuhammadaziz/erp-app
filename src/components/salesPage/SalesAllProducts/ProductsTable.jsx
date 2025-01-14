@@ -403,8 +403,13 @@ function ProductsTable({
 											}
 										}}
 									>
-										{product.price_in_currency} narxi
-										valyuta
+										{product.price[0].sale.toLocaleString(
+											"ru-RU",
+											{
+												minimumFractionDigits: 2,
+												maximumFractionDigits: 2,
+											},
+										)}
 									</td>
 									<td
 										className={`py-1.5 px-5 border-b border-r text-right ${

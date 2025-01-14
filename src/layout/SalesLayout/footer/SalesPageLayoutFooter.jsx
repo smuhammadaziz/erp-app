@@ -8,6 +8,7 @@ import TableLayoutModal from "./TableLayoutModal";
 import ThemeSettingsModal from "./ThemeSettingsModal";
 import LanguageSettingsModal from "./LanguageSettingsModal";
 import { NavLink } from "react-router-dom";
+import nodeUrl from "../../../links";
 
 const SalesPageLayoutFooter = () => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -62,7 +63,7 @@ const SalesPageLayoutFooter = () => {
 		const fetchCurrencies = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/get/currency/data/${deviceId}/${ksbId}`,
+					`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbId}`,
 				);
 				if (!response.ok) {
 					throw new Error("Failed to fetch currency data");
@@ -81,7 +82,7 @@ const SalesPageLayoutFooter = () => {
 		const fetchPrices = async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8000/api/get/price/data/${deviceId}/${ksbId}`,
+					`${nodeUrl}/api/get/price/data/${deviceId}/${ksbId}`,
 				);
 				if (!response.ok) {
 					throw new Error("Failed to fetch price data");
@@ -95,6 +96,9 @@ const SalesPageLayoutFooter = () => {
 
 		fetchPrices();
 	}, [deviceId, ksbId]);
+
+	// productByCurrency - true bosa tovarni valyutasi
+	// productByCurrency - false bosa price_type ichidagi currency
 
 	return (
 		<>
