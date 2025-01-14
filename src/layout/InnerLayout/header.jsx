@@ -282,7 +282,7 @@ function HeaderInner({ onRefresh }) {
 		currencyRateData.usd &&
 		currencyRateData.uzsName &&
 		currencyRateData.usdName
-			? `${currencyRateData.uzs} ${currencyRateData.uzsName} = ${currencyRateData.usd} ${currencyRateData.usdName}`
+			? `${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`
 			: "- = -";
 
 	return (

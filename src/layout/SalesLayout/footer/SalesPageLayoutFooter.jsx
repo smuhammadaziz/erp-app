@@ -105,7 +105,7 @@ const SalesPageLayoutFooter = () => {
 		currencyRateData.usd &&
 		currencyRateData.uzsName &&
 		currencyRateData.usdName
-			? `${currencyRateData.uzs} ${currencyRateData.uzsName} = ${currencyRateData.usd} ${currencyRateData.usdName}`
+			? `${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`
 			: "- = -";
 
 	// productByCurrency - true bosa tovarni valyutasi
