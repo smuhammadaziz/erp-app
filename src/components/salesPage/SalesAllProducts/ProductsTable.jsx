@@ -23,6 +23,8 @@ function ProductsTable({
 	);
 	const loadingRef = useRef(null);
 
+	const [currencyRateData, setCurrencyRateData] = useState("");
+
 	const settingsWarehouse = JSON.parse(
 		localStorage.getItem("settingsWarehouse"),
 	);
@@ -75,6 +77,8 @@ function ProductsTable({
 						...prev,
 						[product.currency]: data[0]?.name || "-",
 					}));
+
+					setCurrencyRateData(data[0]?.key || "-");
 				} catch (error) {
 					console.error("Failed to fetch currency data", error);
 					setCurrencyData((prev) => ({
@@ -260,6 +264,13 @@ function ProductsTable({
 		};
 	}, []);
 
+	const currencyKeyData = localStorage.getItem("currencyKey");
+	useEffect(() => {
+		if (currencyKeyData == currencyRateData) {
+			console.log("ok");
+		}
+	}, []);
+
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
@@ -421,13 +432,15 @@ function ProductsTable({
 											}
 										}}
 									>
-										{product.price[0].sale.toLocaleString(
-											"ru-RU",
-											{
-												minimumFractionDigits: 2,
-												maximumFractionDigits: 2,
-											},
-										)}
+										{currencyKeyData === currencyRateData
+											? "-"
+											: product.price[0].sale.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													},
+											  )}
 									</td>
 									<td
 										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right ${
