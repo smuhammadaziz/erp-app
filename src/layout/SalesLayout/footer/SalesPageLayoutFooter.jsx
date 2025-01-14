@@ -97,6 +97,17 @@ const SalesPageLayoutFooter = () => {
 		fetchPrices();
 	}, [deviceId, ksbId]);
 
+	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
+
+	const displayMessage =
+		currencyRateData &&
+		currencyRateData.uzs &&
+		currencyRateData.usd &&
+		currencyRateData.uzsName &&
+		currencyRateData.usdName
+			? `${currencyRateData.uzs} ${currencyRateData.uzsName} = ${currencyRateData.usd} ${currencyRateData.usdName}`
+			: "- = -";
+
 	// productByCurrency - true bosa tovarni valyutasi
 	// productByCurrency - false bosa price_type ichidagi currency
 
@@ -111,12 +122,9 @@ const SalesPageLayoutFooter = () => {
 						>
 							<FiSettings className="text-xl" />
 						</button>
-						<div className="flex items-center gap-2 text-gray-800">
+						<div className="flex items-center bg-slate-200 px-2 py-1 rounded-md text-gray-800 font-semibold">
 							<BsCurrencyDollar className="text-lg text-green-500" />
-							<span className="font-medium">Kurs:</span>
-							<span className="font-semibold text-green-600">
-								12,800 UZS
-							</span>
+							{displayMessage}
 						</div>
 					</div>
 					<div className="flex items-center gap-4 mx-2">
