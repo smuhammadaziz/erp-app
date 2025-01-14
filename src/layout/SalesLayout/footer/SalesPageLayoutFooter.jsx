@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSettings } from "react-icons/fi";
 import { BsCurrencyDollar } from "react-icons/bs";
 import { FaPlus, FaTable, FaPalette, FaLanguage } from "react-icons/fa";
@@ -12,6 +12,11 @@ import { NavLink } from "react-router-dom";
 const SalesPageLayoutFooter = () => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [activeModal, setActiveModal] = useState(null);
+	const [currencies, setCurrencies] = useState([]);
+	const [prices, setPrices] = useState([]);
+
+	const deviceId = localStorage.getItem("device_id");
+	const ksbId = localStorage.getItem("ksbIdNumber");
 
 	const [currentSettings, setCurrentSettings] = useState({
 		language: "en",
@@ -53,6 +58,44 @@ const SalesPageLayoutFooter = () => {
 		},
 	];
 
+	useEffect(() => {
+		const fetchCurrencies = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:8000/api/get/currency/data/${deviceId}/${ksbId}`,
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch currency data");
+				}
+				const data = await response.json();
+				setCurrencies(data);
+			} catch (error) {
+				console.error("Error fetching currencies:", error);
+			}
+		};
+
+		fetchCurrencies();
+	}, [deviceId, ksbId]);
+
+	useEffect(() => {
+		const fetchPrices = async () => {
+			try {
+				const response = await fetch(
+					`http://localhost:8000/api/get/price/data/${deviceId}/${ksbId}`,
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch price data");
+				}
+				const data = await response.json();
+				setPrices(data);
+			} catch (error) {
+				console.error("Error fetching prices:", error);
+			}
+		};
+
+		fetchPrices();
+	}, [deviceId, ksbId]);
+
 	return (
 		<>
 			<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative">
@@ -74,12 +117,21 @@ const SalesPageLayoutFooter = () => {
 					</div>
 					<div className="flex items-center gap-4 mx-2">
 						<select className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
-							<option value="">Asosiy sotish narxi</option>
-							<option value="">Optom sotish narxi</option>
+							{prices.map((price) => (
+								<option key={price.item_id} value={price.name}>
+									{price.name}
+								</option>
+							))}
 						</select>
 						<select className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
-							<option value="">$</option>
-							<option value="">SUM</option>
+							{currencies.map((currency) => (
+								<option
+									key={currency.item_id}
+									value={currency.key}
+								>
+									{currency.name}
+								</option>
+							))}
 						</select>
 					</div>
 					<div className="mx-2">
