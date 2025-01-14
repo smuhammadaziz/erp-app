@@ -97,20 +97,42 @@ function ProductsTable({
 				const ksbId = localStorage.getItem("ksbIdNumber");
 
 				try {
+					if (
+						!Array.isArray(settingsWarehouse) ||
+						settingsWarehouse.length === 0
+					) {
+						throw new Error("Invalid settingsWarehouse data");
+					}
+
 					const response = await fetch(
 						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.stock[0].warehouse}`,
 					);
-					const data = await response.json();
+
+					const apiData = await response.json();
+
+					const warehouseData = settingsWarehouse.reduce(
+						(acc, warehouseId) => {
+							const matchedWarehouse = apiData.find(
+								(item) => item.item_id === warehouseId,
+							);
+
+							acc[warehouseId] = matchedWarehouse
+								? matchedWarehouse.name
+								: "-";
+							return acc;
+						},
+						{},
+					);
+
 					setWarehouseData((prev) => ({
 						...prev,
-						[product.stock[0].warehouse]: data[0]?.name || "-",
+						...warehouseData,
 					}));
 				} catch (error) {
-					console.error("Failed to fetch currency data", error);
-					setWarehouseData((prev) => ({
-						...prev,
-						[product.stock[0].warehouse]: "-",
-					}));
+					console.error(
+						"Error fetching or processing warehouse data",
+						error,
+					);
 				}
 			}
 		}
@@ -426,8 +448,8 @@ function ProductsTable({
 											}
 										}}
 									>
-										{product.stock[0].warehouse
-											? warehouseData[
+										{product.stock?.[0]?.warehouse
+											? warehouseData?.[
 													product.stock[0].warehouse
 											  ] || "-"
 											: "-"}
