@@ -20,6 +20,10 @@ function ProductsTable({
 	const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 	const loadingRef = useRef(null);
 
+	const settingsWarehouse = JSON.parse(
+		localStorage.getItem("settingsWarehouse"),
+	);
+
 	const observer = useRef(null);
 	const lastRowRef = useCallback(
 		(node) => {
@@ -30,14 +34,12 @@ function ProductsTable({
 					if (entries[0].isIntersecting && hasMore) {
 						onLoadMore();
 					}
-					// Adjust scroll and reset selection when the last row is visible
 					if (entries[0].isIntersecting && !hasMore) {
 						entries[0].target.scrollIntoView({
 							block: "nearest",
 							behavior: "smooth",
 						});
 
-						// Reset selection states
 						setSelectedCell({ row: null, col: null });
 						setClickedRow(null);
 						setSelectedRow(null);
@@ -134,7 +136,6 @@ function ProductsTable({
 						row: newUpRow,
 						col: prev.col,
 					}));
-					// Scroll to the new row if it's out of view
 					const upRowElement = document.querySelector(
 						`tr[data-row-index="${newUpRow}"]`,
 					);
@@ -155,7 +156,6 @@ function ProductsTable({
 						row: newDownRow,
 						col: prev.col,
 					}));
-					// Scroll to the new row if it's out of view
 					const downRowElement = document.querySelector(
 						`tr[data-row-index="${newDownRow}"]`,
 					);
@@ -200,7 +200,6 @@ function ProductsTable({
 			selectedRow !== undefined &&
 			filteredData.length > 0
 		) {
-			// Find the row element using data-row-index
 			const selectedRowElement = document.querySelector(
 				`tr[data-row-index="${selectedRow}"]`,
 			);
@@ -465,4 +464,3 @@ function ProductsTable({
 }
 
 export default ProductsTable;
-
