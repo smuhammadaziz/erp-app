@@ -120,7 +120,6 @@ function HeaderInner({ onRefresh }) {
 
 			const data = await response.json();
 
-			localStorage.setItem("currency_rate", JSON.stringify(data.detail));
 			setRate(data.detail);
 		} catch (error) {
 			console.error("Error fetching products:", error);
@@ -250,11 +249,41 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
+	const handleSetCurrency = async () => {
+		if (!ksbId || !deviceId) {
+			console.log("Missing ksbIdNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/currency/rate/${deviceId}/${ksbId}`,
+			);
+
+			const data = await response.json();
+
+			localStorage.setItem("currency_rate", JSON.stringify(data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	useEffect(() => {
 		if (isOnline) {
 			fetchProducts();
 		}
 	}, [isOnline]);
+
+	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
+
+	const displayMessage =
+		currencyRateData &&
+		currencyRateData.uzs &&
+		currencyRateData.usd &&
+		currencyRateData.uzsName &&
+		currencyRateData.usdName
+			? `${currencyRateData.uzs} ${currencyRateData.uzsName} = ${currencyRateData.usd} ${currencyRateData.usdName}`
+			: "- = -";
 
 	return (
 		<>
@@ -324,17 +353,7 @@ function HeaderInner({ onRefresh }) {
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
 						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
-						{(() => {
-							try {
-								return rate &&
-									rate.length > 0 &&
-									rate[0].key === "usd"
-									? `1 $ = ${rate[0].rate} сум`
-									: "-";
-							} catch (error) {
-								return "-";
-							}
-						})()}
+						{displayMessage}
 					</div>
 					<div className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
 						{basicUsername ? basicUsername : "Loading..."}
@@ -358,6 +377,7 @@ function HeaderInner({ onRefresh }) {
 								setIsModalOpen(false);
 								handleDeleteItems();
 								handleUserSettings();
+								handleSetCurrency();
 							}}
 						>
 							{content[language].syncing.close}
