@@ -433,9 +433,6 @@ function ProductsTable({
 													String(currencyKeyData) ===
 													product.currency
 												) {
-													console.log(
-														currencyRateData,
-													);
 													return "-";
 												} else {
 													return product.price[0].sale.toLocaleString(
