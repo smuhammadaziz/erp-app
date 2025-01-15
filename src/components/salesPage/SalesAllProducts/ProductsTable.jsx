@@ -267,12 +267,6 @@ function ProductsTable({
 
 	const currencyKeyData = localStorage.getItem("currencyKey");
 
-	useEffect(() => {
-		if (currencyKeyData == currencyRateData) {
-			console.log("ok");
-		}
-	}, []);
-
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
