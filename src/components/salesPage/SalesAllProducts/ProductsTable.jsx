@@ -19,7 +19,7 @@ function ProductsTable({
 	const [clickedRow, setClickedRow] = useState(null);
 	const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
 	const [currencyKey, setCurrencyKey] = useState(
-		localStorage.getItem("currencyKey") || "usd",
+		localStorage.getItem("currencyKey"),
 	);
 	const loadingRef = useRef(null);
 
@@ -252,7 +252,7 @@ function ProductsTable({
 
 	useEffect(() => {
 		const handleCurrencyChange = () => {
-			const newCurrencyKey = localStorage.getItem("currencyKey") || "usd";
+			const newCurrencyKey = localStorage.getItem("currencyKey");
 			setCurrencyKey(newCurrencyKey);
 		};
 
@@ -434,16 +434,22 @@ function ProductsTable({
 											}
 										}}
 									>
-										{String(currencyKeyData) ===
-										String(currencyRateData)
-											? product.price[0].sale.toLocaleString(
+										{(() => {
+											if (
+												String(currencyKeyData) ===
+												String(currencyRateData)
+											) {
+												return product.price[0].sale.toLocaleString(
 													"ru-RU",
 													{
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
 													},
-											  )
-											: "-"}
+												);
+											} else {
+												return "-";
+											}
+										})()}
 									</td>
 									<td
 										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right w-1/6 min-w-[120px] ${
