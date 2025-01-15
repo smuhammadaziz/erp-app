@@ -265,6 +265,7 @@ function ProductsTable({
 	}, []);
 
 	const currencyKeyData = localStorage.getItem("currencyKey");
+
 	useEffect(() => {
 		if (currencyKeyData == currencyRateData) {
 			console.log("ok");
@@ -432,7 +433,7 @@ function ProductsTable({
 											}
 										}}
 									>
-										{currencyKeyData === currencyRateData
+										{currencyKeyData == currencyRateData
 											? "-"
 											: product.price[0].sale.toLocaleString(
 													"ru-RU",
@@ -460,27 +461,32 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
-											const currencyRateData = JSON.parse(
-												localStorage.getItem(
-													"currency_rate",
-												) || "{}",
-											);
+											const currencyRateDataKey =
+												JSON.parse(
+													localStorage.getItem(
+														"currency_rate",
+													) || "{}",
+												);
 
 											const convertPrice = (
 												originalPrice,
 											) => {
-												if (currencyKey === "usd") {
-													return (
-														originalPrice /
-														currencyRateData.usd
-													);
-												} else if (
-													currencyKey === "uzs"
+												if (
+													currencyRateDataKey ===
+													currencyRateData
 												) {
-													return (
-														originalPrice *
-														currencyRateData.usd
-													);
+													return "-";
+												} else {
+													if (currencyKey === "usd") {
+														return (
+															originalPrice /
+															currencyRateDataKey.usd
+														);
+													} else if (
+														currencyKey === "uzs"
+													) {
+														return originalPrice;
+													}
 												}
 												return originalPrice;
 											};
@@ -553,4 +559,3 @@ function ProductsTable({
 }
 
 export default ProductsTable;
-
