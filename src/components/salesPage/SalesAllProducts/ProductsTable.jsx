@@ -292,7 +292,7 @@ function ProductsTable({
 							Price (Currency)
 						</th>
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[120px]">
-							Price (UZS)
+							Price
 						</th>
 						<th className="py-1.5 px-5 border-b text-center w-1/10 min-w-[100px]">
 							Warehouse
