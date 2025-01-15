@@ -74,7 +74,6 @@ function ProductsTable({
 					);
 					const data = await response.json();
 
-					// Update both currency name and rate data
 					setCurrencyData((prev) => ({
 						...prev,
 						[product.currency]: data[0]?.name || "-",
@@ -256,10 +255,8 @@ function ProductsTable({
 			setCurrencyKey(newCurrencyKey);
 		};
 
-		// Add event listener
 		window.addEventListener("currencyChanged", handleCurrencyChange);
 
-		// Cleanup listener
 		return () => {
 			window.removeEventListener("currencyChanged", handleCurrencyChange);
 		};
@@ -519,10 +516,6 @@ function ProductsTable({
 														return originalPrice;
 													}
 												}
-
-												// if(currencyKeyData == product.currency){
-
-												// }
 											};
 
 											const convertedPrice = convertPrice(
