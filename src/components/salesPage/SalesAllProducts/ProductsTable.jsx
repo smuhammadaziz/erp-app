@@ -494,23 +494,35 @@ function ProductsTable({
 												originalPrice,
 											) => {
 												if (
-													currencyRateDataKey ===
-													currencyRateData
+													currencyKeyData ==
+													product.currency
 												) {
-													return "-";
+													return originalPrice;
 												} else {
-													if (currencyKey === "usd") {
+													if (
+														currencyKeyData ==
+														"e51e4ee5-d689-11e7-b79f-00ac1948df3a"
+													) {
 														return (
 															originalPrice /
 															currencyRateDataKey.usd
 														);
 													} else if (
-														currencyKey === "uzs"
+														currencyKeyData ==
+														"e51e4ee6-d689-11e7-b79f-00ac1948df3a"
 													) {
+														return (
+															originalPrice *
+															currencyRateDataKey.usd
+														);
+													} else {
 														return originalPrice;
 													}
 												}
-												return originalPrice;
+
+												// if(currencyKeyData == product.currency){
+
+												// }
 											};
 
 											const convertedPrice = convertPrice(
