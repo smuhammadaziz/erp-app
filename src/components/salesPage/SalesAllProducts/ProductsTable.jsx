@@ -429,20 +429,40 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
-											if (
-												String(currencyKeyData) ===
-												String(currencyRateData)
-											) {
-												return product.price[0].sale.toLocaleString(
-													"ru-RU",
-													{
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
-													},
+											const convertedPrice = (
+												originalPrice,
+											) => {
+												if (
+													String(currencyKeyData) ===
+													product.currency
+												) {
+													console.log(
+														currencyRateData,
+													);
+													return "-";
+												} else {
+													return product.price[0].sale.toLocaleString(
+														"ru-RU",
+														{
+															minimumFractionDigits: 2,
+															maximumFractionDigits: 2,
+														},
+													);
+												}
+											};
+
+											const showingPriceData =
+												convertedPrice(
+													product.price[0].sale,
 												);
-											} else {
-												return "-";
-											}
+
+											return showingPriceData.toLocaleString(
+												"ru-RU",
+												{
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											);
 										})()}
 									</td>
 									<td

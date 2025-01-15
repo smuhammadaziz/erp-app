@@ -99,13 +99,13 @@ const SalesPageLayoutFooter = () => {
 
 	useEffect(() => {
 		// Ensure the initial currency is set correctly
-		const initialCurrencyKey = localStorage.getItem("currencyKey") || "usd";
+		const initialCurrencyKey = localStorage.getItem("currencyKey");
 		const matchingCurrency = currencies.find(
 			(currency) => currency.key === initialCurrencyKey,
 		);
 
 		if (matchingCurrency && matchingCurrency.key !== initialCurrencyKey) {
-			localStorage.setItem("currencyKey", matchingCurrency.key);
+			localStorage.setItem("currencyKey", matchingCurrency.item_id);
 		}
 	}, [currencies]);
 
@@ -163,7 +163,7 @@ const SalesPageLayoutFooter = () => {
 							{currencies.map((currency) => (
 								<option
 									key={currency.item_id}
-									value={currency.key}
+									value={currency.item_id}
 								>
 									{currency.name}
 								</option>
