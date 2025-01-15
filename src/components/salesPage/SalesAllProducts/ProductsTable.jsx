@@ -436,14 +436,14 @@ function ProductsTable({
 									>
 										{String(currencyKeyData) ===
 										String(currencyRateData)
-											? "-"
-											: product.price[0].sale.toLocaleString(
+											? product.price[0].sale.toLocaleString(
 													"ru-RU",
 													{
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
 													},
-											  )}
+											  )
+											: "-"}
 									</td>
 									<td
 										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right w-1/6 min-w-[120px] ${
