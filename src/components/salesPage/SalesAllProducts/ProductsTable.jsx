@@ -73,12 +73,16 @@ function ProductsTable({
 						`${nodeUrl}/api/get/currency/data/${deviceId}/${ksbId}/${product.currency}`,
 					);
 					const data = await response.json();
+
+					// Update both currency name and rate data
 					setCurrencyData((prev) => ({
 						...prev,
 						[product.currency]: data[0]?.name || "-",
 					}));
 
-					setCurrencyRateData(data[0]?.key || "-");
+					if (data[0]?.key) {
+						setCurrencyRateData(data[0].key);
+					}
 				} catch (error) {
 					console.error("Failed to fetch currency data", error);
 					setCurrencyData((prev) => ({
@@ -88,7 +92,7 @@ function ProductsTable({
 				}
 			}
 		}
-	}, [filteredData, currencyData]);
+	}, [filteredData]);
 
 	useEffect(() => {
 		fetchCurrencyData();
@@ -131,10 +135,7 @@ function ProductsTable({
 						{},
 					);
 
-					setWarehouseData((prev) => ({
-						...prev,
-						...warehouseData,
-					}));
+					setWarehouseData((prev) => ({ ...prev, ...warehouseData }));
 				} catch (error) {
 					console.error(
 						"Error fetching or processing warehouse data",
@@ -284,22 +285,22 @@ function ProductsTable({
 			>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-1.5 px-5 border-b border-r text-left">
+						<th className="py-1.5 px-5 border-b border-r text-left w-[50%] min-w-[300px]">
 							Product Name
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center w-[10%] min-w-[100px]">
 							Currency
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center w-[10%] min-w-[80px]">
 							Remaining
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center w-[10%] min-w-[120px]">
 							Price (Currency)
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center">
+						<th className="py-1.5 px-5 border-b border-r text-center w-[10%] min-w-[120px]">
 							Price (UZS)
 						</th>
-						<th className="py-1.5 px-5 border-b text-center">
+						<th className="py-1.5 px-5 border-b text-center w-[10%] min-w-[100px]">
 							Warehouse
 						</th>
 					</tr>
@@ -357,7 +358,7 @@ function ProductsTable({
 									}
 								>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-left ${
+										className={`py-1.5 px-5 border-b border-r text-left w-[25%] min-w-[200px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 1
 												? "bg-blue-500 text-white"
@@ -376,7 +377,7 @@ function ProductsTable({
 										{product.name}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-center ${
+										className={`py-1.5 px-5 border-b border-r text-center w-[15%] min-w-[100px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 2
 												? "bg-blue-500 text-white"
@@ -398,7 +399,7 @@ function ProductsTable({
 											: "-"}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-right ${
+										className={`py-1.5 px-5 border-b border-r text-right w-[10%] min-w-[80px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 3
 												? "bg-blue-500 text-white"
@@ -417,7 +418,7 @@ function ProductsTable({
 										{product.stock[0].qty}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-right ${
+										className={`py-1.5 px-5 border-b border-r text-right w-[20%] min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 4
 												? "bg-blue-500 text-white"
@@ -433,7 +434,8 @@ function ProductsTable({
 											}
 										}}
 									>
-										{currencyKeyData == currencyRateData
+										{String(currencyKeyData) ===
+										String(currencyRateData)
 											? "-"
 											: product.price[0].sale.toLocaleString(
 													"ru-RU",
@@ -444,7 +446,7 @@ function ProductsTable({
 											  )}
 									</td>
 									<td
-										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right ${
+										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right w-[20%] min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 5
 												? "bg-blue-500 text-white"
@@ -505,7 +507,7 @@ function ProductsTable({
 										})()}
 									</td>
 									<td
-										className={`py-1 px-5 border-b text-left ${
+										className={`py-1 px-5 border-b text-left w-[10%] min-w-[100px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 6
 												? "bg-blue-500 text-white"
@@ -559,3 +561,4 @@ function ProductsTable({
 }
 
 export default ProductsTable;
+
