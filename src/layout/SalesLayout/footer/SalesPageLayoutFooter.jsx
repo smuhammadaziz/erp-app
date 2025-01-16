@@ -97,8 +97,9 @@ const SalesPageLayoutFooter = () => {
 		fetchPrices();
 	}, [deviceId, ksbId]);
 
+	console.log(prices);
+
 	useEffect(() => {
-		// Ensure the initial currency is set correctly
 		const initialCurrencyKey = localStorage.getItem("currencyKey");
 		const matchingCurrency = currencies.find(
 			(currency) => currency.key === initialCurrencyKey,
@@ -108,6 +109,17 @@ const SalesPageLayoutFooter = () => {
 			localStorage.setItem("currencyKey", matchingCurrency.item_id);
 		}
 	}, [currencies]);
+
+	useEffect(() => {
+		const priceTypeKey = localStorage.getItem("priceTypeKey");
+		const matchingCurrency = prices.find(
+			(price) => price.item_id === priceTypeKey,
+		);
+
+		if (matchingCurrency && matchingCurrency.item_id !== priceTypeKey) {
+			localStorage.setItem("priceTypeKey", matchingCurrency.item_id);
+		}
+	}, [prices]);
 
 	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
 
@@ -140,9 +152,23 @@ const SalesPageLayoutFooter = () => {
 						</div>
 					</div>
 					<div className="flex items-center gap-4 mx-2">
-						<select className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700">
+						<select
+							onChange={(e) => {
+								localStorage.setItem(
+									"priceTypeKey",
+									e.target.value,
+								);
+								window.dispatchEvent(
+									new Event("priceTypeChanged"),
+								);
+							}}
+							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
+						>
 							{prices.map((price) => (
-								<option key={price.item_id} value={price.name}>
+								<option
+									key={price.item_id}
+									value={price.item_id}
+								>
 									{price.name}
 								</option>
 							))}
@@ -154,7 +180,6 @@ const SalesPageLayoutFooter = () => {
 									"currencyKey",
 									e.target.value,
 								);
-								// Dispatch custom event to trigger updates
 								window.dispatchEvent(
 									new Event("currencyChanged"),
 								);

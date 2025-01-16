@@ -21,6 +21,9 @@ function ProductsTable({
 	const [currencyKey, setCurrencyKey] = useState(
 		localStorage.getItem("currencyKey"),
 	);
+	const [priceTypeKey, setPriceKeyKey] = useState(
+		localStorage.getItem("priceTypeKey"),
+	);
 	const loadingRef = useRef(null);
 
 	const [currencyRateData, setCurrencyRateData] = useState("");
@@ -262,7 +265,24 @@ function ProductsTable({
 		};
 	}, []);
 
+	useEffect(() => {
+		const handlePriceTypeChange = () => {
+			const newPriceTypeKey = localStorage.getItem("priceTypeKey");
+			setPriceKeyKey(newPriceTypeKey);
+		};
+
+		window.addEventListener("priceTypeChanged", handlePriceTypeChange);
+
+		return () => {
+			window.removeEventListener(
+				"priceTypeChanged",
+				handlePriceTypeChange,
+			);
+		};
+	}, []);
+
 	const currencyKeyData = localStorage.getItem("currencyKey");
+	const priceTypeKeyData = localStorage.getItem("priceTypeKey");
 
 	return (
 		<CustomScroll
