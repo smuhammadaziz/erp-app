@@ -172,19 +172,17 @@ const SalesPageLayoutFooter = () => {
 					<div className="flex items-center gap-4 mx-2">
 						<select
 							onChange={(e) => {
-								const priceTypeKey = e.target.value; // Get the selected value directly from the select
+								const priceTypeKey = e.target.value;
 								const selectedOption =
-									e.target.options[e.target.selectedIndex]; // Access the selected <option>
+									e.target.options[e.target.selectedIndex];
 								const matchingProductByCurrencyRaw =
 									selectedOption.getAttribute(
 										"data-product-by-currency",
-									); // Get the raw value from data attribute
+									);
 
-								// Convert "1" to true and "0" to false
 								const matchingProductByCurrency =
 									matchingProductByCurrencyRaw === "1";
 
-								// Set values in localStorage
 								localStorage.setItem(
 									"priceTypeKey",
 									priceTypeKey,
@@ -194,7 +192,6 @@ const SalesPageLayoutFooter = () => {
 									matchingProductByCurrency,
 								);
 
-								// Dispatch custom event
 								window.dispatchEvent(
 									new Event("priceTypeChanged"),
 								);
