@@ -18,13 +18,13 @@ const ProductViewDetails = ({ product }) => {
 	const [activeMenu, setActiveMenu] = useState("Main");
 	const [currencyName, setCurrencyName] = useState("");
 	const [symbolName, setSymbolName] = useState("");
-	const [warehouseName, setWarehouseName] = useState("");
 	const [copiedField, setCopiedField] = useState(null);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 
 	const [names, setNames] = useState({});
+	const [warehouseNames, setWarehouseNames] = useState({});
 
 	if (!product) return null;
 
@@ -72,6 +72,34 @@ const ProductViewDetails = ({ product }) => {
 		fetchAllNames();
 	}, [product.price]);
 
+	const fetchStockData = async (item_id) => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbIdNumber}/${item_id}`,
+			);
+			const data = await response.json();
+			return data[0]?.name;
+		} catch (err) {
+			console.error("Error fetching price name:", err);
+			return null;
+		}
+	};
+
+	useEffect(() => {
+		const fetchAllNames = async () => {
+			const nameMap = {};
+			for (const item of product.stock) {
+				const name = await fetchStockData(item.warehouse);
+				if (name) {
+					nameMap[item.warehouse] = name;
+				}
+			}
+
+			setWarehouseNames(nameMap);
+		};
+		fetchAllNames();
+	}, [product.warehouse]);
+
 	useEffect(() => {
 		if (product.currency) {
 			fetchData(
@@ -88,17 +116,6 @@ const ProductViewDetails = ({ product }) => {
 			fetchData("symbol", product.symbol, setSymbolName, setSymbolName);
 		}
 	}, [product.symbol, fetchData]);
-
-	useEffect(() => {
-		if (product.stock[0]?.warehouse) {
-			fetchData(
-				"warehouse",
-				product.stock[0].warehouse,
-				setWarehouseName,
-				setWarehouseName,
-			);
-		}
-	}, [product.stock, fetchData]);
 
 	const handleCopy = useCallback((value, key) => {
 		navigator.clipboard.writeText(String(value));
@@ -186,7 +203,7 @@ const ProductViewDetails = ({ product }) => {
 				{product.stock.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-							{warehouseName}
+							{warehouseNames[item.warehouse] || "Loading..."}
 						</td>
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 							{item.qty}
