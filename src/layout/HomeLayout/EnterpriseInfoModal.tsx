@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import {
 	FaServer,
@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
+import { UpdateCheckModal } from "./UpdateCheckModal";
 
 moment.locale("ru");
 
@@ -50,6 +51,8 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 		};
 	}, [onClose]);
 
+	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+
 	const infoItems = [
 		{ icon: FaServer, label: "ИпАдрес:Порт", value: ipaddressPort },
 		{
@@ -72,7 +75,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			/>
 			<div
 				ref={modalRef}
-				className="absolute top-8 right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9999] border border-slate-200"
+				className="absolute top-8 right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9998] border border-slate-200"
 				style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
 			>
 				<div className="p-3">
@@ -117,12 +120,20 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 						>
 							{content[language as string].enterpriseInfo.signout}
 						</NavLink>
-						<button className="mt-3 ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors">
+						<button
+							onClick={() => setIsUpdateModalOpen(true)}
+							className="mt-3 ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
+						>
 							check updates
 						</button>
 					</div>
 				</div>
 			</div>
+			<UpdateCheckModal
+				isOpen={isUpdateModalOpen}
+				onClose={() => setIsUpdateModalOpen(false)}
+			/>
 		</>
 	);
 };
+
