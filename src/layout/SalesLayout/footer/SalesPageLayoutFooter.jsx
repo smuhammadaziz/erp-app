@@ -116,6 +116,9 @@ const SalesPageLayoutFooter = () => {
 		const productByCurrencyBoolean = localStorage.getItem(
 			"matchingProductByCurrency",
 		);
+		const falseCurrencyBoolean = localStorage.getItem(
+			"falseCurrencyBoolean",
+		);
 		const matchingCurrency = prices.find(
 			(price) => price.item_id === priceTypeKey,
 		);
@@ -125,16 +128,26 @@ const SalesPageLayoutFooter = () => {
 				byCurrency.productByCurrency === productByCurrencyBoolean,
 		);
 
+		const matchingFalseCurrencyBoolean = prices.find(
+			(falseCurrency) => falseCurrency.currency === falseCurrencyBoolean,
+		);
+
 		if (
 			matchingCurrency &&
 			matchingCurrency.item_id !== priceTypeKey &&
 			matchingProductByCurrency &&
-			matchingProductByCurrency.item_id !== productByCurrencyBoolean
+			matchingProductByCurrency.item_id !== productByCurrencyBoolean &&
+			matchingFalseCurrencyBoolean &&
+			matchingFalseCurrencyBoolean.currency !== falseCurrencyBoolean
 		) {
 			localStorage.setItem("priceTypeKey", matchingCurrency.item_id);
 			localStorage.setItem(
 				"matchingProductByCurrency",
 				matchingCurrency.productByCurrency,
+			);
+			localStorage.setItem(
+				"falseCurrencyBoolean",
+				matchingFalseCurrencyBoolean.currency,
 			);
 		}
 	}, [prices]);
@@ -180,6 +193,11 @@ const SalesPageLayoutFooter = () => {
 										"data-product-by-currency",
 									);
 
+								const matchingFalseCurrencyValue =
+									selectedOption.getAttribute(
+										"data-false-currency",
+									);
+
 								const matchingProductByCurrency =
 									matchingProductByCurrencyRaw === "1";
 
@@ -190,6 +208,10 @@ const SalesPageLayoutFooter = () => {
 								localStorage.setItem(
 									"matchingProductByCurrency",
 									matchingProductByCurrency,
+								);
+								localStorage.setItem(
+									"falseCurrencyBoolean",
+									matchingFalseCurrencyValue,
 								);
 
 								window.dispatchEvent(
@@ -205,6 +227,7 @@ const SalesPageLayoutFooter = () => {
 									data-product-by-currency={
 										price.productByCurrency
 									}
+									data-false-currency={price.currency}
 								>
 									{price.name}
 								</option>
