@@ -525,7 +525,6 @@ function ProductsTable({
 											const convertedPrice = (
 												originalPrice,
 											) => {
-												// Find the price object that matches the priceTypeKeyData
 												const matchingPrice =
 													product.price.find(
 														(price) =>
@@ -556,7 +555,6 @@ function ProductsTable({
 											const showingPriceData =
 												convertedPrice();
 
-											// Only apply toLocaleString if showingPriceData is not "-"
 											return showingPriceData === "-"
 												? showingPriceData
 												: showingPriceData.toLocaleString(
@@ -593,6 +591,17 @@ function ProductsTable({
 													) || "{}",
 												);
 
+											const matchingPrice =
+												product.price.find(
+													(price) =>
+														price.type ===
+														priceTypeKeyData,
+												);
+
+											if (!matchingPrice) {
+												return "-";
+											}
+
 											const convertPrice = (
 												originalPrice,
 											) => {
@@ -625,7 +634,7 @@ function ProductsTable({
 											};
 
 											const convertedPrice = convertPrice(
-												product.price[0].sale,
+												matchingPrice.sale,
 											);
 
 											return convertedPrice.toLocaleString(
