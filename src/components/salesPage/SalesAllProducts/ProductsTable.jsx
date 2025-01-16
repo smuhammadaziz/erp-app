@@ -286,6 +286,24 @@ function ProductsTable({
 	const matchingProductByCurrency = localStorage.getItem(
 		"matchingProductByCurrency",
 	);
+	const falseCurrencyBoolean = localStorage.getItem("falseCurrencyBoolean");
+
+	const [names, setNames] = useState({});
+	const fetchPriceName = async (item_id) => {
+		const deviceId = localStorage.getItem("device_id");
+		const ksbId = localStorage.getItem("ksbIdNumber");
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/price/data/${deviceId}/${ksbId}/${item_id}`,
+			);
+			const data = await response.json();
+
+			return data[0]?.item_id;
+		} catch (err) {
+			console.error("Error fetching price name:", err);
+			return null;
+		}
+	};
 
 	return (
 		<CustomScroll
@@ -412,15 +430,59 @@ function ProductsTable({
 												matchingProductByCurrency ===
 												"true";
 
+											useEffect(() => {
+												const fetchAllNames =
+													async () => {
+														const nameMap = {};
+														for (const item of product.price) {
+															const name =
+																await fetchPriceName(
+																	item.type,
+																);
+															if (name) {
+																nameMap[
+																	item.type
+																] = name;
+															}
+														}
+														setNames(nameMap);
+													};
+												fetchAllNames();
+											}, [product.price]);
+
+											const matchingPrice =
+												product.price.find(
+													(price) =>
+														price.type ===
+														priceTypeKeyData,
+												);
+
+											if (!matchingPrice) {
+												return "";
+											}
+
 											if (product.currency) {
-												if (isMatchingProduct) {
+												if (
+													currencyKeyData !==
+													product.currency
+												) {
 													return currencyData[
 														product.currency
 													];
 												} else {
-													return "-";
+													if (isMatchingProduct) {
+														return currencyData[
+															product.currency
+														];
+													} else {
+														return currencyData[
+															falseCurrencyBoolean
+														];
+													}
 												}
 											}
+
+											return "";
 										})()}
 									</td>
 									<td
