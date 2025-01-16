@@ -525,13 +525,25 @@ function ProductsTable({
 											const convertedPrice = (
 												originalPrice,
 											) => {
+												// Find the price object that matches the priceTypeKeyData
+												const matchingPrice =
+													product.price.find(
+														(price) =>
+															price.type ===
+															priceTypeKeyData,
+													);
+
+												if (!matchingPrice) {
+													return "-";
+												}
+
 												if (
 													String(currencyKeyData) ===
 													product.currency
 												) {
 													return "-";
 												} else {
-													return product.price[0].sale.toLocaleString(
+													return matchingPrice.sale.toLocaleString(
 														"ru-RU",
 														{
 															minimumFractionDigits: 2,
@@ -542,17 +554,18 @@ function ProductsTable({
 											};
 
 											const showingPriceData =
-												convertedPrice(
-													product.price[0].sale,
-												);
+												convertedPrice();
 
-											return showingPriceData.toLocaleString(
-												"ru-RU",
-												{
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												},
-											);
+											// Only apply toLocaleString if showingPriceData is not "-"
+											return showingPriceData === "-"
+												? showingPriceData
+												: showingPriceData.toLocaleString(
+														"ru-RU",
+														{
+															minimumFractionDigits: 2,
+															maximumFractionDigits: 2,
+														},
+												  );
 										})()}
 									</td>
 									<td
