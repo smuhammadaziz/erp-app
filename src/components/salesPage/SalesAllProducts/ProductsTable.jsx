@@ -404,6 +404,13 @@ function ProductsTable({
 											}
 										}}
 									>
+										{(() => {
+											if (priceTypeKeyData) {
+												console.log("ok");
+											} else {
+												console.log("noo");
+											}
+										})()}
 										{product.currency
 											? currencyData[product.currency] ||
 											  "-"
@@ -446,6 +453,7 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
+											console.log(product);
 											const convertedPrice = (
 												originalPrice,
 											) => {

@@ -88,6 +88,7 @@ const SalesPageLayoutFooter = () => {
 					throw new Error("Failed to fetch price data");
 				}
 				const data = await response.json();
+				console.log(data);
 				setPrices(data);
 			} catch (error) {
 				console.error("Error fetching prices:", error);
@@ -112,12 +113,29 @@ const SalesPageLayoutFooter = () => {
 
 	useEffect(() => {
 		const priceTypeKey = localStorage.getItem("priceTypeKey");
+		const productByCurrencyBoolean = localStorage.getItem(
+			"matchingProductByCurrency",
+		);
 		const matchingCurrency = prices.find(
 			(price) => price.item_id === priceTypeKey,
 		);
 
-		if (matchingCurrency && matchingCurrency.item_id !== priceTypeKey) {
+		const matchingProductByCurrency = prices.find(
+			(byCurrency) =>
+				byCurrency.productByCurrency === productByCurrencyBoolean,
+		);
+
+		if (
+			matchingCurrency &&
+			matchingCurrency.item_id !== priceTypeKey &&
+			matchingProductByCurrency &&
+			matchingProductByCurrency.item_id !== productByCurrencyBoolean
+		) {
 			localStorage.setItem("priceTypeKey", matchingCurrency.item_id);
+			localStorage.setItem(
+				"matchingProductByCurrency",
+				matchingCurrency.productByCurrency,
+			);
 		}
 	}, [prices]);
 
@@ -154,10 +172,29 @@ const SalesPageLayoutFooter = () => {
 					<div className="flex items-center gap-4 mx-2">
 						<select
 							onChange={(e) => {
+								const priceTypeKey = e.target.value; // Get the selected value directly from the select
+								const selectedOption =
+									e.target.options[e.target.selectedIndex]; // Access the selected <option>
+								const matchingProductByCurrencyRaw =
+									selectedOption.getAttribute(
+										"data-product-by-currency",
+									); // Get the raw value from data attribute
+
+								// Convert "1" to true and "0" to false
+								const matchingProductByCurrency =
+									matchingProductByCurrencyRaw === "1";
+
+								// Set values in localStorage
 								localStorage.setItem(
 									"priceTypeKey",
-									e.target.value,
+									priceTypeKey,
 								);
+								localStorage.setItem(
+									"matchingProductByCurrency",
+									matchingProductByCurrency,
+								);
+
+								// Dispatch custom event
 								window.dispatchEvent(
 									new Event("priceTypeChanged"),
 								);
@@ -168,11 +205,15 @@ const SalesPageLayoutFooter = () => {
 								<option
 									key={price.item_id}
 									value={price.item_id}
+									data-product-by-currency={
+										price.productByCurrency
+									}
 								>
 									{price.name}
 								</option>
 							))}
 						</select>
+
 						<select
 							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
 							onChange={(e) => {
