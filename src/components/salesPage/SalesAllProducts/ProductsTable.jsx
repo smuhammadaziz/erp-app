@@ -283,6 +283,9 @@ function ProductsTable({
 
 	const currencyKeyData = localStorage.getItem("currencyKey");
 	const priceTypeKeyData = localStorage.getItem("priceTypeKey");
+	const matchingProductByCurrency = localStorage.getItem(
+		"matchingProductByCurrency",
+	);
 
 	return (
 		<CustomScroll
@@ -405,16 +408,20 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
-											if (priceTypeKeyData) {
-												console.log("ok");
-											} else {
-												console.log("noo");
+											const isMatchingProduct =
+												matchingProductByCurrency ===
+												"true";
+
+											if (product.currency) {
+												if (isMatchingProduct) {
+													return currencyData[
+														product.currency
+													];
+												} else {
+													return "-";
+												}
 											}
 										})()}
-										{product.currency
-											? currencyData[product.currency] ||
-											  "-"
-											: "-"}
 									</td>
 									<td
 										className={`py-1.5 px-5 border-b border-r text-right w-1/6 min-w-[80px] ${
@@ -453,7 +460,6 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
-											console.log(product);
 											const convertedPrice = (
 												originalPrice,
 											) => {

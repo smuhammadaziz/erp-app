@@ -88,7 +88,6 @@ const SalesPageLayoutFooter = () => {
 					throw new Error("Failed to fetch price data");
 				}
 				const data = await response.json();
-				console.log(data);
 				setPrices(data);
 			} catch (error) {
 				console.error("Error fetching prices:", error);
@@ -97,8 +96,6 @@ const SalesPageLayoutFooter = () => {
 
 		fetchPrices();
 	}, [deviceId, ksbId]);
-
-	console.log(prices);
 
 	useEffect(() => {
 		const initialCurrencyKey = localStorage.getItem("currencyKey");
