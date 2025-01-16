@@ -19,11 +19,12 @@ const ProductViewDetails = ({ product }) => {
 	const [currencyName, setCurrencyName] = useState("");
 	const [symbolName, setSymbolName] = useState("");
 	const [warehouseName, setWarehouseName] = useState("");
-	const [priceTypeName, setPriceTypeName] = useState("");
 	const [copiedField, setCopiedField] = useState(null);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
+
+	const [names, setNames] = useState({});
 
 	if (!product) return null;
 
@@ -43,6 +44,33 @@ const ProductViewDetails = ({ product }) => {
 		},
 		[deviceId, ksbIdNumber],
 	);
+
+	const fetchPriceName = async (item_id) => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/price/data/${deviceId}/${ksbIdNumber}/${item_id}`,
+			);
+			const data = await response.json();
+			return data[0]?.name;
+		} catch (err) {
+			console.error("Error fetching price name:", err);
+			return null;
+		}
+	};
+
+	useEffect(() => {
+		const fetchAllNames = async () => {
+			const nameMap = {};
+			for (const item of product.price) {
+				const name = await fetchPriceName(item.type);
+				if (name) {
+					nameMap[item.type] = name;
+				}
+			}
+			setNames(nameMap);
+		};
+		fetchAllNames();
+	}, [product.price]);
 
 	useEffect(() => {
 		if (product.currency) {
@@ -71,17 +99,6 @@ const ProductViewDetails = ({ product }) => {
 			);
 		}
 	}, [product.stock, fetchData]);
-
-	useEffect(() => {
-		if (product.price[0]?.type) {
-			fetchData(
-				"price",
-				product.price[0].type,
-				setPriceTypeName,
-				setPriceTypeName,
-			);
-		}
-	}, [product.price, fetchData]);
 
 	const handleCopy = useCallback((value, key) => {
 		navigator.clipboard.writeText(String(value));
@@ -196,7 +213,7 @@ const ProductViewDetails = ({ product }) => {
 				{product.price.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-							{priceTypeName}
+							{names[item.type] || "Loading..."}
 						</td>
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 							{item.sale}
