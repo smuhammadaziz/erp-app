@@ -25,6 +25,8 @@ import content from "../localization/content";
 import useLang from "../hooks/useLang";
 import InitialUserSettingsForHome from "../components/homePage/UserSettings";
 
+import { v4 as uuidv4 } from "uuid";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -162,6 +164,10 @@ const IndexPage: FC = () => {
 			linkText: content[language as string].home.salesDashboard,
 			borderColor: "border-purple-300",
 			hoverBg: "hover:bg-purple-50",
+			onClick: () => {
+				const newSalesId = uuidv4();
+				localStorage.setItem("sales_id", newSalesId);
+			},
 		},
 		{
 			title: content[language as string].home.activeClient,
@@ -242,11 +248,7 @@ const IndexPage: FC = () => {
 														</p>
 													</div>
 													<div
-														className={`
-                          ${card.bgColor} p-4 rounded-2xl
-                          text-white shadow-lg transition-transform
-                          duration-500
-                        `}
+														className={`${card.bgColor} p-4 rounded-2xl text-white shadow-lg transition-transform duration-500`}
 													>
 														{card.icon}
 													</div>
@@ -259,16 +261,8 @@ const IndexPage: FC = () => {
 													</p>
 													<NavLink
 														to={card.link}
-														className={`
-                          ${card.bgColor} text-white px-6 py-2.5 rounded-xl
-                          font-medium transition-all duration-500
-                          hover:shadow-lg hover:scale-105 active:scale-95
-                          flex items-center gap-2 relative
-                          after:absolute after:inset-0 after:rounded-xl
-                          after:opacity-0 after:transition-opacity
-                          after:duration-500 hover:after:opacity-100
-                          after:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]
-                        `}
+														onClick={card.onClick}
+														className={`${card.bgColor} text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-500 hover:shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2 relative after:absolute after:inset-0 after:rounded-xl after:opacity-0 after:transition-opacity after:duration-500 hover:after:opacity-100 after:shadow-[inset_0_0_0_2px_rgba(255,255,255,0.2)]`}
 													>
 														<span className="relative z-10">
 															{card.linkText}
@@ -277,11 +271,7 @@ const IndexPage: FC = () => {
 												</div>
 											</div>
 											<div
-												className={`
-                      absolute inset-0 opacity-0 group-hover:opacity-100
-                      transition-all duration-500 ${card.hoverBg}
-                      backdrop-blur-sm
-                    `}
+												className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 ${card.hoverBg} backdrop-blur-sm`}
 											/>
 										</div>
 									))}
@@ -312,16 +302,11 @@ const IndexPage: FC = () => {
 													onClick={() =>
 														setFilter(type)
 													}
-													className={`
-                        px-5 py-2.5 rounded-xl text-sm font-medium
-                        transition-all duration-300 
-                        hover:scale-105 active:scale-95
-                        ${
-							filter === type
-								? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg"
-								: "bg-purple-50 text-purple-700 hover:bg-purple-100"
-						}
-                      `}
+													className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 hover:scale-105 active:scale-95 ${
+														filter === type
+															? "bg-gradient-to-r from-purple-500 to-purple-700 text-white shadow-lg"
+															: "bg-purple-50 text-purple-700 hover:bg-purple-100"
+													}`}
 												>
 													{type
 														.charAt(0)
@@ -370,3 +355,4 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
+
