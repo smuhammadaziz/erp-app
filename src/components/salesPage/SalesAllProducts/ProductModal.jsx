@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { MdClear } from "react-icons/md";
+import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
 	const [quantity, setQuantity] = useState(1);
 	const [showErrorModal, setShowErrorModal] = useState(false);
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+	const sales_id = localStorage.getItem("sales_id");
+	const device_id = localStorage.getItem("device_id");
 
 	const handleQuantityChange = (e) => {
 		setQuantity(e.target.value);
 	};
+
+	// console.log(product);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -18,22 +24,28 @@ function ProductModal({ product, onClose }) {
 		}
 
 		const data = {
-			productId: product.id,
-			quantity: parseInt(quantity),
+			id: sales_id,
+			summa: "300000",
+			discount: "30000000",
+			device_id: device_id,
+			products: [product],
 		};
 
 		try {
-			const response = await fetch("http://localhost:5000/api/sell", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
+			const response = await fetch(
+				`${nodeUrl}/api/create/sales/${ksb_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
 				},
-				body: JSON.stringify(data),
-			});
+			);
 
 			if (response.ok) {
 				const result = await response.json();
-				console.log("Sell API response:", result);
+				console.log("response:", result);
 				onClose();
 			} else {
 				console.error("Failed to submit data to the API");
