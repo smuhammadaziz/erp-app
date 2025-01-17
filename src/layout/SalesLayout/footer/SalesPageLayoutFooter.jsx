@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { FiSettings } from "react-icons/fi";
+import { FiSettings, FiAlertTriangle } from "react-icons/fi";
 import { BsCurrencyDollar } from "react-icons/bs";
-import { FaPlus, FaTable, FaPalette, FaLanguage } from "react-icons/fa";
+import {
+	FaPlus,
+	FaTable,
+	FaPalette,
+	FaLanguage,
+	FaTimes,
+} from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import SettingsPanel from "./SettingsPanel";
 import TableLayoutModal from "./TableLayoutModal";
 import ThemeSettingsModal from "./ThemeSettingsModal";
 import LanguageSettingsModal from "./LanguageSettingsModal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import nodeUrl from "../../../links";
 
 const SalesPageLayoutFooter = () => {
@@ -15,6 +21,8 @@ const SalesPageLayoutFooter = () => {
 	const [activeModal, setActiveModal] = useState(null);
 	const [currencies, setCurrencies] = useState([]);
 	const [prices, setPrices] = useState([]);
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+	const navigate = useNavigate();
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
@@ -263,13 +271,13 @@ const SalesPageLayoutFooter = () => {
 					</div>
 				</div>
 				<div className="mr-2.5">
-					<NavLink
-						to="/"
+					<button
+						onClick={() => setIsExitModalOpen(true)}
 						className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
 					>
 						<ImExit className="mr-3 text-xl" />
 						<span className="font-semibold">Exit</span>
-					</NavLink>
+					</button>
 				</div>
 			</div>
 			<SettingsPanel
@@ -298,6 +306,37 @@ const SalesPageLayoutFooter = () => {
 				tempSettings={tempSettings}
 				setTempSettings={setTempSettings}
 			/>
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								Exit Confirmation
+							</h2>
+							<p className="text-gray-600 mb-6">
+								Are you sure you want to exit the sales page?
+								Any unsaved changes will be lost.
+							</p>
+						</div>
+						<div className="flex space-x-4">
+							<NavLink
+								to="/"
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								Yes, Exit
+							</NavLink>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</>
 	);
 };
