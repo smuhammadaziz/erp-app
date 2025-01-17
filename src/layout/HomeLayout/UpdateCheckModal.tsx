@@ -68,22 +68,11 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 			case "checking":
 				return (
 					<>
-						<div className="mb-8 flex items-center justify-center z-[500]">
-							<div className="relative">
-								<BsArrowRepeat className="w-24 h-24 text-blue-500 animate-spin" />
-								<div className="absolute inset-0 flex items-center justify-center">
-									<span className="text-lg font-semibold text-blue-500">
-										{progress}%
-									</span>
-								</div>
-							</div>
-						</div>
 						<div className="w-full max-w-md mb-8">
-							<div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-								<div
-									className="h-full bg-blue-500 rounded-full animate-progress"
-									style={{ width: `${progress}%` }}
-								/>
+							<div className="w-full max-w-md mb-8">
+								<div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden relative">
+									<div className="h-full w-1/3 bg-blue-500 rounded-full animate-slide absolute"></div>
+								</div>
 							</div>
 						</div>
 						<p className="text-slate-600 text-center text-lg mb-2">
@@ -175,3 +164,4 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 		</>
 	);
 };
+
