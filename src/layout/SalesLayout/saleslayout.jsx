@@ -1,7 +1,7 @@
 import React from "react";
 import SalesPageLayoutFooter from "./footer/SalesPageLayoutFooter";
 import SalesPageLayoutSidebar from "./sidebar";
-import { Layout } from "../../layout/HomeLayout/layout";
+import { Layout } from "../../layout/SalesHomeLayout/layout";
 import SalesPageLayoutHeader from "./header";
 
 function SalesPageLayoutMain({ children }) {
