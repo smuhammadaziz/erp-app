@@ -24,7 +24,8 @@ if (!config.isDev) {
 
 app.on("ready", async () => {
 	config.mainWindow = await createMainWindow();
-	config.popupWindow = await createPopupWindow();
+	// config.popupWindow = await createPopupWindow();
+	config.tray = await createTray();
 
 	showNotification(
 		config.appName,
