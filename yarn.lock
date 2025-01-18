@@ -1228,10 +1228,10 @@
   optionalDependencies:
     global-agent "^3.0.0"
 
-"@electron/remote@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.npmjs.org/@electron/remote/-/remote-2.0.8.tgz"
-  integrity sha512-P10v3+iFCIvEPeYzTWWGwwHmqWnjoh8RYnbtZAb3RlQefy4guagzIwcWtfftABIfm6JJTNQf4WPSKWZOpLmHXw==
+"@electron/remote@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.npmjs.org/@electron/remote/-/remote-2.1.2.tgz"
+  integrity sha512-EPwNx+nhdrTBxyCqXt/pftoQg/ybtWDW3DUWHafejvnB1ZGGfMpv6e15D8KeempocjXe78T7WreyGGb3mlZxdA==
 
 "@electron/universal@1.2.1":
   version "1.2.1"

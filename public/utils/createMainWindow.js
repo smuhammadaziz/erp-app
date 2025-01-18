@@ -10,7 +10,7 @@ exports.createMainWindow = async () => {
 			nodeIntegration: true,
 			enableRemoteModule: true,
 			devTools: config.isDev,
-			contextIsolation: false,
+			contextIsolation: true,
 		},
 		frame: false,
 		icon: config.icon,
@@ -55,4 +55,3 @@ exports.createMainWindow = async () => {
 
 	return window;
 };
-
