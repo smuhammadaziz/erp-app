@@ -8,12 +8,13 @@ function ProductModal({ product, onClose }) {
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 	const sales_id = localStorage.getItem("sales_id");
 	const device_id = localStorage.getItem("device_id");
+	const priceTypeKey = localStorage.getItem("priceTypeKey");
 
 	const handleQuantityChange = (e) => {
 		setQuantity(e.target.value);
 	};
 
-	// console.log(product);
+	console.log(product);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -23,17 +24,31 @@ function ProductModal({ product, onClose }) {
 			return;
 		}
 
+		let productPriceType = 0;
+
+		const matchedPrice = product.price.find(
+			(item) => item.type === priceTypeKey,
+		);
+
+		if (matchedPrice) {
+			productPriceType = matchedPrice.sale;
+		} else {
+			productPriceType = 0;
+		}
+
 		const data = {
-			id: sales_id,
-			summa: "300000",
-			discount: "30000000",
 			device_id: device_id,
-			products: [product],
+			product_id: product.product_id,
+			product_name: product.name,
+			count: "1",
+			price: productPriceType,
+			total_price: productPriceType,
+			product_info: [product],
 		};
 
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/create/sales/${ksb_id}`,
+				`${nodeUrl}/api/create/sales/${ksb_id}/${sales_id}`,
 				{
 					method: "POST",
 					headers: {
