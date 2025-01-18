@@ -34,7 +34,7 @@ export const Router: FC = () => {
 								</ProtectedRoute>
 							}
 						/>
-						<Route path="popup" element={<PopupPage />} />
+						{/* <Route path="popup" element={<PopupPage />} /> */}
 					</Route>
 					<Route path="/login" element={<LoginPageKSB />} />
 					<Route path="/intro" element={<IntroPageKSB />} />
