@@ -1,50 +1,55 @@
 import React, { useState, useEffect } from "react";
 import { FiTrash2 } from "react-icons/fi";
+import nodeUrl from "../../../links";
 
 function SalesSoldProducts() {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-	const handleDelete = async (id) => {
-		try {
-			const response = await fetch(
-				`http://localhost:5000/api/delete/selling/${id}`,
-				{
-					method: "DELETE",
-				},
-			);
+	// const handleDelete = async (id) => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/delete/selling/${id}`,
+	// 			{
+	// 				method: "DELETE",
+	// 			},
+	// 		);
 
-			if (!response.ok) {
-				throw new Error("Failed to delete product");
-			}
+	// 		if (!response.ok) {
+	// 			throw new Error("Failed to delete product");
+	// 		}
 
-			setProducts(
-				products.filter((product) => product.product_id !== id),
-			);
-		} catch (err) {
-			setError(err.message);
-		}
-	};
+	// 		setProducts(
+	// 			products.filter((product) => product.product_id !== id),
+	// 		);
+	// 	} catch (err) {
+	// 		setError(err.message);
+	// 	}
+	// };
+
+	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
-		// const fetchProducts = async () => {
-		// 	try {
-		// 		const response = await fetch("");
-		// 		if (!response.ok) {
-		// 			throw new Error("Failed to fetch products");
-		// 		}
-		// 		const data = await response.json();
-		// 		setProducts(data.items);
-		// 		setError(null);
-		// 		setLoading(false);
-		// 	} catch (err) {
-		// 		setError(err.message);
-		// 		setLoading(false);
-		// 	}
-		// };
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/get/sales/${sales_id}`,
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch products");
+				}
+				const data = await response.json();
+				setProducts(data.products);
+				setError(null);
+				setLoading(false);
+			} catch (err) {
+				setError(err.message);
+				setLoading(false);
+			}
+		};
 
-		// fetchProducts();
+		fetchProducts();
 
 		const intervalId = setInterval([], 1000);
 
@@ -61,9 +66,6 @@ function SalesSoldProducts() {
 							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-center w-[15%]">
 									Product Name
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Remaining
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[10%]">
 									Price ($)
@@ -103,35 +105,29 @@ function SalesSoldProducts() {
 									>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%]"
-											title={product.product_name}
+											title={product.name}
 										>
-											{product.product_name}
-										</td>
-										<td
-											className="py-1 px-5 border-b text-center w-[15%]"
-											title={product.quantity}
-										>
-											{product.quantity}
+											{product.name}
 										</td>
 										<td
 											className="py-1 px-5 border-b text-center w-[10%]"
-											title={product.price_in_currency}
+											title={product.currency}
 										>
-											{product.price_in_currency}
+											{product.currency}
 										</td>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%]"
-											title={product.price_in_uzs}
+											title={product.box}
 										>
-											{product.price_in_uzs}
+											{product.box}
 										</td>
 										<td className="py-1 px-5 border-b text-center w-[10%]">
 											<button
-												onClick={() =>
-													handleDelete(
-														product.product_id,
-													)
-												}
+												// onClick={() =>
+												// 	handleDelete(
+												// 		product.product_id,
+												// 	)
+												// }
 												className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none"
 											>
 												<FiTrash2 />
