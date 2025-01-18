@@ -154,7 +154,7 @@ const IndexPage: FC = () => {
 	}, []);
 
 	const handleOpenSalesWindow = () => {
-		ipcRenderer.send("open-sales-window"); // Send event to main process
+		ipcRenderer.send("open-sales-window");
 	};
 
 	const cards = [
