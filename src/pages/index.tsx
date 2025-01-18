@@ -165,7 +165,7 @@ const IndexPage: FC = () => {
 			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
 			bgColor:
 				"bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700",
-			link: "/sales",
+			link: "/",
 			linkText: content[language as string].home.salesDashboard,
 			borderColor: "border-purple-300",
 			hoverBg: "hover:bg-purple-50",

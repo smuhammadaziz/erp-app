@@ -33,56 +33,83 @@ app.on("ready", async () => {
 });
 
 const createSalesWindow = () => {
-	if (salesWindow) {
-		salesWindow.focus(); // Focus the salesWindow if it already exists
-		return;
+	// If salesWindow exists but is destroyed, set it to null
+	if (salesWindow && salesWindow.isDestroyed()) {
+		salesWindow = null;
 	}
 
-	// Create a new BrowserWindow instance
-	salesWindow = new BrowserWindow({
-		minWidth: 1000,
-		minHeight: 700,
-		frame: false,
-		icon: config.icon,
-		title: config.appName,
-		webPreferences: {
-			preload: path.join(__dirname, "preload.js"),
-			contextIsolation: true,
-			enableRemoteModule: false,
-			nodeIntegration: false,
-		},
-	});
+	// Create a new window if it doesn't exist or was destroyed
+	if (!salesWindow) {
+		salesWindow = new BrowserWindow({
+			minWidth: 1000,
+			minHeight: 700,
+			frame: false,
+			icon: config.icon,
+			title: config.appName,
+			webPreferences: {
+				preload: path.join(__dirname, "preload.js"),
+				contextIsolation: true,
+				enableRemoteModule: false,
+				nodeIntegration: false,
+			},
+		});
 
-	salesWindow.maximize(); // Maximize the window
-	salesWindow.show();
-	remote.enable(salesWindow.webContents);
+		salesWindow.maximize(); // Maximize the window
+		salesWindow.show();
+		remote.enable(salesWindow.webContents);
 
-	const startUrl = config.isDev
-		? "http://localhost:3000/#/sales"
-		: `file://${join(__dirname, "..", "../build/index.html")}#/sales`;
+		const startUrl = config.isDev
+			? "http://localhost:3000/#/sales"
+			: `file://${path.join(
+					__dirname,
+					"..",
+					"../build/index.html",
+			  )}#/sales`;
 
-	salesWindow.loadURL(startUrl); // Load the desired route
+		salesWindow.loadURL(startUrl); // Load the desired route
 
-	salesWindow.webContents.on("did-finish-load", () => {
-		if (!salesWindow.webContents.getURL().includes("/sales")) {
-			salesWindow.loadURL(startUrl);
-		}
-	});
+		salesWindow.webContents.on("did-finish-load", () => {
+			if (!salesWindow.webContents.getURL().includes("/sales")) {
+				salesWindow.loadURL(startUrl);
+			}
+		});
 
-	salesWindow.once("ready-to-show", () => {
-		autoUpdater.checkForUpdatesAndNotify();
-	});
+		salesWindow.once("ready-to-show", () => {
+			autoUpdater.checkForUpdatesAndNotify();
+		});
 
-	salesWindow.on("close", (e) => {
-		if (!config.isQuiting) {
-			e.preventDefault();
-			salesWindow.hide();
-		}
-	});
+		salesWindow.on("close", (e) => {
+			if (!config.isQuiting) {
+				e.preventDefault();
+				salesWindow.hide();
+			}
+		});
+
+		salesWindow.on("closed", () => {
+			salesWindow = null;
+		});
+	} else {
+		// If window exists but is hidden, show and focus it
+		salesWindow.show();
+		salesWindow.focus();
+
+		// Reload the sales route to ensure correct view
+		const startUrl = config.isDev
+			? "http://localhost:3000/#/sales"
+			: `file://${path.join(
+					__dirname,
+					"..",
+					"../build/index.html",
+			  )}#/sales`;
+
+		salesWindow.loadURL(startUrl);
+	}
+
+	return salesWindow;
 };
 
 ipcMain.on("open-sales-window", () => {
-	if (!salesWindow) createSalesWindow();
+	createSalesWindow();
 });
 
 app.on("window-all-closed", () => {
@@ -109,3 +136,4 @@ autoUpdater.on("update-downloaded", () => {
 ipcMain.on("restart_app", () => {
 	autoUpdater.quitAndInstall();
 });
+
