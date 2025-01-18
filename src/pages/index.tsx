@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from "react";
 import { Layout } from "../layout/HomeLayout/layout";
 import InnerLayoutSection from "../layout/InnerLayout/innerlayout";
 import { NavLink } from "react-router-dom";
+const { ipcRenderer } = window.require("electron");
 import {
 	RiMoneyDollarCircleLine,
 	RiCustomerService2Line,
@@ -152,6 +153,10 @@ const IndexPage: FC = () => {
 		return () => clearInterval(intervalId);
 	}, []);
 
+	const handleOpenSalesWindow = () => {
+		ipcRenderer.send("open-sales-window"); // Send event to main process
+	};
+
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
@@ -167,6 +172,7 @@ const IndexPage: FC = () => {
 			onClick: () => {
 				const newSalesId = uuidv4();
 				localStorage.setItem("sales_id", newSalesId);
+				handleOpenSalesWindow();
 			},
 		},
 		{
@@ -355,4 +361,3 @@ const IndexPage: FC = () => {
 };
 
 export default IndexPage;
-
