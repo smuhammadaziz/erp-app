@@ -8,20 +8,20 @@ exports.createMainWindow = async () => {
 	const window = new BrowserWindow({
 		webPreferences: {
 			nodeIntegration: true,
-			enableRemoteModule: true,
+			enableRemoteModule: false,
 			devTools: config.isDev,
-			contextIsolation: true,
+			contextIsolation: false,
 		},
 		frame: false,
 		icon: config.icon,
 		title: config.appName,
-		show: false, // Don't show until we maximize
-		minWidth: 1000, // Minimum width the user can resize to
-		minHeight: 700, // Minimum height the user can resize to
+		show: false,
+		minWidth: 1000,
+		minHeight: 700,
 	});
 
-	window.maximize(); // Maximize the window
-	window.show(); // Show after maximizing
+	window.maximize();
+	window.show();
 
 	remote.enable(window.webContents);
 
@@ -35,7 +35,6 @@ exports.createMainWindow = async () => {
 
 	await window.loadURL(startUrl);
 
-	// Ensure the login page is loaded
 	window.webContents.on("did-finish-load", () => {
 		if (!window.webContents.getURL().includes("/")) {
 			window.loadURL(startUrl);

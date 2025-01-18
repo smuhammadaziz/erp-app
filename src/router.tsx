@@ -26,15 +26,50 @@ export const Router: FC = () => {
 			<AuthProvider>
 				<Routes>
 					<Route path="/">
-						<Route index element={<ProtectedRoute><IndexPage /></ProtectedRoute>} />
+						<Route
+							index
+							element={
+								<ProtectedRoute>
+									<IndexPage />
+								</ProtectedRoute>
+							}
+						/>
 						<Route path="popup" element={<PopupPage />} />
 					</Route>
 					<Route path="/login" element={<LoginPageKSB />} />
 					<Route path="/intro" element={<IntroPageKSB />} />
-					<Route path="/sales" element={<ProtectedRoute><SalesMainPage /></ProtectedRoute>} />
-					<Route path="/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
-					<Route path="/products" element={<ProtectedRoute><ProductsPage /></ProtectedRoute>} />
-					<Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+					<Route
+						path="/sales"
+						element={
+							<ProtectedRoute>
+								<SalesMainPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/customers"
+						element={
+							<ProtectedRoute>
+								<CustomersPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/products"
+						element={
+							<ProtectedRoute>
+								<ProductsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<SettingsPage />
+							</ProtectedRoute>
+						}
+					/>
 				</Routes>
 			</AuthProvider>
 		</HashRouter>
