@@ -101,7 +101,7 @@ function SalesSoldProducts() {
 								products.map((product) => (
 									<tr
 										key={product.product_id}
-										className="text-gray-800 text-xs even:bg-gray-50"
+										className="text-gray-800 text-sm even:bg-gray-50"
 									>
 										<td
 											className="py-1 px-5 border-b text-left w-[15%]"
@@ -119,13 +119,25 @@ function SalesSoldProducts() {
 											className="py-1 px-5 border-b text-center w-[15%]"
 											title={product.narxi}
 										>
-											{product.narxi}
+											{product.narxi.toLocaleString(
+												"ru-RU",
+												{
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											)}
 										</td>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%]"
 											title={product.summa}
 										>
-											{product.summa}
+											{product.summa.toLocaleString(
+												"ru-RU",
+												{
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											)}
 										</td>
 										{/* <td className="py-1 px-5 border-b text-center w-[10%]">
 											<button
