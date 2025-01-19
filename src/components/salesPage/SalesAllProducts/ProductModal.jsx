@@ -14,6 +14,8 @@ function ProductModal({ product, onClose }) {
 		setQuantity(e.target.value);
 	};
 
+	console.log(product);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -69,84 +71,143 @@ function ProductModal({ product, onClose }) {
 
 	return (
 		<>
-			<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-				<div className="bg-white p-6 rounded-lg w-[400px] shadow-lg relative">
-					<button
-						onClick={onClose}
-						className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-					>
-						<MdClear size={24} />
-					</button>
-					<h2 className="text-xl font-bold mb-4">Product Details</h2>
-					<form onSubmit={handleSubmit}>
-						<div className="mb-4">
-							<label className="block text-sm font-semibold mb-2">
-								Product Name
-							</label>
-							<input
-								type="text"
-								value={product.product_name}
-								readOnly
-								className="w-full px-4 py-2 border border-gray-300 rounded-md"
-							/>
-						</div>
-						<div className="mb-4">
-							<label className="block text-sm font-semibold mb-2">
-								Quantity
-							</label>
-							<input
-								type="number"
-								value={quantity}
-								onChange={handleQuantityChange}
-								min="1"
-								className="w-full px-4 py-2 border border-gray-300 rounded-md"
-							/>
-						</div>
-						<div className="mb-4">
-							<label className="block text-sm font-semibold mb-2">
-								Price ($)
-							</label>
-							<input
-								type="text"
-								value={product.price_in_currency}
-								readOnly
-								className="w-full px-4 py-2 border border-gray-300 rounded-md"
-							/>
-						</div>
-
-						<div className="flex justify-end">
+			<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs z-50">
+				<div className="bg-white w-[900px] rounded-xl shadow-2xl relative transform transition-all">
+					<div className="p-6">
+						<div className="flex justify-between items-center mb-4">
+							<h2 className="text-xl font-bold text-gray-800">
+								Product Details
+							</h2>
 							<button
-								type="submit"
-								className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+								onClick={onClose}
+								className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
 							>
-								Save
+								<MdClear size={24} className="text-gray-500" />
 							</button>
 						</div>
-					</form>
+
+						<form onSubmit={handleSubmit} className="space-y-4">
+							<div className="grid grid-cols-1 gap-4">
+								<div className="bg-gray-50 p-4 rounded-lg">
+									<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										Product Name
+									</label>
+									<input
+										type="text"
+										value={product.name}
+										readOnly
+										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+									/>
+								</div>
+
+								<div className="grid grid-cols-2 gap-4">
+									<div className="bg-gray-50 p-4 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+											Product Name
+										</label>
+										<input
+											type="text"
+											value={product.name}
+											readOnly
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										/>
+									</div>
+									<div className="bg-gray-50 p-4 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+											Product Name
+										</label>
+										<input
+											type="text"
+											value={product.name}
+											readOnly
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										/>
+									</div>
+								</div>
+
+								<div className="grid grid-cols-2 gap-4">
+									<div className="bg-gray-50 p-4 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+											Soni
+										</label>
+										<input
+											type="number"
+											value={quantity}
+											onChange={handleQuantityChange}
+											min="1"
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										/>
+									</div>
+									<div className="bg-gray-50 p-4 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+											Narxi
+										</label>
+										<input
+											type="number"
+											value={quantity}
+											onChange={handleQuantityChange}
+											min="1"
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										/>
+									</div>
+								</div>
+
+								<div className="bg-gray-50 p-4 rounded-lg">
+									<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										Price ($)
+									</label>
+									<input
+										type="text"
+										value={product.price_in_currency}
+										readOnly
+										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+									/>
+								</div>
+							</div>
+
+							<div className="flex justify-end pt-4">
+								<button
+									type="submit"
+									className="px-6 py-2.5 bg-green-600 text-white text-base font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
+								>
+									Save
+								</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 
 			{showErrorModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-99">
-					<div className="bg-white p-6 rounded-lg w-[400px] shadow-lg relative">
-						<button
-							onClick={() => setShowErrorModal(false)}
-							className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-						>
-							<MdClear size={24} />
-						</button>
-						<h2 className="text-xl font-bold mb-4">Error</h2>
-						<p className="text-red-500 text-sm mb-4">
-							You have entered a quantity greater than the
-							available stock.
-						</p>
-						<div className="flex justify-end">
-							<button
-								onClick={() => setShowErrorModal(false)}
-								className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-							>
-								Close
-							</button>
+				<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[100]">
+					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
+						<div className="p-6">
+							<div className="flex justify-between items-center mb-4">
+								<h2 className="text-xl font-bold text-gray-800">
+									Error
+								</h2>
+								<button
+									onClick={() => setShowErrorModal(false)}
+									className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
+								>
+									<MdClear
+										size={24}
+										className="text-gray-500"
+									/>
+								</button>
+							</div>
+							<p className="text-red-500 text-sm mb-4">
+								You have entered a quantity greater than the
+								available stock.
+							</p>
+							<div className="flex justify-end">
+								<button
+									onClick={() => setShowErrorModal(false)}
+									className="px-5 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+								>
+									Close
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
