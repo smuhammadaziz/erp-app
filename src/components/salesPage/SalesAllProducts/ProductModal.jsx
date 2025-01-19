@@ -3,7 +3,7 @@ import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
-	const [quantity, setQuantity] = useState(1);
+	const [quantity, setQuantity] = useState(0);
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
 
@@ -122,6 +122,39 @@ function ProductModal({ product, onClose }) {
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
+	const currencyKeyData = localStorage.getItem("currencyKey");
+	const priceTypeKeyData = localStorage.getItem("priceTypeKey");
+
+	const currencyRateDataKey = JSON.parse(
+		localStorage.getItem("currency_rate") || "{}",
+	);
+
+	const matchingPrice = product.price.find(
+		(price) => price.type === priceTypeKeyData,
+	);
+
+	if (!matchingPrice) {
+		return "-";
+	}
+
+	const convertPrice = (originalPrice) => {
+		if (currencyKeyData == product.currency) {
+			return originalPrice;
+		} else {
+			if (currencyKeyData == "e51e4ee5-d689-11e7-b79f-00ac1948df3a") {
+				return originalPrice / currencyRateDataKey.usd;
+			} else if (
+				currencyKeyData == "e51e4ee6-d689-11e7-b79f-00ac1948df3a"
+			) {
+				return originalPrice * currencyRateDataKey.usd;
+			} else {
+				return originalPrice;
+			}
+		}
+	};
+
+	const convertedPrice = convertPrice(matchingPrice.sale);
+
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs z-50">
@@ -200,8 +233,16 @@ function ProductModal({ product, onClose }) {
 											Narxi
 										</label>
 										<input
-											type="number"
-											value={product.price[0].sale}
+											type="string"
+											value={(() => {
+												return convertedPrice.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													},
+												);
+											})()}
 											className="w-full px-3 py-4  bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
