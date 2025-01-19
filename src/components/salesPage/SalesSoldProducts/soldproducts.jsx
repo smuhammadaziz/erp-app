@@ -40,7 +40,7 @@ function SalesSoldProducts() {
 					throw new Error("Failed to fetch products");
 				}
 				const data = await response.json();
-				setProducts(data.products);
+				setProducts(data[sales_id].products);
 				setError(null);
 				setLoading(false);
 			} catch (err) {
@@ -51,7 +51,7 @@ function SalesSoldProducts() {
 
 		fetchProducts();
 
-		const intervalId = setInterval([], 1000);
+		const intervalId = setInterval([], 100);
 
 		return () => clearInterval(intervalId);
 	}, []);
@@ -64,17 +64,17 @@ function SalesSoldProducts() {
 					<table className="min-w-full bg-white border border-gray-200">
 						<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
 							<tr className="text-gray-700 uppercase text-xs">
-								<th className="py-2 px-5 border-b text-center w-[15%]">
+								<th className="py-2 px-5 border-b text-left w-[15%]">
 									Product Name
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Price ($)
+									Count
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Price (UZS)
+									Product Price
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Actions
+									Total price
 								</th>
 							</tr>
 						</thead>
@@ -104,24 +104,30 @@ function SalesSoldProducts() {
 										className="text-gray-800 text-xs even:bg-gray-50"
 									>
 										<td
-											className="py-1 px-5 border-b text-center w-[15%]"
-											title={product.name}
+											className="py-1 px-5 border-b text-left w-[15%]"
+											title={product.product_name}
 										>
-											{product.name}
+											{product.product_name}
 										</td>
 										<td
 											className="py-1 px-5 border-b text-center w-[10%]"
-											title={product.currency}
+											title={product.soni}
 										>
-											{product.currency}
+											{product.soni}
 										</td>
 										<td
 											className="py-1 px-5 border-b text-center w-[15%]"
-											title={product.box}
+											title={product.narxi}
 										>
-											{product.box}
+											{product.narxi}
 										</td>
-										<td className="py-1 px-5 border-b text-center w-[10%]">
+										<td
+											className="py-1 px-5 border-b text-center w-[15%]"
+											title={product.summa}
+										>
+											{product.summa}
+										</td>
+										{/* <td className="py-1 px-5 border-b text-center w-[10%]">
 											<button
 												// onClick={() =>
 												// 	handleDelete(
@@ -132,7 +138,7 @@ function SalesSoldProducts() {
 											>
 												<FiTrash2 />
 											</button>
-										</td>
+										</td> */}
 									</tr>
 								))
 							) : (
