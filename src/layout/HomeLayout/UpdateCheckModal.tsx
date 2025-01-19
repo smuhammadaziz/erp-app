@@ -100,10 +100,6 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 								<FiDownload className="w-5 h-5 mr-2" />
 								<span>Скачать</span>
 							</button>
-							<button className="flex items-center px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-base">
-								<BiRefresh className="w-5 h-5 mr-2" />
-								<span>Перезапустить</span>
-							</button>
 						</div>
 					</>
 				);
