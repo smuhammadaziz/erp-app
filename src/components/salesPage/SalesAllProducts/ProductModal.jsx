@@ -16,65 +16,6 @@ function ProductModal({ product, onClose }) {
 		localStorage.getItem("settingsWarehouse"),
 	);
 
-	const handleQuantityChange = (e) => {
-		setQuantity(e.target.value);
-	};
-
-	// console.log(product);
-
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-
-		if (quantity > product.stock[0].qty) {
-			setShowErrorModal(true);
-			return;
-		}
-
-		let productPriceType = 0;
-
-		const matchedPrice = product.price.find(
-			(item) => item.type === priceTypeKey,
-		);
-
-		if (matchedPrice) {
-			productPriceType = matchedPrice.sale;
-		} else {
-			productPriceType = 0;
-		}
-
-		const data = {
-			device_id: device_id,
-			product_id: product.product_id,
-			product_name: product.name,
-			count: "1",
-			price: productPriceType,
-			total_price: productPriceType,
-			product_info: [product],
-		};
-
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/create/sales/${ksb_id}/${sales_id}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(data),
-				},
-			);
-
-			if (response.ok) {
-				const result = await response.json();
-				onClose();
-			} else {
-				console.error("Failed to submit data to the API");
-			}
-		} catch (error) {
-			console.error("Error submitting the sell data:", error);
-		}
-	};
-
 	const fetchWarehouseData = useCallback(async () => {
 		if (product.stock[0].warehouse) {
 			const deviceId = localStorage.getItem("device_id");
@@ -156,6 +97,59 @@ function ProductModal({ product, onClose }) {
 	const convertedPrice = convertPrice(matchingPrice.sale);
 
 	const totalPrice = Number(quantity) * Number(convertedPrice);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		if (quantity > product.stock[0].qty) {
+			setShowErrorModal(true);
+			return;
+		}
+
+		let productPriceType = 0;
+
+		const matchedPrice = product.price.find(
+			(item) => item.type === priceTypeKey,
+		);
+
+		if (matchedPrice) {
+			productPriceType = matchedPrice.sale;
+		} else {
+			productPriceType = 0;
+		}
+
+		const data = {
+			device_id: device_id,
+			product_id: product.product_id,
+			product_name: product.name,
+			count: quantity,
+			price: convertedPrice,
+			total_price: totalPrice,
+			product_info: [product],
+		};
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/create/sales/${ksb_id}/${sales_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				},
+			);
+
+			if (response.ok) {
+				const result = await response.json();
+				onClose();
+			} else {
+				console.error("Failed to submit data to the API");
+			}
+		} catch (error) {
+			console.error("Error submitting the sell data:", error);
+		}
+	};
 
 	return (
 		<>
