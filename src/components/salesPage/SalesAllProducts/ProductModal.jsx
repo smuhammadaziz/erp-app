@@ -3,7 +3,7 @@ import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
-	const [quantity, setQuantity] = useState();
+	const [quantity, setQuantity] = useState(0);
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
 
