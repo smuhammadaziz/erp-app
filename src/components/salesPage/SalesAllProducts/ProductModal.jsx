@@ -155,6 +155,8 @@ function ProductModal({ product, onClose }) {
 
 	const convertedPrice = convertPrice(matchingPrice.sale);
 
+	const totalPrice = Number(quantity) * Number(convertedPrice);
+
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs z-50">
@@ -218,22 +220,23 @@ function ProductModal({ product, onClose }) {
 								<div className="grid grid-cols-2 gap-4">
 									<div className="bg-gray-50 p-4 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-1.5">
-											Soni
+											count
 										</label>
 										<input
 											type="number"
 											value={quantity}
-											onChange={handleQuantityChange}
-											min="0"
+											onChange={(e) =>
+												setQuantity(e.target.value)
+											}
 											className="w-full px-3 py-4 bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 									<div className="bg-gray-50 p-4 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-1.5">
-											Narxi
+											price
 										</label>
 										<input
-											type="string"
+											type="text"
 											value={(() => {
 												return convertedPrice.toLocaleString(
 													"ru-RU",
@@ -250,11 +253,17 @@ function ProductModal({ product, onClose }) {
 
 								<div className="bg-gray-50 p-4 rounded-lg">
 									<label className="block text-sm font-medium text-gray-700 mb-1.5">
-										Narxi
+										Total price
 									</label>
 									<input
 										type="text"
-										value={"1000"}
+										value={totalPrice.toLocaleString(
+											"ru-RU",
+											{
+												minimumFractionDigits: 2,
+												maximumFractionDigits: 2,
+											},
+										)}
 										readOnly
 										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 									/>
