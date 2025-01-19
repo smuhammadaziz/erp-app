@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
 	const [quantity, setQuantity] = useState(1);
 	const [showErrorModal, setShowErrorModal] = useState(false);
+	const [warehouseData, setWarehouseData] = useState({});
+
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 	const sales_id = localStorage.getItem("sales_id");
 	const device_id = localStorage.getItem("device_id");
 	const priceTypeKey = localStorage.getItem("priceTypeKey");
 
+	const settingsWarehouse = JSON.parse(
+		localStorage.getItem("settingsWarehouse"),
+	);
+
 	const handleQuantityChange = (e) => {
 		setQuantity(e.target.value);
 	};
 
-	console.log(product);
+	// console.log(product);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -69,6 +75,53 @@ function ProductModal({ product, onClose }) {
 		}
 	};
 
+	const fetchWarehouseData = useCallback(async () => {
+		if (product.stock[0].warehouse) {
+			const deviceId = localStorage.getItem("device_id");
+			const ksbId = localStorage.getItem("ksbIdNumber");
+
+			try {
+				if (
+					!Array.isArray(settingsWarehouse) ||
+					settingsWarehouse.length === 0
+				) {
+					throw new Error("Invalid settingsWarehouse data");
+				}
+
+				const response = await fetch(
+					`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.stock[0].warehouse}`,
+				);
+
+				const apiData = await response.json();
+
+				const warehouseData = settingsWarehouse.reduce(
+					(acc, warehouseId) => {
+						const matchedWarehouse = apiData.find(
+							(item) => item.item_id === warehouseId,
+						);
+
+						acc[warehouseId] = matchedWarehouse
+							? matchedWarehouse.name
+							: "-";
+						return acc;
+					},
+					{},
+				);
+
+				setWarehouseData((prev) => ({ ...prev, ...warehouseData }));
+			} catch (error) {
+				console.error(
+					"Error fetching or processing warehouse data",
+					error,
+				);
+			}
+		}
+	}, [warehouseData]);
+
+	useEffect(() => {
+		fetchWarehouseData();
+	}, [fetchWarehouseData]);
+
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs z-50">
@@ -103,22 +156,26 @@ function ProductModal({ product, onClose }) {
 								<div className="grid grid-cols-2 gap-4">
 									<div className="bg-gray-50 p-4 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-1.5">
-											Product Name
+											Sklad
 										</label>
 										<input
 											type="text"
-											value={product.name}
+											value={
+												warehouseData[
+													product.stock[0].warehouse
+												]
+											}
 											readOnly
 											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 									<div className="bg-gray-50 p-4 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-1.5">
-											Product Name
+											Ostatka
 										</label>
 										<input
 											type="text"
-											value={product.name}
+											value={product.stock[0]?.qty}
 											readOnly
 											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
@@ -134,8 +191,8 @@ function ProductModal({ product, onClose }) {
 											type="number"
 											value={quantity}
 											onChange={handleQuantityChange}
-											min="1"
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											min="0"
+											className="w-full px-3 py-4 bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 									<div className="bg-gray-50 p-4 rounded-lg">
@@ -144,21 +201,19 @@ function ProductModal({ product, onClose }) {
 										</label>
 										<input
 											type="number"
-											value={quantity}
-											onChange={handleQuantityChange}
-											min="1"
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											value={product.price[0].sale}
+											className="w-full px-3 py-4  bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 								</div>
 
 								<div className="bg-gray-50 p-4 rounded-lg">
 									<label className="block text-sm font-medium text-gray-700 mb-1.5">
-										Price ($)
+										Narxi
 									</label>
 									<input
 										type="text"
-										value={product.price_in_currency}
+										value={"1000"}
 										readOnly
 										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 									/>
