@@ -14,8 +14,6 @@ function ProductModal({ product, onClose }) {
 		setQuantity(e.target.value);
 	};
 
-	console.log(product);
-
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -60,7 +58,6 @@ function ProductModal({ product, onClose }) {
 
 			if (response.ok) {
 				const result = await response.json();
-				console.log("response:", result);
 				onClose();
 			} else {
 				console.error("Failed to submit data to the API");

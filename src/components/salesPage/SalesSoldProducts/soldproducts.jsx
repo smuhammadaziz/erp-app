@@ -50,7 +50,7 @@ function SalesSoldProducts() {
 		};
 
 		// Set up the interval to fetch data every 100ms
-		const intervalId = setInterval(fetchProducts, 100);
+		const intervalId = setInterval(fetchProducts, 1000);
 
 		// Clear the interval on component unmount
 		return () => clearInterval(intervalId);
