@@ -3,7 +3,7 @@ import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
-	const [quantity, setQuantity] = useState(0);
+	const [quantity, setQuantity] = useState();
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
 
@@ -25,7 +25,7 @@ function ProductModal({ product, onClose }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		if (quantity > product.stock) {
+		if (quantity > product.stock[0].qty) {
 			setShowErrorModal(true);
 			return;
 		}
@@ -159,7 +159,7 @@ function ProductModal({ product, onClose }) {
 
 	return (
 		<>
-			<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-xs z-50">
+			<div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
 				<div className="bg-white w-[900px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
 						<div className="flex justify-between items-center mb-4">
@@ -289,7 +289,7 @@ function ProductModal({ product, onClose }) {
 						<div className="p-6">
 							<div className="flex justify-between items-center mb-4">
 								<h2 className="text-xl font-bold text-gray-800">
-									Error
+									Хатолик
 								</h2>
 								<button
 									onClick={() => setShowErrorModal(false)}
@@ -302,15 +302,15 @@ function ProductModal({ product, onClose }) {
 								</button>
 							</div>
 							<p className="text-red-500 text-sm mb-4">
-								You have entered a quantity greater than the
-								available stock.
+								Сиз мавжуд захирадан каттароқ миқдорни
+								киритдингиз.
 							</p>
 							<div className="flex justify-end">
 								<button
 									onClick={() => setShowErrorModal(false)}
 									className="px-5 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
 								>
-									Close
+									OK
 								</button>
 							</div>
 						</div>
