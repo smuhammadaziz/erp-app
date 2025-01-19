@@ -40,21 +40,21 @@ function SalesSoldProducts() {
 					throw new Error("Failed to fetch products");
 				}
 				const data = await response.json();
-				setProducts(data[sales_id].products);
-				setError(null);
+
+				setProducts(data[sales_id]?.products || []);
+				setError(null); // Reset the error flag
 				setLoading(false);
 			} catch (err) {
-				setError(err.message);
 				setLoading(false);
 			}
 		};
 
-		fetchProducts();
+		// Set up the interval to fetch data every 100ms
+		const intervalId = setInterval(fetchProducts, 100);
 
-		const intervalId = setInterval([], 100);
-
+		// Clear the interval on component unmount
 		return () => clearInterval(intervalId);
-	}, []);
+	}, [nodeUrl, sales_id]);
 
 	return (
 		<div className="py-1 h-[33vh]">
