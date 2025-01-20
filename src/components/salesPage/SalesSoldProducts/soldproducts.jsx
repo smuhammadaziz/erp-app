@@ -6,6 +6,8 @@ function SalesSoldProducts() {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
@@ -56,118 +58,155 @@ function SalesSoldProducts() {
 	};
 
 	return (
-		<div className="py-1 h-[33vh]">
-			<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
-				<div className="overflow-x-auto overflow-y-auto flex-grow">
-					<table className="min-w-full bg-white border border-gray-200">
-						<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
-							<tr className="text-gray-700 uppercase text-xs">
-								<th className="py-2 px-5 border-b text-left w-[15%]">
-									Наименование, производитель
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Сони
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Нархи
-								</th>
-								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Сумма
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{error ? (
-								<tr>
-									<td
-										colSpan="4"
-										className="py-3 text-center text-red-500"
-									>
-										Error: {error}
-									</td>
+		<>
+			<div className="py-1 h-[33vh]">
+				<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
+					<div className="overflow-x-auto overflow-y-auto flex-grow">
+						<table className="min-w-full bg-white border border-gray-200">
+							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
+								<tr className="text-gray-700 uppercase text-xs">
+									<th className="py-2 px-5 border-b text-left w-[15%]">
+										Наименование, производитель
+									</th>
+									<th className="py-2 px-5 border-b text-center w-[10%]">
+										Сони
+									</th>
+									<th className="py-2 px-5 border-b text-center w-[15%]">
+										Нархи
+									</th>
+									<th className="py-2 px-5 border-b text-center w-[15%]">
+										Сумма
+									</th>
 								</tr>
-							) : loading ? (
-								<tr>
-									<td
-										colSpan="4"
-										className="py-3 text-center text-gray-500"
-									>
-										Loading...
-									</td>
-								</tr>
-							) : products.length > 0 ? (
-								products.map((product) => (
-									<tr
-										key={product.id}
-										className="text-gray-800 text-md group relative hover:bg-gray-50"
-									>
+							</thead>
+							<tbody>
+								{error ? (
+									<tr>
 										<td
-											className="py-1 px-5 border-b text-left w-[50%]"
-											title={product.product_name}
+											colSpan="4"
+											className="py-3 text-center text-red-500"
 										>
-											{product.product_name}
+											Error: {error}
 										</td>
+									</tr>
+								) : loading ? (
+									<tr>
 										<td
-											className="py-1 px-5 border-b text-center w-[10%]"
-											title={product.soni}
+											colSpan="4"
+											className="py-3 text-center text-gray-500"
 										>
-											{product.soni}
+											Loading...
 										</td>
-										<td
-											className="py-1 px-5 border-b text-center w-[10%]"
-											title={product.narxi}
+									</tr>
+								) : products.length > 0 ? (
+									products.map((product) => (
+										<tr
+											key={product.id}
+											className="text-gray-800 text-md group relative hover:bg-gray-50 cursor-pointer"
+											onDoubleClick={() => {
+												setSelectedProduct(product);
+												setIsModalOpen(true);
+											}}
 										>
-											{product.narxi.toLocaleString(
-												"ru-RU",
-												{
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												},
-											)}
-										</td>
-										<td
-											className="py-1 px-5 border-b text-center w-[25%] relative"
-											title={product.summa}
-										>
-											<span>
-												{product.summa.toLocaleString(
+											<td
+												className="py-1 px-5 border-b text-left w-[50%]"
+												title={product.product_name}
+											>
+												{product.product_name}
+											</td>
+											<td
+												className="py-1 px-5 border-b text-center w-[10%]"
+												title={product.soni}
+											>
+												{product.soni}
+											</td>
+											<td
+												className="py-1 px-5 border-b text-center w-[10%]"
+												title={product.narxi}
+											>
+												{product.narxi.toLocaleString(
 													"ru-RU",
 													{
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
 													},
 												)}
-											</span>
-											<div className="absolute right-0 top-0 h-full flex items-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-												<button
-													onClick={() => {
-														deleteAllProducts(
-															product.id,
-														);
-													}}
-													className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none mr-2"
-												>
-													<FiTrash2 />
-												</button>
-											</div>
+											</td>
+											<td
+												className="py-1 px-5 border-b text-center w-[25%] relative"
+												title={product.summa}
+											>
+												<span>
+													{product.summa.toLocaleString(
+														"ru-RU",
+														{
+															minimumFractionDigits: 2,
+															maximumFractionDigits: 2,
+														},
+													)}
+												</span>
+												<div className="absolute right-0 top-0 h-full flex items-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+													<button
+														onClick={(e) => {
+															e.stopPropagation();
+															deleteAllProducts(
+																product.id,
+															);
+														}}
+														className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none mr-2"
+													>
+														<FiTrash2 />
+													</button>
+												</div>
+											</td>
+										</tr>
+									))
+								) : (
+									<tr>
+										<td
+											colSpan="4"
+											className="py-3 text-center text-gray-500"
+										>
+											Hozircha mahsulotlar yo'q
 										</td>
 									</tr>
-								))
-							) : (
-								<tr>
-									<td
-										colSpan="4"
-										className="py-3 text-center text-gray-500"
-									>
-										Hozircha mahsulotlar yo'q
-									</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
+								)}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-		</div>
+
+			{/* Modal */}
+			{isModalOpen && (
+				<div
+					className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+					onClick={() => setIsModalOpen(false)}
+				>
+					<div
+						className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<div className="flex justify-between items-center mb-4">
+							<h3 className="text-lg font-semibold">
+								Product Details
+							</h3>
+							<button
+								onClick={() => setIsModalOpen(false)}
+								className="text-gray-500 hover:text-gray-700 text-xl font-bold"
+							>
+								×
+							</button>
+						</div>
+						<div className="mt-2">
+							<p className="text-gray-700">
+								{selectedProduct?.product_name}
+							</p>
+						</div>
+					</div>
+				</div>
+			)}
+		</>
 	);
 }
 
