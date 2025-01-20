@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import nodeUrl from "../../../links";
+import ProductModal from "./soldProductModal";
 
 function SalesSoldProducts() {
 	const [products, setProducts] = useState([]);
@@ -55,6 +56,11 @@ function SalesSoldProducts() {
 		} catch (error) {
 			console.error("Error:", error);
 		}
+	};
+
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setSelectedProduct(null);
 	};
 
 	return (
@@ -178,7 +184,13 @@ function SalesSoldProducts() {
 			</div>
 
 			{/* Modal */}
-			{isModalOpen && (
+			{isModalOpen && selectedProduct && (
+				<ProductModal
+					product={selectedProduct}
+					onClose={handleCloseModal}
+				/>
+			)}
+			{/* {isModalOpen && (
 				<div
 					className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
 					onClick={() => setIsModalOpen(false)}
@@ -205,7 +217,7 @@ function SalesSoldProducts() {
 						</div>
 					</div>
 				</div>
-			)}
+			)} */}
 		</>
 	);
 }
