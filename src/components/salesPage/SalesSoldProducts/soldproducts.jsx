@@ -88,7 +88,7 @@ function SalesSoldProducts() {
 											{product.soni}
 										</td>
 										<td
-											className="py-1 px-5 border-b text-center w-[15%]"
+											className="py-1 px-5 border-b text-center w-[10%]"
 											title={product.narxi}
 										>
 											{product.narxi.toLocaleString(
@@ -100,7 +100,7 @@ function SalesSoldProducts() {
 											)}
 										</td>
 										<td
-											className="py-1 px-5 border-b text-center w-[15%] relative"
+											className="py-1 px-5 border-b text-center w-[25%] relative"
 											title={product.summa}
 										>
 											<span>
