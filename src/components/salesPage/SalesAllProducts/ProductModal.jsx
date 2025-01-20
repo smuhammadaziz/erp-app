@@ -166,11 +166,11 @@ function ProductModal({ product, onClose }) {
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
-				<div className="bg-white w-[900px] rounded-xl shadow-2xl relative transform transition-all">
+				<div className="bg-white w-[730px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
-						<div className="flex justify-between items-center mb-4">
+						{/* <div className="flex justify-between items-center mb-4">
 							<h2 className="text-2xl font-bold text-gray-800">
-								Product Details
+								hello
 							</h2>
 							<button
 								onClick={onClose}
@@ -178,13 +178,13 @@ function ProductModal({ product, onClose }) {
 							>
 								<MdClear size={24} className="text-gray-500" />
 							</button>
-						</div>
+						</div> */}
 
 						<form onSubmit={handleSubmit} className="space-y-4">
-							<div className="grid grid-cols-1 gap-4">
-								<div className="bg-gray-50 p-4 rounded-lg">
-									<label className="block text-base font-medium text-gray-700 mb-1.5">
-										Product Name
+							<div className="grid grid-cols-1 gap-2">
+								<div className="bg-gray-50 px-4 py-2 rounded-lg">
+									<label className="block text-sm font-medium text-gray-700 mb-0.5">
+										Товар
 									</label>
 									<input
 										type="text"
@@ -194,10 +194,10 @@ function ProductModal({ product, onClose }) {
 									/>
 								</div>
 
-								<div className="grid grid-cols-2 gap-4">
-									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-base font-medium text-gray-700 mb-1.5">
-											Sklad
+								<div className="grid grid-cols-12 gap-2">
+									<div className="bg-gray-50 px-4 py-2 col-span-9 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-0.5">
+											Склад
 										</label>
 										<input
 											type="text"
@@ -210,9 +210,9 @@ function ProductModal({ product, onClose }) {
 											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
 										/>
 									</div>
-									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-base font-medium text-gray-700 mb-1.5">
-											Ostatka
+									<div className="bg-gray-50 px-4 col-span-3 py-2 rounded-lg">
+										<label className="block text-sm font-medium text-gray-700 mb-0.5">
+											Остатка
 										</label>
 										<input
 											type="text"
@@ -223,67 +223,77 @@ function ProductModal({ product, onClose }) {
 									</div>
 								</div>
 
-								<div className="grid grid-cols-2 gap-4">
-									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-base font-medium text-gray-700 mb-1.5">
-											count
-										</label>
-										<input
-											type="number"
-											value={quantity}
-											onFocus={handleFocus}
-											onBlur={handleBlur}
-											onChange={(e) =>
-												setQuantity(e.target.value)
-											}
-											className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-										/>
+								<div className="flex justify-between ">
+									<div className="">
+										<div className="bg-gray-50 px-4 py-2 rounded-lg">
+											<label className="block text-sm font-medium text-gray-700 mb-0.5">
+												Сони
+											</label>
+											<input
+												type="number"
+												value={quantity}
+												onFocus={handleFocus}
+												onBlur={handleBlur}
+												onChange={(e) =>
+													setQuantity(e.target.value)
+												}
+												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											/>
+										</div>
 									</div>
-									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-base font-medium text-gray-700 mb-1.5">
-											price
-										</label>
-										<input
-											type="text"
-											value={(() => {
-												return convertedPrice.toLocaleString(
+
+									<div>
+										<div className="bg-gray-50 px-4 py-2 rounded-lg">
+											<label className="block text-sm font-medium text-gray-700 mb-0.5">
+												Цена
+											</label>
+											<input
+												type="text"
+												value={(() => {
+													return convertedPrice.toLocaleString(
+														"ru-RU",
+														{
+															minimumFractionDigits: 2,
+															maximumFractionDigits: 2,
+														},
+													);
+												})()}
+												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											/>
+										</div>
+										<div className="bg-gray-50 px-4 py-2 mt-3 rounded-lg">
+											{/* <label className="block text-sm font-medium text-gray-700 mb-0.5">
+												Total price
+											</label> */}
+											<input
+												type="text"
+												value={totalPrice.toLocaleString(
 													"ru-RU",
 													{
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
 													},
-												);
-											})()}
-											className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-										/>
+												)}
+												readOnly
+												className="w-full px-3 py-4 bg-white text-2xl font-semibold border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											/>
+										</div>
 									</div>
-								</div>
-
-								<div className="bg-gray-50 p-4 rounded-lg">
-									<label className="block text-base font-medium text-gray-700 mb-1.5">
-										Total price
-									</label>
-									<input
-										type="text"
-										value={totalPrice.toLocaleString(
-											"ru-RU",
-											{
-												minimumFractionDigits: 2,
-												maximumFractionDigits: 2,
-											},
-										)}
-										readOnly
-										className="w-full px-3 py-4 bg-white text-2xl font-semibold border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-									/>
 								</div>
 							</div>
 
 							<div className="flex justify-end pt-4">
 								<button
 									type="submit"
-									className="px-6 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
+									className="px-12 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
 								>
-									Save
+									OK
+								</button>
+								<button
+									onClick={onClose}
+									className="px-6 py-2 ml-5 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+								>
+									Отмена
 								</button>
 							</div>
 						</form>
