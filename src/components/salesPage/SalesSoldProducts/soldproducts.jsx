@@ -73,10 +73,10 @@ function SalesSoldProducts() {
 								products.map((product) => (
 									<tr
 										key={product.product_id}
-										className="text-gray-800 text-sm even:bg-gray-50 group relative hover:bg-gray-50"
+										className="text-gray-800 text-md group relative hover:bg-gray-50"
 									>
 										<td
-											className="py-1 px-5 border-b text-left w-[15%]"
+											className="py-1 px-5 border-b text-left w-[50%]"
 											title={product.product_name}
 										>
 											{product.product_name}
