@@ -268,9 +268,6 @@ function ProductModal({ product, onClose }) {
 											/>
 										</div>
 										<div className="bg-gray-50 px-4 py-2 mt-3 rounded-lg">
-											{/* <label className="block text-sm font-medium text-gray-700 mb-0.5">
-												Total price
-											</label> */}
 											<input
 												type="text"
 												value={totalPrice.toLocaleString(
