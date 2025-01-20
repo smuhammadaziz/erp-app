@@ -63,16 +63,16 @@ function SalesSoldProducts() {
 						<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
 							<tr className="text-gray-700 uppercase text-xs">
 								<th className="py-2 px-5 border-b text-left w-[15%]">
-									Product Name
+									Наименование, производитель
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[10%]">
-									Count
+									Сони
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Product Price
+									Нархи
 								</th>
 								<th className="py-2 px-5 border-b text-center w-[15%]">
-									Total price
+									Сумма
 								</th>
 							</tr>
 						</thead>

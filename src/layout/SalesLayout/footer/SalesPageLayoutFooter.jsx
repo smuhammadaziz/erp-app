@@ -130,8 +130,8 @@ const SalesPageLayoutFooter = () => {
 		},
 		{
 			icon: <FaMoneyBill />,
-			label: "Price",
-			description: "Change Price",
+			label: "Нарх",
+			description: "Нарх",
 			onClick: () => openModal("changePrice"),
 		},
 	];

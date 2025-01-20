@@ -28,15 +28,10 @@ const ChangePrice = ({
 	};
 
 	return (
-		<Modal
-			isOpen={isOpen}
-			onClose={onClose}
-			title="Change Price"
-			onSave={onSave}
-		>
+		<Modal isOpen={isOpen} onClose={onClose} title="Нарх" onSave={onSave}>
 			<div className="space-y-2">
 				<div className="flex items-center space-x-2">
-					<label htmlFor="changePriceCheckbox">Change Price</label>
+					<label htmlFor="changePriceCheckbox">Нарх</label>
 					<input
 						id="changePriceCheckbox"
 						type="checkbox"
