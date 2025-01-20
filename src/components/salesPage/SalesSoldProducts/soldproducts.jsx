@@ -25,9 +25,35 @@ function SalesSoldProducts() {
 				setLoading(false);
 			}
 		};
-		const intervalId = setInterval(fetchProducts, 1000);
+		const intervalId = setInterval(fetchProducts, 600);
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
+
+	const deleteAllProducts = async (product_id) => {
+		const salesId = localStorage.getItem("sales_id");
+		const ksbId = localStorage.getItem("ksbIdNumber");
+		if (!salesId) {
+			alert("Sales ID not found in local storage!");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/sales/product/${salesId}/${ksbId}/${product_id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				console.log("removed");
+			} else {
+				console.log("no item to remove");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
 
 	return (
 		<div className="py-1 h-[33vh]">
@@ -113,7 +139,14 @@ function SalesSoldProducts() {
 												)}
 											</span>
 											<div className="absolute right-0 top-0 h-full flex items-center opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-												<button className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none mr-2">
+												<button
+													onClick={() => {
+														deleteAllProducts(
+															product.product_id,
+														);
+													}}
+													className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none mr-2"
+												>
 													<FiTrash2 />
 												</button>
 											</div>
