@@ -142,7 +142,7 @@ function SalesSoldProducts() {
 												<button
 													onClick={() => {
 														deleteAllProducts(
-															product.product_id,
+															product.id,
 														);
 													}}
 													className="flex items-center justify-center bg-red-500 text-white p-1 rounded-md px-2 hover:bg-red-700 focus:outline-none mr-2"
