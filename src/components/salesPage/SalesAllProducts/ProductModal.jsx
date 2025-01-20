@@ -151,6 +151,18 @@ function ProductModal({ product, onClose }) {
 		}
 	};
 
+	const handleFocus = (e) => {
+		if (e.target.value === "0") {
+			setQuantity(""); // Clear the input if the value is 0
+		}
+	};
+
+	const handleBlur = (e) => {
+		if (e.target.value === "") {
+			setQuantity(0); // Reset to 0 if the input is empty
+		}
+	};
+
 	return (
 		<>
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
@@ -219,6 +231,8 @@ function ProductModal({ product, onClose }) {
 										<input
 											type="number"
 											value={quantity}
+											onFocus={handleFocus}
+											onBlur={handleBlur}
 											onChange={(e) =>
 												setQuantity(e.target.value)
 											}
