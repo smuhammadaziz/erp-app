@@ -169,7 +169,7 @@ function ProductModal({ product, onClose }) {
 				<div className="bg-white w-[900px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
 						<div className="flex justify-between items-center mb-4">
-							<h2 className="text-xl font-bold text-gray-800">
+							<h2 className="text-2xl font-bold text-gray-800">
 								Product Details
 							</h2>
 							<button
@@ -183,20 +183,20 @@ function ProductModal({ product, onClose }) {
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="grid grid-cols-1 gap-4">
 								<div className="bg-gray-50 p-4 rounded-lg">
-									<label className="block text-sm font-medium text-gray-700 mb-1.5">
+									<label className="block text-base font-medium text-gray-700 mb-1.5">
 										Product Name
 									</label>
 									<input
 										type="text"
 										value={product.name}
 										readOnly
-										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
 									/>
 								</div>
 
 								<div className="grid grid-cols-2 gap-4">
 									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										<label className="block text-base font-medium text-gray-700 mb-1.5">
 											Sklad
 										</label>
 										<input
@@ -207,25 +207,25 @@ function ProductModal({ product, onClose }) {
 												]
 											}
 											readOnly
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
 										/>
 									</div>
 									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										<label className="block text-base font-medium text-gray-700 mb-1.5">
 											Ostatka
 										</label>
 										<input
 											type="text"
 											value={product.stock[0]?.qty}
 											readOnly
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
 										/>
 									</div>
 								</div>
 
 								<div className="grid grid-cols-2 gap-4">
 									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										<label className="block text-base font-medium text-gray-700 mb-1.5">
 											count
 										</label>
 										<input
@@ -236,11 +236,11 @@ function ProductModal({ product, onClose }) {
 											onChange={(e) =>
 												setQuantity(e.target.value)
 											}
-											className="w-full px-3 py-4 bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 									<div className="bg-gray-50 p-4 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-1.5">
+										<label className="block text-base font-medium text-gray-700 mb-1.5">
 											price
 										</label>
 										<input
@@ -254,13 +254,13 @@ function ProductModal({ product, onClose }) {
 													},
 												);
 											})()}
-											className="w-full px-3 py-4  bg-white text-lg border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+											className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 										/>
 									</div>
 								</div>
 
 								<div className="bg-gray-50 p-4 rounded-lg">
-									<label className="block text-sm font-medium text-gray-700 mb-1.5">
+									<label className="block text-base font-medium text-gray-700 mb-1.5">
 										Total price
 									</label>
 									<input
@@ -273,7 +273,7 @@ function ProductModal({ product, onClose }) {
 											},
 										)}
 										readOnly
-										className="w-full px-3 py-4 bg-white text-xl font-semibold border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+										className="w-full px-3 py-4 bg-white text-2xl font-semibold border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 									/>
 								</div>
 							</div>
@@ -281,7 +281,7 @@ function ProductModal({ product, onClose }) {
 							<div className="flex justify-end pt-4">
 								<button
 									type="submit"
-									className="px-6 py-2.5 bg-green-600 text-white text-base font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
+									className="px-6 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
 								>
 									Save
 								</button>
@@ -309,14 +309,14 @@ function ProductModal({ product, onClose }) {
 									/>
 								</button>
 							</div>
-							<p className="text-red-500 text-sm mb-4">
+							<p className="text-base text-red-500 mb-4">
 								Сиз мавжуд захирадан каттароқ миқдорни
 								киритдингиз.
 							</p>
 							<div className="flex justify-end">
 								<button
 									onClick={() => setShowErrorModal(false)}
-									className="px-5 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+									className="px-5 py-2 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
 								>
 									OK
 								</button>
