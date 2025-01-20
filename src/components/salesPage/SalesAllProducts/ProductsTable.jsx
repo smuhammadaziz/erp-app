@@ -334,7 +334,7 @@ function ProductsTable({
 			>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-1.5 px-5 border-b border-r text-left w-1/2 min-w-[300px]">
+						<th className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px]">
 							Наименование, производитель
 						</th>
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[100px]">
