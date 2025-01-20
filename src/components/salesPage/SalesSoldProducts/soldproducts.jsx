@@ -76,6 +76,9 @@ function SalesSoldProducts() {
 								<th className="py-2 px-5 border-b text-center w-[10%]">
 									Total price
 								</th>
+								<th className="py-2 px-5 border-b text-center w-[10%]">
+									actions
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -139,7 +142,7 @@ function SalesSoldProducts() {
 												},
 											)}
 										</td>
-										{/* <td className="py-1 px-5 border-b text-center w-[10%]">
+										<td className="py-1 px-5 border-b text-center w-[10%]">
 											<button
 												// onClick={() =>
 												// 	handleDelete(
@@ -150,7 +153,7 @@ function SalesSoldProducts() {
 											>
 												<FiTrash2 />
 											</button>
-										</td> */}
+										</td>
 									</tr>
 								))
 							) : (

@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
+import { GrClearOption } from "react-icons/gr";
 
 function SearchBar({
 	searchQuery,
@@ -143,7 +144,7 @@ function SearchBar({
 					onClick={deleteAll}
 					disabled={isDeleting}
 				>
-					<FaTrash size={15} />
+					<GrClearOption size={15} />
 				</button>
 			</div>
 		</div>
