@@ -337,19 +337,19 @@ function ProductsTable({
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px]">
 							Наименование, производитель
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[100px]">
+						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
 							Валюта
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[80px]">
+						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
 							Остатка
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[120px]">
+						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px]">
 							Нархи, Валюта
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[120px]">
+						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px]">
 							Нархи
 						</th>
-						<th className="py-1.5 px-5 border-b text-center w-1/10 min-w-[100px]">
+						<th className="py-1.5 px-5 border-b text-center w-1/10 min-w-[120px]">
 							Склад
 						</th>
 					</tr>
@@ -425,7 +425,7 @@ function ProductsTable({
 										{product.name}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-center w-1/6 min-w-[100px] ${
+										className={`py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 2
 												? "bg-blue-500 text-white"
@@ -482,7 +482,7 @@ function ProductsTable({
 										})()}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-right w-1/6 min-w-[80px] ${
+										className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 3
 												? "bg-blue-500 text-white"
@@ -501,7 +501,7 @@ function ProductsTable({
 										{product.stock[0].qty}
 									</td>
 									<td
-										className={`py-1.5 px-5 border-b border-r text-right w-1/6 min-w-[120px] ${
+										className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 4
 												? "bg-blue-500 text-white"
@@ -563,7 +563,7 @@ function ProductsTable({
 										})()}
 									</td>
 									<td
-										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right w-1/6 min-w-[120px] ${
+										className={`py-0.5 px-5 border-b border-r text-base font-bold text-right w-1/10 min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 5
 												? "bg-blue-500 text-white"
@@ -643,7 +643,7 @@ function ProductsTable({
 										})()}
 									</td>
 									<td
-										className={`py-1 px-5 border-b text-left w-1/6 min-w-[100px] ${
+										className={`py-1 px-5 border-b text-left w-1/10 min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 6
 												? "bg-blue-500 text-white"
