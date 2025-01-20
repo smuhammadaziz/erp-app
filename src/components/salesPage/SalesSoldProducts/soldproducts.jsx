@@ -25,7 +25,7 @@ function SalesSoldProducts() {
 				setLoading(false);
 			}
 		};
-		const intervalId = setInterval(fetchProducts, 600);
+		const intervalId = setInterval(fetchProducts, 400);
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
 
