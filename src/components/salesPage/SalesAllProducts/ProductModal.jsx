@@ -278,7 +278,7 @@ function ProductModal({ product, onClose }) {
 			</div>
 
 			{showErrorModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm z-[100]">
+				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
 						<div className="p-6">
 							<div className="flex justify-between items-center mb-4">
