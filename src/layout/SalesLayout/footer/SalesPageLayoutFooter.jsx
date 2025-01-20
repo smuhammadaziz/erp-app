@@ -44,6 +44,51 @@ const SalesPageLayoutFooter = () => {
 		window.dispatchEvent(new Event("currencyChanged"));
 	};
 
+	const [priceTypeKeyData, setPriceTypeKeyData] = useState("");
+
+	useEffect(() => {
+		const storedPriceTypeKey =
+			localStorage.getItem("priceTypeKey") || prices[0]?.item_id;
+		setPriceTypeKeyData(storedPriceTypeKey);
+	}, [prices]);
+
+	const reorderedPrices = [
+		prices.find((price) => price.item_id === priceTypeKeyData),
+		...prices.filter((price) => price.item_id !== priceTypeKeyData),
+	].filter(Boolean);
+
+	const handleChangePriceType = (e) => {
+		const selectedPriceTypeKey = e.target.value;
+		const selectedOption = e.target.options[e.target.selectedIndex];
+
+		// Retrieve custom attributes from the selected option
+		const matchingProductByCurrencyRaw = selectedOption.getAttribute(
+			"data-product-by-currency",
+		);
+		const matchingFalseCurrencyValue = selectedOption.getAttribute(
+			"data-false-currency",
+		);
+
+		const matchingProductByCurrency = matchingProductByCurrencyRaw === "1";
+
+		// Update localStorage
+		localStorage.setItem("priceTypeKey", selectedPriceTypeKey);
+		localStorage.setItem(
+			"matchingProductByCurrency",
+			matchingProductByCurrency,
+		);
+		localStorage.setItem(
+			"falseCurrencyBoolean",
+			matchingFalseCurrencyValue,
+		);
+
+		// Dispatch custom event
+		window.dispatchEvent(new Event("priceTypeChanged"));
+
+		// Update state
+		setPriceTypeKeyData(selectedPriceTypeKey);
+	};
+
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
 
@@ -209,43 +254,11 @@ const SalesPageLayoutFooter = () => {
 					</div>
 					<div className="flex items-center gap-4 mx-2">
 						<select
-							onChange={(e) => {
-								const priceTypeKey = e.target.value;
-								const selectedOption =
-									e.target.options[e.target.selectedIndex];
-								const matchingProductByCurrencyRaw =
-									selectedOption.getAttribute(
-										"data-product-by-currency",
-									);
-
-								const matchingFalseCurrencyValue =
-									selectedOption.getAttribute(
-										"data-false-currency",
-									);
-
-								const matchingProductByCurrency =
-									matchingProductByCurrencyRaw === "1";
-
-								localStorage.setItem(
-									"priceTypeKey",
-									priceTypeKey,
-								);
-								localStorage.setItem(
-									"matchingProductByCurrency",
-									matchingProductByCurrency,
-								);
-								localStorage.setItem(
-									"falseCurrencyBoolean",
-									matchingFalseCurrencyValue,
-								);
-
-								window.dispatchEvent(
-									new Event("priceTypeChanged"),
-								);
-							}}
 							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
+							value={priceTypeKeyData}
+							onChange={handleChangePriceType}
 						>
-							{prices.map((price) => (
+							{reorderedPrices.map((price) => (
 								<option
 									key={price.item_id}
 									value={price.item_id}
