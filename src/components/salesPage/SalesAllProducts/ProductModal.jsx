@@ -172,30 +172,24 @@ function ProductModal({ product, onClose }) {
 	};
 
 	const handlePriceFocus = (e) => {
-		e.target.value = ""; // Clear the previous value on focus
-		setCustomPrice(null); // Reset custom price state
+		e.target.value = "";
+		setCustomPrice(null);
 	};
 
 	const handlePriceChange = (e) => {
-		const value = e.target.value.replace(/,/g, ""); // Remove commas
+		const value = e.target.value;
 		if (!isNaN(value)) {
-			const formattedValue = parseFloat(value).toLocaleString("ru-RU", {
-				minimumFractionDigits: 2,
-				maximumFractionDigits: 2,
-			});
-			setCustomPrice(value); // Set the raw number
-			e.target.value = formattedValue; // Format the input value
+			setCustomPrice(Number(value));
+			e.target.value = value;
 		}
 	};
 
 	const [changePriceValue, setChangePriceValue] = useState(() => {
-		// Retrieve the value from localStorage on initial render
 		const savedValue = localStorage.getItem("changePriceValue");
-		return savedValue === "true"; // Return true or false based on stored value
+		return savedValue === "true";
 	});
 
 	useEffect(() => {
-		// Whenever changePriceValue changes, save it to localStorage
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
 
@@ -294,6 +288,7 @@ function ProductModal({ product, onClose }) {
 														},
 													);
 												})()}
+												onFocus={handlePriceFocus}
 												disabled={!changePriceValue}
 												onChange={handlePriceChange} // Update total price on price change
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
