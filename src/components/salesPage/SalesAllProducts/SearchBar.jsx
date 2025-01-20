@@ -124,7 +124,7 @@ function SearchBar({
 				<input
 					ref={searchInputRef}
 					type="text"
-					placeholder="Scan QR code or search products..."
+					placeholder="поиск..."
 					value={searchQuery}
 					onChange={handleSearchChange}
 					onFocus={handleFocus}
