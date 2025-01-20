@@ -24,6 +24,26 @@ const SalesPageLayoutFooter = () => {
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 	const navigate = useNavigate();
 
+	const [currencyKey, setCurrencyKey] = useState("");
+
+	useEffect(() => {
+		const storedCurrencyKey =
+			localStorage.getItem("currencyKey") || currencies[0]?.item_id;
+		setCurrencyKey(storedCurrencyKey);
+	}, [currencies]);
+
+	const reorderedCurrencies = [
+		currencies.find((currency) => currency.item_id === currencyKey),
+		...currencies.filter((currency) => currency.item_id !== currencyKey),
+	].filter(Boolean);
+
+	const handleChange = (e) => {
+		const selectedCurrency = e.target.value;
+		setCurrencyKey(selectedCurrency);
+		localStorage.setItem("currencyKey", selectedCurrency);
+		window.dispatchEvent(new Event("currencyChanged"));
+	};
+
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
 
@@ -241,17 +261,10 @@ const SalesPageLayoutFooter = () => {
 
 						<select
 							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
-							onChange={(e) => {
-								localStorage.setItem(
-									"currencyKey",
-									e.target.value,
-								);
-								window.dispatchEvent(
-									new Event("currencyChanged"),
-								);
-							}}
+							value={currencyKey}
+							onChange={handleChange}
 						>
-							{currencies.map((currency) => (
+							{reorderedCurrencies.map((currency) => (
 								<option
 									key={currency.item_id}
 									value={currency.item_id}
