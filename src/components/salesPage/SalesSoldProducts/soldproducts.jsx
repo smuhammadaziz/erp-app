@@ -98,7 +98,7 @@ function SalesSoldProducts() {
 							) : products.length > 0 ? (
 								products.map((product) => (
 									<tr
-										key={product.product_id}
+										key={product.id}
 										className="text-gray-800 text-md group relative hover:bg-gray-50"
 									>
 										<td
