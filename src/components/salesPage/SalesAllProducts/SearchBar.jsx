@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import { GrClearOption } from "react-icons/gr";
+import nodeUrl from "../../../links";
 
 function SearchBar({
 	searchQuery,
@@ -64,29 +65,6 @@ function SearchBar({
 		}
 	};
 
-	const deleteAll = async () => {
-		try {
-			setIsDeleting(true);
-			const response = await fetch(
-				"http://localhost:5000/api/delete/all",
-				{
-					method: "DELETE",
-				},
-			);
-			if (response.ok) {
-				setSearchQuery("");
-				setIsSelectionEnabled(false);
-				setSelectedRow(null);
-			} else {
-				console.error("Failed to delete all items.");
-			}
-		} catch (error) {
-			console.error("Error deleting all items:", error);
-		} finally {
-			setIsDeleting(false);
-		}
-	};
-
 	const clearSearch = () => {
 		setSearchQuery("");
 		setIsSelectionEnabled(false);
@@ -109,6 +87,35 @@ function SearchBar({
 		setTimeout(() => {
 			searchInputRef.current?.select();
 		}, 50);
+	};
+
+	const deleteAllProducts = async () => {
+		const salesId = localStorage.getItem("sales_id");
+		if (!salesId) {
+			alert("Sales ID not found in local storage!");
+			return;
+		}
+
+		setIsDeleting(true);
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/sales/${salesId}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				console.log("removed");
+			} else {
+				console.log("no item to remove");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		} finally {
+			setIsDeleting(false);
+		}
 	};
 
 	return (
@@ -141,7 +148,7 @@ function SearchBar({
 							? "bg-gray-400 cursor-not-allowed"
 							: "bg-red-600 hover:bg-red-700"
 					} text-white p-2 rounded-lg transition duration-300`}
-					onClick={deleteAll}
+					onClick={deleteAllProducts}
 					disabled={isDeleting}
 				>
 					<GrClearOption size={15} />
