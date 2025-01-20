@@ -95,13 +95,15 @@ function SalesPageLayoutHeader() {
 		}
 	};
 
+	const basicUsername = localStorage.getItem("userType");
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
 				<div className="flex items-center gap-4 pr-5">
 					<span className="text-gray-600 text-lg flex items-center gap-2">
 						<FaUserAlt className="text-xl" />
-						<span className="font-medium">Manager</span>
+						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
 				<div className="flex items-center">
