@@ -10,13 +10,11 @@ const ChangePrice = ({
 	setTempSettings,
 }) => {
 	const [changePriceValue, setChangePriceValue] = useState(() => {
-		// Retrieve the value from localStorage on initial render
 		const savedValue = localStorage.getItem("changePriceValue");
-		return savedValue === "true"; // Return true or false based on stored value
+		return savedValue === "true";
 	});
 
 	useEffect(() => {
-		// Whenever changePriceValue changes, save it to localStorage
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
 
