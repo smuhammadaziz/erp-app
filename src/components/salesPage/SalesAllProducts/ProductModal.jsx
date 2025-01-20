@@ -95,6 +95,8 @@ function ProductModal({ product, onClose }) {
 		}
 	};
 
+	const [priceExactValue, setPriceExactValue] = useState("");
+
 	const convertedPrice = convertPrice(matchingPrice.sale);
 
 	const totalPrice = Number(quantity) * Number(convertedPrice);
@@ -168,6 +170,17 @@ function ProductModal({ product, onClose }) {
 			setQuantity(0);
 		}
 	};
+
+	const [changePriceValue, setChangePriceValue] = useState(() => {
+		// Retrieve the value from localStorage on initial render
+		const savedValue = localStorage.getItem("changePriceValue");
+		return savedValue === "true"; // Return true or false based on stored value
+	});
+
+	useEffect(() => {
+		// Whenever changePriceValue changes, save it to localStorage
+		localStorage.setItem("changePriceValue", changePriceValue);
+	}, [changePriceValue]);
 
 	return (
 		<>
@@ -255,7 +268,7 @@ function ProductModal({ product, onClose }) {
 											</label>
 											<input
 												type="text"
-												value={(() => {
+												defaultValue={(() => {
 													return convertedPrice.toLocaleString(
 														"ru-RU",
 														{
@@ -264,6 +277,7 @@ function ProductModal({ product, onClose }) {
 														},
 													);
 												})()}
+												disabled={!changePriceValue}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
 										</div>
