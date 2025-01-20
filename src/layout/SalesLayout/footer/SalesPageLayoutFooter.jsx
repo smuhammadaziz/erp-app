@@ -7,6 +7,7 @@ import {
 	FaPalette,
 	FaLanguage,
 	FaTimes,
+	FaMoneyBill,
 } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 import SettingsPanel from "./SettingsPanel";
@@ -15,6 +16,7 @@ import ThemeSettingsModal from "./ThemeSettingsModal";
 import LanguageSettingsModal from "./LanguageSettingsModal";
 import { NavLink, useNavigate } from "react-router-dom";
 import nodeUrl from "../../../links";
+import ChangePrice from "./ChangePrice";
 
 const SalesPageLayoutFooter = () => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -61,7 +63,6 @@ const SalesPageLayoutFooter = () => {
 		const selectedPriceTypeKey = e.target.value;
 		const selectedOption = e.target.options[e.target.selectedIndex];
 
-		// Retrieve custom attributes from the selected option
 		const matchingProductByCurrencyRaw = selectedOption.getAttribute(
 			"data-product-by-currency",
 		);
@@ -71,7 +72,6 @@ const SalesPageLayoutFooter = () => {
 
 		const matchingProductByCurrency = matchingProductByCurrencyRaw === "1";
 
-		// Update localStorage
 		localStorage.setItem("priceTypeKey", selectedPriceTypeKey);
 		localStorage.setItem(
 			"matchingProductByCurrency",
@@ -82,10 +82,8 @@ const SalesPageLayoutFooter = () => {
 			matchingFalseCurrencyValue,
 		);
 
-		// Dispatch custom event
 		window.dispatchEvent(new Event("priceTypeChanged"));
 
-		// Update state
 		setPriceTypeKeyData(selectedPriceTypeKey);
 	};
 
@@ -129,6 +127,12 @@ const SalesPageLayoutFooter = () => {
 			label: "Language",
 			description: "Change interface language",
 			onClick: () => openModal("language"),
+		},
+		{
+			icon: <FaMoneyBill />,
+			label: "Price",
+			description: "Change Price",
+			onClick: () => openModal("changePrice"),
 		},
 	];
 
@@ -233,9 +237,6 @@ const SalesPageLayoutFooter = () => {
 			? `${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`
 			: "- = -";
 
-	// productByCurrency - true bosa tovarni valyutasi
-	// productByCurrency - false bosa price_type ichidagi currency
-
 	return (
 		<>
 			<div className="salesfooter bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative">
@@ -329,6 +330,13 @@ const SalesPageLayoutFooter = () => {
 				isOpen={activeModal === "language"}
 				onClose={closeModal}
 				onSave={() => saveSettings("language")}
+				tempSettings={tempSettings}
+				setTempSettings={setTempSettings}
+			/>
+			<ChangePrice
+				isOpen={activeModal === "changePrice"}
+				onClose={closeModal}
+				onSave={() => saveSettings("changePrice")}
 				tempSettings={tempSettings}
 				setTempSettings={setTempSettings}
 			/>
