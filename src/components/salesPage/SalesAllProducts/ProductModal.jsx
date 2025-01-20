@@ -4,6 +4,7 @@ import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
 	const [quantity, setQuantity] = useState(0);
+	const [customPrice, setCustomPrice] = useState(null);
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [showEmpty, setShowEmpty] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
@@ -95,9 +96,8 @@ function ProductModal({ product, onClose }) {
 		}
 	};
 
-	const [priceExactValue, setPriceExactValue] = useState("");
-
-	const convertedPrice = convertPrice(matchingPrice.sale);
+	const convertedPrice =
+		customPrice !== null ? customPrice : convertPrice(matchingPrice.sale);
 
 	const totalPrice = Number(quantity) * Number(convertedPrice);
 
@@ -168,6 +168,23 @@ function ProductModal({ product, onClose }) {
 	const handleBlur = (e) => {
 		if (e.target.value === "") {
 			setQuantity(0);
+		}
+	};
+
+	const handlePriceFocus = (e) => {
+		e.target.value = ""; // Clear the previous value on focus
+		setCustomPrice(null); // Reset custom price state
+	};
+
+	const handlePriceChange = (e) => {
+		const value = e.target.value.replace(/,/g, ""); // Remove commas
+		if (!isNaN(value)) {
+			const formattedValue = parseFloat(value).toLocaleString("ru-RU", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			});
+			setCustomPrice(value); // Set the raw number
+			e.target.value = formattedValue; // Format the input value
 		}
 	};
 
@@ -278,6 +295,7 @@ function ProductModal({ product, onClose }) {
 													);
 												})()}
 												disabled={!changePriceValue}
+												onChange={handlePriceChange} // Update total price on price change
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
 										</div>
