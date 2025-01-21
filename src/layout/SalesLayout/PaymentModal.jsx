@@ -15,7 +15,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 text-black flex items-center justify-center p-4 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-2xl shadow-xl">
-				{/* Header */}
 				<div className="p-3 border-b flex justify-between items-center">
 					<h2 className="text-lg text-black font-semibold">
 						Payment
@@ -30,7 +29,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 
 				{/* Content */}
 				<div className="p-4 space-y-4">
-					{/* Total Amount Display */}
 					<div className="grid grid-cols-2 gap-3">
 						<div className="bg-green-50 p-3 rounded-lg">
 							<div className="text-green-700 text-xs font-medium">
@@ -50,9 +48,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 						</div>
 					</div>
 
-					{/* Payment Methods */}
 					<div className="space-y-3">
-						{/* Cash Payment */}
 						<div className="border rounded-lg p-2">
 							<div className="flex items-center gap-2 mb-1">
 								<FaMoneyBillWave className="text-green-600 w-4 h-4" />
@@ -70,7 +66,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 							/>
 						</div>
 
-						{/* Card Payment */}
 						<div className="border rounded-lg p-2">
 							<div className="flex items-center gap-2 mb-1">
 								<BsCreditCard2Front className="text-blue-600 w-4 h-4" />
@@ -88,7 +83,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 							/>
 						</div>
 
-						{/* Discount Card */}
 						<div className="border rounded-lg p-2">
 							<div className="flex items-center gap-2 mb-1">
 								<MdDiscount className="text-purple-600 w-4 h-4" />
@@ -107,7 +101,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 						</div>
 					</div>
 
-					{/* Change/Balance */}
 					<div className="bg-gray-50 p-3 rounded-lg">
 						<div className="text-gray-700 text-xs font-medium">
 							Change
@@ -122,7 +115,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 					</div>
 				</div>
 
-				{/* Footer */}
 				<div className="border-t p-3 flex gap-3">
 					<button
 						onClick={onClose}
