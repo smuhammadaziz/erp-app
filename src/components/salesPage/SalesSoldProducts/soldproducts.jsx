@@ -10,6 +10,8 @@ function SalesSoldProducts() {
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedRowId, setSelectedRowId] = useState(null);
+	const [selectedIndex, setSelectedIndex] = useState(-1);
+	const tableRef = React.useRef(null);
 	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
@@ -32,6 +34,52 @@ function SalesSoldProducts() {
 		const intervalId = setInterval(fetchProducts, 400);
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
+
+	// Function to scroll selected row into view
+	const scrollToSelectedRow = (rowId) => {
+		if (!tableRef.current) return;
+		const selectedRow = tableRef.current.querySelector(
+			`tr[data-id="${rowId}"]`,
+		);
+		if (selectedRow) {
+			selectedRow.scrollIntoView({
+				block: "nearest",
+				behavior: "smooth",
+			});
+		}
+	};
+
+	// Handle keyboard navigation
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (products.length === 0) return;
+
+			if (e.key === "ArrowUp") {
+				e.preventDefault();
+				setSelectedIndex((prevIndex) => {
+					const newIndex =
+						prevIndex <= 0 ? products.length - 1 : prevIndex - 1;
+					const newId = products[newIndex].id;
+					setSelectedRowId(newId);
+					setTimeout(() => scrollToSelectedRow(newId), 0);
+					return newIndex;
+				});
+			} else if (e.key === "ArrowDown") {
+				e.preventDefault();
+				setSelectedIndex((prevIndex) => {
+					const newIndex =
+						prevIndex === products.length - 1 ? 0 : prevIndex + 1;
+					const newId = products[newIndex].id;
+					setSelectedRowId(newId);
+					setTimeout(() => scrollToSelectedRow(newId), 0);
+					return newIndex;
+				});
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [products]);
 
 	const deleteAllProducts = async (product_id) => {
 		const salesId = localStorage.getItem("sales_id");
@@ -69,13 +117,16 @@ function SalesSoldProducts() {
 			<div className="py-1 h-[33vh]">
 				<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 					<div className="overflow-x-auto overflow-y-auto flex-grow">
-						<table className="min-w-full bg-white border border-gray-200">
-							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
+						<table
+							ref={tableRef}
+							className="min-w-full bg-white border border-gray-200"
+						>
+							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-[100]">
 								<tr className="text-gray-700 uppercase text-xs">
-									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[15%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[500px]">
 										Наименование, производитель
 									</th>
-									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[10%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[50px]">
 										Сони
 									</th>
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[120px]">
@@ -109,14 +160,22 @@ function SalesSoldProducts() {
 									products.map((product) => (
 										<tr
 											key={product.id}
+											data-id={product.id}
 											className={`text-gray-800 text-md group relative cursor-pointer active:bg-gray-200 ${
 												selectedRowId === product.id
 													? "bg-blue-500 text-white hover:bg-blue-600"
 													: "hover:bg-gray-50"
 											}`}
-											onClick={() =>
-												setSelectedRowId(product.id)
-											}
+											onClick={() => {
+												setSelectedRowId(product.id);
+												const index =
+													products.findIndex(
+														(p) =>
+															p.id === product.id,
+													);
+												setSelectedIndex(index);
+												scrollToSelectedRow(product.id);
+											}}
 											onDoubleClick={() => {
 												setSelectedProduct(product);
 												setIsModalOpen(true);
