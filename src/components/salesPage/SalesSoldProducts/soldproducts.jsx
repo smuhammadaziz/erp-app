@@ -71,16 +71,16 @@ function SalesSoldProducts() {
 						<table className="min-w-full bg-white border border-gray-200">
 							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-10">
 								<tr className="text-gray-700 uppercase text-xs">
-									<th className="py-2 px-5 border-b text-left w-[15%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[15%]">
 										Наименование, производитель
 									</th>
-									<th className="py-2 px-5 border-b text-center w-[10%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[10%]">
 										Сони
 									</th>
-									<th className="py-2 px-5 border-b text-center w-[15%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[15%]">
 										Нархи
 									</th>
-									<th className="py-2 px-5 border-b text-center w-[15%]">
+									<th className="py-2 px-5 border-b border-gray-200 text-center w-[15%]">
 										Сумма
 									</th>
 								</tr>
@@ -115,19 +115,19 @@ function SalesSoldProducts() {
 											}}
 										>
 											<td
-												className="py-1 px-5 border-b text-left w-[50%]"
+												className="py-1 px-5 border-b border-r border-gray-200 text-left w-[50%]"
 												title={product.product_name}
 											>
 												{product.product_name}
 											</td>
 											<td
-												className="py-1 px-5 border-b text-center w-[10%]"
+												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
 												title={product.soni}
 											>
 												{product.soni}
 											</td>
 											<td
-												className="py-1 px-5 border-b text-center w-[10%]"
+												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
 												title={product.narxi}
 											>
 												{product.narxi.toLocaleString(
@@ -139,7 +139,7 @@ function SalesSoldProducts() {
 												)}
 											</td>
 											<td
-												className="py-1 px-5 border-b text-center w-[25%] relative"
+												className="py-1 px-5 border-b border-gray-200 text-center w-[25%] relative"
 												title={product.summa}
 											>
 												<span>
