@@ -3,8 +3,8 @@ import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
 function ProductModal({ product, onClose }) {
-	const [quantity, setQuantity] = useState(0);
-	const [customPrice, setCustomPrice] = useState(null);
+	const [quantity, setQuantity] = useState(product?.soni || 0);
+	const [customPrice, setCustomPrice] = useState(product?.narxi || null);
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [showEmpty, setShowEmpty] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
@@ -176,11 +176,17 @@ function ProductModal({ product, onClose }) {
 		setCustomPrice(null);
 	};
 
+	const handleQuantityChange = (e) => {
+		const value = e.target.value;
+		if (!isNaN(value)) {
+			setQuantity(value);
+		}
+	};
+
 	const handlePriceChange = (e) => {
 		const value = e.target.value;
 		if (!isNaN(value)) {
 			setCustomPrice(Number(value));
-			e.target.value = value;
 		}
 	};
 
@@ -199,16 +205,16 @@ function ProductModal({ product, onClose }) {
 				<div className="bg-white w-[730px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
 						{/* <div className="flex justify-between items-center mb-4">
-							<h2 className="text-2xl font-bold text-gray-800">
-								hello
-							</h2>
-							<button
-								onClick={onClose}
-								className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
-							>
-								<MdClear size={24} className="text-gray-500" />
-							</button>
-						</div> */}
+              <h2 className="text-2xl font-bold text-gray-800">
+                hello
+              </h2>
+              <button
+                onClick={onClose}
+                className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
+              >
+                <MdClear size={24} className="text-gray-500" />
+              </button>
+            </div> */}
 
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="grid grid-cols-1 gap-2">
@@ -265,12 +271,10 @@ function ProductModal({ product, onClose }) {
 											</label>
 											<input
 												type="number"
-												value={product.soni}
+												value={quantity}
 												onFocus={handleFocus}
 												onBlur={handleBlur}
-												onChange={(e) =>
-													setQuantity(e.target.value)
-												}
+												onChange={handleQuantityChange}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
 										</div>
@@ -283,12 +287,13 @@ function ProductModal({ product, onClose }) {
 											</label>
 											<input
 												type="text"
-												defaultValue={(() => {
-													return product.narxi;
-												})()}
+												value={
+													customPrice !== null
+														? customPrice
+														: convertedPrice
+												}
 												onFocus={handlePriceFocus}
-												disabled={!changePriceValue}
-												onChange={handlePriceChange} // Update total price on price change
+												onChange={handlePriceChange}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
 										</div>
