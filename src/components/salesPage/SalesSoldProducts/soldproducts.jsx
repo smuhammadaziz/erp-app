@@ -9,6 +9,7 @@ function SalesSoldProducts() {
 	const [error, setError] = useState(null);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedRowId, setSelectedRowId] = useState(null);
 	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
@@ -108,7 +109,14 @@ function SalesSoldProducts() {
 									products.map((product) => (
 										<tr
 											key={product.id}
-											className="text-gray-800 text-md group relative hover:bg-gray-50 cursor-pointer active:bg-gray-200"
+											className={`text-gray-800 text-md group relative cursor-pointer active:bg-gray-200 ${
+												selectedRowId === product.id
+													? "bg-blue-500 text-white hover:bg-blue-600"
+													: "hover:bg-gray-50"
+											}`}
+											onClick={() =>
+												setSelectedRowId(product.id)
+											}
 											onDoubleClick={() => {
 												setSelectedProduct(product);
 												setIsModalOpen(true);
@@ -194,3 +202,4 @@ function SalesSoldProducts() {
 }
 
 export default SalesSoldProducts;
+
