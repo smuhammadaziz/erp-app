@@ -1,117 +1,167 @@
 import React, { useState } from "react";
-import { FaRegComment } from "react-icons/fa";
-import { IoTrashOutline } from "react-icons/io5";
-import { MdMarkChatRead } from "react-icons/md";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaUnlockAlt } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import SectionContainer from "./SectionContainer";
 
 const MessageNotifications = () => {
-	const [notifications, setNotifications] = useState([
-		{
-			id: 1,
-			sender: "John Doe",
-			preview: "Hey, are we still meeting today?",
-			time: "2m",
-			read: false,
-			avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-		},
-		{
-			id: 2,
-			sender: "Alice Smith",
-			preview: "Project report is ready for review.",
-			time: "15m",
-			read: false,
-			avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alice",
-		},
-		{
-			id: 3,
-			sender: "Marketing Team",
-			preview: "Weekly update attached.",
-			time: "1h",
-			read: true,
-			avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marketing",
-		},
-	]);
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
+	const [status, setStatus] = useState(null);
+	const [currentModal, setCurrentModal] = useState(null);
 
-	const handleDeleteNotification = (id) => {
-		setNotifications(notifications.filter((notif) => notif.id !== id));
-	};
+	// Get localStorage values
+	const userPassword = localStorage.getItem("userPassword");
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
+	const userType = localStorage.getItem("userType");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
 
-	const handleMarkAsRead = (id) => {
-		setNotifications(
-			notifications.map((notif) =>
-				notif.id === id ? { ...notif, read: true } : notif,
-			),
-		);
+	const handleRecovery = async () => {
+		if (password !== userPassword) {
+			setError("Incorrect password. Please try again.");
+			return;
+		}
+
+		setError("");
+		setLoading(true);
+		setStatus(null);
+		setCurrentModal("loading"); // Show loading modal
+
+		const authHeader =
+			"Basic " +
+			Buffer.from(`${userType}:${userPassword}`).toString("base64");
+
+		const apiBody = {
+			ksb_id: ksbId,
+			device_id: deviceId,
+		};
+
+		try {
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/recovery/ksb?text=pos`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authHeader,
+					},
+					body: JSON.stringify(apiBody),
+				},
+			);
+
+			const result = await response.json();
+			setLoading(false);
+			setStatus(
+				result.status === "successfully"
+					? "Recovery successful! Your data has been restored."
+					: "Recovery failed. Please try again.",
+			);
+			setCurrentModal("result"); // Show result modal
+		} catch (err) {
+			setLoading(false);
+			setStatus("An error occurred while processing your request.");
+			setCurrentModal("result"); // Show result modal
+		}
 	};
 
 	return (
-		<SectionContainer title="Notifications">
-			<div className="mx-auto py-4 space-y-4">
-				{notifications.map((notification) => (
-					<div
-						key={notification.id}
-						className={`
-				w-full bg-white rounded-xl shadow-md p-4 flex items-center space-x-4
-				border transition-all duration-300 ease-in-out
-				${
-					!notification.read
-						? "border-blue-100 hover:border-blue-200 bg-blue-50/30"
-						: "border-gray-100 hover:border-gray-200"
-				}
-			`}
-					>
-						<img
-							src={notification.avatar}
-							alt={notification.sender}
-							className="w-12 h-12 rounded-full object-cover"
-						/>
+		<SectionContainer title={"Recovery Data"}>
+			<div className="flex flex-col">
+				<h2 className="text-xl font-semibold mb-4">
+					Recover Your Lost Information
+				</h2>
+				<button
+					onClick={() => setCurrentModal("password")}
+					className="px-4 py-2 bg-blue-600 w-[300px] hover:bg-blue-700 text-white rounded-lg shadow-md transition-all duration-300 text-sm"
+				>
+					Recover Data
+				</button>
 
-						<div className="flex-grow">
-							<div className="flex justify-between items-center mb-1">
-								<h3
-									className={`
-					font-semibold text-sm 
-					${!notification.read ? "text-gray-900" : "text-gray-600"}
-				`}
-								>
-									{notification.sender}
-								</h3>
-								<span className="text-xs text-gray-400">
-									{notification.time}
-								</span>
-							</div>
-							<p className="text-xs text-gray-500 truncate">
-								{notification.preview}
-							</p>
-						</div>
-
-						<div className="flex space-x-2">
-							{!notification.read && (
-								<button
-									onClick={() =>
-										handleMarkAsRead(notification.id)
-									}
-									className="text-green-500 hover:bg-green-50 p-2 rounded-full transition-colors"
-								>
-									<MdMarkChatRead className="w-5 h-5" />
-								</button>
-							)}
+				{currentModal === "password" && (
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
 							<button
-								onClick={() =>
-									handleDeleteNotification(notification.id)
-								}
-								className="text-red-500 hover:bg-red-50 p-2 rounded-full transition-colors"
+								className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+								onClick={() => setCurrentModal(null)}
 							>
-								<IoTrashOutline className="w-5 h-5" />
+								<IoClose className="text-2xl" />
 							</button>
+							<h2 className="text-2xl font-semibold text-center text-black mb-6">
+								Recover Your Data
+							</h2>
+							<p className="text-sm text-gray-700 text-center mb-6">
+								Enter your password below to recover your
+								information.
+							</p>
+							<div className="flex flex-col space-y-4">
+								<input
+									type="password"
+									placeholder="Enter your password"
+									value={password}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
+									className="w-full px-4 py-2 rounded-lg bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+								/>
+								{error && (
+									<p className="text-red-600 text-center text-sm">
+										{error}
+									</p>
+								)}
+								<button
+									onClick={handleRecovery}
+									className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white shadow-lg transition-all duration-300"
+								>
+									<FaUnlockAlt className="inline mr-2" />
+									Recover Now
+								</button>
+							</div>
 						</div>
 					</div>
-				))}
+				)}
 
-				{notifications.length === 0 && (
-					<div className="text-center py-8 text-gray-400 bg-white rounded-xl shadow-md">
-						<FaRegComment className="mx-auto w-12 h-12 text-gray-300 mb-4" />
-						<p>No notifications</p>
+				{currentModal === "loading" && (
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
+							<AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl mb-4" />
+							<p className="text-black text-center text-sm">
+								Processing your request...
+							</p>
+						</div>
+					</div>
+				)}
+
+				{currentModal === "result" && (
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
+							<button
+								className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+								onClick={() => setCurrentModal(null)}
+							>
+								<IoClose className="text-2xl" />
+							</button>
+							<h2 className="text-2xl font-semibold text-center text-black mb-6">
+								Recovery Status
+							</h2>
+							<p
+								className={`text-center mb-6 ${
+									status.includes("successful")
+										? "text-green-600"
+										: "text-red-600"
+								}`}
+							>
+								{status}
+							</p>
+							<button
+								onClick={() => setCurrentModal(null)}
+								className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white shadow-lg transition-all duration-300"
+							>
+								Close
+							</button>
+						</div>
 					</div>
 				)}
 			</div>
