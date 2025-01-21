@@ -1,0 +1,49 @@
+{
+	"sales": [
+		{
+			"details": [
+				{
+					"document": "698316f5-aa40-49fd-a38d-819f3ab77e5a",
+					"client": "00000000-0000-0000-0000-000000000000",
+					"warehouse": "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
+					"price_type": "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
+					"rate": 12700,
+					"currency": "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
+					"discount": 5,
+					"comment": "nimadir",
+					"below_cost": false
+				}
+			],
+			"products": [
+				{
+					"product": "176713b9-8e0e-11ef-bb1b-581122da5a09",
+					"warehouse": "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
+					"currency": "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
+					"quantity": 5,
+					"price": 5000,
+					"sum": 25000
+				},
+				{
+					"product": "176713b9-8e0e-11ef-bb1b-581122da5a09",
+					"warehouse": "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
+					"currency": "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
+					"quantity": 10,
+					"price": 2000,
+					"sum": 20000
+				}
+			],
+			"payments": [
+				{
+					"cash": "00000000-0000-0000-0000-000000000000",
+					"currency": "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
+					"sum": 35000
+				},
+				{
+					"cash": "00000000-0000-0000-0000-000000000000",
+					"currency": "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
+					"sum": 10000
+				}
+			]
+		}
+	]
+}
