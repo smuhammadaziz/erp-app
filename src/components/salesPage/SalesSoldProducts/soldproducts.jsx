@@ -77,10 +77,10 @@ function SalesSoldProducts() {
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[10%]">
 										Сони
 									</th>
-									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[15%]">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[120px]">
 										Нархи
 									</th>
-									<th className="py-2 px-5 border-b border-gray-200 text-center w-[15%]">
+									<th className="py-2 px-5 border-b border-gray-200 text-center w-[120px]">
 										Сумма
 									</th>
 								</tr>
@@ -127,7 +127,7 @@ function SalesSoldProducts() {
 												{product.soni}
 											</td>
 											<td
-												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
+												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[120px]"
 												title={product.narxi}
 											>
 												{product.narxi.toLocaleString(
@@ -139,7 +139,7 @@ function SalesSoldProducts() {
 												)}
 											</td>
 											<td
-												className="py-1 px-5 border-b border-gray-200 text-center w-[25%] relative"
+												className="py-1 px-5 border-b border-gray-200 text-center w-[120px] relative"
 												title={product.summa}
 											>
 												<span>
