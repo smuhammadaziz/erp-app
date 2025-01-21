@@ -108,7 +108,7 @@ function SalesSoldProducts() {
 									products.map((product) => (
 										<tr
 											key={product.id}
-											className="text-gray-800 text-md group relative hover:bg-gray-50 cursor-pointer"
+											className="text-gray-800 text-md group relative hover:bg-gray-50 cursor-pointer active:bg-gray-200"
 											onDoubleClick={() => {
 												setSelectedProduct(product);
 												setIsModalOpen(true);
