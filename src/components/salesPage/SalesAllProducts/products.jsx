@@ -18,6 +18,9 @@ function SalesMainAllProducts() {
 	const [isSearching, setIsSearching] = useState(false);
 	const [page, setPage] = useState(1);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
+	const [mouseSelectedRow, setMouseSelectedRow] = useState(null);
+	const [tableClickedRow, setTableClickedRow] = useState(null);
+	const [clickedRow, setClickedRow] = useState(null);
 	const itemsPerPage = 50;
 
 	const tableRef = useRef(null);
@@ -99,12 +102,16 @@ function SalesMainAllProducts() {
 			setFilteredData(filtered);
 			setPage(1);
 			setDisplayedData(filtered.slice(0, itemsPerPage));
+			setMouseSelectedRow(null);
+			setTableClickedRow(null); // Clear clicked row
 		} else {
 			setIsSearching(false);
 			setFilteredData(originalData);
 			setPage(1);
 			setDisplayedData(originalData.slice(0, itemsPerPage));
 			setSelectedRow(null);
+			setMouseSelectedRow(null);
+			setTableClickedRow(null);
 			setIsSelectionEnabled(false);
 		}
 	}, [searchQuery, originalData]);
@@ -133,6 +140,8 @@ function SalesMainAllProducts() {
 			e.preventDefault();
 			setIsSelectionEnabled(true);
 			setSelectedRow(0);
+			setMouseSelectedRow(null);
+			setTableClickedRow(null);
 			return;
 		}
 
@@ -140,6 +149,8 @@ function SalesMainAllProducts() {
 
 		if (e.key === "ArrowDown") {
 			e.preventDefault();
+			setMouseSelectedRow(null); // Clear mouse selection
+			setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null
 					? 0
@@ -147,6 +158,8 @@ function SalesMainAllProducts() {
 			);
 		} else if (e.key === "ArrowUp") {
 			e.preventDefault();
+			setMouseSelectedRow(null); // Clear mouse selection
+			setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null ? null : Math.max(prev - 1, 0),
 			);
@@ -155,6 +168,8 @@ function SalesMainAllProducts() {
 		} else if (e.key === "Escape") {
 			setIsSelectionEnabled(false);
 			setSelectedRow(null);
+			setMouseSelectedRow(null);
+			setClickedRow(null);
 			setSearchQuery("");
 			searchInputRef.current?.focus();
 		}
@@ -232,6 +247,10 @@ function SalesMainAllProducts() {
 					error={error}
 					onLoadMore={loadMoreItems}
 					hasMore={displayedData.length < filteredData.length}
+					mouseSelectedRow={mouseSelectedRow}
+					setMouseSelectedRow={setMouseSelectedRow}
+					tableClickedRow={tableClickedRow}
+					setTableClickedRow={setTableClickedRow}
 				/>
 			</div>
 			{isModalOpen && selectedProduct && (

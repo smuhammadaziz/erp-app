@@ -13,6 +13,10 @@ function ProductsTable({
 	error,
 	onLoadMore,
 	hasMore,
+	mouseSelectedRow,
+	setMouseSelectedRow,
+	tableClickedRow, // Changed from clickedRow
+	setTableClickedRow,
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
@@ -382,19 +386,31 @@ function ProductsTable({
 									}
 									onClick={() => {
 										if (!isSelectionEnabled) {
-											setClickedRow(index);
+											setTableClickedRow(index);
 											setSelectedCell({
 												row: null,
 												col: null,
 											});
+											setSelectedRow(null);
+										} else {
+											setSelectedRow(null);
+											setTableClickedRow(null);
+											setSelectedCell({
+												row: null,
+												col: null,
+											});
+											setMouseSelectedRow(index);
 										}
 									}}
-									className={`text-gray-800 font-semibold cursor-pointer text-xs  transition-all duration-150 focus:outline-none ${
+									className={`text-gray-800 font-semibold cursor-pointer text-xs transition-all duration-150 focus:outline-none ${
 										selectedRow === index &&
-										isSelectionEnabled
+										isSelectionEnabled &&
+										!mouseSelectedRow
+											? "bg-blue-500 text-white"
+											: mouseSelectedRow === index
 											? "bg-blue-500 text-white"
 											: !isSelectionEnabled &&
-											  (clickedRow === index
+											  (tableClickedRow === index
 													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
 													: selectedCell.row === index
 													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
