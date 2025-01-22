@@ -63,8 +63,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							<label className="text-sm font-medium text-gray-700">
 								К Оплата
 							</label>
-							<div className="bg-green-50 p-4 rounded-md flex justify-center items-center">
-								<div className="font-semibold text-2xl text-gray-800">
+							<div className="bg-green-50 p-4 rounded-md flex items-center">
+								<div className="font-semibold text-left text-3xl text-gray-800">
 									{totalAmount.toLocaleString()}
 								</div>
 							</div>
@@ -74,8 +74,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							<label className="text-sm font-medium text-gray-700">
 								Скидка
 							</label>
-							<div className="bg-red-50 p-4 rounded-md flex justify-center items-center">
-								<div className="font-semibold text-2xl text-gray-800">
+							<div className="bg-red-50 p-4 rounded-md flex items-center">
+								<div className="font-semibold text-left text-3xl text-gray-800">
 									{discountAmount.toLocaleString()}
 								</div>
 							</div>
