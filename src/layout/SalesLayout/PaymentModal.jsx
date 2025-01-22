@@ -23,7 +23,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 				<div className="px-6 py-3 space-y-6">
 					<div className="grid grid-cols-12 gap-6">
-						{/* Payment Section */}
 						<div className="col-span-8">
 							<div className="text-green-700 text-sm font-medium">
 								К Оплата
@@ -41,7 +40,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							</div>
 						</div>
 
-						{/* Discount Section */}
 						<div className="col-span-4">
 							<div className="text-red-700 text-sm font-medium">
 								Скидка
