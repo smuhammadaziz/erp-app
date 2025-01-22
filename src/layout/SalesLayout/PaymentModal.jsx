@@ -25,9 +25,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
 					</button>
 				</div>
 
-				{/* Content Container */}
 				<div className="flex flex-col flex-1 min-h-0">
-					{/* Search Input - Fixed */}
 					<div className="p-4 bg-white z-10">
 						<input
 							type="text"
@@ -38,7 +36,6 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
 						/>
 					</div>
 
-					{/* Scrollable Client List */}
 					<div className="flex-1 overflow-y-auto px-4 pb-4">
 						<div className="space-y-2">
 							{filteredClients.map((client) => (
@@ -80,7 +77,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [discountAmount, setDiscountAmount] = useState(0);
 	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
 
-	// Sample client data - replace with your actual data
 	const clients = [
 		{ id: 1, name: "John Doe", email: "john@example.com" },
 		{ id: 2, name: "Jane Smith", email: "jane@example.com" },
@@ -91,7 +87,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
 		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
 		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
-		// Add more clients as needed
 	];
 
 	if (!isOpen) return null;
