@@ -1,99 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
+import nodeUrl from "../../links";
 
 // Client Search Modal Component
-const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
-	const [searchTerm, setSearchTerm] = useState("");
-
-	if (!isOpen) return null;
-
-	// Improved search logic
-	const filteredClients =
-		searchTerm.trim() === ""
-			? clients
-			: clients.filter(
-					(client) =>
-						client.name
-							.toLowerCase()
-							.includes(searchTerm.toLowerCase().trim()) ||
-						client.email
-							.toLowerCase()
-							.includes(searchTerm.toLowerCase().trim()),
-			  );
-
-	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
-			<div
-				className="bg-white rounded-lg w-[600px] shadow-xl flex flex-col"
-				style={{ height: "500px" }}
-			>
-				{/* Fixed Header */}
-				<div className="px-5 py-3 border-b flex justify-between items-center bg-white sticky top-0">
-					<h2 className="text-lg font-semibold">Select Client</h2>
-					<button
-						onClick={onClose}
-						className="p-1 rounded-full hover:bg-gray-100"
-					>
-						<IoClose className="w-5 h-5" />
-					</button>
-				</div>
-
-				{/* Fixed Search Input */}
-				<div className="px-4 pt-4 bg-white sticky top-0 z-10">
-					<div className="relative">
-						<input
-							type="text"
-							placeholder="Search clients..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
-						/>
-						<IoSearchOutline className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-					</div>
-				</div>
-
-				{/* Scrollable Content with Minimum Height */}
-				<div
-					className="flex-1 overflow-y-auto mt-4 px-4"
-					style={{ minHeight: "300px" }}
-				>
-					{filteredClients.length === 0 ? (
-						<div className="flex items-center justify-center h-full text-gray-500">
-							No clients found
-						</div>
-					) : (
-						filteredClients.map((client) => (
-							<div
-								key={client.id}
-								onClick={() => {
-									onSelect(client);
-									onClose();
-									setSearchTerm(""); // Reset search when selecting
-								}}
-								className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg border border-transparent hover:border-gray-200 mb-2"
-							>
-								<div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-									<span className="text-green-700 font-medium">
-										{client.name.charAt(0)}
-									</span>
-								</div>
-								<div className="min-w-0 flex-1">
-									<div className="font-medium truncate">
-										{client.name}
-									</div>
-									<div className="text-sm text-gray-500 truncate">
-										{client.email}
-									</div>
-								</div>
-							</div>
-						))
-					)}
-				</div>
-			</div>
-		</div>
-	);
-};
 
 const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
@@ -101,14 +11,34 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [cardAmount, setCardAmount] = useState(0);
 	const [discountAmount, setDiscountAmount] = useState(0);
 	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
+	const [customers, setCustomers] = useState([]);
 
-	const clients = [
-		{ id: 1, name: "John Doe", email: "john@example.com" },
-		{ id: 2, name: "Jane Smith", email: "jane@example.com" },
-		{ id: 3, name: "Bob Johnson", email: "bob@example.com" },
-		{ id: 4, name: "Alice Brown", email: "alice@example.com" },
-		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
-	];
+	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
+	const device_id = localStorage.getItem("device_id");
+
+	useEffect(() => {
+		const fetchCustomers = async () => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/get/client/${ksbIdNumber}/${device_id}`,
+				);
+				const result = await response.json();
+
+				// Ensure we're setting an array
+				setCustomers(Array.isArray(result.data) ? result.data : []);
+			} catch (error) {
+				console.error("Error fetching customers:", error);
+				setCustomers([]); // Set empty array on error
+			}
+		};
+
+		fetchCustomers();
+	}, []);
+
+	const handleClientSelect = (client) => {
+		setSelectedClient(client);
+		setIsClientSearchOpen(false);
+	};
 
 	if (!isOpen) return null;
 
@@ -306,8 +236,98 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 				isOpen={isClientSearchOpen}
 				onClose={() => setIsClientSearchOpen(false)}
 				onSelect={setSelectedClient}
-				clients={clients}
+				clients={customers}
 			/>
+		</div>
+	);
+};
+
+const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
+	const [searchTerm, setSearchTerm] = useState("");
+
+	if (!isOpen) return null;
+
+	const clientsArray = Array.isArray(clients) ? clients : [];
+
+	const filteredClients =
+		searchTerm.trim() === ""
+			? clientsArray
+			: clientsArray.filter(
+					(client) =>
+						client?.name
+							?.toLowerCase()
+							.includes(searchTerm.toLowerCase().trim()) ||
+						client?.phone_number
+							?.toLowerCase()
+							.includes(searchTerm.toLowerCase().trim()),
+			  );
+
+	return (
+		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
+			<div
+				className="bg-white rounded-lg w-[600px] shadow-xl flex flex-col"
+				style={{ height: "500px" }}
+			>
+				<div className="px-5 py-3 border-b flex justify-between items-center bg-white sticky top-0">
+					<h2 className="text-lg font-semibold">Select Client</h2>
+					<button
+						onClick={onClose}
+						className="p-1 rounded-full hover:bg-gray-100"
+					>
+						<IoClose className="w-5 h-5" />
+					</button>
+				</div>
+
+				<div className="px-4 pt-4 bg-white sticky top-0 z-10">
+					<div className="relative">
+						<input
+							type="text"
+							placeholder="Search clients..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"
+						/>
+						<IoSearchOutline className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+					</div>
+				</div>
+
+				<div
+					className="flex-1 overflow-y-auto mt-4 px-4"
+					style={{ minHeight: "300px" }}
+				>
+					{filteredClients.length === 0 ? (
+						<div className="flex items-center justify-center h-full text-gray-500">
+							No clients found
+						</div>
+					) : (
+						filteredClients.map((client) => (
+							<div
+								key={client.client_id}
+								onClick={() => {
+									onSelect(client);
+									onClose();
+									setSearchTerm("");
+								}}
+								className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg border border-transparent hover:border-gray-200 mb-2"
+							>
+								<div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+									<span className="text-green-700 font-medium">
+										{client.name.charAt(0)}
+									</span>
+								</div>
+								<div className="min-w-0 flex-1">
+									<div className="font-medium truncate">
+										{client.name}
+									</div>
+									<div className="text-sm text-gray-500 truncate">
+										{client.phone_number}
+									</div>
+								</div>
+							</div>
+						))
+					)}
+				</div>
+			</div>
 		</div>
 	);
 };
