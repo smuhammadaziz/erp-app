@@ -5,7 +5,7 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import { BsCreditCard2Front } from "react-icons/bs";
 import { MdDiscount } from "react-icons/md";
 
-const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
+const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [cashAmount, setCashAmount] = useState(totalAmount);
 	const [cardAmount, setCardAmount] = useState(0);
 	const [discountAmount, setDiscountAmount] = useState(0);
@@ -15,7 +15,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 text-black flex items-center justify-center p-4 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-2xl shadow-xl">
-				<div className="p-3 border-b flex justify-between items-center">
+				<div className="px-3 py-1 border-b flex justify-between items-center">
 					<h2 className="text-lg text-black font-semibold">
 						Payment
 					</h2>
@@ -27,23 +27,32 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 47500.0 }) => {
 					</button>
 				</div>
 
-				{/* Content */}
 				<div className="p-4 space-y-4">
 					<div className="grid grid-cols-2 gap-3">
-						<div className="bg-green-50 p-3 rounded-lg">
+						<div>
 							<div className="text-green-700 text-xs font-medium">
-								Total Amount
+								К Оплата
 							</div>
-							<div className="text-2xl font-bold text-green-800">
-								{totalAmount.toLocaleString()} UZS
+							<div className="bg-green-50 p-3 rounded-lg">
+								<div
+									className={`font-bold text-green-800 ${
+										totalAmount.toString().length > 10
+											? "text-2xl"
+											: "text-3xl"
+									}`}
+								>
+									{totalAmount.toLocaleString()}
+								</div>
 							</div>
 						</div>
-						<div className="bg-red-50 p-3 rounded-lg">
+						<div>
 							<div className="text-red-700 text-xs font-medium">
-								Discount
+								Скидка
 							</div>
-							<div className="text-2xl font-bold text-red-800">
-								{discountAmount.toLocaleString()} UZS
+							<div className="bg-red-50 p-3 rounded-lg">
+								<div className="text-3xl font-bold text-red-800">
+									{discountAmount.toLocaleString()}
+								</div>
 							</div>
 						</div>
 					</div>

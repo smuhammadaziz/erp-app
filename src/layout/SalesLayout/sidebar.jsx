@@ -86,7 +86,7 @@ function SalesPageLayoutSidebar() {
 			<PaymentModal
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
-				totalAmount={47500.0}
+				totalAmount={50000000000}
 			/>
 
 			{modalOpen && (
