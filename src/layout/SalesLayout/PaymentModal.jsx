@@ -21,13 +21,14 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</button>
 				</div>
 
-				<div className="px-6 py-1 space-y-6">
-					<div className="grid grid-cols-2 gap-6">
-						<div>
+				<div className="px-6 py-3 space-y-6">
+					<div className="grid grid-cols-12 gap-6">
+						{/* Payment Section */}
+						<div className="col-span-8">
 							<div className="text-green-700 text-sm font-medium">
 								К Оплата
 							</div>
-							<div className="bg-green-50 px-4 py-1 rounded-lg h-14 flex items-center justify-left">
+							<div className="bg-green-50 px-4 py-1 rounded-lg h-14 flex items-center">
 								<div
 									className={`font-bold text-green-800 ${
 										totalAmount.toString().length > 15
@@ -40,11 +41,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							</div>
 						</div>
 
-						<div>
+						{/* Discount Section */}
+						<div className="col-span-4">
 							<div className="text-red-700 text-sm font-medium">
 								Скидка
 							</div>
-							<div className="bg-red-50 px-4 py-1 rounded-lg h-14 flex items-center justify-left">
+							<div className="bg-red-50 px-4 py-1 rounded-lg h-14 flex items-center">
 								<div
 									className={`font-bold text-red-800 ${
 										discountAmount.toString().length > 15
@@ -99,13 +101,13 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 									onChange={(e) =>
 										setter(Number(e.target.value))
 									}
-									className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-lg"
+									className="flex-1 px-3 max-w-[390px] text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold"
 								/>
 							</div>
 						))}
 					</div>
 
-					<div className="flex items-start gap-6 p-4 border border-green-500 rounded-md bg-[#fdfbed]">
+					<div className="flex items-start gap-6 py-4 px-2 border border-green-500 rounded-md bg-[#fdfbed]">
 						<div className="space-y-4 w-2/3">
 							<div className="flex items-center">
 								<label className="w-40 text-lg font-medium text-gray-700">
@@ -146,18 +148,18 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</div>
 				</div>
 
-				<div className="border-t p-4 flex gap-4">
+				<div className=" p-4 flex gap-4 w-[500px] justify-right relative block items-center">
 					<button
 						onClick={onClose}
-						className="flex-1  block max-w-50 bg-green-500 text-white py-4 rounded-lg hover:bg-green-600 transition duration-200 text-lg"
+						className="flex-1 block max-w-40 bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition duration-200 text-lg"
 					>
-						Confirm Payment
+						OK
 					</button>
 					<button
 						onClick={onClose}
-						className="flex-1  block max-w-50 bg-red-500 text-white py-4 rounded-lg hover:bg-red-600 transition duration-200 text-lg"
+						className="flex-1 block max-w-40 bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition duration-200 text-lg"
 					>
-						Cancel
+						Отмена
 					</button>
 				</div>
 			</div>
