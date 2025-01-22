@@ -95,7 +95,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					<div className="space-y-2">
 						<div className="flex items-center gap-2 py-0">
 							<label className="w-40 text-lg font-medium">
-								Client:
+								Клиент:
 							</label>
 							<div className="flex-1 max-w-[390px] relative">
 								<input
@@ -106,7 +106,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 											: ""
 									}
 									readOnly
-									placeholder="Select a client"
+									placeholder="оддий харидор"
 									className="w-full px-3 text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold pr-12"
 								/>
 								<button
@@ -120,7 +120,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 						<div className="flex items-center gap-2 py-0">
 							<label className="w-40 text-lg font-medium">
-								K oplate:
+								К оплате:
 							</label>
 							<input
 								type="number"
@@ -134,7 +134,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 						<div className="flex items-center gap-2 py-0">
 							<label className="w-40 text-lg font-medium">
-								Card:
+								Наличные:
 							</label>
 							<input
 								type="number"
@@ -148,7 +148,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 						<div className="flex items-center gap-2 py-0">
 							<label className="w-40 text-lg font-medium">
-								Cash:
+								Пластик карта:
 							</label>
 							<input
 								type="number"
@@ -162,7 +162,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 						<div className="flex items-center gap-2 py-0">
 							<label className="w-40 text-lg font-medium">
-								Discount Card:
+								Дисконт карта:
 							</label>
 							<input
 								type="number"
