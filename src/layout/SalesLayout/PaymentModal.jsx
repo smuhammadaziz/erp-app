@@ -41,8 +41,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 	return (
 		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
-			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg p-6 transition-all duration-300 transform scale-95">
-				<div className="flex justify-between items-center mb-4 border-b pb-4">
+			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
+				<div className="flex justify-between items-center mb-4 border-b">
 					<h2 className="text-xl font-semibold text-gray-800">
 						Оплата
 					</h2>
@@ -172,7 +172,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</div>
 				</div>
 
-				<div className="flex gap-6 mt-8 justify-center items-center">
+				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						onClick={onClose}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
