@@ -9,18 +9,6 @@ import { FaExclamationTriangle } from "react-icons/fa";
 import PaymentModal from "./PaymentModal";
 
 function SalesPageLayoutSidebar() {
-	const [modalOpen, setModalOpen] = useState(false);
-	const [modalContent, setModalContent] = useState({
-		title: "",
-		message: "",
-		icon: null,
-		style: "",
-	});
-
-	const closeModal = () => {
-		setModalOpen(false);
-	};
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	return (
@@ -46,38 +34,6 @@ function SalesPageLayoutSidebar() {
 				onClose={() => setIsModalOpen(false)}
 				totalAmount={50000}
 			/>
-
-			{modalOpen && (
-				<div
-					className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-					onClick={closeModal}
-				>
-					<div
-						className={`max-w-sm w-full p-6 rounded-lg shadow-lg ${modalContent.style} relative`}
-						onClick={(e) => e.stopPropagation()}
-					>
-						<div className="text-center">
-							<div className="mb-4 mx-auto text-center justify-center block">
-								{modalContent.icon}
-							</div>
-							<h2 className="text-xl font-bold">
-								{modalContent.title}
-							</h2>
-							<p className="mt-2 text-sm">
-								{modalContent.message}
-							</p>
-						</div>
-						<div className="mt-6 text-center">
-							<button
-								onClick={closeModal}
-								className="bg-indigo-600 hover:bg-indigo-500 text-white px-10 py-2 rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400"
-							>
-								OK
-							</button>
-						</div>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 }
