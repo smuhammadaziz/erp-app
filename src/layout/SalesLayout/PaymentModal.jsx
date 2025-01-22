@@ -61,7 +61,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								К Оплата
 							</label>
 							<div className="bg-green-50 p-4 rounded-md flex items-center">
-								<div className="font-semibold text-left text-3xl text-gray-800">
+								<div className="font-bold text-left text-3xl text-gray-800">
 									{totalAmount.toLocaleString()}
 								</div>
 							</div>
@@ -72,7 +72,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								Скидка
 							</label>
 							<div className="bg-red-50 p-4 rounded-md flex items-center">
-								<div className="font-semibold text-left text-3xl text-gray-800">
+								<div className="font-bold text-left text-3xl text-gray-800">
 									{discountAmount.toLocaleString()}
 								</div>
 							</div>
@@ -81,10 +81,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 
 					<div className="space-y-4">
 						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/3 text-lg font-medium text-gray-700">
+							<label className="w-1/4 text-lg font-medium text-gray-700">
 								Клиент:
 							</label>
-							<div className="w-2/3 relative group">
+							<div className="w-3/4 relative group">
 								<input
 									type="text"
 									value={
@@ -112,7 +112,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 						</div>
 
 						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/3 text-lg font-medium text-gray-700">
+							<label className="w-1/4 text-lg font-medium text-gray-700">
 								К оплате:
 							</label>
 							<input
@@ -121,12 +121,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCashAmount(Number(e.target.value))
 								}
-								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+								className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 
 						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/3 text-lg font-medium text-gray-700">
+							<label className="w-1/4 text-lg font-medium text-gray-700">
 								Наличные:
 							</label>
 							<input
@@ -135,12 +135,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCardAmount(Number(e.target.value))
 								}
-								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+								className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 
 						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/3 text-lg font-medium text-gray-700">
+							<label className="w-1/4 text-lg font-medium text-gray-700">
 								Пластик карта:
 							</label>
 							<input
@@ -149,7 +149,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCashAmount(Number(e.target.value))
 								}
-								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+								className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 					</div>
@@ -162,7 +162,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 									minimumFractionDigits: 2,
 								})}
 								disabled
-								className="w-full px-4 py-3 text-right text-2xl font-bold border border-gray-300 rounded-md bg-white"
+								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
 								Оплата итого
