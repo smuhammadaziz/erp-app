@@ -130,7 +130,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 							onClick={() => setIsUpdateModalOpen(true)}
 							className="mt-3 ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
 						>
-							check
+							Проверить обновления
 						</button>
 					</div>
 				</div>
