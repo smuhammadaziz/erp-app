@@ -26,12 +26,13 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 				</div>
 
 				<div className="p-4 space-y-4">
-					<div className="grid grid-cols-2 gap-3">
+					<div className="grid grid-cols-[60%_38%] gap-3">
+						{/* First Div (70%) */}
 						<div>
 							<div className="text-green-700 text-xs font-medium">
 								К Оплата
 							</div>
-							<div className="bg-green-50 p-3 rounded-lg">
+							<div className="bg-green-50 p-3 rounded-lg h-24 flex items-center justify-center">
 								<div
 									className={`font-bold text-green-800 ${
 										totalAmount.toString().length > 15
@@ -43,12 +44,20 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								</div>
 							</div>
 						</div>
+
+						{/* Second Div (30%) */}
 						<div>
 							<div className="text-red-700 text-xs font-medium">
 								Скидка
 							</div>
-							<div className="bg-red-50 p-3 rounded-lg">
-								<div className="text-3xl font-bold text-red-800">
+							<div className="bg-red-50 p-3 rounded-lg h-24 flex items-center justify-center">
+								<div
+									className={`font-bold text-red-800 ${
+										discountAmount.toString().length > 15
+											? "text-2xl"
+											: "text-3xl"
+									}`}
+								>
 									{discountAmount.toLocaleString()}
 								</div>
 							</div>
@@ -56,10 +65,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</div>
 
 					<div className="space-y-3">
-						<div className="border rounded-lg p-2">
+						<div className="flex items-center  p-2">
 							<div className="flex items-center gap-2 mb-1">
-								<FaMoneyBillWave className="text-green-600 w-4 h-4" />
-								<span className="font-medium text-sm">
+								<span className="font-medium text-2xl">
 									Cash
 								</span>
 							</div>
@@ -69,7 +77,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCashAmount(Number(e.target.value))
 								}
-								className="w-full p-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 text-sm"
+								className="w-50 ml-5  px-1.5 py-4 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 text-2xl"
 							/>
 						</div>
 
