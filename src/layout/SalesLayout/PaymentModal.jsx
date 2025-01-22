@@ -84,7 +84,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							<label className="w-1/3 text-lg font-medium text-gray-700">
 								Клиент:
 							</label>
-							<div className="w-2/3 relative">
+							<div className="w-2/3 relative group">
 								<input
 									type="text"
 									value={
@@ -98,10 +98,17 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								/>
 								<button
 									onClick={() => setIsClientSearchOpen(true)}
-									className="absolute right-4 p-1  rounded-lg top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+									className="absolute right-4 p-1 rounded-lg top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
 								>
 									<IoSearchOutline className="w-6 h-6" />
 								</button>
+
+								{/* Hovered Info Pop-up */}
+								<span className="absolute left-1/2 transform -translate-x-1/2 mt-10 w-max px-3 py-1 text-xs bg-black text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+									{selectedClient
+										? selectedClient.name
+										: "No client selected"}
+								</span>
 							</div>
 						</div>
 
