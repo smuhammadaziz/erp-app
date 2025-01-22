@@ -14,9 +14,8 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
-			<div className="bg-white rounded-lg w-[600px] h-[500px] shadow-xl flex flex-col">
-				{/* Header */}
-				<div className="px-5 py-3 border-b flex justify-between items-center shrink-0">
+			<div className="bg-white rounded-lg w-[600px] max-h-[500px] shadow-xl flex flex-col relative overflow-hidden">
+				<div className="px-5 py-3 border-b flex justify-between items-center bg-white z-10">
 					<h2 className="text-lg font-semibold">Select Client</h2>
 					<button
 						onClick={onClose}
@@ -26,10 +25,10 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
 					</button>
 				</div>
 
-				{/* Content */}
-				<div className="flex flex-col h-full p-4">
-					{/* Search Input - Fixed Position */}
-					<div className="mb-4 shrink-0">
+				{/* Content Container */}
+				<div className="flex flex-col flex-1 min-h-0">
+					{/* Search Input - Fixed */}
+					<div className="p-4 bg-white z-10">
 						<input
 							type="text"
 							placeholder="Search clients..."
@@ -39,32 +38,34 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients }) => {
 						/>
 					</div>
 
-					{/* Clients List - Scrollable */}
-					<div className="flex-1 overflow-y-auto min-h-0">
-						{filteredClients.map((client) => (
-							<div
-								key={client.id}
-								onClick={() => {
-									onSelect(client);
-									onClose();
-								}}
-								className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg"
-							>
-								<div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-									<span className="text-green-700 font-medium">
-										{client.name.charAt(0)}
-									</span>
-								</div>
-								<div className="min-w-0">
-									<div className="font-medium truncate">
-										{client.name}
+					{/* Scrollable Client List */}
+					<div className="flex-1 overflow-y-auto px-4 pb-4">
+						<div className="space-y-2">
+							{filteredClients.map((client) => (
+								<div
+									key={client.id}
+									onClick={() => {
+										onSelect(client);
+										onClose();
+									}}
+									className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer rounded-lg border border-transparent hover:border-gray-200"
+								>
+									<div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+										<span className="text-green-700 font-medium">
+											{client.name.charAt(0)}
+										</span>
 									</div>
-									<div className="text-sm text-gray-500 truncate">
-										{client.email}
+									<div className="min-w-0 flex-1">
+										<div className="font-medium truncate">
+											{client.name}
+										</div>
+										<div className="text-sm text-gray-500 truncate">
+											{client.email}
+										</div>
 									</div>
 								</div>
-							</div>
-						))}
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -85,6 +86,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 		{ id: 2, name: "Jane Smith", email: "jane@example.com" },
 		{ id: 3, name: "Bob Johnson", email: "bob@example.com" },
 		{ id: 4, name: "Alice Brown", email: "alice@example.com" },
+		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
+		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
+		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
+		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
 		{ id: 5, name: "Charlie Wilson", email: "charlie@example.com" },
 		// Add more clients as needed
 	];
