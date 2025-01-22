@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
 
-const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
+const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 	const [cashAmount, setCashAmount] = useState(totalAmount);
 	const [cardAmount, setCardAmount] = useState(0);
@@ -146,32 +146,34 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							/>
 						</div>
 
-						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/4 text-lg font-medium text-gray-700">
-								Наличные:
-							</label>
-							<input
-								type="number"
-								value={cardAmount}
-								onChange={(e) =>
-									setCardAmount(Number(e.target.value))
-								}
-								className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
-							/>
-						</div>
+						<div className="border-t-2 py-5">
+							<div className="flex items-center justify-between gap-4 mb-4">
+								<label className="w-1/4 text-lg font-medium text-gray-700">
+									Наличные:
+								</label>
+								<input
+									type="number"
+									value={cardAmount}
+									onChange={(e) =>
+										setCardAmount(Number(e.target.value))
+									}
+									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+								/>
+							</div>
 
-						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/4 text-lg font-medium text-gray-700">
-								Пластик карта:
-							</label>
-							<input
-								type="number"
-								value={cashAmount}
-								onChange={(e) =>
-									setCashAmount(Number(e.target.value))
-								}
-								className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
-							/>
+							<div className="flex items-center justify-between gap-4">
+								<label className="w-1/4 text-lg font-medium text-gray-700">
+									Пластик карта:
+								</label>
+								<input
+									type="number"
+									value={cashAmount}
+									onChange={(e) =>
+										setCashAmount(Number(e.target.value))
+									}
+									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+								/>
+							</div>
 						</div>
 					</div>
 
