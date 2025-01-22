@@ -11,6 +11,7 @@ import moment from "moment";
 import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
 import { UpdateCheckModal } from "./UpdateCheckModal";
+import { TbVersionsFilled } from "react-icons/tb";
 
 moment.locale("ru");
 
@@ -64,6 +65,11 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			icon: FaShieldAlt,
 			label: "ИТС",
 			value: `${moment(itsDeadline).format("LL")}`,
+		},
+		{
+			icon: TbVersionsFilled,
+			label: "Версия",
+			value: `1.0.0`,
 		},
 	];
 
