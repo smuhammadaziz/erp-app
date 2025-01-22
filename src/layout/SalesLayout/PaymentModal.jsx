@@ -36,7 +36,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							<div className="bg-green-50 p-3 rounded-lg">
 								<div
 									className={`font-bold text-green-800 ${
-										totalAmount.toString().length > 10
+										totalAmount.toString().length > 15
 											? "text-2xl"
 											: "text-3xl"
 									}`}
