@@ -17,48 +17,6 @@ function SalesPageLayoutSidebar() {
 		style: "",
 	});
 
-	const handleCashButtonClick = async () => {
-		try {
-			const response = await fetch("http://localhost:5000/api/buy", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-
-			if (response.ok) {
-				setModalContent({
-					title: "Success!",
-					message: "Products successfully sold!",
-					icon: (
-						<SiTicktick className="text-white text-6xl  text-center mx-auto" />
-					),
-					style: "bg-green-500 text-white",
-				});
-			} else {
-				setModalContent({
-					title: "Error",
-					message: "Could not process the sale. Please try again.",
-					icon: (
-						<FaExclamationTriangle className="text-white text-6xl text-center mx-auto" />
-					),
-					style: "bg-red-500 text-white",
-				});
-			}
-		} catch (error) {
-			console.error("Error during API request:", error);
-			setModalContent({
-				title: "Error",
-				message: "An unexpected error occurred. Please try again.",
-				icon: (
-					<FaExclamationTriangle className="text-white text-6xl text-center mx-auto" />
-				),
-				style: "bg-red-600 text-white",
-			});
-		}
-		setModalOpen(true);
-	};
-
 	const closeModal = () => {
 		setModalOpen(false);
 	};
