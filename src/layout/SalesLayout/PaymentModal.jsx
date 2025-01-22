@@ -103,7 +103,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 									<IoSearchOutline className="w-6 h-6" />
 								</button>
 
-								{/* Hovered Info Pop-up */}
 								<span className="absolute left-1/2 transform -translate-x-1/2 mt-10 w-max px-3 py-1 text-xs bg-black text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 									{selectedClient
 										? selectedClient.name
