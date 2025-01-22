@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { HiOutlineCash, HiOutlineCreditCard } from "react-icons/hi";
-import { FaMoneyBillWave } from "react-icons/fa";
-import { BsCreditCard2Front } from "react-icons/bs";
-import { MdDiscount } from "react-icons/md";
 
 const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [cashAmount, setCashAmount] = useState(totalAmount);
@@ -13,9 +9,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 text-black flex items-center justify-center p-4 z-[50]">
-			<div className="bg-white rounded-lg w-full max-w-2xl shadow-xl">
-				<div className="px-3 py-1 border-b flex justify-between items-center">
+		<div className="fixed inset-0 bg-black text-black bg-opacity-50 flex items-center justify-center p-4 z-[50]">
+			<div className="bg-white rounded-lg w-full max-w-4xl shadow-xl">
+				<div className="px-5 py-1 border-b flex justify-between items-center">
 					<h2 className="text-lg text-black font-semibold">Оплата</h2>
 					<button
 						onClick={onClose}
@@ -25,14 +21,13 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</button>
 				</div>
 
-				<div className="p-4 space-y-4">
-					<div className="grid grid-cols-[60%_38%] gap-3">
-						{/* First Div (70%) */}
+				<div className="px-6 py-1 space-y-6">
+					<div className="grid grid-cols-2 gap-6">
 						<div>
-							<div className="text-green-700 text-xs font-medium">
+							<div className="text-green-700 text-sm font-medium">
 								К Оплата
 							</div>
-							<div className="bg-green-50 p-3 rounded-lg h-24 flex items-center justify-center">
+							<div className="bg-green-50 px-4 py-1 rounded-lg h-14 flex items-center justify-left">
 								<div
 									className={`font-bold text-green-800 ${
 										totalAmount.toString().length > 15
@@ -45,12 +40,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							</div>
 						</div>
 
-						{/* Second Div (30%) */}
 						<div>
-							<div className="text-red-700 text-xs font-medium">
+							<div className="text-red-700 text-sm font-medium">
 								Скидка
 							</div>
-							<div className="bg-red-50 p-3 rounded-lg h-24 flex items-center justify-center">
+							<div className="bg-red-50 px-4 py-1 rounded-lg h-14 flex items-center justify-left">
 								<div
 									className={`font-bold text-red-800 ${
 										discountAmount.toString().length > 15
@@ -64,82 +58,104 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 						</div>
 					</div>
 
-					<div className="space-y-3">
-						<div className="flex items-center  p-2">
-							<div className="flex items-center gap-2 mb-1">
-								<span className="font-medium text-2xl">
-									Cash
-								</span>
+					<div className="space-y-2">
+						{[
+							{
+								label: "Client",
+								value: cashAmount,
+								setter: setCashAmount,
+							},
+							{
+								label: "K oplate",
+								value: cashAmount,
+								setter: setCashAmount,
+							},
+							{
+								label: "Card",
+								value: cardAmount,
+								setter: setCardAmount,
+							},
+							{
+								label: "Cash",
+								value: cashAmount,
+								setter: setCashAmount,
+							},
+							{
+								label: "Discount Card",
+								value: discountAmount,
+								setter: setDiscountAmount,
+							},
+						].map(({ label, value, setter }, index) => (
+							<div
+								key={index}
+								className="flex items-center gap-2 py-0"
+							>
+								<label className="w-40 text-lg font-medium">
+									{label}:
+								</label>
+								<input
+									type="number"
+									value={value}
+									onChange={(e) =>
+										setter(Number(e.target.value))
+									}
+									className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-lg"
+								/>
 							</div>
-							<input
-								type="number"
-								value={cashAmount}
-								onChange={(e) =>
-									setCashAmount(Number(e.target.value))
-								}
-								className="w-50 ml-5  px-1.5 py-4 border rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 text-2xl"
-							/>
-						</div>
-
-						<div className="border rounded-lg p-2">
-							<div className="flex items-center gap-2 mb-1">
-								<BsCreditCard2Front className="text-blue-600 w-4 h-4" />
-								<span className="font-medium text-sm">
-									Card
-								</span>
-							</div>
-							<input
-								type="number"
-								value={cardAmount}
-								onChange={(e) =>
-									setCardAmount(Number(e.target.value))
-								}
-								className="w-full p-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm"
-							/>
-						</div>
-
-						<div className="border rounded-lg p-2">
-							<div className="flex items-center gap-2 mb-1">
-								<MdDiscount className="text-purple-600 w-4 h-4" />
-								<span className="font-medium text-sm">
-									Discount Card
-								</span>
-							</div>
-							<input
-								type="number"
-								value={discountAmount}
-								onChange={(e) =>
-									setDiscountAmount(Number(e.target.value))
-								}
-								className="w-full p-1.5 border rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 text-sm"
-							/>
-						</div>
+						))}
 					</div>
 
-					<div className="bg-gray-50 p-3 rounded-lg">
-						<div className="text-gray-700 text-xs font-medium">
-							Change
+					<div className="flex items-start gap-6 p-4 border border-green-500 rounded-md bg-[#fdfbed]">
+						<div className="space-y-4 w-2/3">
+							<div className="flex items-center">
+								<label className="w-40 text-lg font-medium text-gray-700">
+									Оплата итого:
+								</label>
+								<input
+									type="text"
+									value={totalAmount.toLocaleString("en-US", {
+										minimumFractionDigits: 2,
+									})}
+									disabled
+									className="flex-1 px-3 py-2 border border-green-500 rounded-lg text-lg bg-white text-right w-full"
+								/>
+							</div>
+							<div className="flex items-center">
+								<label className="w-40 text-lg font-medium text-gray-700">
+									Сдача:
+								</label>
+								<input
+									type="text"
+									value={(
+										cashAmount -
+										totalAmount -
+										discountAmount
+									).toFixed(2)}
+									disabled
+									className="flex-1 px-3 py-2 border border-green-500 rounded-lg text-lg bg-white text-right w-full"
+								/>
+							</div>
 						</div>
-						<div className="text-2xl font-bold text-gray-800">
-							{Math.max(
-								0,
-								cashAmount + cardAmount - totalAmount,
-							).toLocaleString()}{" "}
-							UZS
+						<div className="w-1/3">
+							<textarea
+								className="w-full px-3 py-2 border border-green-500 resize-none rounded-lg text-lg bg-white text-gray-700"
+								placeholder="Комментарий"
+								rows="4"
+							/>
 						</div>
 					</div>
 				</div>
 
-				<div className="border-t p-3 flex gap-3">
+				<div className="border-t p-4 flex gap-4">
 					<button
 						onClick={onClose}
-						className="flex-1 bg-green-500 text-white py-1.5 px-4 rounded-lg hover:bg-green-600 transition duration-200 text-sm"
+						className="flex-1 bg-green-500 text-white py-4 rounded-lg hover:bg-green-600 transition duration-200 text-xl"
 					>
 						Confirm Payment
 					</button>
 					<button
 						onClick={onClose}
-						className="flex-1 bg-gray-100 text-gray-700 py-1.5 px-4 rounded-lg hover:bg-gray-200 transition duration-200 text-sm"
+						className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-lg hover:bg-gray-200 transition duration-200 text-xl"
 					>
 						Cancel
 					</button>
