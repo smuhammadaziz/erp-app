@@ -5,7 +5,7 @@ import nodeUrl from "../../links";
 
 const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
-	const [cashAmount, setCashAmount] = useState(totalAmount);
+
 	const [cardAmount, setCardAmount] = useState(0);
 	const [discountAmount, setDiscountAmount] = useState(0);
 	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
@@ -53,6 +53,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 		const intervalId = setInterval(fetchProducts, 400);
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
+
+	const [cashAmount, setCashAmount] = useState(price);
 
 	if (!isOpen) return null;
 
@@ -158,7 +160,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 										maximumFractionDigits: 2,
 									})}
 									onChange={(e) =>
-										setCardAmount(Number(e.target.value))
+										setCashAmount(Number(e.target.value))
 									}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
@@ -172,7 +174,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									type="text"
 									value={cardAmount}
 									onChange={(e) =>
-										setCashAmount(Number(e.target.value))
+										setCardAmount(Number(e.target.value))
 									}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
