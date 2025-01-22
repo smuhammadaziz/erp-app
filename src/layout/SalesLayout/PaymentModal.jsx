@@ -151,11 +151,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 						</div>
 					</div>
 
-					<div className="flex items-center justify-between bg-gray-50 p-6 rounded-md border border-gray-200">
-						<div className="w-2/3">
-							<label className="text-lg font-medium text-gray-700">
-								Оплата итого:
-							</label>
+					<div className="flex items-start justify-between bg-gray-50  rounded-md border border-gray-200">
+						<div className="w-3/5 px-6 py-6">
 							<input
 								type="text"
 								value={totalAmount.toLocaleString("en-US", {
@@ -164,8 +161,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								disabled
 								className="w-full px-4 py-3 text-right text-2xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
+							<label className="text-lg font-medium text-gray-700">
+								Оплата итого
+							</label>
 						</div>
-						<div className="w-1/3">
+						<div className="w-2/5 p-6">
 							<textarea
 								className="w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md bg-white resize-none"
 								placeholder="Комментарий"
