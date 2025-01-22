@@ -146,7 +146,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 							/>
 						</div>
 
-						<div className="border-t-2 py-5">
+						<div className="border-t-2 py-4">
 							<div className="flex items-center justify-between gap-4 mb-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
 									Наличные:
