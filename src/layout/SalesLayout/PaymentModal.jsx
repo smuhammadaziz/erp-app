@@ -3,8 +3,6 @@ import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
 
-// Client Search Modal Component
-
 const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 	const [cashAmount, setCashAmount] = useState(totalAmount);
@@ -24,11 +22,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 				);
 				const result = await response.json();
 
-				// Ensure we're setting an array
 				setCustomers(Array.isArray(result.data) ? result.data : []);
 			} catch (error) {
 				console.error("Error fetching customers:", error);
-				setCustomers([]); // Set empty array on error
+				setCustomers([]);
 			}
 		};
 
