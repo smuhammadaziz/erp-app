@@ -94,11 +94,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 									}
 									readOnly
 									placeholder="оддий харидор"
-									className="w-full px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-full px-4 pr-16 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 								<button
 									onClick={() => setIsClientSearchOpen(true)}
-									className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+									className="absolute right-4 p-1  rounded-lg top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
 								>
 									<IoSearchOutline className="w-6 h-6" />
 								</button>
