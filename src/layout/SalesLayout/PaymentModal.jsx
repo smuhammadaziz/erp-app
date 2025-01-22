@@ -154,13 +154,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									Наличные:
 								</label>
 								<input
-									type="text"
-									value={price.toLocaleString("ru-RU", {
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									})}
+									type="number"
+									value={price}
 									onChange={(e) =>
-										setCashAmount(Number(e.target.value))
+										setCashAmount(e.target.value)
 									}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
