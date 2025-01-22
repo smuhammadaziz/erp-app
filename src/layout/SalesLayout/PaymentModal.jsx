@@ -63,7 +63,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							</div>
 							<div className="bg-green-50 px-4 py-1 rounded-lg h-14 flex items-center">
 								<div
-									className={`font-bold text-green-800 ${
+									className={`font-bold text-black ${
 										totalAmount.toString().length > 15
 											? "text-2xl"
 											: "text-3xl"
@@ -80,7 +80,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 							</div>
 							<div className="bg-red-50 px-4 py-1 rounded-lg h-14 flex items-center">
 								<div
-									className={`font-bold text-red-800 ${
+									className={`font-bold text-black ${
 										discountAmount.toString().length > 15
 											? "text-2xl"
 											: "text-3xl"
