@@ -16,9 +16,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 		<div className="fixed inset-0 bg-black bg-opacity-50 text-black flex items-center justify-center p-4 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-2xl shadow-xl">
 				<div className="px-3 py-1 border-b flex justify-between items-center">
-					<h2 className="text-lg text-black font-semibold">
-						Payment
-					</h2>
+					<h2 className="text-lg text-black font-semibold">Оплата</h2>
 					<button
 						onClick={onClose}
 						className="p-1 rounded-full transition duration-200"
