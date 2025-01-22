@@ -149,13 +149,13 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 				<div className="border-t p-4 flex gap-4">
 					<button
 						onClick={onClose}
-						className="flex-1 bg-green-500 text-white py-4 rounded-lg hover:bg-green-600 transition duration-200 text-xl"
+						className="flex-1  block max-w-50 bg-green-500 text-white py-4 rounded-lg hover:bg-green-600 transition duration-200 text-lg"
 					>
 						Confirm Payment
 					</button>
 					<button
 						onClick={onClose}
-						className="flex-1 bg-gray-100 text-gray-700 py-4 rounded-lg hover:bg-gray-200 transition duration-200 text-xl"
+						className="flex-1  block max-w-50 bg-red-500 text-white py-4 rounded-lg hover:bg-red-600 transition duration-200 text-lg"
 					>
 						Cancel
 					</button>
