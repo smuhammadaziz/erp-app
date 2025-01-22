@@ -152,8 +152,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									Наличные:
 								</label>
 								<input
-									type="number"
-									value={cardAmount}
+									type="text"
+									value={price.toLocaleString("ru-RU", {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2,
+									})}
 									onChange={(e) =>
 										setCardAmount(Number(e.target.value))
 									}
@@ -166,8 +169,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									Пластик карта:
 								</label>
 								<input
-									type="number"
-									value={cashAmount}
+									type="text"
+									value={cardAmount}
 									onChange={(e) =>
 										setCashAmount(Number(e.target.value))
 									}
