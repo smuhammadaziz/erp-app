@@ -43,61 +43,51 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black text-black bg-opacity-50 flex items-center justify-center p-4 z-[50]">
-			<div className="bg-white rounded-lg w-full max-w-4xl shadow-xl">
-				<div className="px-5 py-1 border-b flex justify-between items-center">
-					<h2 className="text-lg text-black font-semibold">Оплата</h2>
+		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
+			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg p-6 transition-all duration-300 transform scale-95">
+				<div className="flex justify-between items-center mb-4 border-b pb-4">
+					<h2 className="text-xl font-semibold text-gray-800">
+						Оплата
+					</h2>
 					<button
 						onClick={onClose}
-						className="p-1 rounded-full transition duration-200"
+						className="p-2 text-gray-600 hover:text-gray-800 transition duration-200"
 					>
-						<IoClose className="w-5 h-5" />
+						<IoClose className="w-6 h-6" />
 					</button>
 				</div>
 
-				<div className="px-6 py-3 space-y-6">
-					<div className="grid grid-cols-12 gap-6">
+				<div className="space-y-6">
+					<div className="grid grid-cols-12 gap-4">
 						<div className="col-span-8">
-							<div className="text-green-700 text-sm font-medium">
+							<label className="text-sm font-medium text-gray-700">
 								К Оплата
-							</div>
-							<div className="bg-green-50 px-4 py-1 rounded-lg h-14 flex items-center">
-								<div
-									className={`font-bold text-black ${
-										totalAmount.toString().length > 15
-											? "text-2xl"
-											: "text-3xl"
-									}`}
-								>
+							</label>
+							<div className="bg-green-50 p-4 rounded-md flex justify-center items-center">
+								<div className="font-semibold text-2xl text-gray-800">
 									{totalAmount.toLocaleString()}
 								</div>
 							</div>
 						</div>
 
 						<div className="col-span-4">
-							<div className="text-red-700 text-sm font-medium">
+							<label className="text-sm font-medium text-gray-700">
 								Скидка
-							</div>
-							<div className="bg-red-50 px-4 py-1 rounded-lg h-14 flex items-center">
-								<div
-									className={`font-bold text-black ${
-										discountAmount.toString().length > 15
-											? "text-2xl"
-											: "text-3xl"
-									}`}
-								>
+							</label>
+							<div className="bg-red-50 p-4 rounded-md flex justify-center items-center">
+								<div className="font-semibold text-2xl text-gray-800">
 									{discountAmount.toLocaleString()}
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<div className="space-y-2">
-						<div className="flex items-center gap-2 py-0">
-							<label className="w-40 text-lg font-medium">
+					<div className="space-y-4">
+						<div className="flex items-center justify-between gap-4">
+							<label className="w-1/3 text-lg font-medium text-gray-700">
 								Клиент:
 							</label>
-							<div className="flex-1 max-w-[390px] relative">
+							<div className="w-2/3 relative">
 								<input
 									type="text"
 									value={
@@ -107,19 +97,19 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 									}
 									readOnly
 									placeholder="оддий харидор"
-									className="w-full px-3 text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold pr-12"
+									className="w-full px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 								<button
 									onClick={() => setIsClientSearchOpen(true)}
-									className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-gray-700"
+									className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
 								>
 									<IoSearchOutline className="w-6 h-6" />
 								</button>
 							</div>
 						</div>
 
-						<div className="flex items-center gap-2 py-0">
-							<label className="w-40 text-lg font-medium">
+						<div className="flex items-center justify-between gap-4">
+							<label className="w-1/3 text-lg font-medium text-gray-700">
 								К оплате:
 							</label>
 							<input
@@ -128,12 +118,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCashAmount(Number(e.target.value))
 								}
-								className="flex-1 px-3 max-w-[390px] text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold"
+								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 
-						<div className="flex items-center gap-2 py-0">
-							<label className="w-40 text-lg font-medium">
+						<div className="flex items-center justify-between gap-4">
+							<label className="w-1/3 text-lg font-medium text-gray-700">
 								Наличные:
 							</label>
 							<input
@@ -142,12 +132,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCardAmount(Number(e.target.value))
 								}
-								className="flex-1 px-3 max-w-[390px] text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold"
+								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 
-						<div className="flex items-center gap-2 py-0">
-							<label className="w-40 text-lg font-medium">
+						<div className="flex items-center justify-between gap-4">
+							<label className="w-1/3 text-lg font-medium text-gray-700">
 								Пластик карта:
 							</label>
 							<input
@@ -156,59 +146,28 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 								onChange={(e) =>
 									setCashAmount(Number(e.target.value))
 								}
-								className="flex-1 px-3 max-w-[390px] text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold"
-							/>
-						</div>
-
-						<div className="flex items-center gap-2 py-0">
-							<label className="w-40 text-lg font-medium">
-								Дисконт карта:
-							</label>
-							<input
-								type="number"
-								value={discountAmount}
-								onChange={(e) =>
-									setDiscountAmount(Number(e.target.value))
-								}
-								className="flex-1 px-3 max-w-[390px] text-right py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-2xl font-semibold"
+								className="w-2/3 px-4 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 							/>
 						</div>
 					</div>
 
-					<div className="flex items-start gap-6 py-4 px-2 border border-green-500 rounded-md bg-[#fdfbed]">
-						<div className="space-y-4 w-2/3">
-							<div className="flex items-center">
-								<label className="w-40 text-lg font-medium text-gray-700">
-									Оплата итого:
-								</label>
-								<input
-									type="text"
-									value={totalAmount.toLocaleString("en-US", {
-										minimumFractionDigits: 2,
-									})}
-									disabled
-									className="flex-1 px-3 py-2 border border-green-500 rounded-lg text-lg bg-white text-right w-full"
-								/>
-							</div>
-							<div className="flex items-center">
-								<label className="w-40 text-lg font-medium text-gray-700">
-									Сдача:
-								</label>
-								<input
-									type="text"
-									value={(
-										cashAmount -
-										totalAmount -
-										discountAmount
-									).toFixed(2)}
-									disabled
-									className="flex-1 px-3 py-2 border border-green-500 rounded-lg text-lg bg-white text-right w-full"
-								/>
-							</div>
+					<div className="flex items-center justify-between bg-gray-50 p-6 rounded-md border border-gray-200">
+						<div className="w-2/3">
+							<label className="text-lg font-medium text-gray-700">
+								Оплата итого:
+							</label>
+							<input
+								type="text"
+								value={totalAmount.toLocaleString("en-US", {
+									minimumFractionDigits: 2,
+								})}
+								disabled
+								className="w-full px-4 py-3 text-right text-2xl font-bold border border-gray-300 rounded-md bg-white"
+							/>
 						</div>
 						<div className="w-1/3">
 							<textarea
-								className="w-full px-3 py-2 border border-green-500 resize-none rounded-lg text-lg bg-white text-gray-700"
+								className="w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md bg-white resize-none"
 								placeholder="Комментарий"
 								rows="4"
 							/>
@@ -216,16 +175,16 @@ const PaymentModal = ({ isOpen, onClose, totalAmount = 50000000000 }) => {
 					</div>
 				</div>
 
-				<div className="p-4 flex gap-4 w-[500px] justify-right relative block items-center">
+				<div className="flex gap-6 mt-8 justify-center items-center">
 					<button
 						onClick={onClose}
-						className="flex-1 block max-w-40 bg-green-500 text-white py-3 px-4 rounded-md hover:bg-green-600 transition duration-200 text-lg"
+						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK
 					</button>
 					<button
 						onClick={onClose}
-						className="flex-1 block max-w-40 bg-red-500 text-white py-3 px-4 rounded-md hover:bg-red-600 transition duration-200 text-lg"
+						className="w-40 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition duration-200 text-xl"
 					>
 						Отмена
 					</button>
@@ -263,7 +222,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 			  );
 
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
+		<div className="fixed inset-0 rounded-lg bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
 			<div
 				className="bg-white rounded-lg w-[600px] shadow-xl flex flex-col"
 				style={{ height: "500px" }}
