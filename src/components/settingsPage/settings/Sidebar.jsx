@@ -7,28 +7,35 @@ import {
 	FaQuestionCircle,
 	FaSignOutAlt,
 } from "react-icons/fa";
+
+import { MdDevices } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
 
 const settingsItems = [
 	{
-		icon: <FaUser className="w-5 h-5 text-blue-500" />,
+		icon: <MdDevices className="w-5 h-5 text-blue-500" />,
 		title: "Personal Information",
+		name: "Фаол қурилмалар",
 	},
 	{
 		icon: <FaLock className="w-5 h-5 text-green-500" />,
 		title: "Security",
+		name: "Security",
 	},
 	{
 		icon: <FaBell className="w-5 h-5 text-purple-500" />,
 		title: "Notifications",
+		name: "Notifications",
 	},
 	{
 		icon: <FaCog className="w-5 h-5 text-gray-500" />,
 		title: "Preferences",
+		name: "Фаол сессиялар",
 	},
 	{
 		icon: <FaQuestionCircle className="w-5 h-5 text-orange-500" />,
 		title: "Support",
+		name: "Фаол сессиялар",
 	},
 ];
 
@@ -49,7 +56,7 @@ function Sidebar({ activeSection, setActiveSection }) {
 					>
 						<div className="mr-4">{item.icon}</div>
 						<h3 className="text-sm font-medium text-gray-700 group-hover:text-blue-600">
-							{item.title}
+							{item.name}
 						</h3>
 					</div>
 				))}
