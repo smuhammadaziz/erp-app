@@ -81,7 +81,7 @@ const MessageNotifications = () => {
 				</button>
 
 				{currentModal === "password" && (
-					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[500]">
 						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
 							<button
 								className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -124,7 +124,7 @@ const MessageNotifications = () => {
 				)}
 
 				{currentModal === "loading" && (
-					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[500]">
 						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
 							<AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl mb-4" />
 							<p className="text-black text-center text-sm">
@@ -135,7 +135,7 @@ const MessageNotifications = () => {
 				)}
 
 				{currentModal === "result" && (
-					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+					<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[500]">
 						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
 							<button
 								className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
