@@ -88,7 +88,7 @@ const StatusBadge = ({ isActive }) => {
 					: "bg-slate-100 text-slate-500"
 			}`}
 		>
-			{isActive ? "Active" : "Inactive"}
+			{isActive ? "Актив" : "Inactive"}
 		</span>
 	);
 };
@@ -236,10 +236,10 @@ const ActiveSessions = () => {
 			<div className="p-6 border-b border-slate-100">
 				<div className="flex items-center justify-between">
 					<h2 className="text-xl font-bold text-slate-800">
-						Active Sessions
+						Фойдаланувчилар
 					</h2>
 					<span className="px-3 py-1 text-sm font-medium text-slate-600 bg-slate-100 rounded-full">
-						{users.length} active
+						{users.length} актив
 					</span>
 				</div>
 			</div>
@@ -263,7 +263,7 @@ const ActiveSessions = () => {
 										<h3 className="font-medium text-slate-900">
 											{session.usertype}
 										</h3>
-										<StatusBadge isActive="Active" />
+										<StatusBadge isActive="Актив" />
 										{session.isCurrentDevice && (
 											<CurrentDeviceBadge />
 										)}

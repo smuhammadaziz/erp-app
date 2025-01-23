@@ -15,7 +15,7 @@ const settingsItems = [
 	{
 		icon: <MdDevices className="w-5 h-5 text-blue-500" />,
 		title: "Personal Information",
-		name: "Фаол қурилмалар",
+		name: "Фойдаланувчилар",
 	},
 	{
 		icon: <FaLock className="w-5 h-5 text-green-500" />,
