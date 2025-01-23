@@ -126,6 +126,10 @@ function ProductModal({ product, onClose }) {
 			productPriceType = 0;
 		}
 
+		const mainWarehouseData = "e51e4ee3-d689-11e7-b79f-00ac1948df3a";
+
+		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
+
 		const data = {
 			device_id: device_id,
 			product_id: product.product_id,
@@ -134,6 +138,19 @@ function ProductModal({ product, onClose }) {
 			price: convertedPrice,
 			total_price: totalPrice,
 			product_info: [product],
+			product_warehouse: product.stock[0].warehouse,
+			product_currency: product.currency,
+
+			mainWarehouse: mainWarehouseData,
+			mainPriceType: priceTypeKeyData,
+			mainRate: currencyRateDataKey.usd,
+			mainCurrency: currencyKeyData,
+			mainComment: "hello",
+			mainBelowCost: false,
+
+			cash: mainCashData,
+			currency: currencyKeyData,
+			sum: totalPrice,
 		};
 
 		try {
