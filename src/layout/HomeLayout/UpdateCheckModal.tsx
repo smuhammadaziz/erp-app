@@ -10,7 +10,7 @@ interface UpdateCheckModalProps {
 	onClose: () => void;
 }
 
-type UpdateState = "checking" | "available" | "not-available";
+type UpdateState = "checking" | "not-available" | "not-available";
 
 export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 	isOpen,
@@ -53,7 +53,7 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 			setTimeout(() => {
 				clearInterval(interval);
 				setUpdateState(
-					Math.random() > 0.5 ? "available" : "not-available",
+					Math.random() > 0.5 ? "not-available" : "not-available",
 				);
 			}, 5000);
 
@@ -83,26 +83,7 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 						</p>
 					</>
 				);
-			case "available":
-				return (
-					<>
-						<div className="mb-8">
-							<FaCheckCircle className="w-24 h-24 text-green-500 animate-scaleIn" />
-						</div>
-						<p className="text-slate-600 text-center text-xl font-medium mb-3">
-							Доступна новая версия приложения!
-						</p>
-						<p className="text-slate-400 text-center text-base mb-8">
-							Нажмите кнопку "Скачать" чтобы начать загрузку
-						</p>
-						<div className="flex gap-4">
-							<button className="flex items-center px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors shadow-lg shadow-blue-500/30 hover:shadow-blue-600/30 text-base">
-								<FiDownload className="w-5 h-5 mr-2" />
-								<span>Скачать</span>
-							</button>
-						</div>
-					</>
-				);
+
 			case "not-available":
 				return (
 					<>
@@ -160,4 +141,3 @@ export const UpdateCheckModal: FC<UpdateCheckModalProps> = ({
 		</>
 	);
 };
-
