@@ -193,7 +193,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-3/5 px-6 py-6">
 							<input
 								type="text"
-								value={totalAmount.toLocaleString("en-US", {
+								value={price.toLocaleString("en-US", {
 									minimumFractionDigits: 2,
 								})}
 								disabled
@@ -203,7 +203,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 								Оплата итого
 							</label>
 						</div>
-						<div className="w-2/5 p-6">
+						<div className="w-2/5 py-6 pr-6 pl-0">
 							<textarea
 								className="w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md bg-white resize-none"
 								placeholder="Комментарий"
