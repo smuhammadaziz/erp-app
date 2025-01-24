@@ -58,6 +58,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 	if (!isOpen) return null;
 
+	const defaultClient = {
+		name: "Оддий Харидор",
+		value: "00000000-0000-0000-0000-000000000000",
+	};
+
 	return (
 		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
@@ -112,7 +117,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									value={
 										selectedClient
 											? selectedClient.name
-											: ""
+											: defaultClient.name
 									}
 									readOnly
 									placeholder="оддий харидор"
