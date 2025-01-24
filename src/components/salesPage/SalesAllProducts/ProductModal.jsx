@@ -148,9 +148,9 @@ function ProductModal({ product, onClose }) {
 			mainComment: "hello",
 			mainBelowCost: false,
 
-			cash: mainCashData,
-			currency: currencyKeyData,
-			sum: totalPrice,
+			cash: null,
+			currency: null,
+			sum: null,
 		};
 
 		try {
