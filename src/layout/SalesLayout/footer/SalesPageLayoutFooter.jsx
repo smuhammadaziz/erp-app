@@ -341,8 +341,8 @@ const SalesPageLayoutFooter = () => {
 				setTempSettings={setTempSettings}
 			/>
 			{isExitModalOpen && (
-				<div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+				<div className="fixed inset-0 z-[301] bg-black bg-opacity-50 flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out z-[301]">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">
 								Exit Confirmation
