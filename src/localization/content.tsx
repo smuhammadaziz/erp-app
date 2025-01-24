@@ -98,6 +98,10 @@ type Content = {
 			sale: string;
 			not_available: string;
 		};
+		settingsUsers: {
+			users: string;
+			active: string;
+		};
 	};
 };
 
@@ -172,8 +176,9 @@ const content: Content = {
 		},
 		noInternet: {
 			title: "Интернет алоқаси йўқ",
-			message: "Илтимос, тармоқ уланишингизни текширинг ва қайтадан уриниб кўринг.",
-			close: "Ёпиш"
+			message:
+				"Илтимос, тармоқ уланишингизни текширинг ва қайтадан уриниб кўринг.",
+			close: "Ёпиш",
 		},
 		client: {
 			detail: "Мижоз маълумотлари",
@@ -203,6 +208,10 @@ const content: Content = {
 			quantity: "миқдор",
 			sale: "сотиш",
 			not_available: "Запасда йўқ",
+		},
+		settingsUsers: {
+			users: "Пользователи",
+			active: "Актив",
 		},
 	},
 	ru: {
@@ -275,8 +284,9 @@ const content: Content = {
 		},
 		noInternet: {
 			title: "Нет подключения к интернету",
-			message: "Пожалуйста, проверьте сетевое подключение и попробуйте снова.",
-			close: "Закрыть"
+			message:
+				"Пожалуйста, проверьте сетевое подключение и попробуйте снова.",
+			close: "Закрыть",
 		},
 		client: {
 			detail: "Информация о клиенте",
@@ -307,7 +317,12 @@ const content: Content = {
 			sale: "Распродажа",
 			not_available: "нет в наличии",
 		},
+		settingsUsers: {
+			users: "",
+			active: "Aktiv",
+		},
 	},
 };
 
 export default content;
+

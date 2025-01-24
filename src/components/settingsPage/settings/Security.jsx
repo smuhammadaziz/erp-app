@@ -42,10 +42,11 @@ const OfflineOverlay = () => (
 			<MdWifiOff className="w-16 h-16 text-gray-400 mx-auto" />
 			<div className="space-y-2">
 				<h3 className="text-lg font-medium text-gray-900">
-					No Internet Connection
+					Нет подключения к Интернету
 				</h3>
 				<p className="text-gray-500">
-					Please connect to the internet to change your password
+					Пожалуйста, подключитесь к Интернету, чтобы изменить свой
+					пароль.
 				</p>
 			</div>
 		</div>

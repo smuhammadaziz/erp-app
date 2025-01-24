@@ -20,7 +20,7 @@ const settingsItems = [
 	{
 		icon: <FaLock className="w-5 h-5 text-green-500" />,
 		title: "Security",
-		name: "Security",
+		name: "Хавфсизлик",
 	},
 	{
 		icon: <FaBell className="w-5 h-5 text-purple-500" />,
