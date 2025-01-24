@@ -204,18 +204,6 @@ function ProductModal({ product, onClose }) {
 			<div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
 				<div className="bg-white w-[730px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
-						{/* <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">
-                hello
-              </h2>
-              <button
-                onClick={onClose}
-                className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
-              >
-                <MdClear size={24} className="text-gray-500" />
-              </button>
-            </div> */}
-
 						<form onSubmit={handleSubmit} className="space-y-4">
 							<div className="grid grid-cols-1 gap-2">
 								<div className="bg-gray-50 px-4 py-2 rounded-lg">

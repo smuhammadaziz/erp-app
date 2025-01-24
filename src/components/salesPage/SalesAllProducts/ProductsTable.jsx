@@ -15,7 +15,7 @@ function ProductsTable({
 	hasMore,
 	mouseSelectedRow,
 	setMouseSelectedRow,
-	tableClickedRow, // Changed from clickedRow
+	tableClickedRow,
 	setTableClickedRow,
 }) {
 	const [currencyData, setCurrencyData] = useState({});
@@ -328,7 +328,6 @@ function ProductsTable({
 
 	const [sortingOrder, setSortingOrder] = useState("asc");
 
-
 	const sortData = (order) => {
 		return [...filteredData].sort((a, b) => {
 			if (order === "asc") {
@@ -339,7 +338,6 @@ function ProductsTable({
 		});
 	};
 
-	// Handle header click
 	const handleSort = () => {
 		const newOrder = sortingOrder === "asc" ? "desc" : "asc";
 		setSortingOrder(newOrder);

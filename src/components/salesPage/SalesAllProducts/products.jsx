@@ -55,7 +55,6 @@ function SalesMainAllProducts() {
 
 				if (!isSearching) {
 					setFilteredData(data);
-					// Only set initial display data if none exists
 					if (displayedData.length === 0) {
 						setDisplayedData(data.slice(0, itemsPerPage));
 					}
@@ -103,7 +102,7 @@ function SalesMainAllProducts() {
 			setPage(1);
 			setDisplayedData(filtered.slice(0, itemsPerPage));
 			setMouseSelectedRow(null);
-			setTableClickedRow(null); // Clear clicked row
+			setTableClickedRow(null);
 		} else {
 			setIsSearching(false);
 			setFilteredData(originalData);
@@ -149,7 +148,7 @@ function SalesMainAllProducts() {
 
 		if (e.key === "ArrowDown") {
 			e.preventDefault();
-			setMouseSelectedRow(null); // Clear mouse selection
+			setMouseSelectedRow(null);
 			setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null
@@ -158,7 +157,7 @@ function SalesMainAllProducts() {
 			);
 		} else if (e.key === "ArrowUp") {
 			e.preventDefault();
-			setMouseSelectedRow(null); // Clear mouse selection
+			setMouseSelectedRow(null);
 			setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null ? null : Math.max(prev - 1, 0),
