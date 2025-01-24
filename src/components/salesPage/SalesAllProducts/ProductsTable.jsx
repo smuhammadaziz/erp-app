@@ -358,12 +358,12 @@ function ProductsTable({
 					<tr className="text-gray-700 uppercase text-xs">
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px] cursor-pointer"
-							onClick={handleSort}
+							// onClick={handleSort}
 						>
 							Наименование, производитель
-							<span className="ml-2">
+							{/* <span className="ml-2">
 								{sortingOrder === "asc" ? "▲" : "▼"}
-							</span>
+							</span> */}
 						</th>
 
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
@@ -398,7 +398,7 @@ function ProductsTable({
 						</tr>
 					) : filteredData.length > 0 ? (
 						<>
-							{sortData(sortingOrder).map((product, index) => (
+							{filteredData.map((product, index) => (
 								<tr
 									key={product.product_id}
 									data-row-index={index}

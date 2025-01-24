@@ -88,7 +88,7 @@ function SalesSoldProducts() {
 							ref={tableRef}
 							className="min-w-full bg-white border border-gray-200"
 						>
-							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-[100]">
+							<thead className="sticky z-0 top-0 bg-gray-100 shadow-sm z-[300]">
 								<tr className="text-gray-700 uppercase text-xs">
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[500px]">
 										Наименование
