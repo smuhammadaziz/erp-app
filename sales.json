@@ -12,12 +12,7 @@
 					"currency": "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
 					"discount": 5,
 					"comment": "nimadir",
-					"below_cost": false,
-					"ksb_id": "12345678",
-					"device_id": "000000000000-0000-0000-0000-00000000",
-					"total_price": 50000,
-					"status": "process",
-					"date": "created_time"
+					"below_cost": false
 				}
 			],
 			"products": [
