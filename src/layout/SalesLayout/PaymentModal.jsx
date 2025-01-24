@@ -12,6 +12,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [customers, setCustomers] = useState([]);
 	const [price, setPrice] = useState(0);
 
+	const [data, setData] = useState({});
+
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
 	const sales_id = localStorage.getItem("sales_id");
@@ -46,6 +48,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				const data = await response.json();
 
 				setPrice(parseFloat(data[sales_id].summa));
+				setData(data[sales_id]);
 			} catch (err) {
 				console.log(err);
 			}
