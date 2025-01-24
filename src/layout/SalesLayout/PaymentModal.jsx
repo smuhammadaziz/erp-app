@@ -59,8 +59,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 	const [cashAmount, setCashAmount] = useState(price);
 
-	if (!isOpen) return null;
-
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
 		delete: false,
@@ -71,6 +69,40 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 		positive_balance: [],
 	};
 
+	const [currencyData, setCurrencyData] = useState({});
+
+	useEffect(() => {
+		const fetchCurrencyData = async () => {
+			if (!data.products || data.products.length === 0) return;
+
+			const updatedCurrencyData = { ...currencyData };
+
+			for (const product of data.products) {
+				if (
+					product.product_currency &&
+					!updatedCurrencyData[product.product_currency]
+				) {
+					try {
+						const response = await fetch(
+							`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.product_currency}`,
+						);
+						const fetchedData = await response.json();
+						updatedCurrencyData[product.product_currency] =
+							fetchedData[0]?.name || "-";
+					} catch (error) {
+						console.error("Failed to fetch currency data", error);
+						updatedCurrencyData[product.product_currency] = "-";
+					}
+				}
+			}
+
+			setCurrencyData(updatedCurrencyData);
+		};
+
+		fetchCurrencyData();
+	}, [data.products]);
+
+	if (!isOpen) return null;
 	return (
 		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
@@ -160,7 +192,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									className="w-full px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50 pr-16"
 								/>
 								<span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-xl font-bold">
-									сум
+									{currencyData[data.mainCurrency]}
 								</span>
 							</div>
 						</div>
