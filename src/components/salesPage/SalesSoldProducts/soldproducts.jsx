@@ -35,7 +35,6 @@ function SalesSoldProducts() {
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
 
-	// Function to scroll selected row into view
 	const scrollToSelectedRow = (rowId) => {
 		if (!tableRef.current) return;
 		const selectedRow = tableRef.current.querySelector(
@@ -48,38 +47,6 @@ function SalesSoldProducts() {
 			});
 		}
 	};
-
-	// // Handle keyboard navigation
-	// useEffect(() => {
-	// 	const handleKeyDown = (e) => {
-	// 		if (products.length === 0) return;
-
-	// 		if (e.key === "ArrowUp") {
-	// 			e.preventDefault();
-	// 			setSelectedIndex((prevIndex) => {
-	// 				const newIndex =
-	// 					prevIndex <= 0 ? products.length - 1 : prevIndex - 1;
-	// 				const newId = products[newIndex].id;
-	// 				setSelectedRowId(newId);
-	// 				setTimeout(() => scrollToSelectedRow(newId), 0);
-	// 				return newIndex;
-	// 			});
-	// 		} else if (e.key === "ArrowDown") {
-	// 			e.preventDefault();
-	// 			setSelectedIndex((prevIndex) => {
-	// 				const newIndex =
-	// 					prevIndex === products.length - 1 ? 0 : prevIndex + 1;
-	// 				const newId = products[newIndex].id;
-	// 				setSelectedRowId(newId);
-	// 				setTimeout(() => scrollToSelectedRow(newId), 0);
-	// 				return newIndex;
-	// 			});
-	// 		}
-	// 	};
-
-	// 	window.addEventListener("keydown", handleKeyDown);
-	// 	return () => window.removeEventListener("keydown", handleKeyDown);
-	// }, [products]);
 
 	const deleteAllProducts = async (product_id) => {
 		const salesId = localStorage.getItem("sales_id");
