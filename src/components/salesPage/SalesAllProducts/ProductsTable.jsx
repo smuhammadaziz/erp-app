@@ -326,6 +326,26 @@ function ProductsTable({
 	);
 	const falseCurrencyBoolean = localStorage.getItem("falseCurrencyBoolean");
 
+	const [sortingOrder, setSortingOrder] = useState("asc");
+
+
+	const sortData = (order) => {
+		return [...filteredData].sort((a, b) => {
+			if (order === "asc") {
+				return a.name.localeCompare(b.name);
+			} else {
+				return b.name.localeCompare(a.name);
+			}
+		});
+	};
+
+	// Handle header click
+	const handleSort = () => {
+		const newOrder = sortingOrder === "asc" ? "desc" : "asc";
+		setSortingOrder(newOrder);
+		sortData(newOrder);
+	};
+
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
@@ -338,9 +358,16 @@ function ProductsTable({
 			>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px]">
+						<th
+							className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px] cursor-pointer"
+							onClick={handleSort}
+						>
 							Наименование, производитель
+							<span className="ml-2">
+								{sortingOrder === "asc" ? "▲" : "▼"}
+							</span>
 						</th>
+
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
 							Валюта
 						</th>
@@ -373,7 +400,7 @@ function ProductsTable({
 						</tr>
 					) : filteredData.length > 0 ? (
 						<>
-							{filteredData.map((product, index) => (
+							{sortData(sortingOrder).map((product, index) => (
 								<tr
 									key={product.product_id}
 									data-row-index={index}
