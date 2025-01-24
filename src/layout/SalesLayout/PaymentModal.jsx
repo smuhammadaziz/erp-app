@@ -239,7 +239,19 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 
 	if (!isOpen) return null;
 
-	const clientsArray = Array.isArray(clients) ? clients : [];
+	const defaultClient = {
+		client_id: "00000000-0000-0000-0000-000000000000",
+		delete: false,
+		name: "Оддий Харидор",
+		archive: false,
+		phone_number: "",
+		negative_balance: [],
+		positive_balance: [],
+	};
+
+	const clientsArray = Array.isArray(clients)
+		? [defaultClient, ...clients]
+		: [defaultClient];
 
 	const filteredClients =
 		searchTerm.trim() === ""
