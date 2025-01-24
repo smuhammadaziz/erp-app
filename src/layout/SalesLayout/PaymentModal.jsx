@@ -59,8 +59,13 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	if (!isOpen) return null;
 
 	const defaultClient = {
+		client_id: "00000000-0000-0000-0000-000000000000",
+		delete: false,
 		name: "Оддий Харидор",
-		value: "00000000-0000-0000-0000-000000000000",
+		archive: false,
+		phone_number: "",
+		negative_balance: [],
+		positive_balance: [],
 	};
 
 	return (
