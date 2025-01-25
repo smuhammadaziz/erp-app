@@ -103,6 +103,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	}, [data.products]);
 
 	if (!isOpen) return null;
+
 	return (
 		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
