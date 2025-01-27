@@ -4,13 +4,7 @@ import SalespageSummaSection from "../../components/salesPage/summa/summa";
 import SalesSoldProducts from "../../components/salesPage/SalesSoldProducts/soldproducts";
 import SalesPageLayoutMain from "../../layout/SalesLayout/saleslayout";
 
-function SalesMainPage({ socket }) {
-	const joinRoom = () => {
-		if (socket) {
-			console.log(socket);
-		}
-	};
-	console.log(socket);
+function SalesMainPage() {
 	return (
 		<SalesPageLayoutMain>
 			<div>
