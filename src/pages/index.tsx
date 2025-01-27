@@ -26,6 +26,8 @@ import useLang from "../hooks/useLang";
 import InitialUserSettingsForHome from "../components/homePage/UserSettings";
 
 import { v4 as uuidv4 } from "uuid";
+import { MouseEvent } from "react";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
 	CategoryScale,
@@ -51,6 +53,8 @@ const IndexPage: FC = () => {
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -152,6 +156,32 @@ const IndexPage: FC = () => {
 		return () => clearInterval(intervalId);
 	}, []);
 
+	const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
+		e.preventDefault();
+
+		const newSalesId = uuidv4();
+		localStorage.setItem("sales_id", newSalesId);
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/create/sales/${newSalesId}`,
+				{
+					method: "POST",
+				},
+			);
+			const data = await response.json();
+
+			if (response.ok) {
+				console.log("Created");
+				navigate("/sales");
+			} else {
+				console.log("error");
+			}
+		} catch (err) {
+			console.log("error creating empty sales", err);
+		}
+	};
+
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
@@ -164,9 +194,8 @@ const IndexPage: FC = () => {
 			linkText: content[language as string].home.salesDashboard,
 			borderColor: "border-purple-300",
 			hoverBg: "hover:bg-purple-50",
-			onClick: () => {
-				const newSalesId = uuidv4();
-				localStorage.setItem("sales_id", newSalesId);
+			onClick: (e: MouseEvent<HTMLAnchorElement>) => {
+				handleClick(e);
 			},
 		},
 		{
