@@ -19,7 +19,7 @@ export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 555);
+		setTimeout(() => setLoading(false), 200);
 	}, []);
 
 	return loading ? (
