@@ -45,15 +45,15 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				if (!response.ok) {
 					throw new Error("Failed to fetch products");
 				}
-				const data = await response.json();
+				const datas = await response.json();
 
-				setPrice(parseFloat(data[sales_id].summa));
-				setData(data[sales_id]);
+				setPrice(parseFloat(datas[sales_id].summa));
+				setData(datas[sales_id]);
 			} catch (err) {
 				console.log(err);
 			}
 		};
-		const intervalId = setInterval(fetchProducts, 400);
+		const intervalId = setInterval(fetchProducts, 1000);
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
 
@@ -101,6 +101,93 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 		fetchCurrencyData();
 	}, [data.products]);
+
+	const handleSaveSales = async (e) => {
+		e.preventDefault();
+
+		let currentTime = new Date();
+
+		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
+
+		let clientId = "";
+		let clientName = "";
+		let newProcessedProduct = [];
+
+		if (selectedClient) {
+			clientId = selectedClient.client_id;
+			clientName = selectedClient.name;
+		} else {
+			clientId = defaultClient.client_id;
+			clientName = defaultClient.name;
+		}
+
+		if (data.products) {
+			newProcessedProduct = data.products.map((product) => ({
+				product: product.product_id,
+				product_name: product.product_name,
+				warehouse: product.product_warehouse,
+				currency: product.product_currency,
+				quantity: product.soni,
+				price: product.narxi,
+				sum: product.summa,
+			}));
+		} else {
+			newProcessedProduct = [];
+		}
+
+		const currentData = {
+			id: sales_id,
+			ksb_id: ksbIdNumber,
+			device_id: device_id,
+			date: currentTime,
+			status: data.status,
+			client_id: clientId,
+			client_name: clientName,
+			total_price: data.summa,
+			details: [
+				{
+					document: sales_id,
+					client: clientId,
+					warehouse: data.mainWarehouse,
+					price_type: data.mainPriceType,
+					rate: data.mainRate,
+					currency: data.mainCurrency,
+					discount: data.discount,
+					comment: data.mainComment,
+					below_cost: data.mainBelowCost,
+				},
+			],
+			products: newProcessedProduct,
+			payments: [
+				{
+					cash: mainCashData,
+					currency: data.mainCurrency,
+					sum: data.summa,
+				},
+			],
+		};
+
+		try {
+			const response = await fetch(`${nodeUrl}/api/sales`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(currentData),
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+
+				console.log(result);
+				onClose();
+			} else {
+				console.error("Failed to submit data to the API");
+			}
+		} catch (error) {
+			console.error("Error submitting the sell data:", error);
+		}
+	};
 
 	if (!isOpen) return null;
 
@@ -255,7 +342,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
-						onClick={onClose}
+						onClick={handleSaveSales}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK
