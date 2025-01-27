@@ -8,7 +8,6 @@ function SalesPageLayoutSidebar() {
 
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
-			{/* Top buttons container */}
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
 					onClick={() => setIsModalOpen(true)}
@@ -23,7 +22,6 @@ function SalesPageLayoutSidebar() {
 				</button>
 			</div>
 
-			{/* Bottom button container */}
 			<div className="relative mt-auto mb-10">
 				<div className="absolute -top-2 -left-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
 					10
