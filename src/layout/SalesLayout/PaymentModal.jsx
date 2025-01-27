@@ -204,6 +204,26 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 		const newSalesId = uuidv4();
 		localStorage.setItem("sales_id", newSalesId);
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/create/sales/${newSalesId}`,
+				{
+					method: "POST",
+				},
+			);
+			const data = await response.json();
+
+			if (response.ok) {
+				console.log("Created");
+			} else {
+				console.log("error");
+			}
+		} catch (err) {
+			console.log("error creating empty sales", err);
+		}
+
+		window.location.reload();
 	};
 
 	if (!isOpen) return null;
