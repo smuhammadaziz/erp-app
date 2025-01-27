@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
+import { v4 as uuidv4 } from "uuid";
 
 const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
@@ -187,6 +188,22 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 		} catch (error) {
 			console.error("Error submitting the sell data:", error);
 		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			const data = await response.json();
+		} catch (error) {
+			console.error("Error deleting", error);
+		}
+
+		const newSalesId = uuidv4();
+		localStorage.setItem("sales_id", newSalesId);
 	};
 
 	if (!isOpen) return null;
