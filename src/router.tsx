@@ -11,6 +11,9 @@ import CustomersPage from "./pages/customers/customers";
 import ProductsPage from "./pages/products/products";
 import SettingsPage from "./pages/settings/settings";
 import { AuthProvider, ProtectedRoute } from "./context/Auth";
+import { io, Socket } from "socket.io-client";
+
+const socket: Socket = io("http://localhost:8000");
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +37,6 @@ export const Router: FC = () => {
 								</ProtectedRoute>
 							}
 						/>
-						{/* <Route path="popup" element={<PopupPage />} /> */}
 					</Route>
 					<Route path="/login" element={<LoginPageKSB />} />
 					<Route path="/intro" element={<IntroPageKSB />} />
@@ -42,7 +44,7 @@ export const Router: FC = () => {
 						path="/sales"
 						element={
 							<ProtectedRoute>
-								<SalesMainPage />
+								<SalesMainPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>
