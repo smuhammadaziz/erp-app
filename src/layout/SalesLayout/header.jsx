@@ -726,7 +726,7 @@ function SalesPageLayoutHeader() {
 			{isListModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
 					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[85vh] overflow-hidden">
-						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-500 text-white">
+						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
 								<BsBasket3 className="mr-2" /> Списка продаж
 							</h2>
@@ -762,7 +762,7 @@ function SalesPageLayoutHeader() {
 													<p className="text-sm text-gray-500">
 														Клиент
 													</p>
-													<p className="font-medium w-[500px] text-lg block truncate">
+													<p className="font-medium text-lg block truncate">
 														{sale.client_name}
 													</p>
 												</div>
