@@ -187,7 +187,7 @@ function IntroPageKSB() {
 
 	const NetworkModal = () => {
 		return (
-			<div className="fixed inset-0 z-50 flex items-center justify-center">
+			<div className="fixed inset-0 z-[40] flex items-center justify-center">
 				<div className="fixed inset-0 bg-black/40 backdrop-blur-sm animate-fadeIn" />
 				<div className="relative bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 transform animate-slideIn">
 					<div className="p-6">

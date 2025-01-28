@@ -30,7 +30,7 @@ export const Titlebar: FC = () => {
 	};
 	const onQuit = () => app.quit();
 	return (
-		<div className="title-bar sticky top-0 select-none">
+		<div className="title-bar sticky top-0 select-none z-[999]">
 			<div className="menu-button-container">
 				<img
 					id="icon"
