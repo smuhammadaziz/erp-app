@@ -458,7 +458,8 @@ function SalesPageLayoutHeader() {
 																)}{" "}
 																{
 																	currencyData[
-																		product
+																		selectedSale
+																			.details[0]
 																			.currency
 																	]
 																}
@@ -478,7 +479,8 @@ function SalesPageLayoutHeader() {
 																)}{" "}
 																{
 																	currencyData[
-																		product
+																		selectedSale
+																			.details[0]
 																			.currency
 																	]
 																}
