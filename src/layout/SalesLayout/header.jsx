@@ -801,7 +801,7 @@ function SalesPageLayoutHeader() {
 			{isDetailModalOpen && selectedSale && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[90vh] overflow-hidden">
-						<div className="p-4 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
+						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
 								<MdOutlineInfo className="mr-2" /> Подробности
 								продажи
@@ -815,9 +815,8 @@ function SalesPageLayoutHeader() {
 						</div>
 
 						<div className="overflow-y-auto max-h-[calc(90vh-4rem)]">
-							<div className="p-6 space-y-6">
-								{/* Client Information */}
-								<div className="bg-gray-50 p-4 rounded-lg">
+							<div className="px-6 py-4 space-y-6">
+								<div className="bg-slate-50 p-4 rounded-lg">
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
 										<MdPersonOutline className="mr-2" />{" "}
 										Информация о продаже
@@ -887,7 +886,7 @@ function SalesPageLayoutHeader() {
 									</div>
 								</div>
 
-								<div className="bg-gray-50 p-4 rounded-lg">
+								<div className="bg-slate-50 p-4 rounded-lg">
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
 										<MdPayment className="mr-2" />
 										Реквизиты платежа
