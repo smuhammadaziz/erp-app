@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FaBuilding, FaUserAlt } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
@@ -11,527 +11,6 @@ import {
 } from "react-icons/md";
 
 import { BiSearch } from "react-icons/bi";
-
-const sales = [
-	{
-		id: "698316f5-aa40-49fd-a38d-819f3ab77e5a",
-		ksb_id: "66419856",
-		device_id: "654651-.000000--000000--000000",
-		date: "12.12.2024",
-		status: "process",
-		client_id: "000000-000000-0000000",
-		client_name: "oddiy xaridor",
-		total_price: "800",
-		details: [
-			{
-				document: "698316f5-aa40-49fd-a38d-819f3ab77e5a",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: 12700,
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: 5,
-				comment: "something",
-				below_cost: false,
-			},
-		],
-		products: [
-			{
-				product: "176713b9-8e0e-11ef-bb1b-581122da5a09",
-				product_name: "apple 2kg",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				quantity: 2,
-				price: 5000,
-				sum: 10000,
-			},
-			{
-				product: "8888888888-8e0e-11ef-bb1b-581122da5a09",
-				product_name: "banana",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				quantity: 5,
-				price: 5000,
-				sum: 25000,
-			},
-			{
-				product: "999999999-8e0e-11ef-bb1b-581122da5a09",
-				product_name: "mango new",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				quantity: 2,
-				price: 10000,
-				sum: 20000,
-			},
-		],
-		payments: [
-			{
-				cash: "00000000-0000-0000-0000-000000000000",
-				currency: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				sum: 10000,
-			},
-		],
-	},
-	{
-		id: "d2236bda-74f5-4294-b7bf-97f0c26bb923",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T11:50:47.186Z",
-		status: "process",
-		client_id: "f44b56e4-8239-11ee-b956-581122da5a09",
-		client_name: "Кора нон ва Ак-бел сыр  Фаргона хожи тога",
-		total_price: "279000",
-		details: [
-			{
-				document: "d2236bda-74f5-4294-b7bf-97f0c26bb923",
-				client: "f44b56e4-8239-11ee-b956-581122da5a09",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "24%",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "ca34a00a-c26f-11ee-b9ce-581122da5a09",
-				product_name: "Family water газланмаган 10 л",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 13000,
-				sum: 13000,
-			},
-			{
-				product: "21ce19ce-2a43-11ef-ba6c-581122da5a09",
-				product_name: "Behamad  Mango  juice 1l",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "2",
-				price: 15000,
-				sum: 30000,
-			},
-			{
-				product: "faf5b771-6e85-11ef-bae9-581122da5a09",
-				product_name: "Победа Classic Шоколад 32% cacao 250 гр",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 35000,
-				sum: 35000,
-			},
-			{
-				product: "f06aaa1c-7f09-11ee-b94e-581122da5a09",
-				product_name: "Яшкино Фэнси Конфет",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 52000,
-				sum: 52000,
-			},
-			{
-				product: "f8c2d1a6-4057-11ef-ba93-581122da5a09",
-				product_name: "ARKO men пена для бритья  COOL 200мл",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: 2,
-				price: 37000,
-				sum: 74000,
-			},
-			{
-				product: "05c5e9c8-7bc7-11ee-b949-581122da5a09",
-				product_name: "Toy story Киндер",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "5",
-				price: 15000,
-				sum: 75000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "279000",
-			},
-		],
-	},
-	{
-		id: "adace374-8f25-4dbc-9fc5-0f6eb9b26916",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T15:16:00.813Z",
-		status: "process",
-		client_id: "4c409252-2572-11ef-ba65-581122da5a09",
-		client_name: "Хаёт лаззати булочкалари Қудратилло ",
-		total_price: "21000",
-		details: [
-			{
-				document: "adace374-8f25-4dbc-9fc5-0f6eb9b26916",
-				client: "4c409252-2572-11ef-ba65-581122da5a09",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "24%",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "70106199-0b86-11ef-ba40-581122da5a09",
-				product_name: "Parvoz сасиска куриные 400гр",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 19000,
-				sum: 19000,
-			},
-			{
-				product: "7972e200-4401-11ef-ba9a-581122da5a09",
-				product_name: "Маркер для доски рангли хар хил",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 2000,
-				sum: 2000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "21000",
-			},
-		],
-	},
-	{
-		id: "f5439ec5-06ff-4ee6-9eaa-d9ac77419069",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T16:12:34.839Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "60000",
-		details: [
-			{
-				document: "f5439ec5-06ff-4ee6-9eaa-d9ac77419069",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "24%",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "8d67bc34-40db-11ef-ba94-581122da5a09",
-				product_name: "Nivea Men чистая кожа  гель для бритья 200 мл",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 60000,
-				sum: 60000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "60000",
-			},
-		],
-	},
-	{
-		id: "2be580c5-df74-424e-b1bf-c99353d1f682",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T16:13:25.270Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "60000",
-		details: [
-			{
-				document: "2be580c5-df74-424e-b1bf-c99353d1f682",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "24%",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "8d67bc34-40db-11ef-ba94-581122da5a09",
-				product_name: "Nivea Men чистая кожа  гель для бритья 200 мл",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 60000,
-				sum: 60000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "60000",
-			},
-		],
-	},
-	{
-		id: "04bb8b7e-f290-4356-b2c2-a52a24530a0d",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T16:13:54.831Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "60000",
-		details: [
-			{
-				document: "04bb8b7e-f290-4356-b2c2-a52a24530a0d",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "24%",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "8d67bc34-40db-11ef-ba94-581122da5a09",
-				product_name: "Nivea Men чистая кожа  гель для бритья 200 мл",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 60000,
-				sum: 60000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "60000",
-			},
-		],
-	},
-	{
-		id: "04640314-50b4-40a0-94b8-faa3c6b36758",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T17:43:36.637Z",
-		status: "process",
-		client_id: "485e9854-eb5a-11ee-ba0d-581122da5a09",
-		client_name: "Eco Water Suvlari ",
-		total_price: "24000",
-		details: [
-			{
-				document: "04640314-50b4-40a0-94b8-faa3c6b36758",
-				client: "485e9854-eb5a-11ee-ba0d-581122da5a09",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "0",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "7972e200-4401-11ef-ba9a-581122da5a09",
-				product_name: "Маркер для доски рангли хар хил",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "12",
-				price: 2000,
-				sum: 24000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "24000",
-			},
-		],
-	},
-	{
-		id: "515f45bd-1ad7-4035-b5ad-28693c845acb",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T17:47:14.971Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "192500",
-		details: [
-			{
-				document: "515f45bd-1ad7-4035-b5ad-28693c845acb",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "0",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "986c12df-7c9d-11ee-b94b-581122da5a09",
-				product_name: "Nestle Nan 2 Opti Pro 800гр",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 185000,
-				sum: 185000,
-			},
-			{
-				product: "1c71febb-3f41-11ef-ba92-581122da5a09",
-				product_name: "Pepsi Напиток (шиша) zero 250Ml",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 7500,
-				sum: 7500,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "192500",
-			},
-		],
-	},
-	{
-		id: "98ff0ccb-b575-401c-805d-1060356c8c28",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T17:48:02.409Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "36000",
-		details: [
-			{
-				document: "98ff0ccb-b575-401c-805d-1060356c8c28",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "0",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "f180d1e2-7be7-11ee-b949-581122da5a09",
-				product_name: "Пон Пончик с шоколдодной",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "12",
-				price: 3000,
-				sum: 36000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "36000",
-			},
-		],
-	},
-	{
-		id: "0e3c708b-9b54-42ba-b23a-682ae43af790",
-		ksb_id: "66419856",
-		device_id: "120c11a0-d00b-456a-8593-e702edeb43e6",
-		date: "2025-01-27T17:58:15.845Z",
-		status: "process",
-		client_id: "00000000-0000-0000-0000-000000000000",
-		client_name: "Оддий Харидор",
-		total_price: "252000",
-		details: [
-			{
-				document: "0e3c708b-9b54-42ba-b23a-682ae43af790",
-				client: "00000000-0000-0000-0000-000000000000",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				price_type: "e51e4ee7-d689-11e7-b79f-00ac1948df3a",
-				rate: "12700",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				discount: "0",
-				comment: "hello",
-				below_cost: 0,
-			},
-		],
-		products: [
-			{
-				product: "ca34a00a-c26f-11ee-b9ce-581122da5a09",
-				product_name: "Family water газланмаган 10 л",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "12",
-				price: 13000,
-				sum: 156000,
-			},
-			{
-				product: "28d537d7-3f95-11ef-ba92-581122da5a09",
-				product_name: "Deep Depil для депиляции unisex 20 шт",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 34000,
-				sum: 34000,
-			},
-			{
-				product: "f06aaa1c-7f09-11ee-b94e-581122da5a09",
-				product_name: "Яшкино Фэнси Конфет",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 52000,
-				sum: 52000,
-			},
-			{
-				product: "4eca5980-9343-11ee-b976-581122da5a09",
-				product_name: "Напитка Kids Toys яблока 0,390 л",
-				warehouse: "e51e4ee3-d689-11e7-b79f-00ac1948df3a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				quantity: "1",
-				price: 10000,
-				sum: 10000,
-			},
-		],
-		payments: [
-			{
-				cash: "411c77fa-3d75-11e8-86d1-2089849ccd5a",
-				currency: "e51e4ee6-d689-11e7-b79f-00ac1948df3a",
-				sum: "252000",
-			},
-		],
-	},
-];
 
 import {
 	MdOutlineShoppingCart,
@@ -654,6 +133,8 @@ function SalesPageLayoutHeader() {
 
 	const basicUsername = localStorage.getItem("userType");
 	const ksb_id = localStorage.getItem("ksbIdNumber");
+	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
+	const device_id = localStorage.getItem("device_id");
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -675,6 +156,43 @@ function SalesPageLayoutHeader() {
 
 		fetchProducts();
 	}, [nodeUrl, ksb_id]);
+
+	const [currencyData, setCurrencyData] = useState({});
+
+	const fetchCurrencyData = useCallback(async () => {
+		for (const product of productData) {
+			if (product.details && !currencyData[product.details]) {
+				// const deviceId = localStorage.getItem("device_id");
+				// const ksbId = localStorage.getItem("ksbIdNumber");
+
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.details[0].currency}`,
+					);
+					const data = await response.json();
+
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.details[0].currency]: data[0]?.name || "-",
+					}));
+
+					// if (data[0]?.key) {
+					// 	(data[0].key);
+					// }
+				} catch (error) {
+					console.error("Failed to fetch currency data", error);
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.details[0].currency]: "-",
+					}));
+				}
+			}
+		}
+	}, [productData]);
+
+	useEffect(() => {
+		fetchCurrencyData();
+	}, [fetchCurrencyData]);
 
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
@@ -777,7 +295,22 @@ function SalesPageLayoutHeader() {
 															Сумма
 														</p>
 														<p className="font-medium text-lg">
-															{sale.total_price}
+															{parseFloat(
+																sale.total_price,
+															).toLocaleString(
+																"ru-RU",
+																{
+																	minimumFractionDigits: 2,
+																	maximumFractionDigits: 2,
+																},
+															)}
+															{
+																currencyData[
+																	sale
+																		.details[0]
+																		.currency
+																]
+															}
 														</p>
 													</div>
 												</div>
