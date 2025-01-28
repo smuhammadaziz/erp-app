@@ -392,12 +392,15 @@ function SalesPageLayoutHeader() {
 											<span className="text-gray-600">
 												Дата:
 											</span>{" "}
-											{selectedSale.date}
+											{moment(selectedSale.date).format(
+												"LL",
+											)}
 										</p>
 										<p className="text-gray-600">
 											Статус:
-											<span className="inline-flex ml-2 text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
-												{selectedSale.status}
+											<span className="inline-flex ml-2 text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
+												{/* {selectedSale.status} */}
+												Не доставлено
 											</span>
 										</p>
 									</div>
@@ -433,11 +436,42 @@ function SalesPageLayoutHeader() {
 														<p>
 															Цена:{" "}
 															<span className="font-medium">
-																{product.price}
+																{parseFloat(
+																	product.price,
+																).toLocaleString(
+																	"ru-RU",
+																	{
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
+																	},
+																)}{" "}
+																{
+																	currencyData[
+																		product
+																			.currency
+																	]
+																}
 															</span>
 														</p>
-														<p className="font-medium">
-															Сумма: {product.sum}
+														<p>
+															Сумма:{" "}
+															<span className="font-medium">
+																{parseFloat(
+																	product.sum,
+																).toLocaleString(
+																	"ru-RU",
+																	{
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
+																	},
+																)}{" "}
+																{
+																	currencyData[
+																		product
+																			.currency
+																	]
+																}
+															</span>
 														</p>
 													</div>
 												</div>
