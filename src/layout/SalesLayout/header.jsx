@@ -760,7 +760,7 @@ function SalesPageLayoutHeader() {
 														<p className="text-sm text-gray-500">
 															Status
 														</p>
-														<span className="inline-flex text-lg items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+														<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
 															{sale.status}
 														</span>
 													</div>
