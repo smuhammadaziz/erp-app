@@ -418,7 +418,7 @@ function SalesPageLayoutHeader() {
 								</div>
 
 								{/* Products */}
-								<div>
+								<div className="">
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
 										<MdInventory className="mr-2" />{" "}
 										Продукты
@@ -428,7 +428,7 @@ function SalesPageLayoutHeader() {
 											(product, index) => (
 												<div
 													key={index}
-													className="border rounded-lg p-3 hover:bg-gray-50"
+													className="border rounded-lg p-3 bg-slate-50 hover:bg-slate-100"
 												>
 													<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
 														<p className="font-medium">
