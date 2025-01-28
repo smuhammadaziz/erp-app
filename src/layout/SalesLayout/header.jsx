@@ -901,40 +901,6 @@ function SalesPageLayoutHeader() {
 										</div>
 									</div>
 								</div>
-
-								{/* Additional Details */}
-								<div className="bg-gray-50 p-4 rounded-lg">
-									<h3 className="text-lg font-semibold mb-4 flex items-center">
-										<MdWarehouse className="mr-2" />{" "}
-										Additional Details
-									</h3>
-									<div className="grid grid-cols-2 gap-4">
-										<p>
-											<span className="text-gray-600">
-												Status:
-											</span>{" "}
-											{selectedSale.status}
-										</p>
-										<p>
-											<span className="text-gray-600">
-												Date:
-											</span>{" "}
-											{formatDate(selectedSale.date)}
-										</p>
-										<p>
-											<span className="text-gray-600">
-												Device ID:
-											</span>{" "}
-											{selectedSale.device_id}
-										</p>
-										<p>
-											<span className="text-gray-600">
-												KSB ID:
-											</span>{" "}
-											{selectedSale.ksb_id}
-										</p>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
