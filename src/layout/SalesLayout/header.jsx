@@ -192,6 +192,17 @@ function SalesPageLayoutHeader() {
 		fetchCurrencyData();
 	}, [fetchCurrencyData]);
 
+	const [cashData, setCashData] = useState("");
+
+	const cashDataAll = JSON.parse(localStorage.getItem("settingsCashData"));
+
+	function findObjectById(id) {
+		const result = cashDataAll.find((item) => item.cash_id === id);
+		return result || null;
+	}
+
+	// const foundObject = findObjectById(idToFind);
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -493,7 +504,11 @@ function SalesPageLayoutHeader() {
 													className="flex justify-between"
 												>
 													<span>
-														Касса {index + 1}
+														{
+															findObjectById(
+																payment.cash,
+															).name
+														}
 													</span>
 													<span className="font-medium">
 														{payment.sum}
