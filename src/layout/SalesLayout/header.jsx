@@ -900,19 +900,19 @@ function SalesPageLayoutHeader() {
 													className="flex justify-between"
 												>
 													<span>
-														Payment {index + 1}
+														Касса {index + 1}
 													</span>
 													<span className="font-medium">
-														${payment.sum}
+														{payment.sum}
 													</span>
 												</div>
 											),
 										)}
 										<div className="border-t pt-2 mt-2">
 											<div className="flex justify-between font-semibold">
-												<span>Total Amount</span>
+												<span>Общая сумма</span>
 												<span>
-													${selectedSale.total_price}
+													{selectedSale.total_price}
 												</span>
 											</div>
 										</div>
