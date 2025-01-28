@@ -773,7 +773,7 @@ function SalesPageLayoutHeader() {
 														<p className="text-sm text-gray-500">
 															Статус
 														</p>
-														<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+														<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
 															{sale.status}
 														</span>
 													</div>
@@ -820,24 +820,24 @@ function SalesPageLayoutHeader() {
 								<div className="bg-gray-50 p-4 rounded-lg">
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
 										<MdPersonOutline className="mr-2" />{" "}
-										Client Information
+										Информация о продаже
 									</h3>
 									<div className="grid grid-cols-3 gap-4">
 										<p>
 											<span className="text-gray-600">
-												Name:
+												Клиент:
 											</span>{" "}
 											{selectedSale.client_name}
 										</p>
 										<p>
 											<span className="text-gray-600">
-												ID:
+												Дата:
 											</span>{" "}
 											{selectedSale.date}
 										</p>
 										<p className="text-gray-600">
-											Status:
-											<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+											Статус:
+											<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
 												{selectedSale.status}
 											</span>
 										</p>
@@ -848,7 +848,7 @@ function SalesPageLayoutHeader() {
 								<div>
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
 										<MdInventory className="mr-2" />{" "}
-										Products
+										Продукты
 									</h3>
 									<div className="space-y-3">
 										{selectedSale.products.map(
@@ -864,16 +864,21 @@ function SalesPageLayoutHeader() {
 															}
 														</p>
 														<p>
-															Quantity:{" "}
-															{product.quantity}
+															Количество:{" "}
+															<span className="font-medium">
+																{
+																	product.quantity
+																}
+															</span>
 														</p>
 														<p>
-															Price: $
-															{product.price}
+															Цена:{" "}
+															<span className="font-medium">
+																{product.price}
+															</span>
 														</p>
 														<p className="font-medium">
-															Total: $
-															{product.sum}
+															Сумма: {product.sum}
 														</p>
 													</div>
 												</div>
@@ -882,11 +887,10 @@ function SalesPageLayoutHeader() {
 									</div>
 								</div>
 
-								{/* Payment Information */}
 								<div className="bg-gray-50 p-4 rounded-lg">
 									<h3 className="text-lg font-semibold mb-4 flex items-center">
-										<MdPayment className="mr-2" /> Payment
-										Details
+										<MdPayment className="mr-2" />
+										Реквизиты платежа
 									</h3>
 									<div className="space-y-2">
 										{selectedSale.payments.map(
