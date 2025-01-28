@@ -698,8 +698,8 @@ function SalesPageLayoutHeader() {
 			</div>
 			{isListModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-4xl max-h-[80vh] overflow-hidden">
-						<div className="p-4 border-b border-gray-200 flex justify-between items-center bg-green-600 text-white">
+					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[80vh] overflow-hidden">
+						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-500 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
 								<BsBasket3 className="mr-2" /> Sales Overview
 							</h2>
@@ -710,7 +710,6 @@ function SalesPageLayoutHeader() {
 								<MdClose className="text-2xl" />
 							</button>
 						</div>
-
 						<div className="overflow-y-auto max-h-[calc(80vh-4rem)]">
 							<div className="grid gap-4 p-4">
 								{sales.map((sale) => (
@@ -718,63 +717,62 @@ function SalesPageLayoutHeader() {
 										key={sale.id}
 										className="bg-white border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
 									>
-										<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-											<div className="flex items-center">
-												<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
-												<div>
-													<p className="text-sm text-gray-500">
-														Client
-													</p>
-													<p className="font-medium truncate">
-														{sale.client_name}
-													</p>
-												</div>
+										{/* First Row - Only Client Name */}
+										<div className="flex items-start mb-4">
+											<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
+											<div>
+												<p className="text-sm text-gray-500">
+													Client
+												</p>
+												<p className="font-medium w-[500px] text-lg block truncate">
+													{sale.client_name}
+												</p>
 											</div>
+										</div>
 
-											<div className="flex items-center">
+										{/* Second Row - Other Details */}
+										<div className="grid grid-cols-3 gap-4">
+											<div className="flex items-start">
 												<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
 												<div>
 													<p className="text-sm text-gray-500">
 														Total
 													</p>
-													<p className="font-medium">
+													<p className="font-medium text-lg">
 														${sale.total_price}
 													</p>
 												</div>
 											</div>
-
-											<div className="flex items-center">
+											<div className="flex items-start">
 												<MdAccessTime className="text-gray-500 mr-2 text-xl" />
 												<div>
 													<p className="text-sm text-gray-500">
 														Date
 													</p>
-													<p className="font-medium">
+													<p className="font-medium text-lg">
 														{formatDate(sale.date)}
 													</p>
 												</div>
 											</div>
-
 											<div className="flex items-center justify-between">
 												<div className="flex items-center">
-													<div className="mr-4">
+													<div className="mr-4 items-center">
 														<p className="text-sm text-gray-500">
 															Status
 														</p>
-														<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+														<span className="inline-flex text-lg items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
 															{sale.status}
 														</span>
 													</div>
 												</div>
-
 												<button
 													onClick={() =>
 														openDetailModal(sale)
 													}
-													className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
+													className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
 												>
 													<MdOutlineInfo className="mr-1" />
-													View
+													более
 												</button>
 											</div>
 										</div>
