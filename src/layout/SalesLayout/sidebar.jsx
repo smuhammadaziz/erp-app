@@ -256,7 +256,6 @@ function SalesPageLayoutSidebar() {
 														}
 														className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
 													>
-														{/* <MdOutlineInfo className="mr-1" /> */}
 														Смотреть
 													</button>
 												</div>
@@ -268,8 +267,6 @@ function SalesPageLayoutSidebar() {
 					</div>
 				</div>
 			)}
-
-			{/* Detail Modal */}
 		</div>
 	);
 }
