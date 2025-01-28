@@ -10,6 +10,8 @@ import {
 	MdOutlineSignalWifiStatusbar4Bar,
 } from "react-icons/md";
 
+import { BiSearch } from "react-icons/bi";
+
 const sales = [
 	{
 		id: "698316f5-aa40-49fd-a38d-819f3ab77e5a",
@@ -698,7 +700,7 @@ function SalesPageLayoutHeader() {
 			</div>
 			{isListModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[80vh] overflow-hidden">
+					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[85vh] overflow-hidden">
 						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-500 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
 								<BsBasket3 className="mr-2" /> Списка продаж
@@ -710,12 +712,23 @@ function SalesPageLayoutHeader() {
 								<MdClose className="text-2xl" />
 							</button>
 						</div>
-						<div className="overflow-y-auto max-h-[calc(80vh-4rem)]">
+
+						<div className="p-4">
+							<div className="relative">
+								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+								<input
+									type="text"
+									placeholder="Поиск..."
+									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+								/>
+							</div>
+						</div>
+						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
 							<div className="grid gap-4 p-4">
 								{sales.map((sale) => (
 									<div
 										key={sale.id}
-										className="bg-white border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
+										className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
 									>
 										{/* First Row - Only Client Name */}
 										<div className="flex items-start">
