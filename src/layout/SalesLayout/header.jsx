@@ -28,6 +28,11 @@ import {
 import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import nodeUrl from "../../links";
 import ProductTable from "../../components/productPage/products/ProductTable";
+
+import moment from "moment";
+import "moment/locale/ru";
+
+moment.locale("ru");
 function SalesPageLayoutHeader() {
 	const [isModalOpen, setIsModalOpen] = useState({
 		klientlar: false,
@@ -313,9 +318,9 @@ function SalesPageLayoutHeader() {
 															Дата
 														</p>
 														<p className="font-medium text-lg">
-															{formatDate(
+															{moment(
 																sale.date,
-															)}
+															).format("LL")}
 														</p>
 													</div>
 												</div>
@@ -325,8 +330,9 @@ function SalesPageLayoutHeader() {
 															<p className="text-sm text-gray-500">
 																Статус
 															</p>
-															<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
-																{sale.status}
+															<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
+																{/* {sale.status} */}
+																Не доставлено
 															</span>
 														</div>
 													</div>
