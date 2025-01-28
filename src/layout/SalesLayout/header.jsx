@@ -162,9 +162,6 @@ function SalesPageLayoutHeader() {
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of productData) {
 			if (product.details && !currencyData[product.details]) {
-				// const deviceId = localStorage.getItem("device_id");
-				// const ksbId = localStorage.getItem("ksbIdNumber");
-
 				try {
 					const response = await fetch(
 						`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.details[0].currency}`,
@@ -282,7 +279,6 @@ function SalesPageLayoutHeader() {
 												</div>
 											</div>
 
-											{/* Second Row - Other Details */}
 											<div className="grid grid-cols-3 gap-4">
 												<div className="flex items-start">
 													<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
