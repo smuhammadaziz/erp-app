@@ -790,7 +790,8 @@ function SalesPageLayoutHeader() {
 					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[90vh] overflow-hidden">
 						<div className="p-4 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
-								<MdOutlineInfo className="mr-2" /> Sale Details
+								<MdOutlineInfo className="mr-2" /> Подробности
+								продажи
 							</h2>
 							<button
 								onClick={() => setIsDetailModalOpen(false)}
@@ -808,7 +809,7 @@ function SalesPageLayoutHeader() {
 										<MdPersonOutline className="mr-2" />{" "}
 										Client Information
 									</h3>
-									<div className="grid grid-cols-2 gap-4">
+									<div className="grid grid-cols-3 gap-4">
 										<p>
 											<span className="text-gray-600">
 												Name:
@@ -819,7 +820,13 @@ function SalesPageLayoutHeader() {
 											<span className="text-gray-600">
 												ID:
 											</span>{" "}
-											{selectedSale.client_id}
+											{selectedSale.date}
+										</p>
+										<p className="text-gray-600">
+											Status:
+											<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+												{selectedSale.status}
+											</span>
 										</p>
 									</div>
 								</div>
