@@ -175,10 +175,6 @@ function SalesPageLayoutHeader() {
 						...prev,
 						[product.details[0].currency]: data[0]?.name || "-",
 					}));
-
-					// if (data[0]?.key) {
-					// 	(data[0].key);
-					// }
 				} catch (error) {
 					console.error("Failed to fetch currency data", error);
 					setCurrencyData((prev) => ({
@@ -303,7 +299,7 @@ function SalesPageLayoutHeader() {
 																	minimumFractionDigits: 2,
 																	maximumFractionDigits: 2,
 																},
-															)}
+															)}{" "}
 															{
 																currencyData[
 																	sale
