@@ -836,7 +836,7 @@ function SalesPageLayoutHeader() {
 										</p>
 										<p className="text-gray-600">
 											Статус:
-											<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
+											<span className="inline-flex ml-2 text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
 												{selectedSale.status}
 											</span>
 										</p>
