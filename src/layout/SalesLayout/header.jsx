@@ -718,7 +718,7 @@ function SalesPageLayoutHeader() {
 										className="bg-white border rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow"
 									>
 										{/* First Row - Only Client Name */}
-										<div className="flex items-start mb-4">
+										<div className="flex items-start">
 											<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
 											<div>
 												<p className="text-sm text-gray-500">
