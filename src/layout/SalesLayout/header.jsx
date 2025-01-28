@@ -331,7 +331,7 @@ function SalesPageLayoutHeader() {
 														<p className="font-medium text-lg">
 															{moment(
 																sale.date,
-															).format("LL")}
+															).format("LLL")}
 														</p>
 													</div>
 												</div>
@@ -404,7 +404,7 @@ function SalesPageLayoutHeader() {
 												Дата:
 											</span>{" "}
 											{moment(selectedSale.date).format(
-												"LL",
+												"LLL",
 											)}
 										</p>
 										<p className="text-gray-600">
