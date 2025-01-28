@@ -701,7 +701,7 @@ function SalesPageLayoutHeader() {
 					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[80vh] overflow-hidden">
 						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-500 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
-								<BsBasket3 className="mr-2" /> Sales Overview
+								<BsBasket3 className="mr-2" /> Списка продаж
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
@@ -722,7 +722,7 @@ function SalesPageLayoutHeader() {
 											<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
 											<div>
 												<p className="text-sm text-gray-500">
-													Client
+													Клиент
 												</p>
 												<p className="font-medium w-[500px] text-lg block truncate">
 													{sale.client_name}
@@ -736,10 +736,10 @@ function SalesPageLayoutHeader() {
 												<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
 												<div>
 													<p className="text-sm text-gray-500">
-														Total
+														Сумма
 													</p>
 													<p className="font-medium text-lg">
-														${sale.total_price}
+														{sale.total_price}
 													</p>
 												</div>
 											</div>
@@ -747,7 +747,7 @@ function SalesPageLayoutHeader() {
 												<MdAccessTime className="text-gray-500 mr-2 text-xl" />
 												<div>
 													<p className="text-sm text-gray-500">
-														Date
+														Дата
 													</p>
 													<p className="font-medium text-lg">
 														{formatDate(sale.date)}
@@ -758,7 +758,7 @@ function SalesPageLayoutHeader() {
 												<div className="flex items-center">
 													<div className="mr-4 items-center">
 														<p className="text-sm text-gray-500">
-															Status
+															Статус
 														</p>
 														<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
 															{sale.status}
