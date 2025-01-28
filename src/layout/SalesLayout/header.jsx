@@ -787,7 +787,7 @@ function SalesPageLayoutHeader() {
 			{/* Detail Modal */}
 			{isDetailModalOpen && selectedSale && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden">
+					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[90vh] overflow-hidden">
 						<div className="p-4 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
 								<MdOutlineInfo className="mr-2" /> Sale Details
