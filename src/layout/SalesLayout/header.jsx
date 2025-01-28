@@ -547,6 +547,8 @@ import {
 	MdFilterList,
 } from "react-icons/md";
 import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
+import nodeUrl from "../../links";
+import ProductTable from "../../components/productPage/products/ProductTable";
 function SalesPageLayoutHeader() {
 	const [isModalOpen, setIsModalOpen] = useState({
 		klientlar: false,
@@ -558,6 +560,7 @@ function SalesPageLayoutHeader() {
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 	const [selectedSale, setSelectedSale] = useState(null);
 	const [status, setStatus] = useState("checking");
+	const [productData, setProductData] = useState([]);
 
 	const checkNetworkStatus = async () => {
 		if (!navigator.onLine) {
@@ -650,6 +653,28 @@ function SalesPageLayoutHeader() {
 	};
 
 	const basicUsername = localStorage.getItem("userType");
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/all/sales/${ksb_id}`,
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch products");
+				}
+				const data = await response.json();
+				setProductData(data);
+			} catch (err) {
+				console.log(err);
+			}
+		};
+		// const intervalId = setInterval(fetchProducts, 400);
+		// return () => clearInterval(intervalId);
+
+		fetchProducts();
+	}, [nodeUrl, ksb_id]);
 
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
@@ -725,72 +750,76 @@ function SalesPageLayoutHeader() {
 						</div>
 						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
 							<div className="grid gap-4 p-4">
-								{sales.map((sale) => (
-									<div
-										key={sale.id}
-										className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
-									>
-										{/* First Row - Only Client Name */}
-										<div className="flex items-start">
-											<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
-											<div>
-												<p className="text-sm text-gray-500">
-													Клиент
-												</p>
-												<p className="font-medium w-[500px] text-lg block truncate">
-													{sale.client_name}
-												</p>
+								{productData.length > 0 &&
+									productData.map((sale) => (
+										<div
+											key={sale.id}
+											className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
+										>
+											<div className="flex items-start">
+												<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
+												<div>
+													<p className="text-sm text-gray-500">
+														Клиент
+													</p>
+													<p className="font-medium w-[500px] text-lg block truncate">
+														{sale.client_name}
+													</p>
+												</div>
 											</div>
-										</div>
 
-										{/* Second Row - Other Details */}
-										<div className="grid grid-cols-3 gap-4">
-											<div className="flex items-start">
-												<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
-												<div>
-													<p className="text-sm text-gray-500">
-														Сумма
-													</p>
-													<p className="font-medium text-lg">
-														{sale.total_price}
-													</p>
-												</div>
-											</div>
-											<div className="flex items-start">
-												<MdAccessTime className="text-gray-500 mr-2 text-xl" />
-												<div>
-													<p className="text-sm text-gray-500">
-														Дата
-													</p>
-													<p className="font-medium text-lg">
-														{formatDate(sale.date)}
-													</p>
-												</div>
-											</div>
-											<div className="flex items-center justify-between">
-												<div className="flex items-center">
-													<div className="mr-4 items-center">
+											{/* Second Row - Other Details */}
+											<div className="grid grid-cols-3 gap-4">
+												<div className="flex items-start">
+													<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
+													<div>
 														<p className="text-sm text-gray-500">
-															Статус
+															Сумма
 														</p>
-														<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
-															{sale.status}
-														</span>
+														<p className="font-medium text-lg">
+															{sale.total_price}
+														</p>
 													</div>
 												</div>
-												<button
-													onClick={() =>
-														openDetailModal(sale)
-													}
-													className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
-												>
-													<MdOutlineInfo className="mr-1" />
-													более
-												</button>
+												<div className="flex items-start">
+													<MdAccessTime className="text-gray-500 mr-2 text-xl" />
+													<div>
+														<p className="text-sm text-gray-500">
+															Дата
+														</p>
+														<p className="font-medium text-lg">
+															{formatDate(
+																sale.date,
+															)}
+														</p>
+													</div>
+												</div>
+												<div className="flex items-center justify-between">
+													<div className="flex items-center">
+														<div className="mr-4 items-center">
+															<p className="text-sm text-gray-500">
+																Статус
+															</p>
+															<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-300 text-green-800">
+																{sale.status}
+															</span>
+														</div>
+													</div>
+													<button
+														onClick={() =>
+															openDetailModal(
+																sale,
+															)
+														}
+														className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
+													>
+														<MdOutlineInfo className="mr-1" />
+														более
+													</button>
+												</div>
 											</div>
 										</div>
-									</div>
-								))}
+									))}
 							</div>
 						</div>
 					</div>
