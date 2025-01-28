@@ -511,7 +511,20 @@ function SalesPageLayoutHeader() {
 														}
 													</span>
 													<span className="font-medium">
-														{payment.sum}
+														{parseFloat(
+															payment.sum,
+														).toLocaleString(
+															"ru-RU",
+															{
+																minimumFractionDigits: 2,
+																maximumFractionDigits: 2,
+															},
+														)}{" "}
+														{
+															currencyData[
+																payment.currency
+															]
+														}
 													</span>
 												</div>
 											),
@@ -520,7 +533,19 @@ function SalesPageLayoutHeader() {
 											<div className="flex justify-between font-semibold">
 												<span>Общая сумма</span>
 												<span>
-													{selectedSale.total_price}
+													{parseFloat(
+														selectedSale.total_price,
+													).toLocaleString("ru-RU", {
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													})}{" "}
+													{
+														currencyData[
+															selectedSale
+																.details[0]
+																.currency
+														]
+													}
 												</span>
 											</div>
 										</div>
