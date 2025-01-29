@@ -128,8 +128,21 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 						</NavLink>
 						<button
 							onClick={() => setIsUpdateModalOpen(true)}
-							className="mt-3 ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
+							className="mt-3 relative ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
 						>
+							<span
+								style={{
+									position: "absolute",
+									top: "0",
+									left: "0",
+									width: "8px",
+									height: "8px",
+									backgroundColor: "orange",
+									borderRadius: "50%",
+									border: "",
+									transform: "translate(-50%, -30%)", // Adjust to center the dot on the corner
+								}}
+							></span>
 							Обновить
 						</button>
 					</div>
@@ -142,4 +155,3 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 		</>
 	);
 };
-

@@ -80,13 +80,26 @@ export const Titlebar: FC = () => {
 			<div className="window-controls-container flex items-center">
 				<button
 					title="informations"
-					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+					className="cursor-pointer relative focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
 					onClick={() => setShowInfoModal(true)}
 					style={
 						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
 					}
 				>
 					<RiInformation2Fill className="text-gray-200 hover:text-white transition-colors duration-200" />
+					<span
+						style={{
+							position: "absolute",
+							top: "0",
+							left: "0",
+							width: "8px",
+							height: "8px",
+							backgroundColor: "orange",
+							borderRadius: "50%",
+							border: "",
+							transform: "translate(-20%, -10%)", // Adjust to center the dot on the corner
+						}}
+					></span>
 				</button>
 				<button
 					title="Minimize"
@@ -126,4 +139,3 @@ export const Titlebar: FC = () => {
 		</div>
 	);
 };
-
