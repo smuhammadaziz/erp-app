@@ -346,7 +346,7 @@ function LoginPageKSB() {
 
 			<Toaster position="bottom-right" />
 
-			{showPasswordModal && (
+			{/* {showPasswordModal && (
 				<PasswordModal
 					isFirstTimePassword={isFirstTimePassword}
 					userType={userType}
@@ -357,7 +357,7 @@ function LoginPageKSB() {
 						setPasswordError("");
 					}}
 				/>
-			)}
+			)} */}
 		</Layout>
 	);
 }
