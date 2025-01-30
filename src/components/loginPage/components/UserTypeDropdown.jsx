@@ -36,8 +36,8 @@ function UserTypeDropdown({
 		const value = e.target.value;
 		if (value === "") {
 			setSelectedUserType("");
-			toggleDropdown(false);
 		} else {
+			handleSelect(value);
 			setSelectedUserType(value);
 		}
 		localStorage.setItem("userType", value);
