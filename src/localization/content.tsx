@@ -141,7 +141,8 @@ const content: Content = {
 				"Интернет алоқаси ёъқ. Илтимос, тармоқингизни текширинг ва қайтадан урининг.",
 			connectionError: "Уланиш хатоси. Интернет уланишингизни текширинг.",
 			passwordSetSuccessfully: "Парол муваффақиятли оʻрнатилди",
-			failedToSetPassword: "Нотўғри парол",
+			failedToSetPassword:
+				"Тизимга кириш хатоси. Фойдаланувчи номи ва паролни текширинг.",
 			pleaseEnterPassword: "Илтимос, паролни киритинг",
 		},
 		home: {
@@ -250,7 +251,8 @@ const content: Content = {
 			connectionError:
 				"Ошибка подключения. Проверьте подключение к интернету.",
 			passwordSetSuccessfully: "Пароль успешно установлен",
-			failedToSetPassword: "Неправильный пароль",
+			failedToSetPassword:
+				"Ошибка авторизации. Проверьте имя пользователя и пароль.",
 			pleaseEnterPassword: "Пожалуйста, введите пароль",
 		},
 		home: {
