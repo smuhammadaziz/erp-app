@@ -35,7 +35,8 @@ function UserTypeDropdown({
 	const handleInputChange = (e) => {
 		const value = e.target.value;
 		if (value === "") {
-			setSelectedUserType(userType || "");
+			setSelectedUserType("");
+			toggleDropdown(false);
 		} else {
 			setSelectedUserType(value);
 		}
@@ -53,15 +54,22 @@ function UserTypeDropdown({
 					value={selectedUserType}
 					onFocus={handleInputFocus}
 					onChange={handleInputChange}
-					onClick={toggleDropdown}
+					// onClick={toggleDropdown}
 					className="w-full px-4 py-4 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 					placeholder=""
 				/>
-				<FaChevronDown
-					className={`absolute top-1/2 right-4 transform -translate-y-1/2 transition-transform duration-200 ${
+				<div
+					className={`absolute p-3 rounded-lg hover:bg-slate-200 top-1/2 right-4 cursor-pointer transform -translate-y-1/2 transition-transform duration-200 ${
 						isDropdownOpen ? "rotate-180" : ""
 					}`}
-				/>
+					onClick={toggleDropdown}
+				>
+					<FaChevronDown
+					// className={`absolute top-1/2 right-4 cursor-pointer transform -translate-y-1/2 transition-transform duration-200 ${
+					// 	isDropdownOpen ? "rotate-180" : ""
+					// }`}
+					/>
+				</div>
 				{isDropdownOpen && (
 					<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
 						{users.map((user, index) => (
