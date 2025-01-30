@@ -71,16 +71,16 @@ function UserTypeDropdown({
 		} else if (e.key === "Enter") {
 			e.preventDefault();
 			toggleDropdown(false);
-			if (highlightedIndex >= 0) {
+			if (highlightedIndex >= 0 && filteredUsers[highlightedIndex]) {
 				handleSelection(filteredUsers[highlightedIndex].usertype);
 			}
-			if (passwordInputRef.current) {
+			if (passwordInputRef?.current) {
 				passwordInputRef.current.focus();
 			}
 		}
 	};
 
-	console.log(filteredUsers);
+	// console.log(filteredUsers);
 
 	return (
 		<div className="mb-6">
