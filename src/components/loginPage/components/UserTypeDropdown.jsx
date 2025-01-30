@@ -16,8 +16,9 @@ function UserTypeDropdown({
 		const storedUserType = localStorage.getItem("userType");
 		if (storedUserType) {
 			setSelectedUserType(storedUserType);
+			handleSelect(storedUserType);
 		} else {
-			setSelectedUserType(userType || ""); // Default to prop value
+			setSelectedUserType(userType || "");
 		}
 	}, [userType]);
 
@@ -28,15 +29,15 @@ function UserTypeDropdown({
 	};
 
 	const handleInputFocus = (e) => {
-		e.target.select(); // Select all text on focus
+		e.target.select();
 	};
 
 	const handleInputChange = (e) => {
 		const value = e.target.value;
 		if (value === "") {
-			setSelectedUserType(userType || ""); // Reset if empty
+			setSelectedUserType(userType || "");
 		} else {
-			setSelectedUserType(value); // Allow typing
+			setSelectedUserType(value);
 		}
 		localStorage.setItem("userType", value);
 	};
