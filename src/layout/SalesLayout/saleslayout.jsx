@@ -8,7 +8,7 @@ function SalesPageLayoutMain({ children }) {
 	return (
 		<Layout>
 			<div className="flex flex-col">
-				<header>
+				<header className="relative z-[201]">
 					<SalesPageLayoutHeader />
 				</header>
 				<div className="flex flex-1">
@@ -21,7 +21,7 @@ function SalesPageLayoutMain({ children }) {
 					</div>
 				</div>
 
-				<div className="fixed bottom-0 left-0 w-full bg-white shadow-lg">
+				<div className="fixed z-[201] bottom-0 left-0 w-full bg-white shadow-lg">
 					<SalesPageLayoutFooter />
 				</div>
 			</div>

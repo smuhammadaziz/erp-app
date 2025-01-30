@@ -10,7 +10,7 @@ const SettingsPanel = ({ isSettingsOpen, toggleSettings, settingsOptions }) => (
 			onClick={toggleSettings}
 		/>
 		<div
-			className={`fixed z-0 bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl transform transition-transform duration-300 ease-in-out ${
+			className={`fixed z-[50] bottom-0 left-0 right-0 bg-white shadow-2xl rounded-t-2xl transform transition-transform duration-300 ease-in-out ${
 				isSettingsOpen ? "translate-y-0" : "translate-y-full"
 			}`}
 		>
