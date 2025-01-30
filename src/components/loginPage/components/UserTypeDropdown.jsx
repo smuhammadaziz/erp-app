@@ -70,7 +70,6 @@ function UserTypeDropdown({
 			if (highlightedIndex >= 0) {
 				handleSelection(filteredUsers[highlightedIndex].usertype);
 			}
-			// Focus the password input after pressing Enter
 			if (passwordInputRef.current) {
 				passwordInputRef.current.focus();
 			}
