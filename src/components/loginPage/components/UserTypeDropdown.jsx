@@ -55,7 +55,7 @@ function UserTypeDropdown({
 					onChange={handleInputChange}
 					onClick={toggleDropdown}
 					className="w-full px-4 py-4 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-					placeholder="Select or enter a user type"
+					placeholder=""
 				/>
 				<FaChevronDown
 					className={`absolute top-1/2 right-4 transform -translate-y-1/2 transition-transform duration-200 ${
