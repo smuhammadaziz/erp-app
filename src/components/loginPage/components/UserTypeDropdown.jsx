@@ -73,6 +73,8 @@ function UserTypeDropdown({
 			toggleDropdown(false);
 			if (highlightedIndex >= 0 && filteredUsers[highlightedIndex]) {
 				handleSelection(filteredUsers[highlightedIndex].usertype);
+			} else {
+				handleSelection(selectedUserType);
 			}
 			if (passwordInputRef?.current) {
 				passwordInputRef.current.focus();

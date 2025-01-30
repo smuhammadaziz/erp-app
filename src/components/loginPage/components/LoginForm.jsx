@@ -26,6 +26,8 @@ function LoginForm({
 		}
 	};
 
+	console.log(userType);
+
 	return (
 		<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform transition-transform duration-300">
 			<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
@@ -36,15 +38,15 @@ function LoginForm({
 				userType={userType}
 				isDropdownOpen={isDropdownOpen}
 				toggleDropdown={toggleDropdown}
-				handleSelect={handleUserSelection} // Updated to use handleUserSelection
+				handleSelect={handleUserSelection}
 				users={users}
 				content={content}
 				language={language}
-				passwordInputRef={passwordInputRef} // Pass the ref to UserTypeDropdown
+				passwordInputRef={passwordInputRef}
 			/>
 
 			<PasswordInput
-				ref={passwordInputRef} // Pass the ref to PasswordInput
+				ref={passwordInputRef}
 				userType={userType}
 				password={password}
 				setPassword={setPassword}
