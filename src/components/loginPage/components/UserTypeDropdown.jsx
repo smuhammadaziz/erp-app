@@ -9,7 +9,7 @@ function UserTypeDropdown({
 	users,
 	content,
 	language,
-	passwordInputRef, // Receive the ref from LoginForm
+	passwordInputRef,
 }) {
 	const [selectedUserType, setSelectedUserType] = useState(userType || "");
 	const [filteredUsers, setFilteredUsers] = useState(users);
