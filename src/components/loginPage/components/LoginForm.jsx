@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import UserTypeDropdown from "./UserTypeDropdown";
 import PasswordInput from "./PasswordInput";
 
@@ -16,6 +16,16 @@ function LoginForm({
 	content,
 	language,
 }) {
+	const passwordInputRef = useRef(null);
+
+	const handleUserSelection = (selectedUserType) => {
+		handleSelect(selectedUserType);
+		// Focus the password input after selecting a user
+		if (passwordInputRef.current) {
+			passwordInputRef.current.focus();
+		}
+	};
+
 	return (
 		<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform transition-transform duration-300">
 			<h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
@@ -26,13 +36,15 @@ function LoginForm({
 				userType={userType}
 				isDropdownOpen={isDropdownOpen}
 				toggleDropdown={toggleDropdown}
-				handleSelect={handleSelect}
+				handleSelect={handleUserSelection} // Updated to use handleUserSelection
 				users={users}
 				content={content}
 				language={language}
+				passwordInputRef={passwordInputRef} // Pass the ref to UserTypeDropdown
 			/>
 
 			<PasswordInput
+				ref={passwordInputRef} // Pass the ref to PasswordInput
 				userType={userType}
 				password={password}
 				setPassword={setPassword}
@@ -49,12 +61,6 @@ function LoginForm({
 			>
 				{content[language].login.loginButton}
 			</button>
-			{/* <a
-				href="/"
-				className="w-full text-center py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition duration-300 transform"
-			>
-				{content[language].login.login}
-			</a> */}
 		</div>
 	);
 }
