@@ -10,14 +10,36 @@ function UserTypeDropdown({
 	content,
 	language,
 }) {
-	const [isLoading, setIsLoading] = useState(true);
+	const [selectedUserType, setSelectedUserType] = useState(userType || "");
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setIsLoading(false);
-		}, 1000);
-		return () => clearTimeout(timer);
-	}, []);
+		const storedUserType = localStorage.getItem("userType");
+		if (storedUserType) {
+			setSelectedUserType(storedUserType);
+		} else {
+			setSelectedUserType(userType || ""); // Default to prop value
+		}
+	}, [userType]);
+
+	const handleSelection = (usertype) => {
+		setSelectedUserType(usertype);
+		localStorage.setItem("userType", usertype);
+		handleSelect(usertype);
+	};
+
+	const handleInputFocus = (e) => {
+		e.target.select(); // Select all text on focus
+	};
+
+	const handleInputChange = (e) => {
+		const value = e.target.value;
+		if (value === "") {
+			setSelectedUserType(userType || ""); // Reset if empty
+		} else {
+			setSelectedUserType(value); // Allow typing
+		}
+		localStorage.setItem("userType", value);
+	};
 
 	return (
 		<div className="mb-6">
@@ -25,34 +47,31 @@ function UserTypeDropdown({
 				{content[language].login.select}
 			</label>
 			<div className="relative">
-				<button
+				<input
+					type="text"
+					value={selectedUserType}
+					onFocus={handleInputFocus}
+					onChange={handleInputChange}
 					onClick={toggleDropdown}
-					className="flex items-center justify-between w-full px-4 py-4 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-				>
-					<span>{userType || ""}</span>
-					<FaChevronDown
-						className={`transition-transform duration-200 ${
-							isDropdownOpen ? "transform rotate-180" : ""
-						}`}
-					/>
-				</button>
+					className="w-full px-4 py-4 bg-white border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+					placeholder="Select or enter a user type"
+				/>
+				<FaChevronDown
+					className={`absolute top-1/2 right-4 transform -translate-y-1/2 transition-transform duration-200 ${
+						isDropdownOpen ? "rotate-180" : ""
+					}`}
+				/>
 				{isDropdownOpen && (
 					<div className="absolute z-10 w-full mt-1 bg-white border rounded-md shadow-lg">
-						{isLoading ? (
-							<div className="flex justify-center items-center py-2">
-								<div className="w-6 h-6 border-4 border-t-transparent border-slate-500 rounded-full animate-spin"></div>
-							</div>
-						) : (
-							users.map((user, index) => (
-								<button
-									key={index}
-									onClick={() => handleSelect(user.usertype)}
-									className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
-								>
-									{user.usertype}
-								</button>
-							))
-						)}
+						{users.map((user, index) => (
+							<button
+								key={index}
+								onClick={() => handleSelection(user.usertype)}
+								className="block w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
+							>
+								{user.usertype}
+							</button>
+						))}
 					</div>
 				)}
 			</div>
