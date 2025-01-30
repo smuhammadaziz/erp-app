@@ -17,6 +17,7 @@ type Content = {
 		};
 		login: {
 			login: string;
+			loginButton: string;
 			select: string;
 			password: string;
 			enterPass: string;
@@ -122,8 +123,9 @@ const content: Content = {
 			error: "Номаълум хатолик",
 		},
 		login: {
-			login: "Кириш",
-			select: "Фойдаланувчини танланг",
+			login: "Базага кириш",
+			loginButton: "кириш",
+			select: "Фойдаланувчи",
 			password: "Парол",
 			enterPass: "Паролни киритинг",
 			error: "Фойдаланувчиларни олиб бўлмади",
@@ -230,8 +232,9 @@ const content: Content = {
 			error: "Неизвестная ошибка",
 		},
 		login: {
-			login: "Войти",
-			select: "Выберите пользователя",
+			login: "Доступ к базе",
+			loginButton: "войти",
+			select: "Пользователь",
 			password: "Пароль",
 			enterPass: "Введите пароль",
 			error: "Не удалось получить пользователей.",
