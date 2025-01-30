@@ -59,6 +59,7 @@ type Content = {
 		enterpriseInfo: {
 			infos: string;
 			signout: string;
+			update: string;
 		};
 		syncing: {
 			complete: string;
@@ -171,6 +172,7 @@ const content: Content = {
 		enterpriseInfo: {
 			infos: "Корхона маълумотлари",
 			signout: "KSB-ID дан чиқиш",
+			update: "Янгилаш",
 		},
 		syncing: {
 			complete: "Синхронизация тугади",
@@ -281,6 +283,7 @@ const content: Content = {
 		enterpriseInfo: {
 			infos: "Информация о компании",
 			signout: "Выйти из KSB-ID",
+			update: "Обновить",
 		},
 		syncing: {
 			complete: "Синхронизация завершена",

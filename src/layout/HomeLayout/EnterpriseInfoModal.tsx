@@ -143,7 +143,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 									transform: "translate(-50%, -30%)", // Adjust to center the dot on the corner
 								}}
 							></span>
-							Обновить
+							{content[language as string].enterpriseInfo.update}
 						</button>
 					</div>
 				</div>
