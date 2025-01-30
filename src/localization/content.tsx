@@ -103,6 +103,18 @@ type Content = {
 		settingsUsers: {
 			users: string;
 			active: string;
+			security: string;
+			recovery: string;
+			logout: string;
+			currenctPass: string;
+			newPassword: string;
+			confirmNewPassword: string;
+			updatePassword: string;
+			recoveryYourInformation: string;
+			recoveryNow: string;
+			recoveryEnterYourPassword: string;
+			recoveryProcessingRequest: string;
+			recoveryDataSuccess: string;
 		};
 	};
 };
@@ -215,8 +227,22 @@ const content: Content = {
 			not_available: "Запасда йўқ",
 		},
 		settingsUsers: {
-			users: "Пользователи",
+			users: "Фойдаланувчилар",
 			active: "Актив",
+			security: "Хавсизлик",
+			recovery: "Қайта тиклаш",
+			logout: "Аккаунтдан чиқиш",
+			currenctPass: "Жорий парол",
+			newPassword: "Янги парол",
+			confirmNewPassword: "Янги паролни тасдиқланг",
+			updatePassword: "Ўзгартириш",
+			recoveryYourInformation: "Маълумотларингизни қайта тикланг",
+			recoveryNow: "Тиклаш",
+			recoveryEnterYourPassword:
+				"Маълумотингизни тиклаш учун қуйида паролингизни киритинг. ",
+			recoveryProcessingRequest: "Сўровингиз кўриб чиқилмоқда...",
+			recoveryDataSuccess:
+				"Қайта тиклаш муваффақиятли!  Маълумотларингиз тикланди. ",
 		},
 	},
 	ru: {
@@ -326,8 +352,22 @@ const content: Content = {
 			not_available: "нет в наличии",
 		},
 		settingsUsers: {
-			users: "",
-			active: "Aktiv",
+			users: "Пользователи",
+			active: "Актив",
+			security: "Безопасность",
+			recovery: "Восстановление",
+			logout: "Выйти",
+			currenctPass: "Текущий пароль",
+			newPassword: "Новый пароль",
+			confirmNewPassword: "Подтвердите новый пароль",
+			updatePassword: "Изменять",
+			recoveryYourInformation: "Маълумотларингизни қайта тикланг",
+			recoveryNow: "Восстановление",
+			recoveryEnterYourPassword:
+				"Введите пароль ниже, чтобы восстановить вашу информацию.",
+			recoveryProcessingRequest: "Ваш запрос обрабатывается...",
+			recoveryDataSuccess:
+				"Восстановление прошло успешно! Ваши данные восстановлены. ",
 		},
 	},
 };

@@ -93,8 +93,8 @@ const MessageNotifications = () => {
 								Recover Your Data
 							</h2>
 							<p className="text-sm text-gray-700 text-center mb-6">
-								Enter your password below to recover your
-								information.
+								Маълумотингизни тиклаш учун қуйида паролингизни
+								киритинг.
 							</p>
 							<div className="flex flex-col space-y-4">
 								<input
@@ -128,7 +128,7 @@ const MessageNotifications = () => {
 						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
 							<AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl mb-4" />
 							<p className="text-black text-center text-sm">
-								Processing your request...
+								Сўровингиз кўриб чиқилмоқда. . .
 							</p>
 						</div>
 					</div>
