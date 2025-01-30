@@ -36,7 +36,7 @@ function UserTypeDropdown({
 				),
 			);
 			if (highlightedIndex === -1) {
-				setHighlightedIndex(0); // Set the first item active only when no selection is made
+				setHighlightedIndex(0);
 			}
 		}
 	}, [selectedUserType, isDropdownOpen, users, highlightedIndex]);
@@ -81,8 +81,6 @@ function UserTypeDropdown({
 			}
 		}
 	};
-
-	// console.log(filteredUsers);
 
 	return (
 		<div className="mb-6">

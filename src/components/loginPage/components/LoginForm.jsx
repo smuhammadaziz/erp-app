@@ -20,13 +20,10 @@ function LoginForm({
 
 	const handleUserSelection = (selectedUserType) => {
 		handleSelect(selectedUserType);
-		// Focus the password input after selecting a user
 		if (passwordInputRef.current) {
 			passwordInputRef.current.focus();
 		}
 	};
-
-	console.log(userType);
 
 	return (
 		<div className="bg-white p-12 rounded-xl shadow-2xl w-full max-w-lg transform transition-transform duration-300">
