@@ -67,6 +67,7 @@ function UserTypeDropdown({
 			setHighlightedIndex((prev) => (prev > 0 ? prev - 1 : prev));
 		} else if (e.key === "Enter") {
 			e.preventDefault();
+			toggleDropdown(false);
 			if (highlightedIndex >= 0) {
 				handleSelection(filteredUsers[highlightedIndex].usertype);
 			}
@@ -75,6 +76,8 @@ function UserTypeDropdown({
 			}
 		}
 	};
+
+	console.log(selectedUserType);
 
 	return (
 		<div className="mb-6">
