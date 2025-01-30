@@ -61,4 +61,3 @@ function UserTypeDropdown({
 }
 
 export default UserTypeDropdown;
-
