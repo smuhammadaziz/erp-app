@@ -31,7 +31,7 @@ const PasswordInput = forwardRef(
 			<div className="mb-6">
 				<label
 					htmlFor="password"
-					className="block text-xl font-medium text-gray-700 mb-2"
+					className="block text-xl text-gray-700 mb-2"
 				>
 					{content[language].login.password}
 				</label>
@@ -44,7 +44,7 @@ const PasswordInput = forwardRef(
 							ref={ref}
 							id="password"
 							type={isPasswordVisible ? "text" : "password"}
-							className="w-full focus:outline-none"
+							className="w-full focus:outline-none text-xl font-semibold"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
 							onKeyPress={handleKeyPress}
