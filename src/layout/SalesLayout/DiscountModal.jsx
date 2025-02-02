@@ -271,8 +271,11 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
-								Оплата итого
+								%
 							</label>
+						</div>
+						<div className="w-5/5 px-2 py-6 text-3xl font-bold">
+							+
 						</div>
 						<div className="w-5/5 px-6 py-6">
 							<input
@@ -284,7 +287,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
-								Оплата итого
+								Summa
 							</label>
 						</div>
 					</div>
@@ -293,7 +296,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="py-4">
 							<div className="flex items-center justify-between gap-4 mb-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Наличные:
+									Skidka
 								</label>
 								<input
 									type="number"
@@ -307,7 +310,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 							<div className="flex items-center justify-between gap-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Пластик карта:
+									K oplate
 								</label>
 								<input
 									type="text"
