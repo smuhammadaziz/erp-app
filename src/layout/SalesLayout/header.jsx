@@ -240,7 +240,7 @@ function SalesPageLayoutHeader() {
 				{renderStatusButton()}
 				<button1
 					// onClick={() => handleOpenModal("skidka")}
-					onClick={() => setIsModalOpen(true)}
+					onClick={() => setIsModalOpenDis(true)}
 					className="flex items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
 					<CiDiscount1 className="mr-3 text-xl" />
@@ -568,8 +568,8 @@ function SalesPageLayoutHeader() {
 			)}
 
 			<DiscountModal
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
+				isOpen={isModalOpenDis}
+				onClose={() => setIsModalOpenDis(false)}
 				total_price={5000}
 			/>
 		</div>
