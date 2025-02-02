@@ -361,7 +361,7 @@ const content: Content = {
 			newPassword: "Новый пароль",
 			confirmNewPassword: "Подтвердите новый пароль",
 			updatePassword: "Изменять",
-			recoveryYourInformation: "Маълумотларингизни қайта тикланг",
+			recoveryYourInformation: "Восстановите ваши данные",
 			recoveryNow: "Восстановление",
 			recoveryEnterYourPassword:
 				"Введите пароль ниже, чтобы восстановить вашу информацию.",

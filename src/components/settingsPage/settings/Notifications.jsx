@@ -4,12 +4,17 @@ import { FaUnlockAlt } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import SectionContainer from "./SectionContainer";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const MessageNotifications = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState(null);
 	const [currentModal, setCurrentModal] = useState(null);
+
+	const [language, setLanguage] = useLang("uz");
 
 	// Get localStorage values
 	const userPassword = localStorage.getItem("userPassword");
@@ -56,7 +61,7 @@ const MessageNotifications = () => {
 			setLoading(false);
 			setStatus(
 				result.status === "successfully"
-					? "Recovery successful! Your data has been restored."
+					? content[language].settingsUsers.recoveryDataSuccess
 					: "Recovery failed. Please try again.",
 			);
 			setCurrentModal("result"); // Show result modal
@@ -68,16 +73,16 @@ const MessageNotifications = () => {
 	};
 
 	return (
-		<SectionContainer title={"Recovery Data"}>
+		<SectionContainer title={content[language].settingsUsers.recovery}>
 			<div className="flex flex-col">
-				<h2 className="text-xl font-semibold mb-4">
-					Recover Your Lost Information
-				</h2>
+				{/* <h2 className="text-xl font-semibold mb-4">
+					{content[language].settingsUsers.recoveryYourInformation}
+				</h2> */}
 				<button
 					onClick={() => setCurrentModal("password")}
 					className="px-4 py-2 bg-blue-600 w-[300px] hover:bg-blue-700 text-white rounded-lg shadow-md transition-all duration-300 text-sm"
 				>
-					Recover Data
+					{content[language].settingsUsers.recoveryNow}
 				</button>
 
 				{currentModal === "password" && (
@@ -90,16 +95,18 @@ const MessageNotifications = () => {
 								<IoClose className="text-2xl" />
 							</button>
 							<h2 className="text-2xl font-semibold text-center text-black mb-6">
-								Recover Your Data
+								{content[language].settingsUsers.recoveryNow}
 							</h2>
 							<p className="text-sm text-gray-700 text-center mb-6">
-								Маълумотингизни тиклаш учун қуйида паролингизни
-								киритинг.
+								{
+									content[language].settingsUsers
+										.recoveryEnterYourPassword
+								}
 							</p>
 							<div className="flex flex-col space-y-4">
 								<input
 									type="password"
-									placeholder="Enter your password"
+									placeholder="..."
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
@@ -116,7 +123,10 @@ const MessageNotifications = () => {
 									className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white shadow-lg transition-all duration-300"
 								>
 									<FaUnlockAlt className="inline mr-2" />
-									Recover Now
+									{
+										content[language].settingsUsers
+											.recoveryNow
+									}
 								</button>
 							</div>
 						</div>
@@ -128,7 +138,10 @@ const MessageNotifications = () => {
 						<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
 							<AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl mb-4" />
 							<p className="text-black text-center text-sm">
-								Сўровингиз кўриб чиқилмоқда. . .
+								{
+									content[language].settingsUsers
+										.recoveryProcessingRequest
+								}
 							</p>
 						</div>
 					</div>
@@ -144,7 +157,7 @@ const MessageNotifications = () => {
 								<IoClose className="text-2xl" />
 							</button>
 							<h2 className="text-2xl font-semibold text-center text-black mb-6">
-								Recovery Status
+								{content[language].settingsUsers.recovery}
 							</h2>
 							<p
 								className={`text-center mb-6 ${
