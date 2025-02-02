@@ -322,12 +322,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 							<div className="relative w-3/4">
 								<input
 									type="text"
-									value={price.toLocaleString("ru-RU", {
+									value={totalPrice.toLocaleString("ru-RU", {
 										minimumFractionDigits: 2,
 										maximumFractionDigits: 2,
 									})}
 									disabled
-									className="w-full px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50 pr-16"
+									className="w-full px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50 pr-16"
 								/>
 								<span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-xl font-bold">
 									{currencyData[data.mainCurrency]}
@@ -341,12 +341,15 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									Наличные:
 								</label>
 								<input
-									type="number"
-									value={price}
+									type="text"
+									value={totalPrice.toLocaleString("ru-RU", {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2,
+									})}
 									onChange={(e) =>
 										setCashAmount(e.target.value)
 									}
-									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
 
@@ -370,7 +373,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-3/5 px-6 py-6">
 							<input
 								type="text"
-								value={price.toLocaleString("en-US", {
+								value={totalPrice.toLocaleString("ru-RU", {
 									minimumFractionDigits: 2,
 								})}
 								disabled
