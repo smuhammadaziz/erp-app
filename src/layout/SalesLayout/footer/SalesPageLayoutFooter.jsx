@@ -293,17 +293,17 @@ const SalesPageLayoutFooter = () => {
 							<span className="mr-3 inline-block">
 								<FaPlus />
 							</span>
-							Yangi Sotuv
+							Янги Сотув
 						</button>
 					</div>
 				</div>
 				<div className="mr-2.5">
 					<button
 						onClick={() => setIsExitModalOpen(true)}
-						className="flex items-center justify-center w-100 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
+						className="flex items-center justify-center w-40 bg-red-700 hover:bg-red-600 text-slate-100 px-12 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
 					>
 						<ImExit className="mr-3 text-xl" />
-						<span className="font-semibold">Exit</span>
+						<span className="font-semibold">Чиқиш</span>
 					</button>
 				</div>
 			</div>
@@ -345,11 +345,10 @@ const SalesPageLayoutFooter = () => {
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">
-								Exit Confirmation
+								Чиқиш
 							</h2>
 							<p className="text-gray-600 mb-6">
-								Are you sure you want to exit the sales page?
-								Any unsaved changes will be lost.
+								Ҳақиқатан ҳам савдо саҳифасидан чиқмоқчимисиз?
 							</p>
 						</div>
 						<div className="flex space-x-4">
@@ -358,14 +357,14 @@ const SalesPageLayoutFooter = () => {
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
 								<ImExit className="mr-2 text-xl" />
-								Yes, Exit
+								Ҳа, чиқиш
 							</NavLink>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
 								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
 							>
 								<FaTimes className="mr-2 text-xl" />
-								Cancel
+								Бекор қилиш
 							</button>
 						</div>
 					</div>
