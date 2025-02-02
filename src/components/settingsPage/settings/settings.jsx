@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 import nodeUrl from "../../../links";
 
 const DeviceIcon = ({ type }) => {
@@ -174,6 +177,7 @@ const LogoutButton = ({ onClick, isCurrentDevice }) => (
 );
 
 const ActiveSessions = () => {
+	const [language, setLanguage] = useLang("uz");
 	const [sessions, setSessions] = useState([
 		{
 			id: 1,
@@ -236,10 +240,10 @@ const ActiveSessions = () => {
 			<div className="p-6 border-b border-slate-100">
 				<div className="flex items-center justify-between">
 					<h2 className="text-xl font-bold text-slate-800">
-						Фойдаланувчилар
+						{content[language].settingsUsers.users}
 					</h2>
 					<span className="px-3 py-1 text-sm font-medium text-slate-600 bg-slate-100 rounded-full">
-						{users.length} актив
+						{users.length} {content[language].settingsUsers.active}
 					</span>
 				</div>
 			</div>
