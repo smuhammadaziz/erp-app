@@ -8,41 +8,40 @@ import {
 	FaSignOutAlt,
 } from "react-icons/fa";
 
+import { LiaCloudUploadAltSolid } from "react-icons/lia";
+
 import { MdDevices } from "react-icons/md";
 import LogoutButton from "./LogoutButton";
 
-const settingsItems = [
-	{
-		icon: <MdDevices className="w-5 h-5 text-blue-500" />,
-		title: "Personal Information",
-		name: "Фойдаланувчилар",
-	},
-	{
-		icon: <FaLock className="w-5 h-5 text-green-500" />,
-		title: "Security",
-		name: "Хавфсизлик",
-	},
-	{
-		icon: <FaBell className="w-5 h-5 text-purple-500" />,
-		title: "Notifications",
-		name: "Notifications",
-	},
-	{
-		icon: <FaCog className="w-5 h-5 text-gray-500" />,
-		title: "Preferences",
-		name: "Фаол сессиялар",
-	},
-	{
-		icon: <FaQuestionCircle className="w-5 h-5 text-orange-500" />,
-		title: "Support",
-		name: "Фаол сессиялар",
-	},
-];
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
 
 function Sidebar({ activeSection, setActiveSection }) {
+	const [language, setLanguage] = useLang("uz");
+	const settingsItems = [
+		{
+			icon: <MdDevices className="w-5 h-5 text-blue-500" />,
+			title: "Personal Information",
+			name: content[language].settingsUsers.users,
+		},
+		{
+			icon: <FaLock className="w-5 h-5 text-green-500" />,
+			title: "Security",
+			name: content[language].settingsUsers.security,
+		},
+		{
+			icon: (
+				<LiaCloudUploadAltSolid className="w-5 h-5 text-purple-500" />
+			),
+			title: "Notifications",
+			name: content[language].settingsUsers.recovery,
+		},
+	];
 	return (
 		<div className="w-1/4 bg-white shadow-lg rounded-xl p-6 h-fit">
-			<h2 className="text-xl font-bold text-gray-800 mb-6">Settings</h2>
+			<h2 className="text-xl font-bold text-gray-800 mb-6">
+				{content[language].innerLayout.settings}
+			</h2>
 			<nav>
 				{settingsItems.map((item, index) => (
 					<div

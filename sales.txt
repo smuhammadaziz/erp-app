@@ -8,8 +8,6 @@ Pages:
 ============================================================================================
 2. login Pages
 
-- klaviaturada user type ni yozganda ham kirib ketishi kerak
-- 2ta tillik qilib to'g'rilash kerak
 - ksb-id saqlangandan keyin, doimo login page ga kirishi kerak, birinchi kirganda
 - 
 
@@ -26,7 +24,6 @@ Pages:
 ============================================================================================
 4. customers page
 
-- rus va uzb da tillarni togrilash kerak
 - 
 
 ============================================================================================
