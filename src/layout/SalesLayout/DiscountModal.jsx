@@ -5,12 +5,6 @@ import nodeUrl from "../../links";
 import { v4 as uuidv4 } from "uuid";
 
 const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
-	const [selectedClient, setSelectedClient] = useState(null);
-
-	const [cardAmount, setCardAmount] = useState(0);
-	const [discountAmount, setDiscountAmount] = useState(0);
-	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
-	const [customers, setCustomers] = useState([]);
 	const [price, setPrice] = useState(0);
 
 	const [data, setData] = useState({});
@@ -18,24 +12,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
 	const sales_id = localStorage.getItem("sales_id");
-
-	useEffect(() => {
-		const fetchCustomers = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/client/${ksbIdNumber}/${device_id}`,
-				);
-				const result = await response.json();
-
-				setCustomers(Array.isArray(result.data) ? result.data : []);
-			} catch (error) {
-				console.error("Error fetching customers:", error);
-				setCustomers([]);
-			}
-		};
-
-		fetchCustomers();
-	}, []);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -59,172 +35,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	}, [nodeUrl, sales_id]);
 
 	const [cashAmount, setCashAmount] = useState(price);
-
-	const defaultClient = {
-		client_id: "00000000-0000-0000-0000-000000000000",
-		delete: false,
-		name: "Оддий Харидор",
-		archive: false,
-		phone_number: "",
-		negative_balance: [],
-		positive_balance: [],
-	};
-
-	const [currencyData, setCurrencyData] = useState({});
-
-	useEffect(() => {
-		const fetchCurrencyData = async () => {
-			if (!data.products || data.products.length === 0) return;
-
-			const updatedCurrencyData = { ...currencyData };
-
-			for (const product of data.products) {
-				if (
-					product.product_currency &&
-					!updatedCurrencyData[product.product_currency]
-				) {
-					try {
-						const response = await fetch(
-							`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.product_currency}`,
-						);
-						const fetchedData = await response.json();
-						updatedCurrencyData[product.product_currency] =
-							fetchedData[0]?.name || "-";
-					} catch (error) {
-						console.error("Failed to fetch currency data", error);
-						updatedCurrencyData[product.product_currency] = "-";
-					}
-				}
-			}
-
-			setCurrencyData(updatedCurrencyData);
-		};
-
-		fetchCurrencyData();
-	}, [data.products]);
-
-	const handleSaveSales = async (e) => {
-		e.preventDefault();
-
-		let currentTime = new Date();
-
-		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
-
-		let clientId = "";
-		let clientName = "";
-		let newProcessedProduct = [];
-
-		if (selectedClient) {
-			clientId = selectedClient.client_id;
-			clientName = selectedClient.name;
-		} else {
-			clientId = defaultClient.client_id;
-			clientName = defaultClient.name;
-		}
-
-		if (data.products) {
-			newProcessedProduct = data.products.map((product) => ({
-				product: product.product_id,
-				product_name: product.product_name,
-				warehouse: product.product_warehouse,
-				currency: product.product_currency,
-				quantity: product.soni,
-				price: product.narxi,
-				sum: product.summa,
-			}));
-		} else {
-			newProcessedProduct = [];
-		}
-
-		const currentData = {
-			id: sales_id,
-			ksb_id: ksbIdNumber,
-			device_id: device_id,
-			date: currentTime,
-			status: data.status,
-			client_id: clientId,
-			client_name: clientName,
-			total_price: data.summa,
-			details: [
-				{
-					document: sales_id,
-					client: clientId,
-					warehouse: data.mainWarehouse,
-					price_type: data.mainPriceType,
-					rate: data.mainRate,
-					currency: data.mainCurrency,
-					discount: data.discount,
-					comment: data.mainComment,
-					below_cost: data.mainBelowCost,
-				},
-			],
-			products: newProcessedProduct,
-			payments: [
-				{
-					cash: mainCashData,
-					currency: data.mainCurrency,
-					sum: data.summa,
-				},
-			],
-		};
-
-		try {
-			const response = await fetch(`${nodeUrl}/api/sales`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(currentData),
-			});
-
-			if (response.ok) {
-				const result = await response.json();
-
-				console.log(result);
-				onClose();
-			} else {
-				console.error("Failed to submit data to the API");
-			}
-		} catch (error) {
-			console.error("Error submitting the sell data:", error);
-		}
-
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
-				{
-					method: "DELETE",
-				},
-			);
-
-			const data = await response.json();
-		} catch (error) {
-			console.error("Error deleting", error);
-		}
-
-		const newSalesId = uuidv4();
-		localStorage.setItem("sales_id", newSalesId);
-
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/create/sales/${newSalesId}`,
-				{
-					method: "POST",
-				},
-			);
-			const data = await response.json();
-
-			if (response.ok) {
-				console.log("Created");
-			} else {
-				console.log("error");
-			}
-		} catch (err) {
-			console.log("error creating empty sales", err);
-		}
-
-		window.location.reload();
-	};
 
 	if (!isOpen) return null;
 
@@ -251,10 +61,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 							</label>
 							<div className="bg-green-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
-									{price.toLocaleString("ru-RU", {
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									})}
+									{"500000"}
 								</div>
 							</div>
 						</div>
@@ -264,10 +71,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={price.toLocaleString("en-US", {
-									minimumFractionDigits: 2,
-								})}
-								disabled
+								value={"50000"}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
@@ -280,10 +84,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={price.toLocaleString("en-US", {
-									minimumFractionDigits: 2,
-								})}
-								disabled
+								value={"50000"}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
@@ -299,11 +100,8 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 									Skidka
 								</label>
 								<input
-									type="number"
-									value={price}
-									onChange={(e) =>
-										setCashAmount(e.target.value)
-									}
+									type="text"
+									value={"50000"}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -314,10 +112,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								</label>
 								<input
 									type="text"
-									value={cardAmount}
-									onChange={(e) =>
-										setCardAmount(Number(e.target.value))
-									}
+									value={"50000"}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -326,10 +121,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 				</div>
 
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
-					<button
-						onClick={handleSaveSales}
-						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
-					>
+					<button className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl">
 						OK
 					</button>
 					<button
