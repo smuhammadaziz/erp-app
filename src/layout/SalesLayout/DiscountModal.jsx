@@ -6,8 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	const [price, setPrice] = useState(0);
-
 	const [data, setData] = useState({});
+	const [discountAmount, setDiscountAmount] = useState("0,00");
 
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
@@ -34,7 +34,52 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
 
-	const [cashAmount, setCashAmount] = useState(price);
+	const handleDiscountChange = (e) => {
+		const value = e.target.value;
+		setDiscountAmount(value);
+	};
+
+	const handleFocus = (e) => {
+		if (discountAmount === "0,00") {
+			setDiscountAmount("");
+		}
+	};
+
+	const handleBlur = (e) => {
+		if (!e.target.value) {
+			setDiscountAmount("0,00");
+		}
+	};
+
+	const handleSubmit = async () => {
+		try {
+			const response = await fetch(
+				"http://localhost:8000/api/sales/discount",
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						salesId: sales_id,
+						newDiscount: discountAmount.replace(",", "."),
+					}),
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error("Failed to update discount");
+			}
+
+			onClose();
+		} catch (error) {
+			console.error("Error updating discount:", error);
+		}
+	};
+
+	// Calculate final amounts
+	const discount = parseFloat(discountAmount.replace(",", ".")) || 0;
+	const finalAmount = Math.max(0, price - discount);
 
 	if (!isOpen) return null;
 
@@ -90,7 +135,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={"50000"}
+								value={discountAmount}
+								onChange={handleDiscountChange}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
@@ -107,7 +155,13 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								</label>
 								<input
 									type="text"
-									value={"50000"}
+									value={discount
+										.toLocaleString("ru-RU", {
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										})
+										.replace(".", ",")}
+									readOnly
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -118,7 +172,13 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								</label>
 								<input
 									type="text"
-									value={"50000"}
+									value={finalAmount
+										.toLocaleString("ru-RU", {
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										})
+										.replace(".", ",")}
+									readOnly
 									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -127,7 +187,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 				</div>
 
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
-					<button className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl">
+					<button
+						onClick={handleSubmit}
+						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
+					>
 						OK
 					</button>
 					<button
