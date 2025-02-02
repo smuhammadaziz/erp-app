@@ -17,6 +17,8 @@ function ProductsTable({
 	setMouseSelectedRow,
 	tableClickedRow,
 	setTableClickedRow,
+	sortConfig,
+	onSort,
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
@@ -344,6 +346,13 @@ function ProductsTable({
 		sortData(newOrder);
 	};
 
+	const getSortIcon = (columnKey) => {
+		if (sortConfig.key !== columnKey) {
+			return "↕️";
+		}
+		return sortConfig.direction === "asc" ? "↑" : "↓";
+	};
+
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
@@ -357,29 +366,50 @@ function ProductsTable({
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">
 						<th
-							className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px] cursor-pointer"
-							// onClick={handleSort}
+							className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px] cursor-pointer hover:bg-gray-200"
+							onClick={() => onSort("name")}
 						>
 							Наименование, производитель
-							{/* <span className="ml-2">
-								{sortingOrder === "asc" ? "▲" : "▼"}
-							</span> */}
+							<span className="ml-2">{getSortIcon("name")}</span>
 						</th>
-
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
+						<th
+							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
+							onClick={() => onSort("currency")}
+						>
 							Валюта
+							<span className="ml-2">
+								{getSortIcon("currency")}
+							</span>
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px]">
+						<th
+							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
+							onClick={() => onSort("stock.0.qty")}
+						>
 							Остатка
+							<span className="ml-2">
+								{getSortIcon("stock.0.qty")}
+							</span>
 						</th>
-						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px]">
+						<th
+							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
+							onClick={() => onSort("price.0.sale")}
+						>
 							Нархи, Валюта
+							<span className="ml-2">
+								{getSortIcon("price.0.sale")}
+							</span>
 						</th>
 						<th className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px]">
 							Нархи
 						</th>
-						<th className="py-1.5 px-5 border-b text-center w-1/10 min-w-[120px]">
+						<th
+							className="py-1.5 px-5 border-b text-center w-1/10 min-w-[120px] cursor-pointer hover:bg-gray-200"
+							onClick={() => onSort("stock.0.warehouse")}
+						>
 							Склад
+							<span className="ml-2">
+								{getSortIcon("stock.0.warehouse")}
+							</span>
 						</th>
 					</tr>
 				</thead>

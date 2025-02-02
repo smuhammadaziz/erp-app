@@ -217,6 +217,45 @@ function SalesMainAllProducts() {
 		}
 	}, [filteredData, searchQuery]);
 
+	const [sortConfig, setSortConfig] = useState({
+		key: null,
+		direction: "asc",
+	});
+
+	const handleSort = (key) => {
+		let direction = "asc";
+		if (sortConfig.key === key && sortConfig.direction === "asc") {
+			direction = "desc";
+		}
+		setSortConfig({ key, direction });
+
+		const sortedData = [...filteredData].sort((a, b) => {
+			// Handle nested properties (like stock[0].qty)
+			const aValue = key.includes(".")
+				? key.split(".").reduce((obj, i) => obj[i], a)
+				: a[key];
+			const bValue = key.includes(".")
+				? key.split(".").reduce((obj, i) => obj[i], b)
+				: b[key];
+
+			// Handle numeric values
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return direction === "asc" ? aValue - bValue : bValue - aValue;
+			}
+
+			// Handle string values
+			const aString = String(aValue || "").toLowerCase();
+			const bString = String(bValue || "").toLowerCase();
+
+			return direction === "asc"
+				? aString.localeCompare(bString)
+				: bString.localeCompare(aString);
+		});
+
+		setFilteredData(sortedData);
+		setDisplayedData(sortedData.slice(0, itemsPerPage));
+	};
+
 	if (loading) {
 		return (
 			<div className="py-1 h-[40vh]">
@@ -257,6 +296,8 @@ function SalesMainAllProducts() {
 					setMouseSelectedRow={setMouseSelectedRow}
 					tableClickedRow={tableClickedRow}
 					setTableClickedRow={setTableClickedRow}
+					sortConfig={sortConfig}
+					onSort={handleSort}
 				/>
 			</div>
 			{isModalOpen && selectedProduct && (
