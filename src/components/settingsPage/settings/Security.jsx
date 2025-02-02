@@ -5,6 +5,9 @@ import SectionContainer from "./SectionContainer";
 import { toast, Toaster } from "sonner";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const PasswordInput = ({
 	label,
 	value,
@@ -22,7 +25,7 @@ const PasswordInput = ({
 				onChange={onChange}
 				disabled={disabled}
 				className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-				placeholder="Enter password"
+				placeholder="..."
 			/>
 			<button
 				type="button"
@@ -61,6 +64,8 @@ function Security() {
 	const [newPassword, setNewPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+	const [language, setLanguage] = useLang("uz");
 
 	useEffect(() => {
 		const handleOnline = () => setIsOnline(true);
@@ -129,14 +134,17 @@ function Security() {
 	return (
 		<>
 			<Toaster position="bottom-right" richColors />
-			<SectionContainer title="Security">
+			<SectionContainer title={content[language].settingsUsers.security}>
 				<div className="bg-white relative">
 					{!isOnline && <OfflineOverlay />}
 					<div className="space-y-6">
 						<div className="grid grid-cols-12 gap-6">
 							<div className="col-span-12">
 								<PasswordInput
-									label="Current Password"
+									label={
+										content[language].settingsUsers
+											.currenctPass
+									}
 									value={currentPassword}
 									onChange={(e) =>
 										setCurrentPassword(e.target.value)
@@ -153,7 +161,10 @@ function Security() {
 
 							<div className="col-span-12 md:col-span-6">
 								<PasswordInput
-									label="New Password"
+									label={
+										content[language].settingsUsers
+											.newPassword
+									}
 									value={newPassword}
 									onChange={(e) =>
 										setNewPassword(e.target.value)
@@ -168,7 +179,10 @@ function Security() {
 
 							<div className="col-span-12 md:col-span-6">
 								<PasswordInput
-									label="Confirm New Password"
+									label={
+										content[language].settingsUsers
+											.confirmNewPassword
+									}
 									value={confirmPassword}
 									onChange={(e) =>
 										setConfirmPassword(e.target.value)
@@ -190,7 +204,7 @@ function Security() {
 								disabled={!isOnline}
 								className="px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-all duration-200 font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
 							>
-								Update Password
+								{content[language].settingsUsers.updatePassword}
 							</button>
 						</div>
 					</div>
