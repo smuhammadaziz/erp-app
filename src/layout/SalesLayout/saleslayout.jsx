@@ -7,12 +7,12 @@ import SalesPageLayoutHeader from "./header";
 function SalesPageLayoutMain({ children }) {
 	return (
 		<Layout>
-			<div className="flex flex-col">
+			<div className="flex flex-col z-0">
 				<header>
 					<SalesPageLayoutHeader />
 				</header>
-				<div className="flex flex-1">
-					<div className="flex-1 z-0 px-4 py-1 bg-white overflow-auto">
+				<div className="flex flex-1 ">
+					<div className="flex-1  px-4 py-1 bg-white overflow-auto">
 						{children}
 					</div>
 

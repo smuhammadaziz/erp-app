@@ -239,7 +239,7 @@ const SalesPageLayoutFooter = () => {
 
 	return (
 		<>
-			<div className="salesfooter  bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative ">
+			<div className="salesfooter z-0  bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative ">
 				<div className="flex items-center justify-start">
 					<div className="flex items-center gap-4">
 						<button
@@ -341,7 +341,7 @@ const SalesPageLayoutFooter = () => {
 				setTempSettings={setTempSettings}
 			/>
 			{isExitModalOpen && (
-				<div className="fixed inset-0 z-20  bg-black bg-opacity-50 flex items-center justify-center p-4">
+				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">

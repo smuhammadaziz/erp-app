@@ -81,14 +81,14 @@ function SalesSoldProducts() {
 
 	return (
 		<>
-			<div className="py-1 h-[33vh] relative z-20">
+			<div className="py-1 h-[33vh] relative z-0">
 				<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 					<div className="overflow-x-auto overflow-y-auto flex-grow">
 						<table
 							ref={tableRef}
 							className="min-w-full bg-white border border-gray-200"
 						>
-							<thead className="sticky top-0 bg-gray-100 shadow-sm z-[9]">
+							<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
 								<tr className="text-gray-700 uppercase text-xs ">
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[500px]">
 										Наименование
