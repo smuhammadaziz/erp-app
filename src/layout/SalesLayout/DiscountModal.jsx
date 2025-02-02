@@ -34,9 +34,30 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
 
+	const formatNumber = (value) => {
+		// Remove all non-digit characters except commas
+		let numbers = value.replace(/[^\d,]/g, "");
+
+		// Remove all commas
+		numbers = numbers.replace(/,/g, "");
+
+		// Convert to number and format
+		const numericValue = parseFloat(numbers) / 100;
+
+		if (isNaN(numericValue)) {
+			return "0,00";
+		}
+
+		return numericValue.toLocaleString("ru-RU", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	};
+
 	const handleDiscountChange = (e) => {
 		const value = e.target.value;
-		setDiscountAmount(value);
+		const formattedValue = formatNumber(value);
+		setDiscountAmount(formattedValue);
 	};
 
 	const handleFocus = (e) => {
@@ -53,6 +74,11 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 	const handleSubmit = async () => {
 		try {
+			// Convert the formatted string to a number for API
+			const numericDiscount = parseFloat(
+				discountAmount.replace(/\s/g, "").replace(",", "."),
+			);
+
 			const response = await fetch(
 				"http://localhost:8000/api/sales/discount",
 				{
@@ -62,7 +88,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 					},
 					body: JSON.stringify({
 						salesId: sales_id,
-						newDiscount: discountAmount.replace(",", "."),
+						newDiscount: numericDiscount.toString(),
 					}),
 				},
 			);
@@ -78,7 +104,8 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	};
 
 	// Calculate final amounts
-	const discount = parseFloat(discountAmount.replace(",", ".")) || 0;
+	const discount =
+		parseFloat(discountAmount.replace(/\s/g, "").replace(",", ".")) || 0;
 	const finalAmount = Math.max(0, price - discount);
 
 	if (!isOpen) return null;
@@ -122,7 +149,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={"50000"}
+								value={"0,00"}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
@@ -155,14 +182,9 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 								</label>
 								<input
 									type="text"
-									value={discount
-										.toLocaleString("ru-RU", {
-											minimumFractionDigits: 2,
-											maximumFractionDigits: 2,
-										})
-										.replace(".", ",")}
+									value={discountAmount}
 									readOnly
-									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
 
@@ -179,7 +201,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 										})
 										.replace(".", ",")}
 									readOnly
-									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
 						</div>
