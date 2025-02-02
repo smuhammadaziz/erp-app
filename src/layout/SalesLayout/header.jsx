@@ -542,8 +542,10 @@ function SalesPageLayoutHeader() {
 												</div>
 											),
 										)}
-										<div className="flex justify-between">
-											<span>Skidka</span>
+										<div className="flex justify-between border-t pt-2 mt-2">
+											<span className="font-semibold">
+												Skidka
+											</span>
 											<span className="font-medium">
 												{parseFloat(
 													selectedSale.details[0]
