@@ -12,6 +12,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
 	const [customers, setCustomers] = useState([]);
 	const [price, setPrice] = useState(0);
+	const [discount, setDiscount] = useState(0);
+	const [totalPrice, setTotalPrice] = useState(0);
 
 	const [data, setData] = useState({});
 
@@ -49,6 +51,14 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				const datas = await response.json();
 
 				setPrice(parseFloat(datas[sales_id].summa));
+				setDiscount(parseFloat(datas[sales_id].discount));
+
+				setTotalPrice(
+					parseFloat(
+						datas[sales_id].summa - datas[sales_id].discount,
+					),
+				);
+
 				setData(datas[sales_id]);
 			} catch (err) {
 				console.log(err);
@@ -265,7 +275,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 							</label>
 							<div className="bg-red-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
-									{discountAmount.toLocaleString()}
+									{discount.toLocaleString("ru-RU", {
+										minimumFractionDigits: 2,
+										maximumFractionDigits: 2,
+									})}
 								</div>
 							</div>
 						</div>
