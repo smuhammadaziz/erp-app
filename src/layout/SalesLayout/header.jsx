@@ -286,7 +286,7 @@ function SalesPageLayoutHeader() {
 						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
 							<div className="grid gap-4 p-4">
 								{productData.length > 0 &&
-									productData.map((sale) => (
+									productData.reverse().map((sale) => (
 										<div
 											key={sale.id}
 											className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
@@ -539,6 +539,24 @@ function SalesPageLayoutHeader() {
 												</div>
 											),
 										)}
+										<div className="flex justify-between">
+											<span>Skidka</span>
+											<span className="font-medium">
+												{parseFloat(
+													selectedSale.details[0]
+														.discount,
+												).toLocaleString("ru-RU", {
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												})}{" "}
+												{
+													currencyData[
+														selectedSale.details[0]
+															.currency
+													]
+												}
+											</span>
+										</div>
 										<div className="border-t pt-2 mt-2">
 											<div className="flex justify-between font-semibold">
 												<span>Общая сумма</span>
