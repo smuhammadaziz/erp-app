@@ -5,6 +5,8 @@ import { FaTrash } from "react-icons/fa";
 import { GrClearOption } from "react-icons/gr";
 import nodeUrl from "../../../links";
 
+import { PiEmptyLight } from "react-icons/pi";
+
 function SearchBar({
 	searchQuery,
 	setSearchQuery,
@@ -151,7 +153,7 @@ function SearchBar({
 					onClick={deleteAllProducts}
 					disabled={isDeleting}
 				>
-					<GrClearOption size={15} />
+					<PiEmptyLight size={15} />
 				</button>
 			</div>
 		</div>
