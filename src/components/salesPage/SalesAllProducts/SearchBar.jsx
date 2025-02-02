@@ -51,11 +51,13 @@ function SearchBar({
 		const newValue = e.target.value;
 		const currentTime = Date.now();
 		const timeDiff = currentTime - lastChangeTime;
-
 		const isQrScan = timeDiff < typingSpeedThreshold && newValue.length > 3;
 
+		if (!isQrScan || newValue.length > 8) {
+			setSearchQuery(newValue);
+		}
+
 		setIsQrInput(isQrScan);
-		setSearchQuery(newValue);
 		setLastChangeTime(currentTime);
 
 		if (isQrScan) {

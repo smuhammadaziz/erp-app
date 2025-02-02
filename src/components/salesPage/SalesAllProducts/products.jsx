@@ -210,6 +210,13 @@ function SalesMainAllProducts() {
 		}
 	}, [selectedRow]);
 
+	useEffect(() => {
+		if (filteredData.length === 1 && searchQuery) {
+			setSelectedProduct(filteredData[0]);
+			setIsModalOpen(true);
+		}
+	}, [filteredData, searchQuery]);
+
 	if (loading) {
 		return (
 			<div className="py-1 h-[40vh]">
