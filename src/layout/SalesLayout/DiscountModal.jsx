@@ -35,13 +35,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	}, [nodeUrl, sales_id]);
 
 	const formatNumber = (value) => {
-		// Remove all non-digit characters except commas
 		let numbers = value.replace(/[^\d,]/g, "");
 
-		// Remove all commas
 		numbers = numbers.replace(/,/g, "");
 
-		// Convert to number and format
 		const numericValue = parseFloat(numbers) / 100;
 
 		if (isNaN(numericValue)) {
@@ -74,7 +71,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 	const handleSubmit = async () => {
 		try {
-			// Convert the formatted string to a number for API
 			const numericDiscount = parseFloat(
 				discountAmount.replace(/\s/g, "").replace(",", "."),
 			);
@@ -103,7 +99,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		}
 	};
 
-	// Calculate final amounts
 	const discount =
 		parseFloat(discountAmount.replace(/\s/g, "").replace(",", ".")) || 0;
 	const finalAmount = Math.max(0, price - discount);
