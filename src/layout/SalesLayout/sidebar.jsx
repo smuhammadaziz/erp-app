@@ -124,11 +124,11 @@ function SalesPageLayoutSidebar() {
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<HiOutlineCash className="mr-3 text-xl" />
-					<span className="font-semibold">Cash</span>
+					<span className="font-semibold">Нақд</span>
 				</button>
 				<button className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
 					<HiOutlineCreditCard className="mr-3 text-xl" />
-					<span className="font-semibold">Card</span>
+					<span className="font-semibold">Пластик</span>
 				</button>
 			</div>
 
@@ -141,7 +141,7 @@ function SalesPageLayoutSidebar() {
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<CiClock1 className="mr-3 text-base" />
-					<span className="font-semibold">В процессе</span>
+					<span className="font-semibold">Жараёнда</span>
 				</button>
 			</div>
 
