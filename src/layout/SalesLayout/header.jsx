@@ -11,6 +11,7 @@ import {
 } from "react-icons/md";
 
 import { BiSearch } from "react-icons/bi";
+import DiscountModal from "./DiscountModal";
 
 import {
 	MdOutlineShoppingCart,
@@ -45,6 +46,8 @@ function SalesPageLayoutHeader() {
 	const [selectedSale, setSelectedSale] = useState(null);
 	const [status, setStatus] = useState("checking");
 	const [productData, setProductData] = useState([]);
+
+	const [isModalOpenDis, setIsModalOpenDis] = useState(false);
 
 	const checkNetworkStatus = async () => {
 		if (!navigator.onLine) {
@@ -235,13 +238,14 @@ function SalesPageLayoutHeader() {
 			</div>
 			<div className="mr-2.5 flex items-center">
 				{renderStatusButton()}
-				<button
-					onClick={() => handleOpenModal("skidka")}
-					className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
+				<button1
+					// onClick={() => handleOpenModal("skidka")}
+					onClick={() => setIsModalOpen(true)}
+					className="flex items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
 					<CiDiscount1 className="mr-3 text-xl" />
 					<span className="font-semibold">Skidka</span>
-				</button>
+				</button1>
 				<button
 					onClick={() => setIsListModalOpen(true)}
 					className="flex items-center mr-6 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
@@ -562,6 +566,12 @@ function SalesPageLayoutHeader() {
 					</div>
 				</div>
 			)}
+
+			<DiscountModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				total_price={5000}
+			/>
 		</div>
 	);
 }
