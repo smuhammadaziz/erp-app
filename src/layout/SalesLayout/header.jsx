@@ -286,90 +286,93 @@ function SalesPageLayoutHeader() {
 						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
 							<div className="grid gap-4 p-4">
 								{productData.length > 0 &&
-									productData.reverse().map((sale) => (
-										<div
-											key={sale.id}
-											className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
-										>
-											<div className="flex items-start">
-												<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
-												<div>
-													<p className="text-sm text-gray-500">
-														Клиент
-													</p>
-													<p className="font-medium text-lg block truncate">
-														{sale.client_name}
-													</p>
+									productData
+										.map((sale) => (
+											<div
+												key={sale.id}
+												className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
+											>
+												<div className="flex items-start">
+													<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
+													<div>
+														<p className="text-sm text-gray-500">
+															Клиент
+														</p>
+														<p className="font-medium text-lg block truncate">
+															{sale.client_name}
+														</p>
+													</div>
 												</div>
-											</div>
 
-											<div className="grid grid-cols-3 gap-4">
-												<div className="flex items-start">
-													<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
-													<div>
-														<p className="text-sm text-gray-500">
-															Сумма
-														</p>
-														<p className="font-medium text-lg">
-															{parseFloat(
-																sale.total_price,
-															).toLocaleString(
-																"ru-RU",
-																{
-																	minimumFractionDigits: 2,
-																	maximumFractionDigits: 2,
-																},
-															)}{" "}
-															{
-																currencyData[
-																	sale
-																		.details[0]
-																		.currency
-																]
-															}
-														</p>
-													</div>
-												</div>
-												<div className="flex items-start">
-													<MdAccessTime className="text-gray-500 mr-2 text-xl" />
-													<div>
-														<p className="text-sm text-gray-500">
-															Дата
-														</p>
-														<p className="font-medium text-lg">
-															{moment(
-																sale.date,
-															).format("LLL")}
-														</p>
-													</div>
-												</div>
-												<div className="flex items-center justify-between">
-													<div className="flex items-center">
-														<div className="mr-4 items-center">
+												<div className="grid grid-cols-3 gap-4">
+													<div className="flex items-start">
+														<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
+														<div>
 															<p className="text-sm text-gray-500">
-																Статус
+																Сумма
 															</p>
-															<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
-																{/* {sale.status} */}
-																Не доставлено
-															</span>
+															<p className="font-medium text-lg">
+																{parseFloat(
+																	sale.total_price,
+																).toLocaleString(
+																	"ru-RU",
+																	{
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
+																	},
+																)}{" "}
+																{
+																	currencyData[
+																		sale
+																			.details[0]
+																			.currency
+																	]
+																}
+															</p>
 														</div>
 													</div>
-													<button
-														onClick={() =>
-															openDetailModal(
-																sale,
-															)
-														}
-														className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
-													>
-														<MdOutlineInfo className="mr-1" />
-														более
-													</button>
+													<div className="flex items-start">
+														<MdAccessTime className="text-gray-500 mr-2 text-xl" />
+														<div>
+															<p className="text-sm text-gray-500">
+																Дата
+															</p>
+															<p className="font-medium text-lg">
+																{moment(
+																	sale.date,
+																).format("LLL")}
+															</p>
+														</div>
+													</div>
+													<div className="flex items-center justify-between">
+														<div className="flex items-center">
+															<div className="mr-4 items-center">
+																<p className="text-sm text-gray-500">
+																	Статус
+																</p>
+																<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
+																	{/* {sale.status} */}
+																	Не
+																	доставлено
+																</span>
+															</div>
+														</div>
+														<button
+															onClick={() =>
+																openDetailModal(
+																	sale,
+																)
+															}
+															className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
+														>
+															<MdOutlineInfo className="mr-1" />
+															более
+														</button>
+													</div>
 												</div>
 											</div>
-										</div>
-									))}
+										))
+										.reverse()}
 							</div>
 						</div>
 					</div>
