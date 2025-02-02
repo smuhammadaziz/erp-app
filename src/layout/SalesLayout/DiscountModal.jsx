@@ -61,7 +61,13 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 							</label>
 							<div className="bg-green-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
-									{"500000"}
+									{Number(data.summa).toLocaleString(
+										"ru-RU",
+										{
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										},
+									)}
 								</div>
 							</div>
 						</div>
