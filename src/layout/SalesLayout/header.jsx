@@ -565,7 +565,10 @@ function SalesPageLayoutHeader() {
 												<span>Общая сумма</span>
 												<span>
 													{parseFloat(
-														selectedSale.total_price,
+														selectedSale.total_price -
+															selectedSale
+																.details[0]
+																.discount,
 													).toLocaleString("ru-RU", {
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
