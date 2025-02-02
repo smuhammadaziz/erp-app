@@ -3,7 +3,11 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { MdOutlineChangeCircle } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function LogoutButton() {
+	const [language, setLanguage] = useLang("uz");
 	return (
 		<div className="">
 			<NavLink
@@ -11,7 +15,9 @@ function LogoutButton() {
 				className="w-full bg-red-500 flex items-center mt-3 text-white font-bold hover:bg-transparent hover:text-red-500 border-2 border-red-500 p-3 rounded-lg transition-colors"
 			>
 				<FaSignOutAlt className="mr-2 w-4 h-4" />
-				<span className="text-sm ">Hisobdan chiqish</span>
+				<span className="text-sm ">
+					{content[language].settingsUsers.logout}
+				</span>
 			</NavLink>
 		</div>
 	);
