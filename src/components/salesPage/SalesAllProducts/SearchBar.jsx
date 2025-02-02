@@ -153,7 +153,7 @@ function SearchBar({
 					onClick={deleteAllProducts}
 					disabled={isDeleting}
 				>
-					<PiEmptyLight size={15} />
+					<FaTrash size={15} />
 				</button>
 			</div>
 		</div>
