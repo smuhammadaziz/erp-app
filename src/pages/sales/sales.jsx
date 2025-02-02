@@ -7,9 +7,9 @@ import SalesPageLayoutMain from "../../layout/SalesLayout/saleslayout";
 function SalesMainPage() {
 	return (
 		<SalesPageLayoutMain>
-			<div>
+			<div className="z-0">
 				<div className="flex gap-4 justify-between">
-					<div className="w-[90vw]">
+					<div className="w-[90vw] ">
 						<SalesSoldProducts />
 					</div>
 					<div className="">
