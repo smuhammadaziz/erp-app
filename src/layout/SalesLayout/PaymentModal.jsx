@@ -375,6 +375,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 								type="text"
 								value={totalPrice.toLocaleString("ru-RU", {
 									minimumFractionDigits: 2,
+									maximumFractionDigits: 2,
 								})}
 								disabled
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
