@@ -113,27 +113,27 @@ function SalesPageLayoutHeader() {
 				return (
 					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
 						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
-						<span className="font-semibold">Online</span>
+						<span className="font-semibold"></span>
 					</button>
 				);
 			case "no-internet":
 				return (
 					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
 						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
-						<span className="font-semibold">Online</span>
+						<span className="font-semibold"></span>
 					</button>
 				);
 			case "offline":
 				return (
 					<button className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600">
 						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
-						<span className="font-semibold">Offline</span>
+						<span className="font-semibold"></span>
 					</button>
 				);
 			default:
 				return (
 					<button className="flex items-center mr-2 justify-center bg-gray-400 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500">
-						<span className="font-semibold">Checking...</span>
+						<span className="font-semibold"></span>
 					</button>
 				);
 		}
@@ -237,7 +237,7 @@ function SalesPageLayoutHeader() {
 				</div>
 			</div>
 			<div className="mr-2.5 flex items-center">
-				{renderStatusButton()}
+				{/* {renderStatusButton()} */}
 				<button1
 					// onClick={() => handleOpenModal("skidka")}
 					onClick={() => setIsModalOpenDis(true)}
