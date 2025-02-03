@@ -62,21 +62,20 @@ function SearchBar({
 		};
 
 		const handleKeyDown = (e) => {
-			// Check if CTRL + F is pressed
 			if (e.ctrlKey && e.key === "f") {
-				e.preventDefault(); // Prevent the default browser behavior (e.g., opening the find dialog)
+				e.preventDefault();
 				searchInputRef.current?.focus();
 			}
 		};
 
 		document.addEventListener("keypress", handleKeyPress);
 		document.addEventListener("click", handleMouseClick);
-		document.addEventListener("keydown", handleKeyDown); // Add the keydown event listener
+		document.addEventListener("keydown", handleKeyDown);
 
 		return () => {
 			document.removeEventListener("keypress", handleKeyPress);
 			document.removeEventListener("click", handleMouseClick);
-			document.removeEventListener("keydown", handleKeyDown); // Clean up the keydown event listener
+			document.removeEventListener("keydown", handleKeyDown);
 		};
 	}, []);
 

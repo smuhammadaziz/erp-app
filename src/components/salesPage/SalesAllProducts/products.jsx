@@ -247,7 +247,6 @@ function SalesMainAllProducts() {
 		const sortedData = [...filteredData].sort((a, b) => {
 			let aValue, bValue;
 
-			// Handle special cases for price columns
 			if (key === "convertedPrice") {
 				aValue = getConvertedPrice(a);
 				bValue = getConvertedPrice(b);
@@ -255,7 +254,6 @@ function SalesMainAllProducts() {
 				aValue = getActualPrice(a);
 				bValue = getActualPrice(b);
 			} else {
-				// Handle other columns
 				aValue = key.includes(".")
 					? key.split(".").reduce((obj, i) => obj[i], a)
 					: a[key];
