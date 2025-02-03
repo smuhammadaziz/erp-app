@@ -118,7 +118,8 @@ function ProductModal({
 	const handleClose = () => {
 		if (searchInputRef.current) {
 			searchInputRef.current.focus();
-			// Keep the existing search query
+			// Don't clear the search query, just let the input be selected
+			searchInputRef.current.select();
 		}
 		onClose();
 	};
@@ -191,7 +192,7 @@ function ProductModal({
 				const result = await response.json();
 				if (searchInputRef.current) {
 					searchInputRef.current.focus();
-					// Keep the existing search query
+					searchInputRef.current.select(); // Select the text after successful submission
 				}
 				onClose();
 			} else {

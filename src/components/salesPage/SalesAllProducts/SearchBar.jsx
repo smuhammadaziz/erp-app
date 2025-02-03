@@ -18,6 +18,7 @@ function SearchBar({
 	const [lastChangeTime, setLastChangeTime] = useState(0);
 	const [isQrInput, setIsQrInput] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const [isFirstKeyPress, setIsFirstKeyPress] = useState(true);
 
 	const typingSpeedThreshold = 50;
 
@@ -75,6 +76,18 @@ function SearchBar({
 		const timeDiff = currentTime - lastChangeTime;
 		const isQrScan = timeDiff < typingSpeedThreshold && newValue.length > 3;
 
+		if (isModalOpen) {
+			setSearchQuery("");
+			return;
+		}
+
+		if (isFirstKeyPress) {
+			setSearchQuery(newValue);
+			setIsFirstKeyPress(false);
+		} else {
+			setSearchQuery(newValue);
+		}
+
 		setIsSelectionEnabled(false);
 		setSelectedRow(null);
 
@@ -102,10 +115,9 @@ function SearchBar({
 	};
 
 	const handleFocus = () => {
-		if (searchQuery && isQrInput) {
-			setTimeout(() => {
-				searchInputRef.current?.select();
-			}, 50);
+		if (searchQuery) {
+			searchInputRef.current?.select();
+			setIsFirstKeyPress(true);
 		}
 	};
 
