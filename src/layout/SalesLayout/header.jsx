@@ -510,39 +510,28 @@ function SalesPageLayoutHeader() {
 										Реквизиты платежа
 									</h3>
 									<div className="space-y-2">
-										{selectedSale.payments.map(
-											(payment, index) => (
-												<div
-													key={index}
-													className="flex justify-between"
-												>
-													<span>
-														{
-															findObjectById(
-																payment.cash,
-															).name
-														}
-													</span>
-													<span className="font-medium">
-														{parseFloat(
-															payment.sum,
-														).toLocaleString(
-															"ru-RU",
-															{
-																minimumFractionDigits: 2,
-																maximumFractionDigits: 2,
-															},
-														)}{" "}
-														{
-															currencyData[
-																payment.currency
-															]
-														}
-													</span>
-												</div>
-											),
-										)}
-										<div className="flex justify-between border-t pt-2 mt-2">
+										<div className="border-b pb-2 mb-2">
+											<div className="flex justify-between font-semibold">
+												<span>Общая сумма</span>
+												<span>
+													{parseFloat(
+														selectedSale.total_price,
+													).toLocaleString("ru-RU", {
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													})}{" "}
+													{
+														currencyData[
+															selectedSale
+																.details[0]
+																.currency
+														]
+													}
+												</span>
+											</div>
+										</div>
+
+										<div className="flex justify-between border-b pb-2 mb-2">
 											<span className="font-semibold">
 												Skidka
 											</span>
@@ -562,29 +551,41 @@ function SalesPageLayoutHeader() {
 												}
 											</span>
 										</div>
-										<div className="border-t pt-2 mt-2">
-											<div className="flex justify-between font-semibold">
-												<span>Общая сумма</span>
-												<span>
-													{parseFloat(
-														selectedSale.total_price -
-															selectedSale
-																.details[0]
-																.discount,
-													).toLocaleString("ru-RU", {
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
-													})}{" "}
-													{
-														currencyData[
-															selectedSale
-																.details[0]
-																.currency
-														]
-													}
-												</span>
-											</div>
-										</div>
+										{selectedSale.payments.map(
+											(payment, index) => (
+												<div
+													key={index}
+													className="flex justify-between"
+												>
+													<span>
+														{
+															findObjectById(
+																payment.cash,
+															).name
+														}
+													</span>
+													<span className="font-medium">
+														{parseFloat(
+															payment.sum -
+																selectedSale
+																	.details[0]
+																	.discount,
+														).toLocaleString(
+															"ru-RU",
+															{
+																minimumFractionDigits: 2,
+																maximumFractionDigits: 2,
+															},
+														)}{" "}
+														{
+															currencyData[
+																payment.currency
+															]
+														}
+													</span>
+												</div>
+											),
+										)}
 									</div>
 								</div>
 							</div>
