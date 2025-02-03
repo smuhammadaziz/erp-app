@@ -229,9 +229,9 @@ function SalesMainAllProducts() {
 		};
 	}, [filteredData, searchQuery]);
 
-	const [sortConfig, setSortConfig] = useState({
-		key: null,
-		direction: "asc",
+	const [sortConfig, setSortConfig] = useState(() => {
+		const saved = localStorage.getItem("tableSortConfig");
+		return saved ? JSON.parse(saved) : { key: null, direction: "asc" };
 	});
 
 	const handleSort = (key) => {
@@ -239,15 +239,30 @@ function SalesMainAllProducts() {
 		if (sortConfig.key === key && sortConfig.direction === "asc") {
 			direction = "desc";
 		}
-		setSortConfig({ key, direction });
+
+		const newSortConfig = { key, direction };
+		setSortConfig(newSortConfig);
+		localStorage.setItem("tableSortConfig", JSON.stringify(newSortConfig));
 
 		const sortedData = [...filteredData].sort((a, b) => {
-			const aValue = key.includes(".")
-				? key.split(".").reduce((obj, i) => obj[i], a)
-				: a[key];
-			const bValue = key.includes(".")
-				? key.split(".").reduce((obj, i) => obj[i], b)
-				: b[key];
+			let aValue, bValue;
+
+			// Handle special cases for price columns
+			if (key === "convertedPrice") {
+				aValue = getConvertedPrice(a);
+				bValue = getConvertedPrice(b);
+			} else if (key === "actualPrice") {
+				aValue = getActualPrice(a);
+				bValue = getActualPrice(b);
+			} else {
+				// Handle other columns
+				aValue = key.includes(".")
+					? key.split(".").reduce((obj, i) => obj[i], a)
+					: a[key];
+				bValue = key.includes(".")
+					? key.split(".").reduce((obj, i) => obj[i], b)
+					: b[key];
+			}
 
 			if (typeof aValue === "number" && typeof bValue === "number") {
 				return direction === "asc" ? aValue - bValue : bValue - aValue;
@@ -264,6 +279,52 @@ function SalesMainAllProducts() {
 		setFilteredData(sortedData);
 		setDisplayedData(sortedData.slice(0, itemsPerPage));
 	};
+
+	const getConvertedPrice = (product) => {
+		const priceTypeKeyData = localStorage.getItem("priceTypeKey");
+		const currencyKeyData = localStorage.getItem("currencyKey");
+
+		const matchingPrice = product.price.find(
+			(price) => price.type === priceTypeKeyData,
+		);
+
+		if (!matchingPrice) return 0;
+		if (String(currencyKeyData) === product.currency) return 0;
+		return matchingPrice.sale;
+	};
+
+	const getActualPrice = (product) => {
+		const priceTypeKeyData = localStorage.getItem("priceTypeKey");
+		const currencyKeyData = localStorage.getItem("currencyKey");
+		const currencyRateDataKey = JSON.parse(
+			localStorage.getItem("currency_rate") || "{}",
+		);
+
+		const matchingPrice = product.price.find(
+			(price) => price.type === priceTypeKeyData,
+		);
+
+		if (!matchingPrice) return 0;
+
+		if (currencyKeyData === product.currency) {
+			return matchingPrice.sale;
+		} else {
+			if (currencyKeyData === "e51e4ee5-d689-11e7-b79f-00ac1948df3a") {
+				return matchingPrice.sale / currencyRateDataKey.usd;
+			} else if (
+				currencyKeyData === "e51e4ee6-d689-11e7-b79f-00ac1948df3a"
+			) {
+				return matchingPrice.sale * currencyRateDataKey.usd;
+			}
+			return matchingPrice.sale;
+		}
+	};
+
+	useEffect(() => {
+		if (sortConfig.key) {
+			handleSort(sortConfig.key);
+		}
+	}, [originalData]);
 
 	if (loading) {
 		return (

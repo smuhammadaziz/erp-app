@@ -375,20 +375,20 @@ function ProductsTable({
 						</th>
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
-							onClick={() => onSort("price.0.sale")}
+							onClick={() => onSort("convertedPrice")}
 						>
 							Нархи, Валюта
 							<span className="ml-2">
-								{getSortIcon("price.0.sale")}
+								{getSortIcon("convertedPrice")}
 							</span>
 						</th>
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
-							onClick={() => onSort("price.0.sale")}
+							onClick={() => onSort("actualPrice")}
 						>
 							Нархи
 							<span className="ml-2">
-								{getSortIcon("price.0.sale")}
+								{getSortIcon("actualPrice")}
 							</span>
 						</th>
 						<th
