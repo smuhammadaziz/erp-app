@@ -31,6 +31,32 @@ export const Titlebar: FC = () => {
 		currentWindow.isMaximized(),
 	);
 	const [showInfoModal, setShowInfoModal] = useState(false);
+	const [isNetworkAvailable, setIsNetworkAvailable] = useState(true);
+
+	// Network status check function
+	const checkNetworkStatus = () => {
+		if (navigator.onLine) {
+			setIsNetworkAvailable(true);
+		} else {
+			setIsNetworkAvailable(false);
+		}
+	};
+
+	// Add event listeners for network status
+	useEffect(() => {
+		// Initial check
+		checkNetworkStatus();
+
+		// Add event listeners
+		window.addEventListener("online", checkNetworkStatus);
+		window.addEventListener("offline", checkNetworkStatus);
+
+		// Cleanup event listeners
+		return () => {
+			window.removeEventListener("online", checkNetworkStatus);
+			window.removeEventListener("offline", checkNetworkStatus);
+		};
+	}, []);
 
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
@@ -81,24 +107,56 @@ export const Titlebar: FC = () => {
 				</span>
 			</div>
 			<div className="window-controls-container flex items-center">
-				<button
-					title="Интернет мавжуд"
-					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
+				<div
+					className={`
+                        network-status-indicator 
+                        transition-all 
+                        duration-300 
+                        ease-in-out 
+                        mr-5 
+                        ${
+							isNetworkAvailable
+								? "opacity-100 scale-100"
+								: "opacity-0 scale-75 hidden"
+						}`}
 				>
-					<FaWifi className="text-green-600 font-bold hover:text-green-600 transition-colors duration-200" />
-				</button>
-				<button
-					title="Интернет мавжуд эмас"
-					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
+					<button
+						title="Интернет мавжуд"
+						className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+						style={
+							{
+								WebkitAppRegion: "no-drag",
+							} as React.CSSProperties
+						}
+					>
+						<FaWifi className="text-green-600 font-bold hover:text-green-600 transition-colors duration-200" />
+					</button>
+				</div>
+				<div
+					className={`
+                        network-status-indicator 
+                        transition-all 
+                        duration-300 
+                        ease-in-out 
+                        mr-5 
+                        ${
+							!isNetworkAvailable
+								? "opacity-100 scale-100"
+								: "opacity-0 scale-75 hidden"
+						}`}
 				>
-					<GoAlertFill className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
-				</button>
+					<button
+						title="Интернет мавжуд эмас"
+						className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+						style={
+							{
+								WebkitAppRegion: "no-drag",
+							} as React.CSSProperties
+						}
+					>
+						<GoAlertFill className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
+					</button>
+				</div>
 				<button
 					title="informations"
 					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
