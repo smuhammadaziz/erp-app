@@ -20,6 +20,14 @@ function ProductModal({
 	const device_id = localStorage.getItem("device_id");
 	const priceTypeKey = localStorage.getItem("priceTypeKey");
 
+	const quantityInputRef = useRef(null);
+	const priceInputRef = useRef(null);
+	const okButtonRef = useRef(null);
+
+	useEffect(() => {
+		quantityInputRef.current?.focus();
+	}, []);
+
 	const settingsWarehouse = JSON.parse(
 		localStorage.getItem("settingsWarehouse"),
 	);
@@ -228,6 +236,27 @@ function ProductModal({
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
 
+	const handleKeyDown = (e, currentField) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			switch (currentField) {
+				case "quantity":
+					priceInputRef.current?.focus();
+					break;
+				case "price":
+					if (changePriceValue) {
+						// Only if price input is enabled
+						okButtonRef.current?.focus();
+					} else {
+						okButtonRef.current?.focus();
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
 	return (
 		<>
 			<div
@@ -286,10 +315,14 @@ function ProductModal({
 												Сони
 											</label>
 											<input
+												ref={quantityInputRef}
 												type="number"
 												value={quantity}
 												onFocus={handleFocus}
 												onBlur={handleBlur}
+												onKeyDown={(e) =>
+													handleKeyDown(e, "quantity")
+												}
 												onChange={(e) =>
 													setQuantity(e.target.value)
 												}
@@ -304,6 +337,7 @@ function ProductModal({
 												Цена
 											</label>
 											<input
+												ref={priceInputRef}
 												type="text"
 												defaultValue={(() => {
 													return convertedPrice.toLocaleString(
@@ -314,8 +348,11 @@ function ProductModal({
 														},
 													);
 												})()}
+												onKeyDown={(e) =>
+													handleKeyDown(e, "price")
+												}
 												onFocus={handlePriceFocus}
-												disabled={!changePriceValue}
+												// disabled={!changePriceValue}
 												onChange={handlePriceChange}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
@@ -340,6 +377,7 @@ function ProductModal({
 
 							<div className="flex justify-end pt-4">
 								<button
+									ref={okButtonRef}
 									type="submit"
 									className="px-12 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
 								>
@@ -392,7 +430,7 @@ function ProductModal({
 				</div>
 			)}
 
-			{showEmpty && (
+			{/* {showEmpty && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
 						<div className="p-6">
@@ -424,7 +462,7 @@ function ProductModal({
 						</div>
 					</div>
 				</div>
-			)}
+			)} */}
 		</>
 	);
 }
