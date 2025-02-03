@@ -154,7 +154,7 @@ export const Titlebar: FC = () => {
 							} as React.CSSProperties
 						}
 					>
-						<GoAlertFill className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
+						<MdWifiOff className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
 					</button>
 				</div>
 				<button
