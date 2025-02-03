@@ -211,10 +211,22 @@ function SalesMainAllProducts() {
 	}, [selectedRow]);
 
 	useEffect(() => {
-		if (filteredData.length === 1 && searchQuery) {
-			setSelectedProduct(filteredData[0]);
-			setIsModalOpen(true);
-		}
+		const handleKeyPress = (event) => {
+			if (
+				event.key === "Enter" &&
+				filteredData.length === 1 &&
+				searchQuery
+			) {
+				setSelectedProduct(filteredData[0]);
+				setIsModalOpen(true);
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyPress);
+
+		return () => {
+			document.removeEventListener("keydown", handleKeyPress);
+		};
 	}, [filteredData, searchQuery]);
 
 	const [sortConfig, setSortConfig] = useState({
