@@ -4,6 +4,9 @@ import logo from "../../assets/icon.png";
 import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
 import { RiInformation2Fill } from "react-icons/ri";
 import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
+import { FaWifi } from "react-icons/fa6";
+import { MdWifiOff } from "react-icons/md";
+import { GoAlertFill } from "react-icons/go";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -79,6 +82,24 @@ export const Titlebar: FC = () => {
 			</div>
 			<div className="window-controls-container flex items-center">
 				<button
+					title="Интернет мавжуд"
+					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
+				>
+					<FaWifi className="text-green-600 font-bold hover:text-green-600 transition-colors duration-200" />
+				</button>
+				<button
+					title="Интернет мавжуд эмас"
+					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
+				>
+					<GoAlertFill className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
+				</button>
+				<button
 					title="informations"
 					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
 					onClick={() => setShowInfoModal(true)}
@@ -126,4 +147,3 @@ export const Titlebar: FC = () => {
 		</div>
 	);
 };
-
