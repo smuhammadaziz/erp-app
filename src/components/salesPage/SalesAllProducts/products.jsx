@@ -242,7 +242,6 @@ function SalesMainAllProducts() {
 		setSortConfig({ key, direction });
 
 		const sortedData = [...filteredData].sort((a, b) => {
-			// Handle nested properties (like stock[0].qty)
 			const aValue = key.includes(".")
 				? key.split(".").reduce((obj, i) => obj[i], a)
 				: a[key];
@@ -250,12 +249,10 @@ function SalesMainAllProducts() {
 				? key.split(".").reduce((obj, i) => obj[i], b)
 				: b[key];
 
-			// Handle numeric values
 			if (typeof aValue === "number" && typeof bValue === "number") {
 				return direction === "asc" ? aValue - bValue : bValue - aValue;
 			}
 
-			// Handle string values
 			const aString = String(aValue || "").toLowerCase();
 			const bString = String(bValue || "").toLowerCase();
 
