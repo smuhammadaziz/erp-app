@@ -330,7 +330,7 @@ function ProductsTable({
 
 	const getSortIcon = (columnKey) => {
 		if (sortConfig.key !== columnKey) {
-			return "↕️";
+			return "";
 		}
 		return sortConfig.direction === "asc" ? "↑" : "↓";
 	};
