@@ -292,6 +292,7 @@ function SalesMainAllProducts() {
 					searchInputRef={searchInputRef}
 					setIsSelectionEnabled={setIsSelectionEnabled}
 					setSelectedRow={setSelectedRow}
+					isModalOpen={isModalOpen}
 				/>
 				<ProductsTable
 					filteredData={displayedData}
@@ -317,6 +318,9 @@ function SalesMainAllProducts() {
 				<ProductModal
 					product={selectedProduct}
 					onClose={handleCloseModal}
+					searchInputRef={searchInputRef}
+					searchQuery={searchQuery}
+					setSearchQuery={setSearchQuery}
 				/>
 			)}
 		</div>

@@ -12,6 +12,7 @@ function SearchBar({
 	setSearchQuery,
 	setIsSelectionEnabled,
 	setSelectedRow,
+	isModalOpen,
 }) {
 	const searchInputRef = useRef(null);
 	const [lastChangeTime, setLastChangeTime] = useState(0);
@@ -19,6 +20,12 @@ function SearchBar({
 	const [isDeleting, setIsDeleting] = useState(false);
 
 	const typingSpeedThreshold = 50;
+
+	useEffect(() => {
+		if (searchInputRef.current && !isModalOpen) {
+			searchInputRef.current.focus();
+		}
+	}, [isModalOpen]);
 
 	useEffect(() => {
 		if (searchInputRef.current) {
@@ -46,8 +53,9 @@ function SearchBar({
 			const isInteractive = e.target.matches(
 				'input, select, textarea, button, a, [role="button"], [contenteditable="true"]',
 			);
+			const isModalOpen = document.querySelector(".fixed.inset-0"); // Check if modal is open
 
-			if (!shouldSkipFocus && !isInteractive) {
+			if (!shouldSkipFocus && !isInteractive && !isModalOpen) {
 				searchInputRef.current?.focus();
 			}
 		};

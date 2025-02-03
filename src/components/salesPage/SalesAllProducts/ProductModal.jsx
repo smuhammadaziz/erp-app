@@ -2,7 +2,13 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
-function ProductModal({ product, onClose }) {
+function ProductModal({
+	product,
+	onClose,
+	searchInputRef,
+	searchQuery,
+	setSearchQuery,
+}) {
 	const [quantity, setQuantity] = useState(0);
 	const [customPrice, setCustomPrice] = useState(null);
 	const [showErrorModal, setShowErrorModal] = useState(false);
@@ -101,6 +107,14 @@ function ProductModal({ product, onClose }) {
 
 	const totalPrice = Number(quantity) * Number(convertedPrice);
 
+	const handleClose = () => {
+		if (searchInputRef.current) {
+			searchInputRef.current.focus();
+			// Keep the existing search query
+		}
+		onClose();
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -167,6 +181,10 @@ function ProductModal({ product, onClose }) {
 
 			if (response.ok) {
 				const result = await response.json();
+				if (searchInputRef.current) {
+					searchInputRef.current.focus();
+					// Keep the existing search query
+				}
 				onClose();
 			} else {
 				console.error("Failed to submit data to the API");
@@ -328,7 +346,7 @@ function ProductModal({ product, onClose }) {
 									OK
 								</button>
 								<button
-									onClick={onClose}
+									onClick={handleClose}
 									className="px-6 py-2 ml-5 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
 								>
 									Отмена
