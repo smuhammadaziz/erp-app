@@ -55,7 +55,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		let value = e.target.value.replace(/[^\d]/g, "");
 		let numericValue = parseInt(value, 10);
 
-		// Limit to 100%
 		if (numericValue > 100) {
 			numericValue = 100;
 		}
@@ -66,7 +65,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 		setPercentageValue(numericValue.toString());
 
-		// Calculate discount amounts and update total
 		updateTotalDiscount(
 			numericValue,
 			parseFloat(
@@ -80,7 +78,6 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		const formattedValue = formatNumber(value);
 		setDirectDiscountValue(formattedValue);
 
-		// Calculate discount amounts and update total
 		updateTotalDiscount(
 			parseInt(percentageValue) || 0,
 			parseFloat(formattedValue.replace(/\s/g, "").replace(",", ".")),
@@ -88,13 +85,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	};
 
 	const updateTotalDiscount = (percentValue, directValue) => {
-		// Calculate percentage-based discount
 		const percentageDiscount = (price * percentValue) / 100;
 
-		// Calculate total discount (percentage + direct amount)
 		const totalDiscount = percentageDiscount + directValue;
 
-		// Format and set the total discount
 		setDiscountAmount(
 			totalDiscount.toLocaleString("ru-RU", {
 				minimumFractionDigits: 2,
@@ -129,19 +123,16 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 				discountAmount.replace(/\s/g, "").replace(",", "."),
 			);
 
-			const response = await fetch(
-				"http://localhost:8000/api/sales/discount",
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						salesId: sales_id,
-						newDiscount: numericDiscount.toString(),
-					}),
+			const response = await fetch(`${nodeUrl}/api/sales/discount`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify({
+					salesId: sales_id,
+					newDiscount: numericDiscount.toString(),
+				}),
+			});
 
 			if (!response.ok) {
 				throw new Error("Failed to update discount");
