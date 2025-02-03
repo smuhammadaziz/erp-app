@@ -8,6 +8,8 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	const [price, setPrice] = useState(0);
 	const [data, setData] = useState({});
 	const [discountAmount, setDiscountAmount] = useState("0,00");
+	const [percentageValue, setPercentageValue] = useState("0");
+	const [directDiscountValue, setDirectDiscountValue] = useState("0,00");
 
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
@@ -36,9 +38,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 	const formatNumber = (value) => {
 		let numbers = value.replace(/[^\d,]/g, "");
-
 		numbers = numbers.replace(/,/g, "");
-
 		const numericValue = parseFloat(numbers) / 100;
 
 		if (isNaN(numericValue)) {
@@ -51,21 +51,75 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		});
 	};
 
-	const handleDiscountChange = (e) => {
+	const handlePercentageChange = (e) => {
+		let value = e.target.value.replace(/[^\d]/g, "");
+		let numericValue = parseInt(value, 10);
+
+		// Limit to 100%
+		if (numericValue > 100) {
+			numericValue = 100;
+		}
+
+		if (isNaN(numericValue)) {
+			numericValue = 0;
+		}
+
+		setPercentageValue(numericValue.toString());
+
+		// Calculate discount amounts and update total
+		updateTotalDiscount(
+			numericValue,
+			parseFloat(
+				directDiscountValue.replace(/\s/g, "").replace(",", "."),
+			),
+		);
+	};
+
+	const handleDirectDiscountChange = (e) => {
 		const value = e.target.value;
 		const formattedValue = formatNumber(value);
-		setDiscountAmount(formattedValue);
+		setDirectDiscountValue(formattedValue);
+
+		// Calculate discount amounts and update total
+		updateTotalDiscount(
+			parseInt(percentageValue) || 0,
+			parseFloat(formattedValue.replace(/\s/g, "").replace(",", ".")),
+		);
+	};
+
+	const updateTotalDiscount = (percentValue, directValue) => {
+		// Calculate percentage-based discount
+		const percentageDiscount = (price * percentValue) / 100;
+
+		// Calculate total discount (percentage + direct amount)
+		const totalDiscount = percentageDiscount + directValue;
+
+		// Format and set the total discount
+		setDiscountAmount(
+			totalDiscount.toLocaleString("ru-RU", {
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 2,
+			}),
+		);
 	};
 
 	const handleFocus = (e) => {
-		if (discountAmount === "0,00") {
-			setDiscountAmount("");
+		const { name, value } = e.target;
+		if (name === "percentage" && value === "0") {
+			setPercentageValue("");
+		} else if (name === "directAmount" && value === "0,00") {
+			setDirectDiscountValue("");
 		}
 	};
 
 	const handleBlur = (e) => {
-		if (!e.target.value) {
-			setDiscountAmount("0,00");
+		const { name, value } = e.target;
+		if (!value) {
+			if (name === "percentage") {
+				setPercentageValue("0");
+			} else if (name === "directAmount") {
+				setDirectDiscountValue("0,00");
+			}
 		}
 	};
 
@@ -140,11 +194,15 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						</div>
 					</div>
 
-					<div className="flex items-start justify-between bg-gray-50  rounded-md border border-gray-200">
+					<div className="flex items-start justify-between bg-gray-50 rounded-md border border-gray-200">
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={"0,00"}
+								name="percentage"
+								value={percentageValue}
+								onChange={handlePercentageChange}
+								onFocus={handleFocus}
+								onBlur={handleBlur}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
@@ -157,8 +215,9 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="w-5/5 px-6 py-6">
 							<input
 								type="text"
-								value={discountAmount}
-								onChange={handleDiscountChange}
+								name="directAmount"
+								value={directDiscountValue}
+								onChange={handleDirectDiscountChange}
 								onFocus={handleFocus}
 								onBlur={handleBlur}
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
