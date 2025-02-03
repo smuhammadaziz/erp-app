@@ -352,7 +352,7 @@ function ProductModal({
 													handleKeyDown(e, "price")
 												}
 												onFocus={handlePriceFocus}
-												// disabled={!changePriceValue}
+												disabled={!changePriceValue}
 												onChange={handlePriceChange}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
