@@ -212,7 +212,10 @@ function ProductModal({ product, onClose }) {
 
 	return (
 		<>
-			<div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
+			<div
+				className="fixed inset-0 flex items-center justify-center bg-black/60 z-50"
+				data-no-autofocus
+			>
 				<div className="bg-white w-[730px] rounded-xl shadow-2xl relative transform transition-all">
 					<div className="p-6">
 						<form onSubmit={handleSubmit} className="space-y-4">

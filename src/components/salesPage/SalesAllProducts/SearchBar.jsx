@@ -25,25 +25,39 @@ function SearchBar({
 			searchInputRef.current.focus();
 		}
 
-		const handleClick = (e) => {
+		const handleKeyPress = (e) => {
+			if (
+				document.activeElement.tagName === "INPUT" ||
+				document.activeElement.tagName === "TEXTAREA" ||
+				document.activeElement.isContentEditable
+			) {
+				if (document.activeElement !== searchInputRef.current) {
+					return;
+				}
+			}
+
+			if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+				searchInputRef.current?.focus();
+			}
+		};
+
+		const handleMouseClick = (e) => {
 			const shouldSkipFocus = e.target.closest("[data-no-autofocus]");
 			const isInteractive = e.target.matches(
 				'input, select, textarea, button, a, [role="button"], [contenteditable="true"]',
 			);
 
-			if (
-				!shouldSkipFocus &&
-				!isInteractive &&
-				document.activeElement !== searchInputRef.current
-			) {
+			if (!shouldSkipFocus && !isInteractive) {
 				searchInputRef.current?.focus();
 			}
 		};
 
-		document.addEventListener("click", handleClick);
+		document.addEventListener("keypress", handleKeyPress);
+		document.addEventListener("click", handleMouseClick);
 
 		return () => {
-			document.removeEventListener("click", handleClick);
+			document.removeEventListener("keypress", handleKeyPress);
+			document.removeEventListener("click", handleMouseClick);
 		};
 	}, []);
 
@@ -53,13 +67,14 @@ function SearchBar({
 		const timeDiff = currentTime - lastChangeTime;
 		const isQrScan = timeDiff < typingSpeedThreshold && newValue.length > 3;
 
+		setIsSelectionEnabled(false);
+		setSelectedRow(null);
+
 		if (!isQrScan || newValue.length > 8) {
 			setSearchQuery(newValue);
 		}
-
 		setIsQrInput(isQrScan);
 		setLastChangeTime(currentTime);
-
 		if (isQrScan) {
 			setTimeout(() => {
 				if (searchInputRef.current) {

@@ -362,6 +362,7 @@ function ProductsTable({
 			<table
 				className="min-w-full bg-white border border-gray-200 focus:outline-none table-fixed"
 				style={{ outline: "none" }}
+				data-no-autofocus
 			>
 				<thead className="sticky top-0 bg-gray-100 shadow-sm">
 					<tr className="text-gray-700 uppercase text-xs">

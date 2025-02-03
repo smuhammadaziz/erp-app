@@ -131,10 +131,10 @@ function SalesMainAllProducts() {
 
 	const handleKeyDown = (e) => {
 		if (
-			!isSelectionEnabled &&
 			e.key === "Enter" &&
 			searchQuery &&
-			filteredData.length > 0
+			filteredData.length > 0 &&
+			!isSelectionEnabled
 		) {
 			e.preventDefault();
 			setIsSelectionEnabled(true);
@@ -310,6 +310,7 @@ function SalesMainAllProducts() {
 					setTableClickedRow={setTableClickedRow}
 					sortConfig={sortConfig}
 					onSort={handleSort}
+					data-no-autofocus
 				/>
 			</div>
 			{isModalOpen && selectedProduct && (
