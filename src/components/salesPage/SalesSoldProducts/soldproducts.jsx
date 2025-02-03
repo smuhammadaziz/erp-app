@@ -79,6 +79,15 @@ function SalesSoldProducts() {
 		setSelectedProduct(null);
 	};
 
+	useEffect(() => {
+		if (products.length > 0) {
+			const lastProduct = products[products.length - 1];
+			setSelectedRowId(lastProduct.id);
+			const index = products.findIndex((p) => p.id === lastProduct.id);
+			setSelectedIndex(index);
+		}
+	}, [products]);
+
 	return (
 		<>
 			<div className="py-1 h-[33vh] relative z-0">
