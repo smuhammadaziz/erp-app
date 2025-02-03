@@ -328,24 +328,6 @@ function ProductsTable({
 	);
 	const falseCurrencyBoolean = localStorage.getItem("falseCurrencyBoolean");
 
-	const [sortingOrder, setSortingOrder] = useState("asc");
-
-	const sortData = (order) => {
-		return [...filteredData].sort((a, b) => {
-			if (order === "asc") {
-				return a.name.localeCompare(b.name);
-			} else {
-				return b.name.localeCompare(a.name);
-			}
-		});
-	};
-
-	const handleSort = () => {
-		const newOrder = sortingOrder === "asc" ? "desc" : "asc";
-		setSortingOrder(newOrder);
-		sortData(newOrder);
-	};
-
 	const getSortIcon = (columnKey) => {
 		if (sortConfig.key !== columnKey) {
 			return "↕️";

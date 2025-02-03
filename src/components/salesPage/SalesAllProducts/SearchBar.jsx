@@ -20,7 +20,7 @@ function SearchBar({
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [isFirstKeyPress, setIsFirstKeyPress] = useState(true);
 
-	const typingSpeedThreshold = 50;
+	const typingSpeedThreshold = 10;
 
 	useEffect(() => {
 		if (searchInputRef.current && !isModalOpen) {
