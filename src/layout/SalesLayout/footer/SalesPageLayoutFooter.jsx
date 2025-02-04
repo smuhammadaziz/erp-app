@@ -18,6 +18,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import nodeUrl from "../../../links";
 import ChangePrice from "./ChangePrice";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const SalesPageLayoutFooter = () => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [activeModal, setActiveModal] = useState(null);
@@ -27,6 +30,8 @@ const SalesPageLayoutFooter = () => {
 	const navigate = useNavigate();
 
 	const [currencyKey, setCurrencyKey] = useState("");
+
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		const storedCurrencyKey =
@@ -293,7 +298,7 @@ const SalesPageLayoutFooter = () => {
 							<span className="mr-3 inline-block">
 								<FaPlus />
 							</span>
-							Янги Сотув
+							{content[language].salesPage.footerNewSales}
 						</button>
 					</div>
 				</div>
@@ -303,7 +308,9 @@ const SalesPageLayoutFooter = () => {
 						className="flex items-center justify-center w-45 bg-red-700 hover:bg-red-600 text-slate-100 px-9 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
 					>
 						<ImExit className="mr-3 text-xl" />
-						<span className="font-semibold">Чиқиш</span>
+						<span className="font-semibold">
+							{content[language].salesPage.footerExit}
+						</span>
 					</button>
 				</div>
 			</div>
@@ -344,11 +351,9 @@ const SalesPageLayoutFooter = () => {
 				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
-							<h2 className="text-2xl font-bold text-gray-800 mb-2">
-								Чиқиш
-							</h2>
+							<h2 className="text-2xl font-bold text-gray-800 mb-2"></h2>
 							<p className="text-gray-600 mb-6">
-								Ҳақиқатан ҳам савдо саҳифасидан чиқмоқчимисиз?
+								{content[language].salesPage.footerExitConfirm}
 							</p>
 						</div>
 						<div className="flex space-x-4">
@@ -357,14 +362,17 @@ const SalesPageLayoutFooter = () => {
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
 								<ImExit className="mr-2 text-xl" />
-								Ҳа, чиқиш
+								{content[language].salesPage.footerExitYes}
 							</NavLink>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
 								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
 							>
 								<FaTimes className="mr-2 text-xl" />
-								Бекор қилиш
+								{
+									content[language].salesPage
+										.headerDiscountCancel
+								}
 							</button>
 						</div>
 					</div>
