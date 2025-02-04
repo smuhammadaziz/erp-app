@@ -116,6 +116,43 @@ type Content = {
 			recoveryProcessingRequest: string;
 			recoveryDataSuccess: string;
 		};
+		salesPage: {
+			headerClients: string;
+			headerDiscount: string;
+			headerList: string;
+			headerDiscountSumma: string;
+			headerDiscountToPay: string;
+			headerDiscountCancel: string;
+			soldName: string;
+			soldCount: string;
+			soldPrice: string;
+			soldSumma: string;
+			soldNoProduct: string;
+			sidebarCash: string;
+			sidebarCashPay: string;
+			sidebarCashToPay: string;
+			sidebarCashCash: string;
+			sidebarCashCard: string;
+			sidebarCashTotalPrice: string;
+			sidebarCashComment: string;
+			sidebarCard: string;
+			sidebarProcess: string;
+			footerExit: string;
+			footerExitConfirm: string;
+			footerExitYes: string;
+			footerNewSales: string;
+			saleSearch: string;
+			saleDeleteConfirm: string;
+			saleDeleteYes: string;
+			saleTableName: string;
+			saleTableCurrency: string;
+			saleTableOstatka: string;
+			saleTablePriceCurrency: string;
+			saleTablePrice: string;
+			saleTableWarehouse: string;
+			saleModalCount: string;
+			saleModalNotEnough: string;
+		};
 	};
 };
 
@@ -244,6 +281,43 @@ const content: Content = {
 			recoveryDataSuccess:
 				"Қайта тиклаш муваффақиятли!  Маълумотларингиз тикланди. ",
 		},
+		salesPage: {
+			headerClients: "Клиентлар",
+			headerDiscount: "Скидка",
+			headerList: "Савдо рўйҳати",
+			headerDiscountSumma: "Сумма",
+			headerDiscountToPay: "Тўлов учун",
+			headerDiscountCancel: "Бекор қилиш",
+			soldName: "Маҳсулот",
+			soldCount: "Сони",
+			soldPrice: "Нархи",
+			soldSumma: "Сумма",
+			soldNoProduct: "Ҳозирча маҳсулотлар йўқ",
+			sidebarCash: "Нақд",
+			sidebarCashPay: "Тўлов",
+			sidebarCashToPay: "Тўлов учун",
+			sidebarCashCash: "Нақд",
+			sidebarCashCard: "Пластик карта",
+			sidebarCashTotalPrice: "Жами нарх",
+			sidebarCashComment: "Изох",
+			sidebarCard: "Онлайн",
+			sidebarProcess: "Кечиктирилган",
+			footerExit: "Чиқиш",
+			footerExitConfirm: "Савдо ойнасидан чиқмоқчимисиз?",
+			footerExitYes: "Ҳа, чиқиш",
+			footerNewSales: "Янги Савдо",
+			saleSearch: "Қидириш",
+			saleDeleteConfirm: "Танланган барча маҳсулотларни ўчирмоқчимисиз?",
+			saleDeleteYes: "Ҳа, ўчириш",
+			saleTableName: "Маҳсулот",
+			saleTableCurrency: "Валюта",
+			saleTableOstatka: "Қолдиқ",
+			saleTablePriceCurrency: "Нарх, Валюта",
+			saleTablePrice: "Нарх",
+			saleTableWarehouse: "Склад",
+			saleModalCount: "Сони",
+			saleModalNotEnough: "Қолдиқда йетарли эмас",
+		},
 	},
 	ru: {
 		intro: {
@@ -368,6 +442,43 @@ const content: Content = {
 			recoveryProcessingRequest: "Ваш запрос обрабатывается...",
 			recoveryDataSuccess:
 				"Восстановление прошло успешно! Ваши данные восстановлены. ",
+		},
+		salesPage: {
+			headerClients: "Клиенты",
+			headerDiscount: "Скидка",
+			headerList: "Списка",
+			headerDiscountSumma: "Сумма",
+			headerDiscountToPay: "К оплате",
+			headerDiscountCancel: "Отмена",
+			soldName: "Наименование",
+			soldCount: "Количество",
+			soldPrice: "Цена",
+			soldSumma: "Сумма",
+			soldNoProduct: "Пока нет продуктов",
+			sidebarCash: "Наличные",
+			sidebarCashPay: "Оплата",
+			sidebarCashToPay: "К оплате",
+			sidebarCashCash: "Наличные",
+			sidebarCashCard: "Пластик",
+			sidebarCashTotalPrice: "Оплата итого",
+			sidebarCashComment: "Комментарии",
+			sidebarCard: "Онлайн",
+			sidebarProcess: "Отложенный",
+			footerExit: "Выход",
+			footerExitConfirm: "Хотите выйти из окна продаж?",
+			footerExitYes: "Да, выход",
+			footerNewSales: "Новое продаж",
+			saleSearch: "Поиск",
+			saleDeleteConfirm: "Хотите удалить все выбранные продукты?",
+			saleDeleteYes: "Да, удалить",
+			saleTableName: "Наименование",
+			saleTableCurrency: "Валюта",
+			saleTableOstatka: "Остатка",
+			saleTablePriceCurrency: "Цена, Валюта",
+			saleTablePrice: "Цена",
+			saleTableWarehouse: "Склад",
+			saleModalCount: "Количество",
+			saleModalNotEnough: "Осталось недостаточно.",
 		},
 	},
 };
