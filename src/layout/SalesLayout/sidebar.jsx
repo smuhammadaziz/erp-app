@@ -38,6 +38,9 @@ import "moment/locale/ru";
 
 moment.locale("ru");
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function SalesPageLayoutSidebar() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
@@ -45,6 +48,8 @@ function SalesPageLayoutSidebar() {
 	const [selectedSale, setSelectedSale] = useState(null);
 	const [status, setStatus] = useState("checking");
 	const [productData, setProductData] = useState([]);
+
+	const [language] = useLang("uz");
 
 	const openDetailModal = (sale) => {
 		setSelectedSale(sale);
@@ -124,11 +129,15 @@ function SalesPageLayoutSidebar() {
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<HiOutlineCash className="mr-3 text-xl" />
-					<span className="font-semibold">Нақд</span>
+					<span className="font-semibold">
+						{content[language].salesPage.sidebarCash}
+					</span>
 				</button>
 				<button className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
 					<HiOutlineCreditCard className="mr-3 text-xl" />
-					<span className="font-semibold">Пластик</span>
+					<span className="font-semibold">
+						{content[language].salesPage.sidebarCard}
+					</span>
 				</button>
 			</div>
 
@@ -141,7 +150,9 @@ function SalesPageLayoutSidebar() {
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<CiClock1 className="mr-3 text-base" />
-					<span className="font-semibold">Жараёнда</span>
+					<span className="font-semibold">
+						{content[language].salesPage.sidebarProcess}
+					</span>
 				</button>
 			</div>
 
