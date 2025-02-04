@@ -77,11 +77,9 @@ export const Titlebar: FC = () => {
 	useEffect(() => {
 		checkNetworkStatus();
 
-		// Set up network status listeners
 		window.addEventListener("online", checkNetworkStatus);
 		window.addEventListener("offline", checkNetworkStatus);
 
-		// Set up API checking every second when online
 		let apiCheckInterval: NodeJS.Timeout;
 		if (isNetworkAvailable) {
 			apiCheckInterval = setInterval(checkApiConnection, 15000);
@@ -223,7 +221,6 @@ export const Titlebar: FC = () => {
 						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
 					}
 					className="close-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
-					// onClick={onQuit}
 				>
 					<IoCloseOutline />
 				</button>
