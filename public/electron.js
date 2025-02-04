@@ -20,13 +20,17 @@ if (!config.isDev) {
 	autoStart.enable();
 }
 
-app.on("ready", async () => {
+// Ensure the tray is created at the start
+let tray = null;
+app.whenReady().then(async () => {
+	tray = await createTray(); // Ensuring tray is created
+	config.tray = tray;
+
 	config.mainWindow = await createMainWindow();
-	config.tray = await createTray();
 
 	showNotification(
 		config.appName,
-		"Application running on background! See application tray.",
+		"Application running in the background! See application tray.",
 	);
 });
 
@@ -35,8 +39,9 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-	if (BrowserWindow.getAllWindows().length === 0)
+	if (BrowserWindow.getAllWindows().length === 0) {
 		config.mainWindow = createMainWindow();
+	}
 });
 
 ipcMain.on("app_version", (event) => {

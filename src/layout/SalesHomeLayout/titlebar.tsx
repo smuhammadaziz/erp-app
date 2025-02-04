@@ -7,6 +7,7 @@ import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
 import { FaWifi } from "react-icons/fa6";
 import { MdWifiOff } from "react-icons/md";
 import { MdSignalWifiStatusbarConnectedNoInternet4 } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -211,16 +212,14 @@ export const Titlebar: FC = () => {
 				>
 					{maximized ? <TbArrowsDiagonalMinimize2 /> : <TbMaximize />}
 				</button>
-				<button
+				<NavLink
+					to="/"
 					title="Close"
 					className="close-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
-					onClick={onQuit}
-					style={
-						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
-					}
+					// onClick={onQuit}
 				>
 					<IoCloseOutline />
-				</button>
+				</NavLink>
 			</div>
 			<EnterpriseInfoModal
 				isOpen={showInfoModal}
