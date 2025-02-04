@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function SalesSoldProducts({ lastAddedProductId }) {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -15,6 +18,8 @@ function SalesSoldProducts({ lastAddedProductId }) {
 	const selectedRowRef = useRef(null);
 	const sales_id = localStorage.getItem("sales_id");
 	const prevProductsRef = useRef([]);
+
+	const [language] = useLang("uz");
 
 	const scrollToSelectedRow = (rowId) => {
 		if (!tableRef.current) return;
@@ -173,16 +178,16 @@ function SalesSoldProducts({ lastAddedProductId }) {
 							<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
 								<tr className="text-gray-700 uppercase text-xs ">
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[500px]">
-										Наименование
+										{content[language].salesPage.soldName}
 									</th>
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[50px]">
-										Сони
+										{content[language].salesPage.soldCount}
 									</th>
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[120px]">
-										Нархи
+										{content[language].salesPage.soldPrice}
 									</th>
 									<th className="py-2 px-5 border-b border-gray-200 text-center w-[120px]">
-										Сумма
+										{content[language].salesPage.soldSumma}
 									</th>
 								</tr>
 							</thead>
@@ -304,7 +309,10 @@ function SalesSoldProducts({ lastAddedProductId }) {
 											colSpan="4"
 											className="py-3 text-center text-gray-500"
 										>
-											Ҳозирча маҳсулотлар йўқ
+											{
+												content[language].salesPage
+													.soldNoProduct
+											}
 										</td>
 									</tr>
 								)}
