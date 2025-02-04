@@ -5,6 +5,12 @@ import { FaTrash } from "react-icons/fa";
 import { GrClearOption } from "react-icons/gr";
 import nodeUrl from "../../../links";
 
+import { FaTimes } from "react-icons/fa";
+import { ImExit } from "react-icons/im";
+
+import { MdDelete } from "react-icons/md";
+import { MdOutlineRemoveCircleOutline } from "react-icons/md";
+
 import { PiEmptyLight } from "react-icons/pi";
 
 import content from "../../../localization/content";
@@ -22,6 +28,8 @@ function SearchBar({
 	const [isQrInput, setIsQrInput] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [isFirstKeyPress, setIsFirstKeyPress] = useState(true);
+
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
 	const typingSpeedThreshold = 10;
 
@@ -201,12 +209,50 @@ function SearchBar({
 							? "bg-gray-400 cursor-not-allowed"
 							: "bg-red-600 hover:bg-red-700"
 					} text-white p-2 rounded-lg transition duration-300`}
-					onClick={deleteAllProducts}
 					disabled={isDeleting}
+					onClick={() => setIsExitModalOpen(true)}
 				>
 					<FaTrash size={15} />
 				</button>
 			</div>
+
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-gray-800 mb-2 flex justify-center">
+								<MdOutlineRemoveCircleOutline className="text-gray-800 text-4xl" />
+							</h2>
+							<p className="text-black text-lg mb-6">
+								{content[language].salesPage.saleDeleteConfirm}
+							</p>
+						</div>
+
+						<div className="flex space-x-4">
+							<button
+								onClick={() => {
+									deleteAllProducts();
+									setIsExitModalOpen(false);
+								}}
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								{content[language].salesPage.saleDeleteYes}
+							</button>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								{
+									content[language].salesPage
+										.headerDiscountCancel
+								}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
