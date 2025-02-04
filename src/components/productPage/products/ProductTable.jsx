@@ -34,7 +34,7 @@ const ProductTable = React.memo(
 		const lastProductRef = useRef();
 
 		const columns = useMemo(
-			() => ["name", "type", "symbol", "currency", "article", "box"],
+			() => ["name", "type", "symbol", "currency", "article"],
 			[],
 		);
 
@@ -245,4 +245,3 @@ const ProductTable = React.memo(
 );
 
 export default ProductTable;
-
