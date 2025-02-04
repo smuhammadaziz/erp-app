@@ -9,6 +9,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { TbUserHexagon } from "react-icons/tb";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
+
 import {
 	HiOutlineCog6Tooth,
 	HiChevronDown,
@@ -331,10 +332,6 @@ function HeaderInner({ onRefresh }) {
 				</button>
 
 				<div className="flex items-center gap-x-6 relative">
-					<h2 className="text-white text-xl font-semibold tracking-wide">
-						{content[language].header}
-					</h2>
-
 					<div className="relative group">
 						<select
 							value={language}
@@ -381,9 +378,11 @@ function HeaderInner({ onRefresh }) {
 					>
 						<HiOutlineCog6Tooth className="text-xl text-gray-600" />
 						<div className="flex flex-col items-start">
-							<span className="font-medium">Settings</span>
+							<span className="font-medium">
+								{content[language].headerProfile.settings}
+							</span>
 							<span className="text-xs text-gray-500">
-								Configure your account
+								{content[language].headerProfile.configure}
 							</span>
 						</div>
 					</NavLink>
@@ -394,9 +393,11 @@ function HeaderInner({ onRefresh }) {
 					>
 						<HiOutlineArrowRightOnRectangle className="text-xl text-red-500" />
 						<div className="flex flex-col items-start">
-							<span className="font-medium">Logout</span>
+							<span className="font-medium">
+								{content[language].headerProfile.logout}
+							</span>
 							<span className="text-xs text-gray-500">
-								Sign out of your account
+								{content[language].headerProfile.logtext}
 							</span>
 						</div>
 					</NavLink>

@@ -155,6 +155,12 @@ type Content = {
 			sidebarClientSelect: string;
 			sidebarClientSearch: string;
 		};
+		headerProfile: {
+			settings: string;
+			configure: string;
+			logout: string;
+			logtext: string;
+		};
 	};
 };
 
@@ -322,6 +328,12 @@ const content: Content = {
 			sidebarClientSelect: "Клиент танлаш",
 			sidebarClientSearch: "Клиент қидириш",
 		},
+		headerProfile: {
+			settings: "Созламалар",
+			configure: "Аккаунтизни созланг",
+			logout: "Чиқиш",
+			logtext: "Аккаунтдан чиқиш",
+		},
 	},
 	ru: {
 		intro: {
@@ -485,6 +497,12 @@ const content: Content = {
 			saleModalNotEnough: "Осталось недостаточно.",
 			sidebarClientSelect: "Выбрать клиента",
 			sidebarClientSearch: "Поиск клиентов",
+		},
+		headerProfile: {
+			settings: "",
+			configure: "",
+			logout: "",
+			logtext: "",
 		},
 	},
 };
