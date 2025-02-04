@@ -351,8 +351,10 @@ const SalesPageLayoutFooter = () => {
 				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
-							<h2 className="text-2xl font-bold text-gray-800 mb-2"></h2>
-							<p className="text-gray-600 mb-6">
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								{content[language].salesPage.footerExit}
+							</h2>
+							<p className="text-gray-600 text-md mb-6">
 								{content[language].salesPage.footerExitConfirm}
 							</p>
 						</div>
