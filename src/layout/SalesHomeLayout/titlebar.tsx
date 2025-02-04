@@ -35,7 +35,6 @@ export const Titlebar: FC = () => {
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [isNetworkAvailable, setIsNetworkAvailable] = useState(true);
 
-	// Network status check function
 	const checkNetworkStatus = () => {
 		if (navigator.onLine) {
 			setIsNetworkAvailable(true);
@@ -44,16 +43,12 @@ export const Titlebar: FC = () => {
 		}
 	};
 
-	// Add event listeners for network status
 	useEffect(() => {
-		// Initial check
 		checkNetworkStatus();
 
-		// Add event listeners
 		window.addEventListener("online", checkNetworkStatus);
 		window.addEventListener("offline", checkNetworkStatus);
 
-		// Cleanup event listeners
 		return () => {
 			window.removeEventListener("online", checkNetworkStatus);
 			window.removeEventListener("offline", checkNetworkStatus);
