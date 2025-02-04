@@ -267,7 +267,7 @@ const ActiveSessions = () => {
 										<h3 className="font-medium text-slate-900">
 											{session.usertype}
 										</h3>
-										<StatusBadge isActive="Актив" />
+										{/* <StatusBadge isActive="Актив" /> */}
 										{session.isCurrentDevice && (
 											<CurrentDeviceBadge />
 										)}
