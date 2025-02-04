@@ -4,6 +4,9 @@ import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
 import { v4 as uuidv4 } from "uuid";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
@@ -14,6 +17,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [price, setPrice] = useState(0);
 	const [discount, setDiscount] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
+
+	const [language] = useLang("uz");
 
 	const [data, setData] = useState({});
 
@@ -243,7 +248,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
 				<div className="flex justify-between items-center mb-4 border-b">
 					<h2 className="text-xl font-semibold text-gray-800">
-						Оплата
+						{content[language].salesPage.sidebarCashPay}
 					</h2>
 					<button
 						onClick={onClose}
@@ -257,7 +262,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 					<div className="grid grid-cols-12 gap-4">
 						<div className="col-span-8">
 							<label className="text-sm font-medium text-gray-700">
-								К Оплата
+								{
+									content[language].salesPage
+										.headerDiscountSumma
+								}
 							</label>
 							<div className="bg-green-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
@@ -271,7 +279,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 						<div className="col-span-4">
 							<label className="text-sm font-medium text-gray-700">
-								Скидка
+								{content[language].salesPage.headerDiscount}
 							</label>
 							<div className="bg-red-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
@@ -287,7 +295,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 					<div className="space-y-4">
 						<div className="flex items-center justify-between gap-4">
 							<label className="w-1/4 text-lg font-medium text-gray-700">
-								Клиент:
+								Клиент
 							</label>
 							<div className="w-3/4 relative group">
 								<input
@@ -317,7 +325,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 						<div className="flex items-center justify-between gap-4">
 							<label className="w-1/4 text-lg font-medium text-gray-700">
-								К оплате:
+								{content[language].salesPage.sidebarCashToPay}
 							</label>
 							<div className="relative w-3/4">
 								<input
@@ -338,7 +346,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="border-t-2 py-4">
 							<div className="flex items-center justify-between gap-4 mb-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Наличные:
+									{
+										content[language].salesPage
+											.sidebarCashCash
+									}
 								</label>
 								<input
 									type="text"
@@ -355,7 +366,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 							<div className="flex items-center justify-between gap-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Пластик карта:
+									{
+										content[language].salesPage
+											.sidebarCashCard
+									}
 								</label>
 								<input
 									type="text"
@@ -381,13 +395,19 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
 							/>
 							<label className="text-lg font-medium text-gray-700">
-								Оплата итого
+								{
+									content[language].salesPage
+										.sidebarCashTotalPrice
+								}
 							</label>
 						</div>
 						<div className="w-2/5 py-6 pr-6 pl-0">
 							<textarea
 								className="w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md bg-white resize-none"
-								placeholder="Комментарий"
+								placeholder={`${
+									content?.[language]?.salesPage
+										?.sidebarCashComment ?? ""
+								}...`}
 								rows="4"
 							/>
 						</div>
@@ -403,9 +423,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 					</button>
 					<button
 						onClick={onClose}
-						className="w-40 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition duration-200 text-xl"
+						className="w-48 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition duration-200 text-xl"
 					>
-						Отмена
+						{content[language].salesPage.headerDiscountCancel}
 					</button>
 				</div>
 			</div>
