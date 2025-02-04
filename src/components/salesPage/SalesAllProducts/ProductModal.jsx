@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function ProductModal({
 	product,
 	onClose,
@@ -24,6 +27,8 @@ function ProductModal({
 	const quantityInputRef = useRef(null);
 	const priceInputRef = useRef(null);
 	const okButtonRef = useRef(null);
+
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		quantityInputRef.current?.focus();
@@ -274,7 +279,10 @@ function ProductModal({
 							<div className="grid grid-cols-1 gap-2">
 								<div className="bg-gray-50 px-4 py-2 rounded-lg">
 									<label className="block text-sm font-medium text-gray-700 mb-0.5">
-										Товар
+										{
+											content[language].salesPage
+												.saleTableName
+										}
 									</label>
 									<input
 										type="text"
@@ -287,7 +295,10 @@ function ProductModal({
 								<div className="grid grid-cols-12 gap-2">
 									<div className="bg-gray-50 px-4 py-2 col-span-9 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-0.5">
-											Склад
+											{
+												content[language].salesPage
+													.saleTableWarehouse
+											}
 										</label>
 										<input
 											type="text"
@@ -302,7 +313,10 @@ function ProductModal({
 									</div>
 									<div className="bg-gray-50 px-4 col-span-3 py-2 rounded-lg">
 										<label className="block text-sm font-medium text-gray-700 mb-0.5">
-											Остатка
+											{
+												content[language].salesPage
+													.saleTableOstatka
+											}
 										</label>
 										<input
 											type="text"
@@ -317,7 +331,10 @@ function ProductModal({
 									<div className="">
 										<div className="bg-gray-50 px-4 py-2 rounded-lg">
 											<label className="block text-sm font-medium text-gray-700 mb-0.5">
-												Сони
+												{
+													content[language].salesPage
+														.saleModalCount
+												}
 											</label>
 											<input
 												ref={quantityInputRef}
@@ -339,7 +356,10 @@ function ProductModal({
 									<div>
 										<div className="bg-gray-50 px-4 py-2 rounded-lg">
 											<label className="block text-sm font-medium text-gray-700 mb-0.5">
-												Цена
+												{
+													content[language].salesPage
+														.saleTablePrice
+												}
 											</label>
 											<input
 												ref={priceInputRef}
@@ -392,7 +412,10 @@ function ProductModal({
 									onClick={handleClose}
 									className="px-6 py-2 ml-5 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
 								>
-									Отмена
+									{
+										content[language].salesPage
+											.headerDiscountCancel
+									}
 								</button>
 							</div>
 						</form>
@@ -406,7 +429,7 @@ function ProductModal({
 						<div className="p-6">
 							<div className="flex justify-between items-center mb-4">
 								<h2 className="text-xl font-bold text-gray-800">
-									Хатолик
+									Ошибка
 								</h2>
 								<button
 									onClick={() => setShowErrorModal(false)}
@@ -419,8 +442,7 @@ function ProductModal({
 								</button>
 							</div>
 							<p className="text-base text-red-500 mb-4">
-								Сиз мавжуд захирадан каттароқ миқдорни
-								киритдингиз.
+								{content[language].salesPage.saleModalNotEnough}
 							</p>
 							<div className="flex justify-end">
 								<button
