@@ -8,6 +8,8 @@ import { FaWifi } from "react-icons/fa6";
 import { MdWifiOff } from "react-icons/md";
 import { GoAlertFill } from "react-icons/go";
 
+import { MdSignalWifiStatusbarConnectedNoInternet4 } from "react-icons/md";
+
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
 import nodeUrl from "../../links";
