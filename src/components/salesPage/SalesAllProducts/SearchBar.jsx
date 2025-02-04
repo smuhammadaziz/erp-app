@@ -7,6 +7,9 @@ import nodeUrl from "../../../links";
 
 import { PiEmptyLight } from "react-icons/pi";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function SearchBar({
 	searchQuery,
 	setSearchQuery,
@@ -21,6 +24,8 @@ function SearchBar({
 	const [isFirstKeyPress, setIsFirstKeyPress] = useState(true);
 
 	const typingSpeedThreshold = 10;
+
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		if (searchInputRef.current && !isModalOpen) {
@@ -172,7 +177,7 @@ function SearchBar({
 				<input
 					ref={searchInputRef}
 					type="text"
-					placeholder="поиск..."
+					placeholder={`${content[language].salesPage.saleSearch} ...`}
 					value={searchQuery}
 					onChange={handleSearchChange}
 					onFocus={handleFocus}
