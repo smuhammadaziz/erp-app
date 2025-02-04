@@ -371,7 +371,7 @@ function HeaderInner({ onRefresh }) {
 			</header>
 
 			{isOpen && (
-				<div className="absolute right-3 w-56 bg-white rounded-lg shadow-lg py-2 z-[50] border border-gray-200">
+				<div className="absolute right-3 w-56 bg-white rounded-lg shadow-xl py-2 z-[50] border border-gray-200">
 					<NavLink
 						to="/settings"
 						className="w-full px-6 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors duration-200"
