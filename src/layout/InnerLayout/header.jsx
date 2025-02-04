@@ -10,6 +10,11 @@ import { TbUserHexagon } from "react-icons/tb";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 import {
+	HiOutlineCog6Tooth,
+	HiChevronDown,
+	HiOutlineArrowRightOnRectangle,
+} from "react-icons/hi2";
+import {
 	format,
 	startOfMonth,
 	endOfMonth,
@@ -25,6 +30,7 @@ import { MdOutlineCurrencyExchange } from "react-icons/md";
 
 import nodeUrl from "../../links";
 import useNetworkStatus from "../../hooks/useNetworkStatus";
+import { NavLink } from "react-router-dom";
 
 function HeaderInner({ onRefresh }) {
 	const { isOnline, networkStatus, checkNetworkConnection } =
@@ -44,6 +50,8 @@ function HeaderInner({ onRefresh }) {
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
 	const userId = localStorage.getItem("user_id");
+
+	const [isOpen, setIsOpen] = useState(false);
 
 	if (basicPassword === "EMPTY_PASSWORD_ALLOWED") {
 		basicPassword = "";
@@ -322,7 +330,7 @@ function HeaderInner({ onRefresh }) {
 					)}
 				</button>
 
-				<div className="flex items-center gap-x-6">
+				<div className="flex items-center gap-x-6 relative">
 					<h2 className="text-white text-xl font-semibold tracking-wide">
 						{content[language].header}
 					</h2>
@@ -355,12 +363,45 @@ function HeaderInner({ onRefresh }) {
 						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
 						{displayMessage}
 					</div>
-					<div className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-						{basicUsername ? basicUsername : "Loading..."}
-						<HiOutlineUserCircle className="text-xl text-white ml-2" />
+					<div
+						onClick={() => setIsOpen(!isOpen)}
+						className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
+					>
+						<HiOutlineUserCircle className="text-xl" />
+						<span>{basicUsername || "Loading..."}</span>
 					</div>
 				</div>
 			</header>
+
+			{isOpen && (
+				<div className="absolute right-3 w-56 bg-white rounded-lg shadow-lg py-2 z-[50] border border-gray-200">
+					<NavLink
+						to="/settings"
+						className="w-full px-6 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 transition-colors duration-200"
+					>
+						<HiOutlineCog6Tooth className="text-xl text-gray-600" />
+						<div className="flex flex-col items-start">
+							<span className="font-medium">Settings</span>
+							<span className="text-xs text-gray-500">
+								Configure your account
+							</span>
+						</div>
+					</NavLink>
+					<div className="h-[1px] bg-gray-200 my-1"></div>
+					<NavLink
+						to="/login"
+						className="w-full px-6 py-3 text-sm text-red-600 hover:bg-gray-50 flex items-center gap-3 transition-colors duration-200"
+					>
+						<HiOutlineArrowRightOnRectangle className="text-xl text-red-500" />
+						<div className="flex flex-col items-start">
+							<span className="font-medium">Logout</span>
+							<span className="text-xs text-gray-500">
+								Sign out of your account
+							</span>
+						</div>
+					</NavLink>
+				</div>
+			)}
 
 			{isModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[790]">
