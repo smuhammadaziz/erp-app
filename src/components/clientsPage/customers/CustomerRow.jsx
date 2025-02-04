@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 
 const CustomerRow = ({ customer, onView, index, content, language }) => {
+	console.log(customer);
 	return (
 		<tr
 			className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer"
@@ -35,7 +36,7 @@ const CustomerRow = ({ customer, onView, index, content, language }) => {
 					{customer.phone_number || content[language].client.no_phone}
 				</div>
 			</td>
-			<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+			{/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
 				<div className="whitespace-nowrap text-center">
 					<button
 						onClick={() => onView(customer)}
@@ -46,7 +47,7 @@ const CustomerRow = ({ customer, onView, index, content, language }) => {
 						<span>{content[language].client.view}</span>
 					</button>
 				</div>
-			</td>
+			</td> */}
 		</tr>
 	);
 };

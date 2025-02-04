@@ -15,9 +15,9 @@ const CustomerTable = ({ customers, onView, onDelete, content, language }) => (
 					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.phone}
 					</th>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					{/* <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.actions}
-					</th>
+					</th> */}
 				</tr>
 			</thead>
 			<tbody className="bg-white divide-y divide-gray-200">
