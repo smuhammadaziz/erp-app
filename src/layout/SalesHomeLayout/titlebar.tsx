@@ -8,6 +8,8 @@ import { FaWifi } from "react-icons/fa6";
 import { MdWifiOff } from "react-icons/md";
 import { MdSignalWifiStatusbarConnectedNoInternet4 } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import { ImExit } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
@@ -35,13 +37,15 @@ export const Titlebar: FC = () => {
 		"checking",
 	);
 
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
 	const checkNetworkStatus = () => {
 		if (navigator.onLine) {
 			setIsNetworkAvailable(true);
-			checkApiConnection(); // Check API when network becomes available
+			checkApiConnection();
 		} else {
 			setIsNetworkAvailable(false);
-			setApiStatus("checking"); // Reset API status when offline
+			setApiStatus("checking");
 		}
 	};
 
@@ -212,19 +216,53 @@ export const Titlebar: FC = () => {
 				>
 					{maximized ? <TbArrowsDiagonalMinimize2 /> : <TbMaximize />}
 				</button>
-				<NavLink
-					to="/"
+				<button
+					onClick={() => setIsExitModalOpen(true)}
 					title="Close"
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
 					className="close-button focus:outline-none hover:bg-gray-700 p-1 -webkit-app-region-no-drag"
 					// onClick={onQuit}
 				>
 					<IoCloseOutline />
-				</NavLink>
+				</button>
 			</div>
 			<EnterpriseInfoModal
 				isOpen={showInfoModal}
 				onClose={() => setShowInfoModal(false)}
 			/>
+
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								Чиқиш
+							</h2>
+							<p className="text-gray-600 mb-6">
+								Ҳақиқатан ҳам савдо саҳифасидан чиқмоқчимисиз?
+							</p>
+						</div>
+						<div className="flex space-x-4">
+							<NavLink
+								to="/"
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								Ҳа, чиқиш
+							</NavLink>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								Бекор қилиш
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
