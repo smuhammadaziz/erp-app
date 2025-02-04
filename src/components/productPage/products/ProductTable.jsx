@@ -11,6 +11,9 @@ import ProductModal from "./ProductModal";
 import ProductViewDetails from "./ProductViewDetails";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const LoadingSpinner = () => (
 	<div className="flex items-center justify-center py-4">
 		<div className="flex flex-col items-center space-y-2">
@@ -33,8 +36,16 @@ const ProductTable = React.memo(
 		const observer = useRef();
 		const lastProductRef = useRef();
 
+		const [language] = useLang("uz");
+
 		const columns = useMemo(
-			() => ["name", "type", "symbol", "currency", "article"],
+			() => [
+				{ key: "name", label: content[language].product.name },
+				{ key: "type", label: content[language].product.type },
+				{ key: "symbol", label: content[language].product.symbol },
+				{ key: "currency", label: content[language].product.currency },
+				{ key: "article", label: content[language].product.article },
+			],
 			[],
 		);
 
@@ -158,19 +169,18 @@ const ProductTable = React.memo(
 							</th>
 							{columns.map((column, index) => (
 								<th
-									key={column}
+									key={column.key}
 									className={`px-4 py-3 ${
 										index === 0
 											? "text-left"
 											: "text-center"
 									} text-xs font-medium text-gray-500 uppercase tracking-wider`}
 								>
-									{column.charAt(0).toUpperCase() +
-										column.slice(1)}
+									{column.label}
 								</th>
 							))}
 							<th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-								Actions
+								{content[language].product.extra}
 							</th>
 						</tr>
 					</thead>
@@ -200,14 +210,14 @@ const ProductTable = React.memo(
 												: "text-center"
 										}`}
 									>
-										{column === "symbol"
+										{column.key === "symbol"
 											? symbolData[product.symbol] ||
 											  "N/A"
-											: column === "currency"
+											: column.key === "currency"
 											? currencyData[product.currency] ||
 											  "N/A"
-											: product[column] !== undefined
-											? String(product[column])
+											: product[column.key] !== undefined
+											? String(product[column.key])
 											: "N/A"}
 									</td>
 								))}
@@ -221,7 +231,9 @@ const ProductTable = React.memo(
 											title="View Product"
 										>
 											<FaEye />
-											<span>View</span>
+											<span>
+												{content[language].product.view}
+											</span>
 										</button>
 									</div>
 								</td>

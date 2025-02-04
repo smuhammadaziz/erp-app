@@ -253,7 +253,7 @@ const content: Content = {
 			type: "тури",
 			symbol: "ўлчов",
 			currency: "валюта",
-			article: "Статья",
+			article: "Артикул",
 			box: "Коробка",
 			extra: "қўшимча",
 			view: "кўпроқ",
