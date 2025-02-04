@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import nodeUrl from "../../../links";
 import CustomScroll from "./CustomScroll";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function ProductsTable({
 	filteredData,
 	selectedRow,
@@ -37,6 +40,8 @@ function ProductsTable({
 	const settingsWarehouse = JSON.parse(
 		localStorage.getItem("settingsWarehouse"),
 	);
+
+	const [language] = useLang("uz");
 
 	const observer = useRef(null);
 	const lastRowRef = useCallback(
@@ -352,14 +357,14 @@ function ProductsTable({
 							className="py-1.5 px-5 border-b border-r text-center w-1/2 min-w-[300px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("name")}
 						>
-							Наименование, производитель
+							{content[language].salesPage.saleTableName}
 							<span className="ml-2">{getSortIcon("name")}</span>
 						</th>
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("currency")}
 						>
-							Валюта
+							{content[language].salesPage.saleTableCurrency}
 							<span className="ml-2">
 								{getSortIcon("currency")}
 							</span>
@@ -368,7 +373,7 @@ function ProductsTable({
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("stock.0.qty")}
 						>
-							Остатка
+							{content[language].salesPage.saleTableOstatka}
 							<span className="ml-2">
 								{getSortIcon("stock.0.qty")}
 							</span>
@@ -377,7 +382,7 @@ function ProductsTable({
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("convertedPrice")}
 						>
-							Нархи, Валюта
+							{content[language].salesPage.saleTablePriceCurrency}
 							<span className="ml-2">
 								{getSortIcon("convertedPrice")}
 							</span>
@@ -386,7 +391,7 @@ function ProductsTable({
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("actualPrice")}
 						>
-							Нархи
+							{content[language].salesPage.saleTablePrice}
 							<span className="ml-2">
 								{getSortIcon("actualPrice")}
 							</span>
@@ -395,7 +400,7 @@ function ProductsTable({
 							className="py-1.5 px-5 border-b text-center w-1/10 min-w-[120px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("stock.0.warehouse")}
 						>
-							Склад
+							{content[language].salesPage.saleTableWarehouse}
 							<span className="ml-2">
 								{getSortIcon("stock.0.warehouse")}
 							</span>
@@ -734,7 +739,7 @@ function ProductsTable({
 										className="py-2 text-center"
 									>
 										<div className="text-sm text-gray-500">
-											Loading more products...
+											Маҳсулотлар юкланмоқда...
 										</div>
 									</td>
 								</tr>
@@ -746,7 +751,7 @@ function ProductsTable({
 								colSpan="7"
 								className="py-3 text-center text-gray-500"
 							>
-								No products found.
+								Маҳсулотлар топилмади.
 							</td>
 						</tr>
 					)}
