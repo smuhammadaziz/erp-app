@@ -84,7 +84,7 @@ export const Titlebar: FC = () => {
 		// Set up API checking every second when online
 		let apiCheckInterval: NodeJS.Timeout;
 		if (isNetworkAvailable) {
-			apiCheckInterval = setInterval(checkApiConnection, 1000); // Check every 1 second
+			apiCheckInterval = setInterval(checkApiConnection, 15000);
 		}
 
 		return () => {
