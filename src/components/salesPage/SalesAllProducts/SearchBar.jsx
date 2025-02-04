@@ -12,6 +12,7 @@ import { MdDelete } from "react-icons/md";
 import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 
 import { PiEmptyLight } from "react-icons/pi";
+import { GoAlert } from "react-icons/go";
 
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
@@ -220,8 +221,8 @@ function SearchBar({
 				<div className="fixed inset-0 z-10  bg-black bg-opacity-50 flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
-							<h2 className="text-2xl font-bold text-gray-800 mb-2 flex justify-center">
-								<MdOutlineRemoveCircleOutline className="text-gray-800 text-4xl" />
+							<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
+								<GoAlert className="text-red-600 text-6xl" />
 							</h2>
 							<p className="text-black text-lg mb-6">
 								{content[language].salesPage.saleDeleteConfirm}
