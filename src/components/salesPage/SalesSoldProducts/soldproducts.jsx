@@ -210,23 +210,26 @@ function SalesSoldProducts() {
 											}}
 										>
 											<td
-												className="py-1 px-5 flex flex-col border-b border-r border-gray-200 text-left w-[50%]"
+												className="py-1 px-5 border-b border-r border-gray-200 w-[60%]"
 												title={product.product_name}
 											>
-												<span>
-													{product.product_name}
-												</span>
-												<span>
-													{
-														warehouseData[
-															product
-																.product_info[0]
-																.stock[0]
-																.warehouse
-														]
-													}
-												</span>
+												<div className="flex justify-between w-full">
+													<span className="text-left">
+														{product.product_name}
+													</span>
+													<span className="text-right text-xs">
+														{
+															warehouseData[
+																product
+																	.product_info[0]
+																	.stock[0]
+																	.warehouse
+															]
+														}
+													</span>
+												</div>
 											</td>
+
 											<td
 												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
 												title={product.soni}
