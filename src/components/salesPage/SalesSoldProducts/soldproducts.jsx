@@ -79,6 +79,67 @@ function SalesSoldProducts() {
 		setSelectedProduct(null);
 	};
 
+	const [warehouseData, setWarehouseData] = useState({});
+
+	const settingsWarehouse = JSON.parse(
+		localStorage.getItem("settingsWarehouse"),
+	);
+
+	const fetchWarehouseData = async () => {
+		for (const product of products) {
+			if (
+				product &&
+				!warehouseData[product.product_info[0].stock[0].warehouse]
+			) {
+				const deviceId = localStorage.getItem("device_id");
+				const ksbId = localStorage.getItem("ksbIdNumber");
+
+				try {
+					if (
+						!Array.isArray(settingsWarehouse) ||
+						settingsWarehouse.length === 0
+					) {
+						throw new Error("Invalid settingsWarehouse data");
+					}
+
+					const response = await fetch(
+						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.product_info[0].stock[0].warehouse}`,
+					);
+
+					const apiData = await response.json();
+
+					const newWarehouseData = settingsWarehouse.reduce(
+						(acc, warehouseId) => {
+							const matchedWarehouse = apiData.find(
+								(item) => item.item_id === warehouseId,
+							);
+
+							acc[warehouseId] = matchedWarehouse
+								? matchedWarehouse.name
+								: "-";
+							return acc;
+						},
+						{},
+					);
+
+					setWarehouseData((prev) => ({
+						...prev,
+						...newWarehouseData,
+					}));
+				} catch (error) {
+					console.error(
+						"Error fetching or processing warehouse data",
+						error,
+					);
+				}
+			}
+		}
+	};
+
+	useEffect(() => {
+		fetchWarehouseData();
+	}, [products, warehouseData]);
+
 	return (
 		<>
 			<div className="py-1 h-[33vh] relative z-0">
@@ -149,10 +210,22 @@ function SalesSoldProducts() {
 											}}
 										>
 											<td
-												className="py-1 px-5 border-b border-r border-gray-200 text-left w-[50%]"
+												className="py-1 px-5 flex flex-col border-b border-r border-gray-200 text-left w-[50%]"
 												title={product.product_name}
 											>
-												{product.product_name}
+												<span>
+													{product.product_name}
+												</span>
+												<span>
+													{
+														warehouseData[
+															product
+																.product_info[0]
+																.stock[0]
+																.warehouse
+														]
+													}
+												</span>
 											</td>
 											<td
 												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
