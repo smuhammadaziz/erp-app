@@ -247,7 +247,7 @@ const ProductTable = React.memo(
 				<ProductModal
 					isOpen={isModalOpen}
 					onClose={handleCloseModal}
-					title="Product Details"
+					title={content[language].product.name}
 				>
 					<ProductViewDetails product={selectedProduct} />
 				</ProductModal>

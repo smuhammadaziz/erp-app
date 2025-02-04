@@ -14,8 +14,20 @@ import {
 
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const ProductViewDetails = ({ product }) => {
-	const [activeMenu, setActiveMenu] = useState("Main");
+	const [language] = useLang("uz");
+
+	const menuItems = [
+		{ key: "Main", label: content[language].product.main },
+		{ key: "Stock", label: content[language].product.stock },
+		{ key: "Price", label: content[language].product.price },
+		{ key: "Barcodes", label: content[language].product.barcodes },
+	];
+
+	const [activeMenu, setActiveMenu] = useState(menuItems[0].key);
 	const [currencyName, setCurrencyName] = useState("");
 	const [symbolName, setSymbolName] = useState("");
 	const [copiedField, setCopiedField] = useState(null);
@@ -123,63 +135,55 @@ const ProductViewDetails = ({ product }) => {
 		setTimeout(() => setCopiedField(null), 2000);
 	}, []);
 
+	const fields = [
+		{ key: "name", label: content[language].product.name },
+		{ key: "symbol", label: content[language].product.symbol },
+		{ key: "currency", label: content[language].product.currency },
+		{ key: "type", label: content[language].product.type },
+		{ key: "box", label: content[language].product.box },
+		{ key: "article", label: content[language].product.article },
+	];
+
+	const fieldsToShow = fields.filter((field) =>
+		["name", "symbol", "currency", "type", "box"].includes(field.key),
+	);
+
 	const renderMainContent = () => {
-		const fieldsToShow = ["name", "symbol", "currency", "type", "box"];
+		let displayFields = [...fieldsToShow];
 
 		if (product.article) {
-			fieldsToShow.splice(3, 0, "article");
+			const articleField = fields.find((f) => f.key === "article");
+			displayFields.splice(3, 0, articleField);
 		}
-
 		return (
 			<div className="grid grid-cols-2 gap-4">
-				{fieldsToShow.map((key) => {
-					if (!product.hasOwnProperty(key)) return null;
+				{displayFields.map((field) => {
+					if (!product.hasOwnProperty(field.key)) return null;
 
 					const displayValue =
-						key === "currency"
+						field.key === "currency"
 							? currencyName
-							: key === "symbol"
+							: field.key === "symbol"
 							? symbolName
-							: product[key];
+							: product[field.key];
 
 					return (
-						<div key={key} className="relative group">
+						<div key={field.key} className="relative group">
 							<label
-								htmlFor={key}
-								className="block mb-1 text-sm font-medium text-gray-600"
+								htmlFor={field.key}
+								className="block mb-1 text-sm font-medium first-letter:uppercase lowercase text-gray-600"
 							>
-								{key.charAt(0).toUpperCase() + key.slice(1)}
+								{field.label}
 							</label>
 							<input
-								id={key}
+								id={field.key}
 								type="text"
 								value={String(displayValue || "")}
 								disabled
 								className="w-full px-4 py-3 bg-gray-50 border border-gray-200 
-                         rounded-md text-gray-700 cursor-text focus:outline-none 
-                         focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent"
+                                rounded-md text-gray-700 cursor-text focus:outline-none 
+                                focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent"
 							/>
-							<button
-								onClick={() => handleCopy(displayValue, key)}
-								className="absolute right-3 top-2/3 -translate-y-1/2 transition-opacity duration-200"
-								title="Copy to clipboard"
-							>
-								{copiedField === key ? (
-									<div className="flex items-center text-green-500">
-										<BiCheck size={20} />
-									</div>
-								) : (
-									<BiCopy
-										size={18}
-										className="text-gray-500 hover:text-fuchsia-600"
-									/>
-								)}
-							</button>
-							{copiedField === key && (
-								<div className="absolute -top-8 right-0 bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-lg">
-									Copied!
-								</div>
-							)}
 						</div>
 					);
 				})}
@@ -192,10 +196,10 @@ const ProductViewDetails = ({ product }) => {
 			<thead className="bg-gray-50">
 				<tr>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						Name
+						{content[language].product.stock}
 					</th>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						Quantity
+						{content[language].product.quantity}
 					</th>
 				</tr>
 			</thead>
@@ -219,10 +223,10 @@ const ProductViewDetails = ({ product }) => {
 			<thead className="bg-gray-50">
 				<tr>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						Name
+						{content[language].product.price}
 					</th>
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-						Sale
+						{content[language].product.sale}
 					</th>
 				</tr>
 			</thead>
@@ -256,7 +260,7 @@ const ProductViewDetails = ({ product }) => {
 			) : (
 				<div className="flex items-center space-x-2 bg-gray-50 p-3 rounded-md">
 					<span className="text-gray-700">
-						Barcodes not available
+						{content[language].product.not_available}
 					</span>
 				</div>
 			)}
@@ -266,17 +270,17 @@ const ProductViewDetails = ({ product }) => {
 	return (
 		<div className="bg-white">
 			<div className="flex border-b">
-				{["Main", "Stock", "Price", "Barcodes"].map((menu) => (
+				{menuItems.map((menu) => (
 					<button
-						key={menu}
-						className={`px-6 py-3 text-sm font-medium transition-colors duration-200 ${
-							activeMenu === menu
+						key={menu.key}
+						className={`px-6 py-3 text-sm font-medium first-letter:uppercase lowercase transition-colors duration-200 ${
+							activeMenu === menu.key
 								? "border-b-2 border-fuchsia-600 text-fuchsia-600"
 								: "text-gray-500 hover:text-fuchsia-600 hover:bg-fuchsia-50"
 						}`}
-						onClick={() => setActiveMenu(menu)}
+						onClick={() => setActiveMenu(menu.key)}
 					>
-						{menu}
+						{menu.label}
 					</button>
 				))}
 			</div>
