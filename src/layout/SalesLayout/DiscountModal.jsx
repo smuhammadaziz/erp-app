@@ -4,12 +4,17 @@ import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
 import { v4 as uuidv4 } from "uuid";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 	const [price, setPrice] = useState(0);
 	const [data, setData] = useState({});
 	const [discountAmount, setDiscountAmount] = useState("0,00");
 	const [percentageValue, setPercentageValue] = useState("0");
 	const [directDiscountValue, setDirectDiscountValue] = useState("0,00");
+
+	const [language] = useLang("uz");
 
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
@@ -155,7 +160,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
 				<div className="flex justify-between items-center mb-4 border-b">
 					<h2 className="text-xl font-semibold text-gray-800">
-						Скидка
+						{content[language].salesPage.headerDiscount}
 					</h2>
 					<button
 						onClick={onClose}
@@ -169,7 +174,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 					<div className="grid grid-cols-12 gap-4">
 						<div className="col-span-12">
 							<label className="text-sm font-medium text-gray-700">
-								Сумма
+								{
+									content[language].salesPage
+										.headerDiscountSumma
+								}
 							</label>
 							<div className="bg-green-50 p-4 rounded-md flex items-center">
 								<div className="font-bold text-left text-3xl text-gray-800">
@@ -223,7 +231,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						<div className="py-4">
 							<div className="flex items-center justify-between gap-4 mb-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Скидка
+									{content[language].salesPage.headerDiscount}
 								</label>
 								<input
 									type="text"
@@ -235,7 +243,10 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 
 							<div className="flex items-center justify-between gap-4">
 								<label className="w-1/4 text-lg font-medium text-gray-700">
-									Тўлов учун
+									{
+										content[language].salesPage
+											.headerDiscountToPay
+									}
 								</label>
 								<input
 									type="text"
@@ -264,7 +275,7 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 						onClick={onClose}
 						className="w-50 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition duration-200 text-xl"
 					>
-						Бекор қилиш
+						{content[language].salesPage.headerDiscountCancel}
 					</button>
 				</div>
 			</div>

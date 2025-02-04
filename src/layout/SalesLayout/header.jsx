@@ -30,6 +30,9 @@ import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import nodeUrl from "../../links";
 import ProductTable from "../../components/productPage/products/ProductTable";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 import moment from "moment";
 import "moment/locale/ru";
 
@@ -48,6 +51,8 @@ function SalesPageLayoutHeader() {
 	const [productData, setProductData] = useState([]);
 
 	const [isModalOpenDis, setIsModalOpenDis] = useState(false);
+
+	const [language] = useLang("uz");
 
 	const checkNetworkStatus = async () => {
 		if (!navigator.onLine) {
@@ -220,19 +225,14 @@ function SalesPageLayoutHeader() {
 					</span>
 				</div>
 				<div className="flex items-center">
-					{/* <button
-						onClick={() => handleOpenModal("smenaYopish")}
-						className="flex items-center mr-2 justify-center bg-blue-500 hover:bg-blue-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600"
-					>
-						<BsClock className="mr-3 text-xl" />
-						<span className="font-semibold">Smena yopish</span>
-					</button> */}
 					<button
 						onClick={() => handleOpenModal("klientlar")}
 						className="flex items-center mr-2 justify-center bg-blue-500 hover:bg-blue-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600"
 					>
 						<FaUsersLine className="mr-3 text-xl" />
-						<span className="font-semibold">Клиентлар</span>
+						<span className="font-semibold">
+							{content[language].salesPage.headerClients}
+						</span>
 					</button>
 				</div>
 			</div>
@@ -244,14 +244,18 @@ function SalesPageLayoutHeader() {
 					className="flex items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
 					<CiDiscount1 className="mr-3 text-xl" />
-					<span className="font-semibold">Скидка</span>
+					<span className="font-semibold">
+						{content[language].salesPage.headerDiscount}
+					</span>
 				</button1>
 				<button
 					onClick={() => setIsListModalOpen(true)}
 					className="flex items-center mr-6 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
 				>
 					<MdOutlineFormatListBulleted className="mr-3 text-xl" />
-					<span className="font-semibold">Cписка</span>
+					<span className="font-semibold">
+						{content[language].salesPage.headerList}
+					</span>
 				</button>
 				<button className="flex items-center justify-center bg-blue-900 hover:bg-blue-950 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-950">
 					<MdCalendarToday className="mr-3 text-xl" />
@@ -263,7 +267,8 @@ function SalesPageLayoutHeader() {
 					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[85vh] overflow-hidden">
 						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
 							<h2 className="text-xl font-semibold flex items-center">
-								<BsBasket3 className="mr-2" /> Списка продаж
+								<BsBasket3 className="mr-2" />{" "}
+								{content[language].salesPage.headerList}
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
