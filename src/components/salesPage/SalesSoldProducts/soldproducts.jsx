@@ -292,13 +292,6 @@ function SalesSoldProducts() {
 					</div>
 				</div>
 			</div>
-
-			{isModalOpen && selectedProduct && (
-				<ProductModal
-					product={selectedProduct}
-					onClose={handleCloseModal}
-				/>
-			)}
 		</>
 	);
 }
