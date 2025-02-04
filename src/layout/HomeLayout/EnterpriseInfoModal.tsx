@@ -81,7 +81,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			/>
 			<div
 				ref={modalRef}
-				className="absolute top-8 right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9998] border border-slate-200"
+				className="absolute top-8 w-[250px] right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9998] border border-slate-200"
 				style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
 			>
 				<div className="p-3">
@@ -119,14 +119,14 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 					</div>
 					<hr className="mt-2 text-slate-500" />
 
-					<div className="mt-2 mx-auto justify-center block flex text-black">
+					<div className="mt-2 mx-auto justify-left block flex text-black">
 						<NavLink
 							to="/intro"
 							className="mt-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
 						>
 							{content[language as string].enterpriseInfo.signout}
 						</NavLink>
-						<button
+						{/* <button
 							onClick={() => setIsUpdateModalOpen(true)}
 							className="mt-3 relative ml-3 px-3 py-2 bg-slate-300 hover:bg-slate-400 text-black rounded-md text-xs font-medium transition-colors"
 						>
@@ -144,7 +144,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 								}}
 							></span>
 							{content[language as string].enterpriseInfo.update}
-						</button>
+						</button> */}
 					</div>
 				</div>
 			</div>

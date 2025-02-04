@@ -87,7 +87,7 @@ export const Titlebar: FC = () => {
 					}
 				>
 					<RiInformation2Fill className="text-gray-200 hover:text-white transition-colors duration-200" />
-					<span
+					{/* <span
 						style={{
 							position: "absolute",
 							top: "0",
@@ -99,7 +99,7 @@ export const Titlebar: FC = () => {
 							border: "",
 							transform: "translate(-20%, -10%)", // Adjust to center the dot on the corner
 						}}
-					></span>
+					></span> */}
 				</button>
 				<button
 					title="Minimize"
