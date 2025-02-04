@@ -13,6 +13,9 @@ import { FaTimes } from "react-icons/fa";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 interface EnterpriseData {
 	uid: string;
 	title: string;
@@ -36,6 +39,8 @@ export const Titlebar: FC = () => {
 	const [apiStatus, setApiStatus] = useState<"ok" | "error" | "checking">(
 		"checking",
 	);
+
+	const [language] = useLang();
 
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
@@ -235,10 +240,16 @@ export const Titlebar: FC = () => {
 					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">
-								Чиқиш
+								{
+									content[language as string].salesPage
+										.footerExit
+								}
 							</h2>
 							<p className="text-gray-600 mb-6">
-								Ҳақиқатан ҳам савдо саҳифасидан чиқмоқчимисиз?
+								{
+									content[language as string].salesPage
+										.footerExitConfirm
+								}
 							</p>
 						</div>
 						<div className="flex space-x-4">
@@ -247,14 +258,20 @@ export const Titlebar: FC = () => {
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
 								<ImExit className="mr-2 text-xl" />
-								Ҳа, чиқиш
+								{
+									content[language as string].salesPage
+										.footerExitYes
+								}
 							</NavLink>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
 								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
 							>
 								<FaTimes className="mr-2 text-xl" />
-								Бекор қилиш
+								{
+									content[language as string].salesPage
+										.headerDiscountCancel
+								}
 							</button>
 						</div>
 					</div>
