@@ -334,6 +334,11 @@ function SalesMainAllProducts() {
 		);
 	}
 
+	const handleProductAdded = (productId) => {
+		// You can handle any additional logic here if needed
+		console.log("Product added:", productId);
+	};
+
 	return (
 		<div
 			className="py-1 h-[50vh] focus:outline-none"
@@ -377,6 +382,7 @@ function SalesMainAllProducts() {
 					searchInputRef={searchInputRef}
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
+					onProductAdded={handleProductAdded}
 				/>
 			)}
 		</div>

@@ -8,6 +8,7 @@ function ProductModal({
 	searchInputRef,
 	searchQuery,
 	setSearchQuery,
+	onProductAdded,
 }) {
 	const [quantity, setQuantity] = useState(0);
 	const [customPrice, setCustomPrice] = useState(null);
@@ -190,9 +191,12 @@ function ProductModal({
 
 			if (response.ok) {
 				const result = await response.json();
+				if (result.id) {
+					onProductAdded(result.id);
+				}
 				if (searchInputRef.current) {
 					searchInputRef.current.focus();
-					searchInputRef.current.select(); // Select the text after successful submission
+					searchInputRef.current.select();
 				}
 				onClose();
 			} else {

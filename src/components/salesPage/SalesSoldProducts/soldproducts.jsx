@@ -1,38 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import nodeUrl from "../../../links";
 
-function SalesSoldProducts() {
+function SalesSoldProducts({ lastAddedProductId }) {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedRowId, setSelectedRowId] = useState(null);
+	const [manualSelection, setManualSelection] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const tableRef = React.useRef(null);
+	const selectedRowRef = useRef(null);
 	const sales_id = localStorage.getItem("sales_id");
-
-	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/sales/${sales_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
-				setProducts(data[sales_id]?.products || []);
-				setError(null);
-				setLoading(false);
-			} catch (err) {
-				setLoading(false);
-			}
-		};
-		const intervalId = setInterval(fetchProducts, 400);
-		return () => clearInterval(intervalId);
-	}, [nodeUrl, sales_id]);
+	const prevProductsRef = useRef([]);
 
 	const scrollToSelectedRow = (rowId) => {
 		if (!tableRef.current) return;
@@ -45,6 +27,40 @@ function SalesSoldProducts() {
 				behavior: "smooth",
 			});
 		}
+	};
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/get/sales/${sales_id}`,
+				);
+				if (!response.ok) {
+					throw new Error("Failed to fetch products");
+				}
+				const data = await response.json();
+				const newProducts = data[sales_id]?.products || [];
+				setProducts(newProducts);
+
+				if (newProducts.length > 0 && !selectedRowId) {
+					const lastProduct = newProducts[newProducts.length - 1];
+					setSelectedRowId(lastProduct.id);
+					scrollToSelectedRow(lastProduct.id);
+				}
+
+				setError(null);
+				setLoading(false);
+			} catch (err) {
+				setLoading(false);
+			}
+		};
+		const intervalId = setInterval(fetchProducts, 400);
+		return () => clearInterval(intervalId);
+	}, [sales_id, lastAddedProductId]);
+
+	const handleRowClick = (productId) => {
+		setSelectedRowId(productId);
+		scrollToSelectedRow(productId);
 	};
 
 	const deleteAllProducts = async (product_id) => {
@@ -139,6 +155,12 @@ function SalesSoldProducts() {
 		fetchWarehouseData();
 	}, [products, warehouseData]);
 
+	useEffect(() => {
+		if (selectedRowId) {
+			scrollToSelectedRow(selectedRowId);
+		}
+	}, [selectedRowId]);
+
 	return (
 		<>
 			<div className="py-1 h-[33vh] relative z-0">
@@ -187,20 +209,20 @@ function SalesSoldProducts() {
 									products.map((product) => (
 										<tr
 											key={product.id}
+											ref={
+												product.id === selectedRowId
+													? selectedRowRef
+													: null
+											}
 											data-id={product.id}
-											className={`text-gray-800 text-md group z-[1] relative cursor-pointer active:bg-gray-200 ${
-												selectedRowId === product.id
-													? "bg-blue-500 text-white hover:bg-blue-600"
-													: "hover:bg-gray-50"
-											}`}
+											className={`text-gray-800 text-md group z-[1] relative cursor-pointer active:bg-gray-200 
+												${
+													selectedRowId === product.id
+														? "bg-blue-500 text-white hover:bg-blue-600"
+														: "hover:bg-gray-50"
+												}`}
 											onClick={() => {
 												setSelectedRowId(product.id);
-												const index =
-													products.findIndex(
-														(p) =>
-															p.id === product.id,
-													);
-												setSelectedIndex(index);
 												scrollToSelectedRow(product.id);
 											}}
 											onDoubleClick={() => {
