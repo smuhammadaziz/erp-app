@@ -50,7 +50,7 @@ function UserTypeDropdown({
 
 	const handleInputFocus = (e) => {
 		e.target.select();
-		toggleDropdown();
+		toggleDropdown(true);
 	};
 
 	const handleInputChange = (e) => {
@@ -82,6 +82,12 @@ function UserTypeDropdown({
 		}
 	};
 
+	const handleChevronClick = () => {
+		setSelectedUserType("");
+		setFilteredUsers(users);
+		toggleDropdown(!isDropdownOpen);
+	};
+
 	return (
 		<div className="mb-6">
 			<label className="block text-xl text-gray-700 mb-2">
@@ -102,7 +108,7 @@ function UserTypeDropdown({
 					className={`absolute p-3 rounded-lg hover:bg-slate-200 top-1/2 right-4 cursor-pointer transform -translate-y-1/2 transition-transform duration-200 ${
 						isDropdownOpen ? "rotate-180" : ""
 					}`}
-					onClick={toggleDropdown}
+					onClick={handleChevronClick}
 				>
 					<FaChevronDown />
 				</div>
@@ -112,7 +118,7 @@ function UserTypeDropdown({
 							<button
 								key={index}
 								onClick={() => handleSelection(user.usertype)}
-								className={`block w-full px-4 py-2 text-left hover:bg-blue-300 focus:outline-none ${
+								className={`block w-full px-4 py-2 text-left hover:bg-slate-100 focus:outline-none ${
 									index === highlightedIndex
 										? "bg-blue-300"
 										: ""
