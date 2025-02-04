@@ -6,13 +6,9 @@ import { RiInformation2Fill } from "react-icons/ri";
 import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
 import { FaWifi } from "react-icons/fa6";
 import { MdWifiOff } from "react-icons/md";
-import { GoAlertFill } from "react-icons/go";
-
 import { MdSignalWifiStatusbarConnectedNoInternet4 } from "react-icons/md";
 
 const { getCurrentWindow, app } = window.require("@electron/remote");
-
-import nodeUrl from "../../links";
 
 interface EnterpriseData {
 	uid: string;
@@ -34,26 +30,66 @@ export const Titlebar: FC = () => {
 	);
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [isNetworkAvailable, setIsNetworkAvailable] = useState(true);
+	const [apiStatus, setApiStatus] = useState<"ok" | "error" | "checking">(
+		"checking",
+	);
 
 	const checkNetworkStatus = () => {
 		if (navigator.onLine) {
 			setIsNetworkAvailable(true);
+			checkApiConnection(); // Check API when network becomes available
 		} else {
 			setIsNetworkAvailable(false);
+			setApiStatus("checking"); // Reset API status when offline
+		}
+	};
+
+	const checkApiConnection = async () => {
+		const ksbId = localStorage.getItem("ksbIdNumber");
+		const ipaddressPort = localStorage.getItem("ipaddress:port");
+		const mainDatabase = localStorage.getItem("mainDatabase");
+		const userType = localStorage.getItem("userType");
+		const userPassword = localStorage.getItem("userPassword");
+
+		const credentials = Buffer.from(`${userType}:${userPassword}`).toString(
+			"base64",
+		);
+
+		try {
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+			setApiStatus(response.ok ? "ok" : "error");
+		} catch (err) {
+			setApiStatus("error");
+			console.error(err);
 		}
 	};
 
 	useEffect(() => {
 		checkNetworkStatus();
 
+		// Set up network status listeners
 		window.addEventListener("online", checkNetworkStatus);
 		window.addEventListener("offline", checkNetworkStatus);
+
+		// Set up API checking every second when online
+		let apiCheckInterval: NodeJS.Timeout;
+		if (isNetworkAvailable) {
+			apiCheckInterval = setInterval(checkApiConnection, 1000); // Check every 1 second
+		}
 
 		return () => {
 			window.removeEventListener("online", checkNetworkStatus);
 			window.removeEventListener("offline", checkNetworkStatus);
+			if (apiCheckInterval) {
+				clearInterval(apiCheckInterval);
+			}
 		};
-	}, []);
+	}, [isNetworkAvailable]);
 
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
@@ -70,8 +106,48 @@ export const Titlebar: FC = () => {
 	};
 	const onQuit = () => app.quit();
 
-	const ksbId = localStorage.getItem("ksbIdNumber");
 	const enterpriseTitle = localStorage.getItem("enterpriseName");
+	const ksbId = localStorage.getItem("ksbIdNumber");
+
+	const getNetworkStatusIcon = () => {
+		if (!isNetworkAvailable) {
+			return {
+				icon: MdWifiOff,
+				title: "Интернет мавжуд эмас",
+				className: "text-red-600 font-bold hover:text-red-600",
+			};
+		}
+		if (apiStatus === "ok") {
+			return {
+				icon: FaWifi,
+				title: "Интернет мавжуд",
+				className: "text-green-600 font-bold hover:text-green-600",
+			};
+		}
+		return {
+			icon: MdSignalWifiStatusbarConnectedNoInternet4,
+			title: "Сервер билан алоқа йўқ",
+			className: "text-yellow-600 font-bold hover:text-yellow-600",
+		};
+	};
+
+	const NetworkStatus = () => {
+		const { icon: Icon, title, className } = getNetworkStatusIcon();
+
+		return (
+			<div className="network-status-indicator transition-all duration-300 ease-in-out mr-5">
+				<button
+					title={title}
+					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
+					style={
+						{ WebkitAppRegion: "no-drag" } as React.CSSProperties
+					}
+				>
+					<Icon className={className} />
+				</button>
+			</div>
+		);
+	};
 
 	return (
 		<div className="title-bar sticky top-0 select-none justify-between z-[999]">
@@ -104,56 +180,7 @@ export const Titlebar: FC = () => {
 				</span>
 			</div>
 			<div className="window-controls-container flex items-center">
-				<div
-					className={`
-                        network-status-indicator 
-                        transition-all 
-                        duration-300 
-                        ease-in-out 
-                        mr-5 
-                        ${
-							isNetworkAvailable
-								? "opacity-100 scale-100"
-								: "opacity-0 scale-75 hidden"
-						}`}
-				>
-					<button
-						title="Интернет мавжуд"
-						className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
-						style={
-							{
-								WebkitAppRegion: "no-drag",
-							} as React.CSSProperties
-						}
-					>
-						<FaWifi className="text-green-600 font-bold hover:text-green-600 transition-colors duration-200" />
-					</button>
-				</div>
-				<div
-					className={`
-                        network-status-indicator 
-                        transition-all 
-                        duration-300 
-                        ease-in-out 
-                        mr-5 
-                        ${
-							!isNetworkAvailable
-								? "opacity-100 scale-100"
-								: "opacity-0 scale-75 hidden"
-						}`}
-				>
-					<button
-						title="Интернет мавжуд эмас"
-						className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
-						style={
-							{
-								WebkitAppRegion: "no-drag",
-							} as React.CSSProperties
-						}
-					>
-						<MdWifiOff className="text-red-600 font-bold hover:text-red-600 transition-colors duration-200" />
-					</button>
-				</div>
+				<NetworkStatus />
 				<button
 					title="informations"
 					className="cursor-pointer focus:outline-none hover:bg-gray-700 p-1 mr-5 transition-colors duration-200 rounded-sm -webkit-app-region-no-drag"
