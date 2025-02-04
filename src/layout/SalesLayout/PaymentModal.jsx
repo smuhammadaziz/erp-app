@@ -443,6 +443,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 	const [searchTerm, setSearchTerm] = useState("");
 
+	const [language] = useLang("uz");
+
 	if (!isOpen) return null;
 
 	const defaultClient = {
@@ -479,7 +481,9 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 				style={{ height: "500px" }}
 			>
 				<div className="px-5 py-3 border-b flex justify-between items-center bg-white sticky top-0">
-					<h2 className="text-lg font-semibold">Select Client</h2>
+					<h2 className="text-lg font-semibold">
+						{content[language].salesPage.sidebarClientSelect}
+					</h2>
 					<button
 						onClick={onClose}
 						className="p-1 rounded-full hover:bg-gray-100"
@@ -492,7 +496,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 					<div className="relative">
 						<input
 							type="text"
-							placeholder="Search clients..."
+							placeholder={`${content[language].salesPage.sidebarClientSearch}...`}
 							value={searchTerm}
 							onChange={(e) => setSearchTerm(e.target.value)}
 							className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 pr-10"

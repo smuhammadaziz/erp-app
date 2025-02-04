@@ -152,6 +152,8 @@ type Content = {
 			saleTableWarehouse: string;
 			saleModalCount: string;
 			saleModalNotEnough: string;
+			sidebarClientSelect: string;
+			sidebarClientSearch: string;
 		};
 	};
 };
@@ -317,6 +319,8 @@ const content: Content = {
 			saleTableWarehouse: "Склад",
 			saleModalCount: "Сони",
 			saleModalNotEnough: "Қолдиқда йетарли эмас",
+			sidebarClientSelect: "Клиент танлаш",
+			sidebarClientSearch: "Клиент қидириш",
 		},
 	},
 	ru: {
@@ -479,6 +483,8 @@ const content: Content = {
 			saleTableWarehouse: "Склад",
 			saleModalCount: "Количество",
 			saleModalNotEnough: "Осталось недостаточно.",
+			sidebarClientSelect: "Выбрать клиента",
+			sidebarClientSearch: "Поиск клиентов",
 		},
 	},
 };
