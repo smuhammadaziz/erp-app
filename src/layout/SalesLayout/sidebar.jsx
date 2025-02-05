@@ -143,7 +143,7 @@ function SalesPageLayoutSidebar() {
 
 			<div className="relative mt-auto mb-10">
 				<div className="absolute -top-2 -left-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
-					22
+					19
 				</div>
 				<button
 					onClick={() => setIsListModalOpen(true)}

@@ -25,13 +25,13 @@ exports.createMainWindow = async () => {
 
 	remote.enable(window.webContents);
 
-	// const startUrl = config.isDev
-	// 	? 'http://localhost:3000/#/login'
-	// 	: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
-
 	const startUrl = config.isDev
-		? "http://localhost:3000/#"
-		: `file://${join(__dirname, "..", "../build/index.html")}#`;
+		? "http://localhost:3000/#/login"
+		: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+
+	// const startUrl = config.isDev
+	// 	? "http://localhost:3000/#"
+	// 	: `file://${join(__dirname, "..", "../build/index.html")}#`;
 
 	await window.loadURL(startUrl);
 
