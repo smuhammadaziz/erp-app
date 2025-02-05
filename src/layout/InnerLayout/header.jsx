@@ -1,13 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { HiOutlineCurrencyDollar, HiOutlineCalendar } from "react-icons/hi";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 import { IoSync } from "react-icons/io5";
 import { FiLoader } from "react-icons/fi";
-import { FaUser } from "react-icons/fa";
-import { FaUserCircle } from "react-icons/fa";
-import { TbUserHexagon } from "react-icons/tb";
-import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 
 import {
@@ -15,18 +10,7 @@ import {
 	HiChevronDown,
 	HiOutlineArrowRightOnRectangle,
 } from "react-icons/hi2";
-import {
-	format,
-	startOfMonth,
-	endOfMonth,
-	eachDayOfInterval,
-	isSameDay,
-	isToday,
-	getDay,
-	addDays,
-} from "date-fns";
 
-import { RiExchangeLine } from "react-icons/ri";
 import { MdOutlineCurrencyExchange } from "react-icons/md";
 
 import nodeUrl from "../../links";
@@ -37,7 +21,6 @@ function HeaderInner({ onRefresh }) {
 	const { isOnline, networkStatus, checkNetworkConnection } =
 		useNetworkStatus();
 
-	const [currencyRate, setCurrencyRate] = useState("1 USD = 12800 UZS");
 	const [language, setLanguage] = useLang("uz");
 	const [isSyncing, setIsSyncing] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,79 +43,6 @@ function HeaderInner({ onRefresh }) {
 
 	const handleLanguageChange = (e) => {
 		setLanguage(e.target.value);
-	};
-
-	const checkInternetConnection = async () => {
-		try {
-			const endpoints = [
-				"https://www.google.com",
-				"https://www.cloudflare.com",
-				nodeUrl,
-			];
-
-			const controller = new AbortController();
-			const timeoutId = setTimeout(() => controller.abort(), 5000);
-
-			for (const url of endpoints) {
-				try {
-					console.log(`Checking connectivity with: ${url}`);
-					const startTime = Date.now();
-					const response = await fetch(url, {
-						method: "HEAD",
-						signal: controller.signal,
-						cache: "no-store",
-					});
-					const endTime = Date.now();
-
-					console.log(`Connectivity check for ${url}:`, {
-						status: response.status,
-						ok: response.ok,
-						responseTime: endTime - startTime + "ms",
-					});
-
-					if (response.ok) {
-						clearTimeout(timeoutId);
-						return true;
-					}
-				} catch (error) {
-					console.error(
-						`Connectivity check failed for ${url}:`,
-						error.message,
-					);
-					continue;
-				}
-			}
-
-			console.error("All connectivity checks failed");
-			return false;
-		} catch (error) {
-			console.error("Network check error:", error);
-			return false;
-		}
-	};
-
-	const fetchProducts = async () => {
-		try {
-			const response = await fetch(`${nodeUrl}/api/currency/${ksbId}`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					ipaddressPort: ipaddressPort,
-					database: mainDatabase,
-					userUsername: basicUsername,
-					userPassword: basicPassword,
-					deviceId: deviceId,
-				}),
-			});
-
-			const data = await response.json();
-
-			setRate(data.detail);
-		} catch (error) {
-			console.error("Error fetching products:", error);
-		}
 	};
 
 	const handleSync = async () => {
@@ -277,12 +187,6 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
-	useEffect(() => {
-		if (isOnline) {
-			fetchProducts();
-		}
-	}, [isOnline]);
-
 	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
 
 	const displayMessage =
@@ -336,17 +240,17 @@ function HeaderInner({ onRefresh }) {
 						<select
 							value={language}
 							onChange={handleLanguageChange}
-							className="appearance-none z-[50] bg-gray-700/50 text-white text-lg font-medium px-6 py-2 rounded-lg shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-600/50 transition-all duration-300 ease-in-out w-36 backdrop-blur-sm"
+							className="appearance-none z-[50] bg-gray-700/50 text-white text-lg font-medium px-6 py-2 rounded-lg shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-600/50 transition-all duration-300 ease-in-out w-40 backdrop-blur-sm"
 						>
 							<option
 								value="ru"
-								className="py-2 text-lg bg-gray-800"
+								className="py-4 text-xl bg-gray-800 text-white"
 							>
 								{content[language].innerLayout.rus}
 							</option>
 							<option
 								value="uz"
-								className="py-2 text-lg bg-gray-800"
+								className="py-4 text-xl bg-gray-800 text-white"
 							>
 								{content[language].innerLayout.uz}
 							</option>
