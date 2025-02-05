@@ -16,19 +16,6 @@ const { getCurrentWindow, app } = window.require("@electron/remote");
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
-interface EnterpriseData {
-	uid: string;
-	title: string;
-	ksb_id: string;
-}
-
-interface EnterpriseInfo {
-	ip: string;
-	port: string;
-	info_base: string;
-	its: string;
-}
-
 export const Titlebar: FC = () => {
 	const currentWindow = getCurrentWindow();
 	const [maximized, setMaximized] = useState<boolean>(
