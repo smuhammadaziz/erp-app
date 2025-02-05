@@ -3,12 +3,7 @@ import { FaBuilding, FaUserAlt } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
-import {
-	MdOutlineFormatListBulleted,
-	MdCalendarToday,
-	MdOutlineSignalWifiStatusbarConnectedNoInternet4,
-	MdOutlineSignalWifiStatusbar4Bar,
-} from "react-icons/md";
+import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -28,7 +23,6 @@ import {
 } from "react-icons/md";
 import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import nodeUrl from "../../links";
-import ProductTable from "../../components/productPage/products/ProductTable";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
@@ -37,6 +31,7 @@ import moment from "moment";
 import "moment/locale/ru";
 
 moment.locale("ru");
+
 function SalesPageLayoutHeader() {
 	const [isModalOpen, setIsModalOpen] = useState({
 		klientlar: false,
@@ -47,101 +42,19 @@ function SalesPageLayoutHeader() {
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 	const [selectedSale, setSelectedSale] = useState(null);
-	const [status, setStatus] = useState("checking");
 	const [productData, setProductData] = useState([]);
 
 	const [isModalOpenDis, setIsModalOpenDis] = useState(false);
 
 	const [language] = useLang("uz");
 
-	const checkNetworkStatus = async () => {
-		if (!navigator.onLine) {
-			setStatus("offline");
-			return;
-		}
-
-		try {
-			const response = await fetch("https://www.google.com/favicon.ico", {
-				method: "HEAD",
-				cache: "no-store",
-			});
-
-			if (response.ok) {
-				setStatus("online");
-			} else {
-				setStatus("no-internet");
-			}
-		} catch (error) {
-			setStatus("no-internet");
-		}
-	};
-
-	useEffect(() => {
-		checkNetworkStatus();
-
-		const handleOnline = () => checkNetworkStatus();
-		const handleOffline = () => setStatus("offline");
-
-		window.addEventListener("online", handleOnline);
-		window.addEventListener("offline", handleOffline);
-
-		return () => {
-			window.removeEventListener("online", handleOnline);
-			window.removeEventListener("offline", handleOffline);
-		};
-	}, []);
-
 	const handleOpenModal = (modalType) => {
 		setIsModalOpen((prevState) => ({ ...prevState, [modalType]: true }));
-	};
-
-	const handleCloseModal = (modalType) => {
-		setIsModalOpen((prevState) => ({ ...prevState, [modalType]: false }));
-	};
-
-	const formatDate = (dateString) => {
-		return new Date(dateString).toLocaleDateString("en-US", {
-			year: "numeric",
-			month: "short",
-			day: "numeric",
-		});
 	};
 
 	const openDetailModal = (sale) => {
 		setSelectedSale(sale);
 		setIsDetailModalOpen(true);
-	};
-
-	const renderStatusButton = () => {
-		switch (status) {
-			case "online":
-				return (
-					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
-						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
-						<span className="font-semibold"></span>
-					</button>
-				);
-			case "no-internet":
-				return (
-					<button className="flex items-center mr-2 justify-center bg-green-500 hover:bg-green-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600">
-						<MdOutlineSignalWifiStatusbar4Bar className="mr-3 text-xl" />
-						<span className="font-semibold"></span>
-					</button>
-				);
-			case "offline":
-				return (
-					<button className="flex items-center mr-2 justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600">
-						<MdOutlineSignalWifiStatusbarConnectedNoInternet4 className="mr-3 text-xl" />
-						<span className="font-semibold"></span>
-					</button>
-				);
-			default:
-				return (
-					<button className="flex items-center mr-2 justify-center bg-gray-400 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-500">
-						<span className="font-semibold"></span>
-					</button>
-				);
-		}
 	};
 
 	const basicUsername = localStorage.getItem("userType");
@@ -238,7 +151,7 @@ function SalesPageLayoutHeader() {
 			</div>
 			<div className="mr-2.5 flex items-center">
 				{/* {renderStatusButton()} */}
-				<button1
+				<button
 					// onClick={() => handleOpenModal("skidka")}
 					onClick={() => setIsModalOpenDis(true)}
 					className="flex items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
@@ -247,7 +160,7 @@ function SalesPageLayoutHeader() {
 					<span className="font-semibold">
 						{content[language].salesPage.headerDiscount}
 					</span>
-				</button1>
+				</button>
 				<button
 					onClick={() => setIsListModalOpen(true)}
 					className="flex items-center mr-6 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
