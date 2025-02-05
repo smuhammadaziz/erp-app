@@ -1,10 +1,57 @@
 import React, { useState, useEffect } from "react";
 import moment from "moment";
+import "moment/locale/ru";
+import "moment/locale/uz-latn";
 
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
-
 import nodeUrl from "../../../links";
+
+// Custom locale for Uzbek Cyrillic
+moment.defineLocale("uz-cyrl", {
+	months: "январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split(
+		"_",
+	),
+	monthsShort: "янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),
+	weekdays: "Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба".split("_"),
+	weekdaysShort: "Якш_Душ_Сеш_Чор_Пай_Жум_Шан".split("_"),
+	weekdaysMin: "Як_Ду_Се_Чо_Па_Жу_Ша".split("_"),
+	longDateFormat: {
+		LT: "HH:mm",
+		LTS: "HH:mm:ss",
+		L: "DD/MM/YYYY",
+		LL: "D MMMM YYYY",
+		LLL: "D MMMM YYYY HH:mm",
+		LLLL: "D MMMM YYYY, dddd HH:mm",
+	},
+	calendar: {
+		sameDay: "[Бугун соат] LT [да]",
+		nextDay: "[Эртага] LT [да]",
+		nextWeek: "dddd [куни соат] LT [да]",
+		lastDay: "[Кеча соат] LT [да]",
+		lastWeek: "[Утган] dddd [куни соат] LT [да]",
+		sameElse: "L",
+	},
+	relativeTime: {
+		future: "%s ичида",
+		past: "%s олдин",
+		s: "фурсат",
+		m: "бир дакика",
+		mm: "%d дакика",
+		h: "бир соат",
+		hh: "%d соат",
+		d: "бир кун",
+		dd: "%d кун",
+		M: "бир ой",
+		MM: "%d ой",
+		y: "бир йил",
+		yy: "%d йил",
+	},
+	week: {
+		dow: 1,
+		doy: 7,
+	},
+});
 
 const DeviceIcon = ({ type }) => {
 	return (
@@ -118,10 +165,21 @@ const CurrentDeviceBadge = () => (
 
 const ActiveSessions = () => {
 	const [language, setLanguage] = useLang("uz");
-
 	const [users, setUsers] = useState([]);
 	const device_id = localStorage.getItem("device_id");
 	const ksb_id = localStorage.getItem("ksbIdNumber");
+
+	// Set moment locale based on selected language
+	const getLocalizedTime = (time) => {
+		if (language === "ru") {
+			moment.locale("ru");
+		} else if (language === "uz") {
+			moment.locale("uz-cyrl");
+		} else {
+			moment.locale("en");
+		}
+		return moment(time).calendar();
+	};
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -160,11 +218,11 @@ const ActiveSessions = () => {
 					<div
 						key={session.date}
 						className={`group relative overflow-hidden rounded-lg border bg-white p-4 transition-all duration-200 hover:shadow-md
-              ${
-					session.isCurrentDevice
-						? "border-blue-200 bg-blue-50/30"
-						: "border-slate-200"
-				}`}
+                        ${
+							session.isCurrentDevice
+								? "border-blue-200 bg-blue-50/30"
+								: "border-slate-200"
+						}`}
 					>
 						<div className="flex items-center justify-between gap-4">
 							<div className="flex items-center gap-4">
@@ -182,9 +240,9 @@ const ActiveSessions = () => {
 							</div>
 							<div className="flex items-center gap-4">
 								<span className="text-sm text-slate-400">
-									{moment(
+									{getLocalizedTime(
 										session.last_entered_time,
-									).calendar()}
+									)}
 								</span>
 							</div>
 						</div>
