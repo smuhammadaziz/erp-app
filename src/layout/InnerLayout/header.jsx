@@ -10,6 +10,7 @@ import {
 	HiOutlineCog6Tooth,
 	HiChevronDown,
 	HiOutlineArrowRightOnRectangle,
+	HiOutlineUserCircle,
 } from "react-icons/hi2";
 
 import { MdOutlineCurrencyExchange } from "react-icons/md";
@@ -269,7 +270,7 @@ function HeaderInner({ onRefresh }) {
 						onClick={() => setIsOpen(!isOpen)}
 						className="text-white text-md font-medium flex items-center gap-2 bg-gray-400/40 px-6 py-2 rounded-lg hover:bg-gray-600/40 transition-colors duration-300 cursor-pointer"
 					>
-						{/* <HiOutlineUserCircle className="text-xl" /> */}
+						<HiOutlineUserCircle className="text-xl" />
 						<span>{basicUsername || "Loading..."}</span>
 						<HiChevronDown
 							className={`text-base transition-transform duration-200 ${
