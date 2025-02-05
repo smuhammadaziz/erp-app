@@ -106,7 +106,7 @@ const MessageNotifications = () => {
 							<div className="flex flex-col space-y-4">
 								<input
 									type="password"
-									placeholder="..."
+									placeholder=""
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
