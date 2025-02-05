@@ -82,20 +82,6 @@ const DeviceIcon = ({ type }) => {
 	);
 };
 
-const StatusBadge = ({ isActive }) => {
-	return (
-		<span
-			className={`px-2 py-1 text-xs font-medium rounded-full ${
-				isActive
-					? "bg-green-100 text-green-700"
-					: "bg-slate-100 text-slate-500"
-			}`}
-		>
-			{isActive ? "Актив" : "Inactive"}
-		</span>
-	);
-};
-
 const CurrentDeviceBadge = () => (
 	<span className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded-full">
 		<svg
@@ -130,76 +116,8 @@ const CurrentDeviceBadge = () => (
 	</span>
 );
 
-const LogoutButton = ({ onClick, isCurrentDevice }) => (
-	<button
-		onClick={onClick}
-		className={`group flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 
-      ${
-			isCurrentDevice
-				? "text-red-600 hover:bg-red-50"
-				: "text-slate-600 hover:bg-slate-50"
-		}`}
-	>
-		<svg
-			className={`w-4 h-4 transition-all duration-200 ${
-				isCurrentDevice
-					? "text-red-500"
-					: "text-slate-400 group-hover:text-slate-500"
-			}`}
-			viewBox="0 0 24 24"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<path
-				d="M16 17L21 12L16 7"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<path
-				d="M21 12H9"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</svg>
-		{isCurrentDevice ? "Sign out" : "Terminate session"}
-	</button>
-);
-
 const ActiveSessions = () => {
 	const [language, setLanguage] = useLang("uz");
-	const [sessions, setSessions] = useState([
-		{
-			id: 1,
-			location: "New York, USA",
-			ip: "192.168.1.1",
-			deviceName: "John's Laptop",
-			deviceType: "Laptop",
-			isActive: true,
-			lastActive: "2 minutes ago",
-			isCurrentDevice: true,
-		},
-		{
-			id: 2,
-			location: "London, UK",
-			ip: "192.168.1.2",
-			deviceName: "Sarah's Phone",
-			deviceType: "Mobile",
-			isActive: false,
-			lastActive: "15 minutes ago",
-			isCurrentDevice: false,
-		},
-	]);
 
 	const [users, setUsers] = useState([]);
 	const device_id = localStorage.getItem("device_id");
@@ -223,17 +141,6 @@ const ActiveSessions = () => {
 
 		fetchProducts();
 	}, []);
-
-	const handleLogout = (sessionId) => {
-		const session = sessions.find((s) => s.id === sessionId);
-		if (session.isCurrentDevice) {
-			console.log("Logging out current device...");
-		} else {
-			setSessions(sessions.filter((s) => s.id !== sessionId));
-		}
-	};
-
-	const activeCount = sessions.filter((s) => s.isActive).length;
 
 	return (
 		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
@@ -267,7 +174,6 @@ const ActiveSessions = () => {
 										<h3 className="font-medium text-slate-900">
 											{session.usertype}
 										</h3>
-										{/* <StatusBadge isActive="Актив" /> */}
 										{session.isCurrentDevice && (
 											<CurrentDeviceBadge />
 										)}
@@ -280,10 +186,6 @@ const ActiveSessions = () => {
 										session.last_entered_time,
 									).calendar()}
 								</span>
-								{/* <LogoutButton
-									onClick={() => handleLogout(session.id)}
-									isCurrentDevice={session.isCurrentDevice}
-								/> */}
 							</div>
 						</div>
 					</div>
