@@ -314,8 +314,19 @@ function HeaderInner({ onRefresh }) {
 				</div>
 			)}
 
+			{isSyncing && (
+				<div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[790]">
+					<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
+						<IoSync className="animate-spin text-blue-500 text-5xl mb-4" />
+						<p className="text-black text-center text-md">
+							Синхронизация...
+						</p>
+					</div>
+				</div>
+			)}
+
 			{isModalOpen && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[790]">
+				<div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[790]">
 					<div className="bg-white rounded-lg px-4 py-8 max-w-md w-full text-center">
 						<h2 className="text-5xl text-center flex justify-center mx-auto font-semibold text-gray-800 mb-4">
 							<IoCloudDone />

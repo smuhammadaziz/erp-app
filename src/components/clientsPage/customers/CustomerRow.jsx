@@ -10,7 +10,6 @@ import {
 } from "react-icons/fa";
 
 const CustomerRow = ({ customer, onView, index, content, language }) => {
-	console.log(customer);
 	return (
 		<tr
 			className="hover:bg-gray-50 transition-colors duration-200 active:bg-gray-300 cursor-pointer"
