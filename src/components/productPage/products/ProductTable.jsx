@@ -203,7 +203,7 @@ const ProductTable = React.memo(
 								</td>
 								{columns.map((column, colIndex) => (
 									<td
-										key={column}
+										key={`${column}:${colIndex}`}
 										className={`px-4 py-3 whitespace-nowrap text-sm text-gray-600 ${
 											colIndex === 0
 												? "text-left"
