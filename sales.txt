@@ -17,8 +17,6 @@ Pages:
 - first sync bolganda "sync" knopkadagi barcha functionlarni qoyib chiqish kerak
 - summa, total customers and products ga doimo socket io ishlatish kerak ekan
 - qilingan summani 1kunligini chiqarish kerak va grafik uchun ham korsatish kere
-- sales pageni bosganda yangi oyna ochilishi kerak, yangi screen va sales page ni korsatishi kerak.
-- agar sales page ochiq bolsa, o'sha tagidagi sales page ni ochish kerak boladi
 -
 
 ============================================================================================
@@ -29,27 +27,21 @@ Pages:
 ============================================================================================
 5. products page
 
-- tillarni togrilab chiqish kerak 100%
 - 
 
 ============================================================================================
 6. settings page
 
-- tillarni togrilab chiqish 100%
 - user settings uchun dizayn qilish kerak va ularni chiqarish kerak
 -
 
 ============================================================================================
 7. sales Pages
 
-- tillarni 100% togrilab chiqish kerak
-- savdo oynasi yangi screen bolib korinishi kerak
 - all products uchun socket io ishlatish kerak
 - tepaga olish uchun ham socket io ishlatish kerak
 - summa uchun va naqt + plastik karta uchun ham socket io ishlatish kerak
-- yangi savdo bosilganda yangi screen ochilishi kerak
 - savdolarni yuborishni qilish backend bilan
-
 
 
 ============================================================================================
@@ -60,9 +52,6 @@ Components:
 
 1. Titlebar - login pagedagi
 
-- login page da yangilanishni tekshirish knopka qoshish
-- yangilanish uchun internetni majburiy qilish
-- ksb-id dan chiqish knopkani kattalashtirish
 -
 
 ============================================================================================
