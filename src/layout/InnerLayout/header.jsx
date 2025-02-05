@@ -336,7 +336,7 @@ function HeaderInner({ onRefresh }) {
 						<select
 							value={language}
 							onChange={handleLanguageChange}
-							className="appearance-none z-[50] bg-gray-700/50 text-white text-lg font-medium px-6 py-2.5 rounded-xl shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-600/50 transition-all duration-300 ease-in-out w-36 backdrop-blur-sm"
+							className="appearance-none z-[50] bg-gray-700/50 text-white text-lg font-medium px-6 py-2 rounded-lg shadow-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-600/50 transition-all duration-300 ease-in-out w-36 backdrop-blur-sm"
 						>
 							<option
 								value="ru"
@@ -362,10 +362,15 @@ function HeaderInner({ onRefresh }) {
 					</div>
 					<div
 						onClick={() => setIsOpen(!isOpen)}
-						className="text-white text-md font-medium flex items-center gap-2 bg-gray-800/40 px-6 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300 cursor-pointer"
+						className="text-white text-md font-medium flex items-center gap-2 bg-gray-400/40 px-6 py-2 rounded-lg hover:bg-gray-600/40 transition-colors duration-300 cursor-pointer"
 					>
-						<HiOutlineUserCircle className="text-xl" />
+						{/* <HiOutlineUserCircle className="text-xl" /> */}
 						<span>{basicUsername || "Loading..."}</span>
+						<HiChevronDown
+							className={`text-base transition-transform duration-200 ${
+								isOpen ? "rotate-180" : ""
+							}`}
+						/>
 					</div>
 				</div>
 			</header>
