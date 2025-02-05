@@ -4,6 +4,7 @@ import useLang from "../../hooks/useLang";
 import { IoSync } from "react-icons/io5";
 import { FiLoader } from "react-icons/fi";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
+import { IoCloudDone } from "react-icons/io5";
 
 import {
 	HiOutlineCog6Tooth,
@@ -315,7 +316,10 @@ function HeaderInner({ onRefresh }) {
 
 			{isModalOpen && (
 				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[790]">
-					<div className="bg-white rounded-lg p-6 max-w-sm w-full text-center">
+					<div className="bg-white rounded-lg px-4 py-8 max-w-md w-full text-center">
+						<h2 className="text-5xl text-center flex justify-center mx-auto font-semibold text-gray-800 mb-4">
+							<IoCloudDone />
+						</h2>
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
 							{content[language].syncing.complete}
 						</h2>
@@ -323,7 +327,7 @@ function HeaderInner({ onRefresh }) {
 							{content[language].syncing.data}
 						</p>
 						<button
-							className="bg-blue-500 text-white px-8 py-1 rounded-lg hover:bg-blue-600 transition-all duration-300"
+							className="bg-blue-500 text-white px-12 uppercase py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
 							onClick={() => {
 								setIsModalOpen(false);
 								handleDeleteItems();
