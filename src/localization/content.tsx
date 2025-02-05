@@ -161,6 +161,16 @@ type Content = {
 			logout: string;
 			logtext: string;
 		};
+		changePassword: {
+			noInternet: string;
+			noInternetText: string;
+			internetRequiredToChange: string;
+			requiredField: string;
+			newPasswordNotMatch: string;
+			oldPasswordWrong: string;
+			changeSuccess: string;
+			errorToast: string;
+		};
 	};
 };
 
@@ -334,6 +344,17 @@ const content: Content = {
 			logout: "Чиқиш",
 			logtext: "Аккаунтдан чиқиш",
 		},
+		changePassword: {
+			noInternet: "Интернет алоқаси йўқ",
+			noInternetText: "Паролингизни ўзгартириш учун Интернетга уланинг. ",
+			internetRequiredToChange:
+				"Паролингизни ўзгартириш учун Интернетга уланинг.",
+			requiredField: "Барча жойларни тўлдириш керак",
+			newPasswordNotMatch: "Янги парол ва тасдиқлаш пароли мос келмади",
+			oldPasswordWrong: "Жорий парол хато",
+			changeSuccess: "Парол муваффақиятли ўзгартирилди",
+			errorToast: "Хатолик.  Парол ўзгартиришда хатолик мавжуд",
+		},
 	},
 	ru: {
 		intro: {
@@ -503,6 +524,19 @@ const content: Content = {
 			configure: "",
 			logout: "",
 			logtext: "",
+		},
+		changePassword: {
+			noInternet: "Нет подключения к Интернету",
+			noInternetText:
+				"Пожалуйста, подключитесь к Интернету, чтобы изменить свой пароль.",
+			internetRequiredToChange:
+				"Пожалуйста, подключитесь к Интернету, чтобы изменить свой пароль.",
+			requiredField: "Все поля должны быть заполнены.",
+			newPasswordNotMatch:
+				"Новый пароль и подтверждение пароля не совпадают.",
+			oldPasswordWrong: "Текущий пароль неверный.",
+			changeSuccess: "Пароль успешно изменен.",
+			errorToast: "Ошибка. При смене пароля произошла ошибка.",
 		},
 	},
 };

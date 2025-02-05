@@ -25,7 +25,7 @@ const PasswordInput = ({
 				onChange={onChange}
 				disabled={disabled}
 				className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
-				placeholder="..."
+				placeholder=""
 			/>
 			<button
 				type="button"
@@ -39,22 +39,23 @@ const PasswordInput = ({
 	</div>
 );
 
-const OfflineOverlay = () => (
-	<div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl">
-		<div className="text-center space-y-4">
-			<MdWifiOff className="w-16 h-16 text-gray-400 mx-auto" />
-			<div className="space-y-2">
-				<h3 className="text-lg font-medium text-gray-900">
-					Нет подключения к Интернету
-				</h3>
-				<p className="text-gray-500">
-					Пожалуйста, подключитесь к Интернету, чтобы изменить свой
-					пароль.
-				</p>
+const OfflineOverlay = () => {
+	return (
+		<div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl">
+			<div className="text-center space-y-4">
+				<MdWifiOff className="w-16 h-16 text-gray-400 mx-auto" />
+				<div className="space-y-2">
+					<h3 className="text-lg font-medium text-gray-900">
+						{content[language].changePassword.noInternet}
+					</h3>
+					<p className="text-gray-500">
+						{content[language].changePassword.noInternetText}
+					</p>
+				</div>
 			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 function Security() {
 	const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -82,7 +83,7 @@ function Security() {
 
 	const handleUpdatePassword = async () => {
 		if (!isOnline) {
-			toast.error("Internet connection is required to change password.");
+			toast.error(content[language].changePassword.noInternetText);
 			return;
 		}
 
@@ -91,12 +92,12 @@ function Security() {
 		const database = localStorage.getItem("mainDatabase");
 
 		if (!currentPassword || !newPassword || !confirmPassword) {
-			toast.error("All fields are required.");
+			toast.error(content[language].changePassword.requiredField);
 			return;
 		}
 
 		if (newPassword !== confirmPassword) {
-			toast.error("New password and confirm password do not match.");
+			toast.error(content[language].changePassword.newPasswordNotMatch);
 			return;
 		}
 
@@ -118,16 +119,19 @@ function Security() {
 			const data = await response.json();
 
 			if (!response.ok) {
-				toast.error(data.message.uz || "Failed to update password.");
+				toast.error(
+					data.message.uz ||
+						content[language].changePassword.oldPasswordWrong,
+				);
 				return;
 			}
 
-			toast.success("Password updated successfully.");
+			toast.success(content[language].changePassword.changeSuccess);
 			setCurrentPassword("");
 			setNewPassword("");
 			setConfirmPassword("");
 		} catch (error) {
-			toast.error("An error occurred while updating the password.");
+			toast.error(content[language].changePassword.errorToast);
 		}
 	};
 
