@@ -85,7 +85,6 @@ Components:
 backend
 
 - sales ni yuborishni qilish kerak, yuborilsa, delivered status, yuborilmasa, not delivered.
-- user settingsda qayta qayta table ga yozishini oldini olish kere
-- removed table da bitta id li bolsa, ustiga yozishi kerak. 
+- user settingsda qayta qayta table ga yozishini oldini olish kere. 
 - sales da empty products array bo'lsa, har 2kunda o'chirib yuboradigan qilish kerak.
 - agar product updatedan yangi datalar kelsa, ularni yozib qoyadigan qilish kerak. 
