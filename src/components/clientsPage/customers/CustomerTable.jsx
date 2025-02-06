@@ -6,22 +6,22 @@ const CustomerTable = ({ customers, onView, onDelete, content, language }) => (
 		<table className="w-full">
 			<thead className="bg-gray-50 sticky top-0 z-10">
 				<tr>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					<th className="px-6 py-4 text-left text-xs font-semibold text-black uppercase tracking-wider whitespace-nowrap">
 						No
 					</th>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					<th className="px-6 py-4 text-left text-xs font-semibold text-black uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.name}
 					</th>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					<th className="px-6 py-4 text-left text-xs font-semibold text-black uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.phone}
 					</th>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					<th className="px-6 py-4 text-left text-xs font-semibold text-black uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.positive}
 					</th>
-					<th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					<th className="px-6 py-4 text-left text-xs font-semibold text-black uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.negative}
 					</th>
-					{/* <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+					{/* <th className="px-6 py-4 text-left text-xs font-medium text-black uppercase tracking-wider whitespace-nowrap">
 						{content[language].client.actions}
 					</th> */}
 				</tr>

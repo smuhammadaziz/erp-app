@@ -76,24 +76,24 @@ const CustomerRow = ({ customer, onView, index, content, language }) => {
 						<FaUser className="text-blue-600" />
 					</div>
 					<div className="ml-4">
-						<div className="text-sm font-medium text-gray-900">
+						<div className="text-base font-semibold text-black">
 							{customer.name}
 						</div>
 					</div>
 				</div>
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">
-				<div className="flex items-center text-sm text-gray-600">
+				<div className="flex items-center text-base text-black font-semibold">
 					{customer.phone_number || content[language].client.no_phone}
 				</div>
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">
-				<div className="flex items-center text-sm text-gray-600">
+				<div className="flex items-center text-base text-black font-semibold">
 					{positiveBalance}
 				</div>
 			</td>
 			<td className="px-6 py-4 whitespace-nowrap">
-				<div className="flex items-center text-sm text-gray-600">
+				<div className="flex items-center text-base text-black font-semibold">
 					{negativeBalance}
 				</div>
 			</td>
