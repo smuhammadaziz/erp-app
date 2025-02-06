@@ -206,11 +206,11 @@ const ProductViewDetails = ({ product }) => {
 			<tbody className="bg-white divide-y divide-gray-200">
 				{product.stock.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
-						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-black">
 							{warehouseNames[item.warehouse] ||
 								content[language].product.loading}
 						</td>
-						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-black">
 							{item.qty}
 						</td>
 					</tr>
@@ -229,17 +229,26 @@ const ProductViewDetails = ({ product }) => {
 					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
 						{content[language].product.sale}
 					</th>
+					<th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+						{content[language].product.currency}
+					</th>
 				</tr>
 			</thead>
 			<tbody className="bg-white divide-y divide-gray-200">
 				{product.price.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
-						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-black">
 							{names[item.type] ||
 								content[language].product.loading}
 						</td>
-						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-							{item.sale} {currencyName}
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-black">
+							{new Intl.NumberFormat("ru-RU", {
+								minimumFractionDigits: 2,
+								maximumFractionDigits: 2,
+							}).format(Number(item.sale))}
+						</td>
+						<td className="px-6 py-4 whitespace-nowrap text-sm text-black">
+							{currencyName}
 						</td>
 					</tr>
 				))}
