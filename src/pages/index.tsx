@@ -29,6 +29,8 @@ import { v4 as uuidv4 } from "uuid";
 import { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 
+import DeadlineModal from "./itsModal";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -378,6 +380,7 @@ const IndexPage: FC = () => {
 						<InitialUserSettingsForHome />
 					</div>
 				)}
+				<DeadlineModal />
 			</InnerLayoutSection>
 		</Layout>
 	);
