@@ -180,12 +180,12 @@ const ProductTable = React.memo(
 										index === 0
 											? "text-left"
 											: "text-center"
-									} text-xs font-medium text-gray-500 uppercase tracking-wider`}
+									} text-xs font-semibold text-black uppercase tracking-wider`}
 								>
 									{column.label}
 								</th>
 							))}
-							<th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+							<th className="px-4 py-3 text-center text-xs font-medium text-black uppercase tracking-wider">
 								{content[language].product.extra}
 							</th>
 						</tr>
@@ -204,13 +204,13 @@ const ProductTable = React.memo(
 									handleRowDoubleClick(product)
 								}
 							>
-								<td className="px-4 py-3 whitespace-nowrap text-center text-sm text-gray-600">
+								<td className="px-4 py-3 whitespace-nowrap text-center text-base text-black">
 									{index + 1}
 								</td>
 								{columns.map((column, colIndex) => (
 									<td
 										key={`${column}:${colIndex}`}
-										className={`px-4 py-3 whitespace-nowrap text-sm text-gray-600 ${
+										className={`px-4 py-3 whitespace-nowrap text-base text-black ${
 											colIndex === 0
 												? "text-left"
 												: "text-center"
