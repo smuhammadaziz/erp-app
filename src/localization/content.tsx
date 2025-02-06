@@ -80,6 +80,8 @@ type Content = {
 			view: string;
 			contact: string;
 			search: string;
+			positive: string;
+			negative: string;
 		};
 		product: {
 			detail: string;
@@ -262,6 +264,8 @@ const content: Content = {
 			view: "Кўпроқ",
 			contact: "Контакт маълумотлари",
 			search: "Қидириш...",
+			positive: "Хакдорлик",
+			negative: "Карздорлик",
 		},
 		product: {
 			detail: "Маҳсулотлар",
@@ -444,6 +448,8 @@ const content: Content = {
 			view: "Подробнее",
 			contact: "Контактная информация",
 			search: "Поиск...",
+			positive: "Нам должны",
+			negative: "Мы должны",
 		},
 		product: {
 			detail: "Продукты",
