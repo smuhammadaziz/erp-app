@@ -529,10 +529,10 @@ const content: Content = {
 			sidebarClientSearch: "Поиск клиентов",
 		},
 		headerProfile: {
-			settings: "",
-			configure: "",
-			logout: "",
-			logtext: "",
+			settings: "Настройки",
+			configure: "Настройте свой аккаунт",
+			logout: "Выход",
+			logtext: "Выйти из аккаунта",
 		},
 		changePassword: {
 			noInternet: "Нет подключения к Интернету",
