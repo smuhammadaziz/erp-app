@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, {
+	useState,
+	useEffect,
+	useMemo,
+	useCallback,
+	useRef,
+} from "react";
 import { SlBasket } from "react-icons/sl";
 import { FaUserPlus, FaSearch } from "react-icons/fa";
 import ProductTable from "./ProductTable";
@@ -133,6 +139,24 @@ const ProductsPageComponent = () => {
 		}
 	}, []);
 
+	const searchInputRef = useRef(null);
+
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.ctrlKey && event.key === "f") {
+				event.preventDefault();
+				if (searchInputRef.current) {
+					searchInputRef.current.focus();
+				}
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	return (
 		<div className="container mx-auto h-[80vh]">
 			<div className="bg-white rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
@@ -150,6 +174,7 @@ const ProductsPageComponent = () => {
 							<div className="relative flex-grow">
 								<input
 									type="text"
+									ref={searchInputRef}
 									placeholder={
 										content[language].product.search
 									}
