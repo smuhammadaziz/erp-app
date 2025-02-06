@@ -99,6 +99,7 @@ type Content = {
 			quantity: string;
 			sale: string;
 			not_available: string;
+			loading: string;
 		};
 		settingsUsers: {
 			users: string;
@@ -280,6 +281,7 @@ const content: Content = {
 			quantity: "миқдор",
 			sale: "сотиш",
 			not_available: "Ҳозирча мавжуд эмас",
+			loading: "Юкланмоқда",
 		},
 		settingsUsers: {
 			users: "Фойдаланувчилар",
@@ -461,6 +463,7 @@ const content: Content = {
 			quantity: "Количество",
 			sale: "Распродажа",
 			not_available: "Пока недоступно",
+			loading: "Загрузка",
 		},
 		settingsUsers: {
 			users: "Пользователи",

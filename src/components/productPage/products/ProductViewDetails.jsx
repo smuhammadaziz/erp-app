@@ -207,7 +207,8 @@ const ProductViewDetails = ({ product }) => {
 				{product.stock.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-							{warehouseNames[item.warehouse] || "Loading..."}
+							{warehouseNames[item.warehouse] ||
+								content[language].product.loading}
 						</td>
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 							{item.qty}
@@ -234,7 +235,8 @@ const ProductViewDetails = ({ product }) => {
 				{product.price.map((item, index) => (
 					<tr key={index} className="hover:bg-gray-50">
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-							{names[item.type] || "Loading..."}
+							{names[item.type] ||
+								content[language].product.loading}
 						</td>
 						<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 							{item.sale} {currencyName}

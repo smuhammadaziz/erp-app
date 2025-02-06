@@ -14,16 +14,22 @@ import nodeUrl from "../../../links";
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
-const LoadingSpinner = () => (
-	<div className="flex items-center justify-center py-4">
-		<div className="flex flex-col items-center space-y-2">
-			<div className="text-purple-600 text-4xl animate-spin">
-				<FiLoader />
+const LoadingSpinner = () => {
+	const [language] = useLang("uz");
+
+	return (
+		<div className="flex items-center justify-center py-4">
+			<div className="flex flex-col items-center space-y-2">
+				<div className="text-purple-600 text-4xl animate-spin">
+					<FiLoader />
+				</div>
+				<p className="text-gray-500">
+					{content[language].product.loading}
+				</p>
 			</div>
-			<p className="text-gray-500">Loading more products...</p>
 		</div>
-	</div>
-);
+	);
+};
 
 const ProductTable = React.memo(
 	({ products, isLoading, hasMore, onLoadMore }) => {
