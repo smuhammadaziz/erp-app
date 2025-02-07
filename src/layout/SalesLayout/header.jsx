@@ -269,9 +269,9 @@ function SalesPageLayoutHeader() {
 																	Статус
 																</p>
 																<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
-																	{/* {sale.status} */}
-																	Не
-																	доставлено
+																	{
+																		sale.status
+																	}
 																</span>
 															</div>
 														</div>

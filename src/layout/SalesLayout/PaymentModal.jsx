@@ -178,7 +178,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				{
 					cash: mainCashData,
 					currency: data.mainCurrency,
-					sum: data.summa,
+					sum: data.summa - data.discount,
 				},
 			],
 		};
