@@ -164,6 +164,108 @@ const DownloaderModal = () => {
 		setError(null);
 	};
 
+	const userId = localStorage.getItem("user_id");
+
+	const handleDeleteItems = async () => {
+		if (!ksb_id || !device_id) {
+			console.log("Missing ksbIdNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/remove/items/${device_id}/${ksb_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: basicUsername,
+						userPassword: basicPassword,
+					}),
+				},
+			);
+
+			const data = await response.json();
+
+			console.log(data.message);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleUserSettings = async () => {
+		if (!ksb_id || !device_id) {
+			alert("Missing ksb_idNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const responseSettings = await fetch(
+				`${nodeUrl}/api/get/settings/${device_id}/${ksb_id}`,
+			);
+
+			const responseCash = await fetch(
+				`${nodeUrl}/api/get/cash/${device_id}/${ksb_id}`,
+			);
+
+			const settingsData = await responseSettings.json();
+			const cashData = await responseCash.json();
+
+			const exactUser = settingsData.find(
+				(user) => user.user_id === userId,
+			);
+
+			if (exactUser) {
+				localStorage.setItem(
+					"settingsWarehouse",
+					JSON.stringify(exactUser.warehouse),
+				);
+				localStorage.setItem(
+					"settingsPriceType",
+					JSON.stringify(exactUser.price_types),
+				);
+				localStorage.setItem(
+					"settingsCash",
+					JSON.stringify(exactUser.cash),
+				);
+				localStorage.setItem("settingsCurrency", exactUser.currency);
+				localStorage.setItem(
+					"settingsMaxDiscount",
+					exactUser.max_discount,
+				);
+			} else {
+				console.log("User not found in settingsData.");
+			}
+
+			localStorage.setItem("settingsCashData", JSON.stringify(cashData));
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleSetCurrency = async () => {
+		if (!ksb_id || !device_id) {
+			console.log("Missing ksb_idNumber or device_id in localStorage.");
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/currency/rate/${device_id}/${ksb_id}`,
+			);
+
+			const data = await response.json();
+
+			localStorage.setItem("currency_rate", JSON.stringify(data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	if (!isModalOpen) return null;
 
 	return (
@@ -209,7 +311,13 @@ const DownloaderModal = () => {
 							Your settings have been synced successfully.
 						</p>
 						<button
-							onClick={closeModal}
+							// onClick={closeModal}
+							onClick={() => {
+								closeModal();
+								handleDeleteItems();
+								handleUserSettings();
+								handleSetCurrency();
+							}}
 							className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
 						>
 							Done
