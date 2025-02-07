@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
 import nodeUrl from "../../links";
-
 import { IoCloudDownloadOutline } from "react-icons/io5";
-
 import { MdErrorOutline } from "react-icons/md";
+import { MdOutlinePortableWifiOff } from "react-icons/md";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
 	const [error, setError] = useState(null);
+	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
 
 	const getStorageItem = (key, required = true) => {
 		const value = localStorage.getItem(key);
@@ -26,6 +26,17 @@ const DownloaderModal = () => {
 			localStorage.setItem("showSettingsModal", "false");
 		}
 	}, []);
+
+	const checkInternetConnection = () => {
+		return new Promise((resolve) => {
+			fetch("https://www.google.com", {
+				mode: "no-cors",
+				cache: "no-store",
+			})
+				.then(() => resolve(true))
+				.catch(() => resolve(false));
+		});
+	};
 
 	const registerDevice = async () => {
 		try {
@@ -120,6 +131,14 @@ const DownloaderModal = () => {
 	};
 
 	const startDownload = async () => {
+		// First, check internet connection
+		const isInternetAvailable = await checkInternetConnection();
+
+		if (!isInternetAvailable) {
+			setIsNoInternetModalOpen(true);
+			return;
+		}
+
 		setDownloadStatus("downloading");
 		setError(null);
 
@@ -170,10 +189,10 @@ const DownloaderModal = () => {
 
 				{downloadStatus === "downloading" && (
 					<div className="text-center w-[500px] h-[180px] items-center justify-center flex flex-col">
-						<div className="flex justify-center items-center space-x-4 mb-4 mt-10">
+						<div className="flex justify-center items-center space-x-4 mb-4">
 							<FaSpinner className="animate-spin text-blue-600 text-5xl" />
 						</div>
-						<p className="text-gray-600 text-3xl">Syncing...</p>
+						<p className="text-gray-600 text-2xl">Syncing...</p>
 					</div>
 				)}
 
@@ -202,15 +221,53 @@ const DownloaderModal = () => {
 							Синхронизация не удалась
 						</h2>
 						<p className="text-red-600 mb-6">
-							{/* {error || "An unexpected error occurred"} */}
 							Устройство уже зарегистрировано
 						</p>
-						<button
-							onClick={() => setDownloadStatus("idle")}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-						>
-							Try Again
-						</button>
+						<div className="flex items-center ">
+							<button
+								onClick={() => setDownloadStatus("idle")}
+								className="w-full mx-3  bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+							>
+								Try Again
+							</button>
+							<button
+								onClick={() => setDownloadStatus("idle")}
+								className="w-full mx-3 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
+							>
+								KSB-ID dan chiqish
+							</button>
+						</div>
+					</div>
+				)}
+
+				{isNoInternetModalOpen && (
+					<div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[790] p-4">
+						<div className="bg-white rounded-2xl max-w-md w-full shadow-2xl transform transition-all duration-300 ease-in-out scale-100 opacity-100 p-6 text-center">
+							<div className="mb-6">
+								<span className="text-center mx-auto justify-center block">
+									<MdOutlinePortableWifiOff
+										size={70}
+										className="text-center mx-auto inline-block py-5"
+									/>
+								</span>
+								<h2 className="text-2xl font-bold text-gray-800 mb-2">
+									No Internet Connection
+								</h2>
+								<p className="text-gray-600 mb-4">
+									Please check your network connection and try
+									again.
+								</p>
+							</div>
+							<button
+								onClick={() => {
+									setIsNoInternetModalOpen(false);
+									setDownloadStatus("idle");
+								}}
+								className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-colors duration-300 font-semibold"
+							>
+								Try Again
+							</button>
+						</div>
 					</div>
 				)}
 			</div>
