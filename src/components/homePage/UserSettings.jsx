@@ -235,7 +235,6 @@ const DownloaderModal = () => {
 							</button>
 							<NavLink
 								to="/intro"
-								onClick={() => setDownloadStatus("idle")}
 								className="w-full mx-3 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
 							>
 								KSB-ID dan chiqish
