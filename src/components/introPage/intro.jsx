@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Layout } from "../../layout/Layout";
 import { Toaster, toast } from "sonner";
 import {
@@ -28,6 +28,8 @@ function IntroPageKSB() {
 	const [showNetworkModal, setShowNetworkModal] = useState(false);
 	const navigate = useNavigate();
 	const [language] = useLang("uz");
+
+	const inputRef = useRef(null);
 
 	const makeApiRequest = async (ksbId) => {
 		const controller = new AbortController();
@@ -179,6 +181,12 @@ function IntroPageKSB() {
 		}
 	};
 
+	useEffect(() => {
+		if (!loading && isOnline && inputRef.current) {
+			inputRef.current.focus();
+		}
+	}, [loading, isOnline]);
+
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter" && isOnline) {
 			handleSignIn(e);
@@ -266,6 +274,7 @@ function IntroPageKSB() {
 						</div>
 						<div className="relative">
 							<input
+								ref={inputRef}
 								type="text"
 								placeholder={content[language].intro.enter}
 								value={ksbId}
