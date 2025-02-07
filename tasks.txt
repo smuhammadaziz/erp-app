@@ -19,12 +19,56 @@ turishi kerak
 
 - aktiv seanslarni o'zgartirish kerak, telegram ga oxshab
 
-- password change ni yaxshilab tekshirish kerak
+- password change ni yaxshilab tekshirish kerak, enter bosganda keyingisiga o'tishi kerak
 
 - qayta tiklashni boshidan qilish kerak
 
 - sales page dagi all products table doimo yangilanib turishi kerak, har 1 yoki 2 minutda, yangilanish
 bor yoki yoqligidan qatiy nazar
 
+- "x" knopkaga chiqmoqchimisz degan narsani barchasiga qo'yish kerak (intro, login, home, sales)
+
+- har 1kunda men table dan empty products bolganlarini tozalab turishim kerak, orqa fonda
+
+- savdo yuborilgandan keyin, agar internet bo'lsa, birinchi table ga saqlayman, keyin yuborishim kerak,
+ agar yuborilgan bo'lsa, serverga yuborildi degan malumotni chiqaraman, agar yuborilmasa, 
+ xatoligini chiqarish kerak, u xatolikni korish uchun "more" ni bosib, toliq xatolikni ko'rish mumkin
+
+- agar internet yo'q bo'lsa, savdolar databazani o'ziga saqlanib turishi kerak, va men bergan vaqt bo'yicha
+masalan har 1 minutda savdolar yuborilishi kere
+
+- kechiktirilgan larni to'liq qilish kere (modal + ustiga bosganda barcha tovarlarini olib +
+keyingi jarayonlari ishlaydigan qilish)
+
+- barcha modallarga "enter" ni ishlatish kerak, enter bu keyingi etap.
+
+- barcha narsaga ctrl + enter ni ishlatish kere, yani ctrl + enter bu = "OK" knopka hisoblanadi. 
+
+- home page da umumiy savdo summasini chiqarishni kelishish kerak + grafikni ham
+
+- klientlarni bosganda bitta klient tanlanishi kerak, default oddiy xaridor bo'lishi kerak, uni 
+bunday qilish kerak, otlojenniega klient bilan saqlanisshi uchun localstorage ga default client berib 
+ketish kerak, agar client tanlansa, srazu client id ni o'zgartirib qoyaman, shunda otlojennie da 
+client bilan chiqadi
+
+- savdo oynasida "NAQD + ONLINE" ni ishlatib qoyish kerak, va yana qilish kerak bolgan narsa: 
+2ta kassaga pul tushadigan qilish (1C tomondan tayyor emas)
+
+- savdo yuborilayotgan paytda, comment ni qo'lda kiritadigan qilish kerak
+
+- savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 
+"delivered" bo'ladi, yuborilmasa error console da chiqishi kere men korishim uchun
+
+- user settings qayta qayta backend table ga yozilishini togrilash kerak
+
+- yangi savdo ni bosganda hozirgi savdo otlojenniega saqlanishi kere va page yangilanishi kerak
+
+- savdo oynasida settings da tillarni togrilash ni qilish kerak, yani tilni ozgartirishni qoshish
+
+- savdolar royhatiga yangi modal dizayn qilish kerak
+
+- skidka berishda agar savdo 0 som bo'lsa, savdo berishda error chiqarish kerak
+
+-
 
 
