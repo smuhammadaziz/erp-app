@@ -4,6 +4,8 @@ import nodeUrl from "../../links";
 
 import { IoCloudDownloadOutline } from "react-icons/io5";
 
+import { MdErrorOutline } from "react-icons/md";
+
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
@@ -167,11 +169,11 @@ const DownloaderModal = () => {
 				)}
 
 				{downloadStatus === "downloading" && (
-					<div className="text-center w-[500px]">
-						<div className="flex justify-center items-center space-x-4 mb-4">
-							<FaSpinner className="animate-spin text-blue-600 text-4xl" />
+					<div className="text-center w-[500px] h-[180px] items-center justify-center flex flex-col">
+						<div className="flex justify-center items-center space-x-4 mb-4 mt-10">
+							<FaSpinner className="animate-spin text-blue-600 text-5xl" />
 						</div>
-						<p className="text-gray-600">Syncing...</p>
+						<p className="text-gray-600 text-3xl">Syncing...</p>
 					</div>
 				)}
 
@@ -186,7 +188,7 @@ const DownloaderModal = () => {
 						</p>
 						<button
 							onClick={closeModal}
-							className="w-full bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition"
+							className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
 						>
 							Done
 						</button>
@@ -195,16 +197,17 @@ const DownloaderModal = () => {
 
 				{downloadStatus === "error" && (
 					<div className="text-center w-[500px]">
-						<FaTimes className="text-red-500 text-4xl mb-6" />
-						<h2 className="text-xl font-semibold text-gray-800 mb-4">
-							Sync Failed
+						<MdErrorOutline className="text-red-500 text-6xl mb-6 flex justify-center mx-auto" />
+						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
+							Синхронизация не удалась
 						</h2>
 						<p className="text-red-600 mb-6">
-							{error || "An unexpected error occurred"}
+							{/* {error || "An unexpected error occurred"} */}
+							Устройство уже зарегистрировано
 						</p>
 						<button
 							onClick={() => setDownloadStatus("idle")}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
 						>
 							Try Again
 						</button>
