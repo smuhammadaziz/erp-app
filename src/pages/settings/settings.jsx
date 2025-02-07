@@ -5,6 +5,7 @@ import Sidebar from "../../components/settingsPage/settings/Sidebar";
 import PersonalInformation from "../../components/settingsPage/settings/PersonalInformation";
 import Security from "../../components/settingsPage/settings/Security";
 import MessageNotifications from "../../components/settingsPage/settings/Notifications";
+import SendSales from "../../components/settingsPage/settings/SendSales";
 
 function SettingsPage() {
 	const [activeSection, setActiveSection] = useState("Personal Information");
