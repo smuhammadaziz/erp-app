@@ -218,7 +218,7 @@ const content: Content = {
 		},
 		home: {
 			totalSales: "Умумий Савдо Суммаси",
-			activeClient: "Актив Клиентлар",
+			activeClient: "Клиентлар",
 			products: "Маҳсулотлар",
 			salesDashboard: "Савдо Ойнаси",
 			clientManagement: "Клиентлар Ойнаси",
@@ -402,7 +402,7 @@ const content: Content = {
 		},
 		home: {
 			totalSales: "Общая сумма продаж",
-			activeClient: "Активные клиенты",
+			activeClient: "Клиенты",
 			products: "Продукты",
 			salesDashboard: "Торговое окно",
 			clientManagement: "Окно клиента",

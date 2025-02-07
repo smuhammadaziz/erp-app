@@ -1,1 +1,30 @@
-- 
+- birinchi sync da internetni majburiy qilish kerak, yani agar internet yo'q bo'sa bitta 
+katta oyna chiqishi kerak va bu modalda "qayta urinish" degan knopka bo'lishi kerak, va qayta qayta
+bosilsa qayta qayta bilishi kerak. 
+
+- birinchi sync ga innerHeader dagi barcha functionlarni berib kere
+
+- agar its muddati tugasa, srazu its deadline screen paydo bo'lishi kerak, va korsatishi kerak,
+ yangilash ni bosganda, crm ga zapros yuborib, yangi ITS malumotlarini olishi kerak, agar its o'zgarsa
+ oyna yo'qolib ketishi kerak va bitta refresh bo'lishi kerak, agar yangilanmasa, har 60 sekundda
+ orqa fonda zapros yuborib turishim kerak.
+
+- innerheader dagi sync knopkaga "crm" ga bir marta murojaat qilib qo'yishim kerak, u yangi 
+malumotlarini localstorage ga saqlab qo'yadi. 
+
+- auto savdo yuborishni settings page orqali qilish kere, yani tanlangan minut boyicha har safar yuborib
+turishi kerak
+
+- set time out vaqtni ham shunaqa qilish kerak, barcha joyga set time out berib ketish kerak, 
+
+- aktiv seanslarni o'zgartirish kerak, telegram ga oxshab
+
+- password change ni yaxshilab tekshirish kerak
+
+- qayta tiklashni boshidan qilish kerak
+
+- sales page dagi all products table doimo yangilanib turishi kerak, har 1 yoki 2 minutda, yangilanish
+bor yoki yoqligidan qatiy nazar
+
+
+
