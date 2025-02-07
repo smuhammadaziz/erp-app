@@ -40,6 +40,19 @@ function TimeoutSettings() {
 
 	return (
 		<SectionContainer title="timeout settings">
+			<style>
+				{`
+          input[type="number"]::-webkit-outer-spin-button,
+          input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          
+          input[type="number"] {
+            -moz-appearance: textfield; /* For Firefox */
+          }
+        `}
+			</style>
 			<div className="flex flex-col space-y-4 w-[500px]">
 				<div className="text-sm text-gray-500 flex items-center gap-2">
 					<BiTime className="w-4 h-4" />
@@ -54,6 +67,11 @@ function TimeoutSettings() {
 							onChange={(e) =>
 								setInputValue(parseInt(e.target.value) || "")
 							}
+							style={{
+								WebkitAppearance: "none",
+								MozAppearance: "textfield",
+								margin: 0,
+							}}
 							onFocus={handleFocus}
 							className="w-full px-4 py-2 border border-gray-200 rounded-lg 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 
