@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
 import nodeUrl from "../../links";
 
+import { IoCloudDownloadOutline } from "react-icons/io5";
+
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
@@ -144,16 +146,10 @@ const DownloaderModal = () => {
 
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
-			<div className="bg-white w-96 rounded-lg shadow-xl p-8 relative">
-				<button
-					onClick={closeModal}
-					className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-				>
-					<FaTimes />
-				</button>
-
+			<div className="bg-white w-100 rounded-lg shadow-xl p-8 relative">
 				{downloadStatus === "idle" && (
-					<div>
+					<div className="w-[500px]">
+						<IoCloudDownloadOutline className="text-6xl text-center text-blue-900 flex justify-center mx-auto mb-5" />
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
 							Download Settings
 						</h2>
@@ -163,7 +159,7 @@ const DownloaderModal = () => {
 						</p>
 						<button
 							onClick={startDownload}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
 						>
 							Start Sync
 						</button>
@@ -171,7 +167,7 @@ const DownloaderModal = () => {
 				)}
 
 				{downloadStatus === "downloading" && (
-					<div className="text-center">
+					<div className="text-center w-[500px]">
 						<div className="flex justify-center items-center space-x-4 mb-4">
 							<FaSpinner className="animate-spin text-blue-600 text-4xl" />
 						</div>
@@ -180,7 +176,7 @@ const DownloaderModal = () => {
 				)}
 
 				{downloadStatus === "completed" && (
-					<div className="text-center">
+					<div className="text-center w-[500px]">
 						<FaCheckCircle className="text-green-500 text-4xl mb-6" />
 						<h2 className="text-xl font-semibold text-gray-800 mb-4">
 							Sync Complete!
@@ -198,7 +194,7 @@ const DownloaderModal = () => {
 				)}
 
 				{downloadStatus === "error" && (
-					<div className="text-center">
+					<div className="text-center w-[500px]">
 						<FaTimes className="text-red-500 text-4xl mb-6" />
 						<h2 className="text-xl font-semibold text-gray-800 mb-4">
 							Sync Failed

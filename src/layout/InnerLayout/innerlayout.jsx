@@ -15,7 +15,7 @@ function InnerLayoutSection({ children }) {
 	};
 
 	return (
-		<div className="flex min-h-screen bg-slate-100">
+		<div className="flex h-[90vh] bg-slate-100">
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div className={`flex-1 ${isSidebarExpanded ? "ml-64" : "ml-20"}`}>
