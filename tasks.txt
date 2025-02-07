@@ -4,8 +4,6 @@ bosilsa qayta qayta bilishi kerak.
 
 - birinchi sync ga innerHeader dagi barcha functionlarni berib kere
 
-- "x" knopkaga chiqmoqchimisz degan narsani barchasiga qo'yish kerak (intro, login, home, sales)
-
 - user settings qayta qayta backend table ga yozilishini togrilash kerak
 
 - skidka berishda agar savdo 0 som bo'lsa, savdo berishda error chiqarish kerak
