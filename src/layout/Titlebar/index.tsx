@@ -7,6 +7,14 @@ import {
 } from "react-icons/io5";
 import logo from "../../assets/icon.png";
 
+import { ImExit } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
+
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
+import { IoExitOutline } from "react-icons/io5";
+
 import { TbArrowsDiagonalMinimize2 } from "react-icons/tb";
 import { TbMaximize } from "react-icons/tb";
 
@@ -20,6 +28,10 @@ export const Titlebar: FC = () => {
 		const icon = document.getElementById("icon") as HTMLElement;
 		icon.ondragstart = () => false;
 	});
+
+	const [language] = useLang();
+
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
 	const onMinimize = () => currentWindow.minimize();
 	const onMaximize = () => {
@@ -58,11 +70,55 @@ export const Titlebar: FC = () => {
 				<button
 					title="Close"
 					className="close-button focus:outline-none hover:bg-gray-700 p-1"
-					onClick={onQuit}
+					onClick={() => setIsExitModalOpen(true)}
 				>
 					<IoCloseOutline />
 				</button>
 			</div>
+
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-10  bg-black bg-opacity-80 flex items-center justify-center p-8">
+					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-10 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<IoExitOutline className="text-5xl font-bold mb-4 flex justify-center mx-auto text-center" />
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								{
+									content[language as string].salesPage
+										.footerExit
+								}
+							</h2>
+							<p className="text-gray-600 mb-6">
+								{
+									content[language as string].salesPage
+										.footerExitConfirm
+								}
+							</p>
+						</div>
+						<div className="flex space-x-4">
+							<button
+								onClick={onQuit}
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								{
+									content[language as string].salesPage
+										.footerExitYes
+								}
+							</button>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								{
+									content[language as string].salesPage
+										.headerDiscountCancel
+								}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
