@@ -4,6 +4,7 @@ import nodeUrl from "../../links";
 import { IoCloudDownloadOutline } from "react-icons/io5";
 import { MdErrorOutline } from "react-icons/md";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -192,7 +193,9 @@ const DownloaderModal = () => {
 						<div className="flex justify-center items-center space-x-4 mb-4">
 							<FaSpinner className="animate-spin text-blue-600 text-5xl" />
 						</div>
-						<p className="text-gray-600 text-2xl">Syncing...</p>
+						<p className="text-gray-600 text-2xl">
+							Пожалуйста, подождите, идет синхронизация.
+						</p>
 					</div>
 				)}
 
@@ -230,12 +233,13 @@ const DownloaderModal = () => {
 							>
 								Try Again
 							</button>
-							<button
+							<NavLink
+								to="/intro"
 								onClick={() => setDownloadStatus("idle")}
 								className="w-full mx-3 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
 							>
 								KSB-ID dan chiqish
-							</button>
+							</NavLink>
 						</div>
 					</div>
 				)}
