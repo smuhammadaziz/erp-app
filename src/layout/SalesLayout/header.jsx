@@ -479,7 +479,7 @@ function SalesPageLayoutHeader() {
 														{
 															findObjectById(
 																payment.cash,
-															).name
+															)?.name
 														}
 													</span>
 													<span className="font-medium">
