@@ -94,10 +94,7 @@ export const Titlebar: FC = () => {
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
 								<ImExit className="mr-2 text-xl" />
-								{
-									content[language as string].salesPage
-										.footerExitYes
-								}
+								OK
 							</button>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
