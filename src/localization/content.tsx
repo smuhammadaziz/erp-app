@@ -178,6 +178,20 @@ type Content = {
 			exit: string;
 			exitTest: string;
 		};
+		firstSync: {
+			downloadSettings: string;
+			clickToBelow: string;
+			startSync: string;
+			pleaseWait: string;
+			syncComplete: string;
+			dataSuccessfullySynced: string;
+			syncFailed: string;
+			deviceAlreadyRegistered: string;
+			tryAgain: string;
+			goToKSB: string;
+			noInternet: string;
+			pleaseCheck: string;
+		};
 	};
 };
 
@@ -369,6 +383,23 @@ const content: Content = {
 			exit: "Чиқиш",
 			exitTest: "Дастурда ишни якунламоқчимисиз?",
 		},
+		firstSync: {
+			downloadSettings: "Синхронизацияни бошланг",
+			clickToBelow: "Бошланғич маълумотларингизни юклаб олинг",
+			startSync: "Бошлаш",
+			pleaseWait: "Илтимос кутинг, амалиёт бажарилмоқда",
+			syncComplete: "Синхронизация тугади",
+			dataSuccessfullySynced:
+				"Маълумотларингиз муваффақиятли синхронизация қилинди",
+			syncFailed: "Синхронизация жараёнида хатолик",
+			deviceAlreadyRegistered:
+				"Бу Фойдаланувчи аллақачон рўйхатдан ўтган.",
+			tryAgain: "Қайта уриниб кўринг",
+			goToKSB: "KSB-ID дан чиқиш",
+			noInternet: "Интернетга уланмаган",
+			pleaseCheck:
+				"Бошланғич маълумотларингизни синхронизация қилиш учун интернетга уланишингиз керак. ",
+		},
 	},
 	ru: {
 		intro: {
@@ -558,6 +589,21 @@ const content: Content = {
 		exit: {
 			exit: "Выход",
 			exitTest: "Хотите завершить работу в программе?",
+		},
+		firstSync: {
+			downloadSettings: "Начать синхронизацию",
+			clickToBelow: "Загрузите свои исходные данные",
+			startSync: "Начать",
+			pleaseWait: "Пожалуйста подождите, процесс продолжается",
+			syncComplete: "Синхронизация закончена",
+			dataSuccessfullySynced: "Ваши данные были успешно синхронизированы",
+			syncFailed: "Ошибка во время процесса синхронизации",
+			deviceAlreadyRegistered: "Это пользователь уже зарегистрировано.",
+			tryAgain: "Попробуйте еще раз.",
+			goToKSB: "Выйти из KSB-ID",
+			noInternet: "Нет подключения к Интернету",
+			pleaseCheck:
+				"Чтобы синхронизировать ваши исходные данные, вам необходимо подключиться к Интернету. ",
 		},
 	},
 };

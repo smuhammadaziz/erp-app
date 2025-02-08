@@ -1,5 +1,3 @@
-- birinchi sync da tillarni togrilab chiqish kerak
-
 - savdo oynasida default optom + usd bolib qolmoqda, shuni togrilash kere
 
 - skidka berishda agar savdo 0 som bo'lsa, savdo berishda error chiqarish kerak

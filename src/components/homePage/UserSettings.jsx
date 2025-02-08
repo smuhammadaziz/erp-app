@@ -6,11 +6,16 @@ import { MdErrorOutline } from "react-icons/md";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 const DownloaderModal = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [downloadStatus, setDownloadStatus] = useState("idle");
 	const [error, setError] = useState(null);
 	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
+
+	const [language] = useLang("uz");
 
 	const getStorageItem = (key, required = true) => {
 		const value = localStorage.getItem(key);
@@ -274,18 +279,17 @@ const DownloaderModal = () => {
 				{downloadStatus === "idle" && (
 					<div className="w-[500px]">
 						<IoCloudDownloadOutline className="text-6xl text-center text-blue-900 flex justify-center mx-auto mb-5" />
-						<h2 className="text-2xl font-semibold text-gray-800 mb-4 text-center">
-							Download Settings
+						<h2 className="text-2xl font-semibold text-black mb-4 text-center">
+							{content[language].firstSync.downloadSettings}
 						</h2>
-						<p className="text-gray-600 text-center mb-6">
-							Click below to initiate syncing and logging the
-							data.
+						<p className="text-black text-center mb-6">
+							{content[language].firstSync.clickToBelow}
 						</p>
 						<button
 							onClick={startDownload}
 							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
 						>
-							Start Sync
+							{content[language].firstSync.startSync}
 						</button>
 					</div>
 				)}
@@ -296,7 +300,7 @@ const DownloaderModal = () => {
 							<FaSpinner className="animate-spin text-blue-600 text-5xl" />
 						</div>
 						<p className="text-gray-600 text-2xl">
-							Пожалуйста, подождите, идет синхронизация.
+							{content[language].firstSync.pleaseWait}
 						</p>
 					</div>
 				)}
@@ -305,10 +309,10 @@ const DownloaderModal = () => {
 					<div className="text-center w-[500px]">
 						<FaCheckCircle className="text-6xl text-center text-green-600 flex justify-center mx-auto mb-5" />
 						<h2 className="text-2xl font-semibold text-black mb-4">
-							Sync Complete!
+							{content[language].firstSync.syncComplete}
 						</h2>
 						<p className="text-black mb-6 text-lg">
-							Your settings have been synced successfully.
+							{content[language].firstSync.dataSuccessfullySynced}
 						</p>
 						<button
 							onClick={() => {
@@ -319,7 +323,7 @@ const DownloaderModal = () => {
 							}}
 							className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
 						>
-							Done
+							OK
 						</button>
 					</div>
 				)}
@@ -328,23 +332,26 @@ const DownloaderModal = () => {
 					<div className="text-center w-[500px]">
 						<MdErrorOutline className="text-red-500 text-6xl mb-6 flex justify-center mx-auto" />
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
-							Синхронизация не удалась
+							{content[language].firstSync.syncFailed}
 						</h2>
 						<p className="text-red-600 mb-6">
-							Устройство уже зарегистрировано
+							{
+								content[language].firstSync
+									.deviceAlreadyRegistered
+							}
 						</p>
 						<div className="flex items-center ">
 							<button
-								onClick={() => setDownloadStatus("idle")}
+								onClick={() => setDownloadStatus("completed")}
 								className="w-full mx-3  bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
 							>
-								Try Again
+								{content[language].firstSync.tryAgain}
 							</button>
 							<NavLink
 								to="/intro"
 								className="w-full mx-3 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition"
 							>
-								KSB-ID dan chiqish
+								{content[language].firstSync.goToKSB}
 							</NavLink>
 						</div>
 					</div>
@@ -357,15 +364,14 @@ const DownloaderModal = () => {
 								<span className="text-center mx-auto justify-center block">
 									<MdOutlinePortableWifiOff
 										size={70}
-										className="text-center mx-auto inline-block py-5"
+										className="text-center text-6xl mx-auto inline-block py-5"
 									/>
 								</span>
 								<h2 className="text-2xl font-bold text-gray-800 mb-2">
-									No Internet Connection
+									{content[language].firstSync.noInternet}
 								</h2>
 								<p className="text-gray-600 mb-4">
-									Please check your network connection and try
-									again.
+									{content[language].firstSync.pleaseCheck}
 								</p>
 							</div>
 							<button
@@ -375,7 +381,7 @@ const DownloaderModal = () => {
 								}}
 								className="w-full bg-blue-500 text-white py-3 rounded-xl hover:bg-blue-600 transition-colors duration-300 font-semibold"
 							>
-								Try Again
+								{content[language].firstSync.tryAgain}
 							</button>
 						</div>
 					</div>
