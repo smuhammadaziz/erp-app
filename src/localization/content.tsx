@@ -174,6 +174,10 @@ type Content = {
 			changeSuccess: string;
 			errorToast: string;
 		};
+		exit: {
+			exit: string;
+			exitTest: string;
+		};
 	};
 };
 
@@ -361,6 +365,10 @@ const content: Content = {
 			changeSuccess: "Парол муваффақиятли ўзгартирилди",
 			errorToast: "Хатолик.  Парол ўзгартиришда хатолик мавжуд",
 		},
+		exit: {
+			exit: "Чиқиш",
+			exitTest: "Дастурда ишни якунламоқчимисиз?",
+		},
 	},
 	ru: {
 		intro: {
@@ -546,6 +554,10 @@ const content: Content = {
 			oldPasswordWrong: "Текущий пароль неверный.",
 			changeSuccess: "Пароль успешно изменен.",
 			errorToast: "Ошибка. При смене пароля произошла ошибка.",
+		},
+		exit: {
+			exit: "Выход",
+			exitTest: "Хотите завершить работу в программе?",
 		},
 	},
 };

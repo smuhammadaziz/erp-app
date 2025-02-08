@@ -82,16 +82,10 @@ export const Titlebar: FC = () => {
 						<div className="text-center">
 							<IoExitOutline className="text-5xl font-bold mb-4 flex justify-center mx-auto text-center" />
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">
-								{
-									content[language as string].salesPage
-										.footerExit
-								}
+								{content[language as string].exit.exit}
 							</h2>
-							<p className="text-gray-600 mb-6">
-								{
-									content[language as string].salesPage
-										.footerExitConfirm
-								}
+							<p className="text-black text-lg mb-6">
+								{content[language as string].exit.exitTest}
 							</p>
 						</div>
 						<div className="flex space-x-4">
