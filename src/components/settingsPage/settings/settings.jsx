@@ -7,7 +7,6 @@ import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 import nodeUrl from "../../../links";
 
-// Custom locale for Uzbek Cyrillic
 moment.defineLocale("uz-cyrl", {
 	months: "январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split(
 		"_",
@@ -129,47 +128,13 @@ const DeviceIcon = ({ type }) => {
 	);
 };
 
-const CurrentDeviceBadge = () => (
-	<span className="inline-flex items-center px-2 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded-full">
-		<svg
-			className="w-3 h-3 mr-1"
-			viewBox="0 0 24 24"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				d="M12 2L2 7L12 12L22 7L12 2Z"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<path
-				d="M2 17L12 22L22 17"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-			<path
-				d="M2 12L12 17L22 12"
-				stroke="currentColor"
-				strokeWidth="2"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-			/>
-		</svg>
-		Current Device
-	</span>
-);
-
 const ActiveSessions = () => {
 	const [language, setLanguage] = useLang("uz");
 	const [users, setUsers] = useState([]);
 	const device_id = localStorage.getItem("device_id");
 	const ksb_id = localStorage.getItem("ksbIdNumber");
+	const userType = localStorage.getItem("userType");
 
-	// Set moment locale based on selected language
 	const getLocalizedTime = (time) => {
 		if (language === "ru") {
 			moment.locale("ru");
@@ -196,58 +161,102 @@ const ActiveSessions = () => {
 				console.error("Error fetching products:", error);
 			}
 		};
-
 		fetchProducts();
 	}, []);
 
-	return (
-		<div className="w-full bg-white rounded-xl shadow-lg overflow-hidden">
-			<div className="p-6 border-b border-slate-100">
-				<div className="flex items-center justify-between">
-					<h2 className="text-xl font-bold text-slate-800">
-						{content[language].settingsUsers.users}
-					</h2>
-					<span className="px-3 py-1 text-sm font-medium text-slate-600 bg-slate-100 rounded-full">
-						{users.length} {content[language].settingsUsers.active}
-					</span>
-				</div>
-			</div>
+	const sortedUsers = [...users].sort(
+		(a, b) => new Date(b.last_entered_time) - new Date(a.last_entered_time),
+	);
 
-			<div className="p-6 space-y-4">
-				{users.map((session) => (
-					<div
-						key={session.date}
-						className={`group relative overflow-hidden rounded-lg border bg-white p-4 transition-all duration-200 hover:shadow-md
-                        ${
-							session.isCurrentDevice
-								? "border-blue-200 bg-blue-50/30"
-								: "border-slate-200"
-						}`}
-					>
-						<div className="flex items-center justify-between gap-4">
-							<div className="flex items-center gap-4">
-								<DeviceIcon type="Laptop" />
-								<div className="space-y-1">
-									<div className="flex items-center gap-2">
-										<h3 className="font-medium text-slate-900">
-											{session.usertype}
-										</h3>
-										{session.isCurrentDevice && (
-											<CurrentDeviceBadge />
-										)}
+	const currentUserSession = sortedUsers.find(
+		(session) => session.usertype === userType,
+	);
+	const otherSessions = sortedUsers.filter(
+		(session) => session.usertype !== userType,
+	);
+
+	return (
+		<div className="w-full bg-white rounded-xl shadow-lg">
+			<div className="p-6">
+				<div className="flex items-center justify-between mb-6">
+					<h2 className="text-2xl font-semibold text-gray-800">
+						{content[language].settingsUsers.users} ({users.length})
+					</h2>
+					{/* <span className="px-4 py-1 text-sm font-medium text-gray-600 bg-gray-100 rounded-full">
+						{users.length} {content[language].settingsUsers.active}
+					</span> */}
+				</div>
+
+				{currentUserSession && (
+					<div className="mb-6">
+						<div className="text-sm font-medium text-gray-500 mb-3">
+							{content[language].settingsUsers.current}
+						</div>
+						<div className="bg-blue-50 rounded-lg p-4 border border-blue-100">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center space-x-4">
+									<div className="">
+										<DeviceIcon
+											type="Laptop"
+											className="w-6 h-6 text-blue-600"
+										/>
+									</div>
+									<div>
+										<div className="font-medium text-blue-900">
+											{currentUserSession.usertype}
+										</div>
+										<div className="text-sm text-blue-600">
+											{
+												content[language].settingsUsers
+													.currentDevice
+											}
+										</div>
 									</div>
 								</div>
+								<span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
+									{getLocalizedTime(
+										currentUserSession.last_entered_time,
+									)}
+								</span>
 							</div>
-							<div className="flex items-center gap-4">
-								<span className="text-sm text-slate-400">
+						</div>
+					</div>
+				)}
+
+				<div className="space-y-1">
+					{otherSessions.length > 0 && (
+						<div className="text-sm font-medium text-gray-500 mb-3">
+							{content[language].settingsUsers.others}
+						</div>
+					)}
+					{otherSessions.map((session) => (
+						<div
+							key={session.date}
+							className="group hover:bg-gray-50 p-4 rounded-lg transition-all duration-200 border border-gray-100"
+						>
+							<div className="flex items-center justify-between">
+								<div className="flex items-center space-x-4">
+									<div className="">
+										<DeviceIcon
+											type="Laptop"
+											className="w-5 h-5 text-gray-600"
+										/>
+									</div>
+									<div>
+										<div className="font-medium text-gray-900">
+											{session.usertype}
+										</div>
+									</div>
+								</div>
+								<span className="px-3 py-1 text-sm font-medium text-gray-600 bg-gray-100 rounded-full">
 									{getLocalizedTime(
 										session.last_entered_time,
 									)}
 								</span>
 							</div>
 						</div>
-					</div>
-				))}
+					))}
+				</div>
 			</div>
 		</div>
 	);

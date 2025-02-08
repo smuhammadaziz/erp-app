@@ -106,6 +106,9 @@ type Content = {
 		settingsUsers: {
 			users: string;
 			active: string;
+			current: string;
+			currentDevice: string;
+			others: string;
 			security: string;
 			recovery: string;
 			logout: string;
@@ -308,6 +311,9 @@ const content: Content = {
 		settingsUsers: {
 			users: "Фойдаланувчилар",
 			active: "Актив",
+			current: "Жорий фойдаланувчи",
+			currentDevice: "Жорий",
+			others: "Бошқа фойдаланувчилар",
 			security: "Хавсизлик",
 			recovery: "Қайта тиклаш",
 			logout: "Аккаунтдан чиқиш",
@@ -513,6 +519,9 @@ const content: Content = {
 		settingsUsers: {
 			users: "Пользователи",
 			active: "Актив",
+			current: "Текущий пользователь",
+			currentDevice: "Текущий",
+			others: "Другие пользователи",
 			security: "Безопасность",
 			recovery: "Восстановление",
 			logout: "Выйти",
