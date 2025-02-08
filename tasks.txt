@@ -34,6 +34,9 @@ bor yoki yoqligidan qatiy nazar
  oyna yo'qolib ketishi kerak va bitta refresh bo'lishi kerak, agar yangilanmasa, har 60 sekundda
  orqa fonda zapros yuborib turishim kerak.
 
+
+
+
 - aktiv seanslarni o'zgartirish kerak, telegram ga oxshab
 
 - password change ni yaxshilab tekshirish kerak, enter bosganda keyingisiga o'tishi kerak
@@ -64,3 +67,4 @@ client bilan chiqadi
 - savdolar royhatiga yangi modal dizayn qilish kerak
 
 -
+

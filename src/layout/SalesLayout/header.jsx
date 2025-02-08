@@ -484,10 +484,7 @@ function SalesPageLayoutHeader() {
 													</span>
 													<span className="font-medium">
 														{parseFloat(
-															payment.sum -
-																selectedSale
-																	.details[0]
-																	.discount,
+															payment.sum,
 														).toLocaleString(
 															"ru-RU",
 															{
