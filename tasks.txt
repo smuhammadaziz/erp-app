@@ -1,7 +1,5 @@
 - savdo oynasida default optom + usd bolib qolmoqda, shuni togrilash kere
 
-- skidka berishda agar savdo 0 som bo'lsa, savdo berishda error chiqarish kerak
-
 - savdo yuborilayotgan paytda, comment ni qo'lda kiritadigan qilish kerak
 
 - savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 

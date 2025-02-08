@@ -267,7 +267,13 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						onClick={handleSubmit}
-						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
+						disabled={finalAmount === 0}
+						className={`w-40 py-3 px-6 rounded-md text-xl transition duration-200 
+							${
+								finalAmount === 0
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-green-600 hover:bg-green-700 text-white"
+							}`}
 					>
 						OK
 					</button>
