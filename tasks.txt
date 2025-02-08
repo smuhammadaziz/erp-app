@@ -31,8 +31,6 @@ bor yoki yoqligidan qatiy nazar
 
 
 
-- aktiv seanslarni o'zgartirish kerak, telegram ga oxshab
-
 - password change ni yaxshilab tekshirish kerak, enter bosganda keyingisiga o'tishi kerak
 
 - qayta tiklashni boshidan qilish kerak
