@@ -1,10 +1,6 @@
-- birinchi sync da internetni majburiy qilish kerak, yani agar internet yo'q bo'sa bitta 
-katta oyna chiqishi kerak va bu modalda "qayta urinish" degan knopka bo'lishi kerak, va qayta qayta
-bosilsa qayta qayta bilishi kerak. 
+- birinchi sync da tillarni togrilab chiqish kerak
 
-- birinchi sync ga innerHeader dagi barcha functionlarni berib kere
-
-- user settings qayta qayta backend table ga yozilishini togrilash kerak
+- savdo oynasida default optom + usd bolib qolmoqda, shuni togrilash kere
 
 - skidka berishda agar savdo 0 som bo'lsa, savdo berishda error chiqarish kerak
 
