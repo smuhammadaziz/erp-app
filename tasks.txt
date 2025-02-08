@@ -58,5 +58,7 @@ client bilan chiqadi
 
 - savdolar royhatiga yangi modal dizayn qilish kerak
 
+
+
 -
 

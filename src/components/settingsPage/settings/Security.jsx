@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdWifiOff } from "react-icons/md";
 import SectionContainer from "./SectionContainer";
@@ -15,6 +15,8 @@ const PasswordInput = ({
 	showPassword,
 	onToggleVisibility,
 	disabled,
+	onKeyDown,
+	inputRef,
 }) => (
 	<div className="w-full space-y-2">
 		<label className="text-sm font-medium text-gray-700">{label}</label>
@@ -23,7 +25,9 @@ const PasswordInput = ({
 				type={showPassword ? "text" : "password"}
 				value={value}
 				onChange={onChange}
+				onKeyDown={onKeyDown}
 				disabled={disabled}
+				ref={inputRef}
 				className="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
 				placeholder=""
 			/>
@@ -68,6 +72,10 @@ function Security() {
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 
 	const [language, setLanguage] = useLang("uz");
+
+	const currentPasswordRef = useRef(null);
+	const newPasswordRef = useRef(null);
+	const confirmPasswordRef = useRef(null);
 
 	useEffect(() => {
 		const handleOnline = () => setIsOnline(true);
@@ -136,6 +144,25 @@ function Security() {
 		}
 	};
 
+	const handleKeyDown = (e, inputField) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			switch (inputField) {
+				case "current":
+					newPasswordRef.current?.focus();
+					break;
+				case "new":
+					confirmPasswordRef.current?.focus();
+					break;
+				case "confirm":
+					handleUpdatePassword();
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
 	return (
 		<>
 			<Toaster position="bottom-right" richColors />
@@ -161,6 +188,10 @@ function Security() {
 										)
 									}
 									disabled={!isOnline}
+									onKeyDown={(e) =>
+										handleKeyDown(e, "current")
+									}
+									inputRef={currentPasswordRef}
 								/>
 							</div>
 
@@ -179,6 +210,8 @@ function Security() {
 										setShowNewPassword(!showNewPassword)
 									}
 									disabled={!isOnline}
+									onKeyDown={(e) => handleKeyDown(e, "new")}
+									inputRef={newPasswordRef}
 								/>
 							</div>
 
@@ -199,6 +232,10 @@ function Security() {
 										)
 									}
 									disabled={!isOnline}
+									onKeyDown={(e) =>
+										handleKeyDown(e, "confirm")
+									}
+									inputRef={confirmPasswordRef}
 								/>
 							</div>
 						</div>
