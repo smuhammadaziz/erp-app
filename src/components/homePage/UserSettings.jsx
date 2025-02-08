@@ -317,6 +317,7 @@ const DownloaderModal = () => {
 						<button
 							onClick={() => {
 								closeModal();
+								window.location.reload();
 								handleUserSettings();
 								handleSetCurrency();
 								handleDeleteItems();
