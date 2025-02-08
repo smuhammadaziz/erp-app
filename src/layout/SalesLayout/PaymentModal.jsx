@@ -17,6 +17,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const [price, setPrice] = useState(0);
 	const [discount, setDiscount] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
+	const [comment, setComment] = useState("");
 
 	const [language] = useLang("uz");
 
@@ -169,7 +170,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 					rate: data.mainRate,
 					currency: data.mainCurrency,
 					discount: data.discount,
-					comment: data.mainComment,
+					comment: comment,
 					below_cost: data.mainBelowCost,
 				},
 			],
@@ -408,6 +409,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									content?.[language]?.salesPage
 										?.sidebarCashComment ?? ""
 								}...`}
+								onChange={(e) => setComment(e.target.value)}
 								rows="4"
 							/>
 						</div>
