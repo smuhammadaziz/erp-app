@@ -33,7 +33,7 @@ function IntroPageKSB() {
 
 	const makeApiRequest = async (ksbId) => {
 		const controller = new AbortController();
-		const timeoutId = setTimeout(() => controller.abort(), 5000);
+		const timeoutId = setTimeout(() => controller.abort(), 120000);
 
 		try {
 			const response = await fetch(`${nodeUrl}/api/${ksbId}`, {
