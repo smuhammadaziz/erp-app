@@ -33,12 +33,6 @@ const SalesPageLayoutFooter = () => {
 
 	const [language] = useLang("uz");
 
-	useEffect(() => {
-		const storedCurrencyKey =
-			localStorage.getItem("currencyKey") || currencies[0]?.item_id;
-		setCurrencyKey(storedCurrencyKey);
-	}, [currencies]);
-
 	const reorderedCurrencies = [
 		currencies.find((currency) => currency.item_id === currencyKey),
 		...currencies.filter((currency) => currency.item_id !== currencyKey),
@@ -52,12 +46,6 @@ const SalesPageLayoutFooter = () => {
 	};
 
 	const [priceTypeKeyData, setPriceTypeKeyData] = useState("");
-
-	useEffect(() => {
-		const storedPriceTypeKey =
-			localStorage.getItem("priceTypeKey") || prices[0]?.item_id;
-		setPriceTypeKeyData(storedPriceTypeKey);
-	}, [prices]);
 
 	const reorderedPrices = [
 		prices.find((price) => price.item_id === priceTypeKeyData),
@@ -152,6 +140,12 @@ const SalesPageLayoutFooter = () => {
 				}
 				const data = await response.json();
 				setCurrencies(data);
+
+				if (!localStorage.getItem("currencyKey") && data.length > 0) {
+					const lastCurrency = data[data.length - 1];
+					localStorage.setItem("currencyKey", lastCurrency.item_id);
+					setCurrencyKey(lastCurrency.item_id);
+				}
 			} catch (error) {
 				console.error("Error fetching currencies:", error);
 			}
@@ -171,6 +165,29 @@ const SalesPageLayoutFooter = () => {
 				}
 				const data = await response.json();
 				setPrices(data);
+
+				if (data.length > 0) {
+					const lastPrice = data[data.length - 1];
+
+					if (!localStorage.getItem("priceTypeKey")) {
+						localStorage.setItem("priceTypeKey", lastPrice.item_id);
+						setPriceTypeKeyData(lastPrice.item_id);
+					}
+
+					if (!localStorage.getItem("matchingProductByCurrency")) {
+						localStorage.setItem(
+							"matchingProductByCurrency",
+							lastPrice.productByCurrency,
+						);
+					}
+
+					if (!localStorage.getItem("falseCurrencyBoolean")) {
+						localStorage.setItem(
+							"falseCurrencyBoolean",
+							lastPrice.currency,
+						);
+					}
+				}
 			} catch (error) {
 				console.error("Error fetching prices:", error);
 			}

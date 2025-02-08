@@ -507,43 +507,61 @@ function ProductsTable({
 										}}
 									>
 										{(() => {
-											const isMatchingProduct =
-												matchingProductByCurrency ===
-												"true";
-
-											const matchingPrice =
-												product.price.find(
-													(price) =>
-														price.type ===
-														priceTypeKeyData,
+											const currencyKeyValue =
+												localStorage.getItem(
+													"currencyKey",
+												);
+											const priceKeyValue =
+												localStorage.getItem(
+													"priceTypeKey",
 												);
 
-											if (!matchingPrice) {
-												return "";
-											}
+											if (
+												currencyKeyValue &&
+												priceKeyValue
+											) {
+												const isMatchingProduct =
+													matchingProductByCurrency ===
+													"true";
 
-											if (product.currency) {
-												if (
-													currencyKeyData !==
-													product.currency
-												) {
-													return currencyData[
+												const matchingPrice =
+													product.price.find(
+														(price) =>
+															price.type ===
+															priceTypeKeyData,
+													);
+
+												if (!matchingPrice) {
+													return "";
+												}
+
+												if (product.currency) {
+													if (
+														currencyKeyData !==
 														product.currency
-													];
-												} else {
-													if (isMatchingProduct) {
+													) {
 														return currencyData[
 															product.currency
 														];
 													} else {
-														return currencyData[
-															falseCurrencyBoolean
-														];
+														if (isMatchingProduct) {
+															return currencyData[
+																product.currency
+															];
+														} else {
+															return currencyData[
+																falseCurrencyBoolean
+															];
+														}
 													}
 												}
-											}
 
-											return "";
+												return "";
+											} else {
+												return currencyData[
+													product.currency
+												];
+											}
 										})()}
 									</td>
 									<td
