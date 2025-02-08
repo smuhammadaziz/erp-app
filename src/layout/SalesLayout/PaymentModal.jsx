@@ -25,6 +25,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
+	const ipaddress = localStorage.getItem("ipaddress:port");
+	const database = localStorage.getItem("mainDatabase");
+	const username = localStorage.getItem("userType");
+	const password = localStorage.getItem("userPassword");
 	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
@@ -119,11 +123,24 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 		fetchCurrencyData();
 	}, [data.products]);
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+			if (!online) return false;
+
+			const response = await fetch("https://www.google.com", {
+				mode: "no-cors",
+			});
+			return response.status >= 200 && response.status < 500;
+		} catch (error) {
+			return false;
+		}
+	};
+
 	const handleSaveSales = async (e) => {
 		e.preventDefault();
 
 		let currentTime = new Date();
-
 		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
 
 		let clientId = "";
@@ -237,6 +254,32 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 			}
 		} catch (err) {
 			console.log("error creating empty sales", err);
+		}
+
+		const isOnline = await checkInternetConnection();
+		if (isOnline) {
+			const body = {
+				ip: ipaddress,
+				project: database,
+				username: username,
+				password: password,
+			};
+			try {
+				const response = await fetch(
+					`${nodeUrl}/api/send/sales/${ksbIdNumber}`,
+					{
+						method: "POST",
+						body: JSON.stringify(body),
+					},
+				);
+				if (response.ok) {
+					console.log("Sent sales successfully.");
+				} else {
+					console.log("Failed to send sales.");
+				}
+			} catch (error) {
+				console.error("Error sending sales data:", error);
+			}
 		}
 
 		window.location.reload();

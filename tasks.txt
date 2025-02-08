@@ -1,11 +1,11 @@
 - savdo oynasida default optom + usd bolib qolmoqda, shuni togrilash kere
 
-- savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 
-"delivered" bo'ladi, yuborilmasa error console da chiqishi kere men korishim uchun
-
 - savdo yuborilgandan keyin, agar internet bo'lsa, birinchi table ga saqlayman, keyin yuborishim kerak,
  agar yuborilgan bo'lsa, serverga yuborildi degan malumotni chiqaraman, agar yuborilmasa, 
  xatoligini chiqarish kerak, u xatolikni korish uchun "more" ni bosib, toliq xatolikni ko'rish mumkin
+
+- savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 
+"delivered" bo'ladi, yuborilmasa error console da chiqishi kere men korishim uchun
 
 - agar internet yo'q bo'lsa, savdolar databazani o'ziga saqlanib turishi kerak, va men bergan vaqt bo'yicha
 masalan har 1 minutda savdolar yuborilishi kere
