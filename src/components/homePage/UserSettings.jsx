@@ -303,15 +303,14 @@ const DownloaderModal = () => {
 
 				{downloadStatus === "completed" && (
 					<div className="text-center w-[500px]">
-						<FaCheckCircle className="text-green-500 text-4xl mb-6" />
-						<h2 className="text-xl font-semibold text-gray-800 mb-4">
+						<FaCheckCircle className="text-6xl text-center text-green-600 flex justify-center mx-auto mb-5" />
+						<h2 className="text-2xl font-semibold text-black mb-4">
 							Sync Complete!
 						</h2>
-						<p className="text-gray-600 mb-6">
+						<p className="text-black mb-6 text-lg">
 							Your settings have been synced successfully.
 						</p>
 						<button
-							// onClick={closeModal}
 							onClick={() => {
 								closeModal();
 								handleUserSettings();
