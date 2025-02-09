@@ -126,13 +126,37 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	const checkInternetConnection = async () => {
 		try {
 			const online = window.navigator.onLine;
-			if (!online) return false;
+			console.log("Navigator online status:", online);
 
-			const response = await fetch("https://www.google.com", {
-				mode: "no-cors",
-			});
-			return response.status >= 200 && response.status < 500;
+			if (!online) {
+				console.log(
+					"No internet connection detected via navigator.onLine.",
+				);
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const credentials = Buffer.from(
+				`${userType}:${userPassword}`,
+			).toString("base64");
+
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+
+			console.log("Response status:", response.status);
+
+			return response.status === 200;
 		} catch (error) {
+			console.error("Error during internet connection check:", error);
 			return false;
 		}
 	};
@@ -259,75 +283,77 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 		const isOnline = await checkInternetConnection();
 		if (isOnline) {
-		}
-
-		if (data.products) {
-			newProcessedProductForSendAPI = data.products.map((product) => ({
-				product: product.product_id,
-				warehouse: product.product_warehouse,
-				currency: product.product_currency,
-				quantity: Number(product.soni),
-				price: Number(product.narxi),
-				sum: Number(product.summa),
-			}));
-		} else {
-			newProcessedProductForSendAPI = [];
-		}
-
-		const oneSale = {
-			sales: [
-				{
-					details: [
-						{
-							document: sales_id,
-							client: clientId,
-							warehouse: data.mainWarehouse,
-							price_type: data.mainPriceType,
-							rate: Number(data.mainRate),
-							currency: data.mainCurrency,
-							discount: Number(data.discount),
-							comment: comment,
-							below_cost: data.mainBelowCost === 1 ? true : false,
-						},
-					],
-					products: newProcessedProductForSendAPI,
-					payments: [
-						{
-							cash: mainCashData,
-							currency: data.mainCurrency,
-							sum: Number(data.summa - data.discount),
-						},
-					],
-				},
-			],
-		};
-
-		const salesBody = {
-			host: ipaddress,
-			authUser: username,
-			authPass: password,
-			database: database,
-			salesData: oneSale,
-			id: sales_id,
-		};
-
-		try {
-			const response = await fetch(`${nodeUrl}/api/send/one/sale`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(salesBody),
-			});
-
-			const data = await response.json();
-			if (response.ok) {
-				console.log("Sent sales successfully.");
+			if (data.products) {
+				newProcessedProductForSendAPI = data.products.map(
+					(product) => ({
+						product: product.product_id,
+						warehouse: product.product_warehouse,
+						currency: product.product_currency,
+						quantity: Number(product.soni),
+						price: Number(product.narxi),
+						sum: Number(product.summa),
+					}),
+				);
 			} else {
-				console.log("Failed to send sales.");
+				newProcessedProductForSendAPI = [];
 			}
-		} catch (error) {
-			console.error("Error sending sales data:", error);
+
+			const oneSale = {
+				sales: [
+					{
+						details: [
+							{
+								document: sales_id,
+								client: clientId,
+								warehouse: data.mainWarehouse,
+								price_type: data.mainPriceType,
+								rate: Number(data.mainRate),
+								currency: data.mainCurrency,
+								discount: Number(data.discount),
+								comment: comment,
+								below_cost:
+									data.mainBelowCost === 1 ? true : false,
+							},
+						],
+						products: newProcessedProductForSendAPI,
+						payments: [
+							{
+								cash: mainCashData,
+								currency: data.mainCurrency,
+								sum: Number(data.summa - data.discount),
+							},
+						],
+					},
+				],
+			};
+
+			const salesBody = {
+				host: ipaddress,
+				authUser: username,
+				authPass: password,
+				database: database,
+				salesData: oneSale,
+				id: sales_id,
+			};
+
+			try {
+				const response = await fetch(`${nodeUrl}/api/send/one/sale`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(salesBody),
+				});
+
+				const data = await response.json();
+				if (response.ok) {
+					console.log("Sent sales successfully.");
+				} else {
+					console.log("Failed to send sales.");
+				}
+			} catch (error) {
+				console.error("Error sending sales data:", error);
+			}
 		}
 
 		window.location.reload();
