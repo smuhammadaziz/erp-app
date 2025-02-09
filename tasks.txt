@@ -1,4 +1,3 @@
-
 - savdo yuborilgandan keyin, agar internet bo'lsa, birinchi table ga saqlayman, keyin yuborishim kerak,
  agar yuborilgan bo'lsa, serverga yuborildi degan malumotni chiqaraman, agar yuborilmasa, 
  xatoligini chiqarish kerak, u xatolikni korish uchun "more" ni bosib, toliq xatolikni ko'rish mumkin
@@ -64,3 +63,6 @@ client bilan chiqadi
 currency va price type ni so'rash kerak
 yani currency da sum muhimlilik darajasi bo'yicha
 va price type muhimlilik darajasi boyich
+
+
+create sales da bitta id lik savdoni yuborsam ham yuborilmoqda, shuni sorash
