@@ -30,13 +30,9 @@ const SalesPageLayoutFooter = () => {
 	const navigate = useNavigate();
 
 	const [currencyKey, setCurrencyKey] = useState("");
+	const [priceTypeKeyData, setPriceTypeKeyData] = useState("");
 
 	const [language] = useLang("uz");
-
-	const reorderedCurrencies = [
-		currencies.find((currency) => currency.item_id === currencyKey),
-		...currencies.filter((currency) => currency.item_id !== currencyKey),
-	].filter(Boolean);
 
 	const handleChange = (e) => {
 		const selectedCurrency = e.target.value;
@@ -44,13 +40,6 @@ const SalesPageLayoutFooter = () => {
 		localStorage.setItem("currencyKey", selectedCurrency);
 		window.dispatchEvent(new Event("currencyChanged"));
 	};
-
-	const [priceTypeKeyData, setPriceTypeKeyData] = useState("");
-
-	const reorderedPrices = [
-		prices.find((price) => price.item_id === priceTypeKeyData),
-		...prices.filter((price) => price.item_id !== priceTypeKeyData),
-	].filter(Boolean);
 
 	const handleChangePriceType = (e) => {
 		const selectedPriceTypeKey = e.target.value;
@@ -141,7 +130,17 @@ const SalesPageLayoutFooter = () => {
 				const data = await response.json();
 				setCurrencies(data);
 
-				if (!localStorage.getItem("currencyKey") && data.length > 0) {
+				const savedCurrencyKey = localStorage.getItem("currencyKey");
+
+				// If there's a saved currency key and it exists in the data, use it
+				if (
+					savedCurrencyKey &&
+					data.some((curr) => curr.item_id === savedCurrencyKey)
+				) {
+					setCurrencyKey(savedCurrencyKey);
+				}
+				// Otherwise, if no currency is selected or saved currency doesn't exist anymore
+				else if (data.length > 0) {
 					const lastCurrency = data[data.length - 1];
 					localStorage.setItem("currencyKey", lastCurrency.item_id);
 					setCurrencyKey(lastCurrency.item_id);
@@ -166,27 +165,41 @@ const SalesPageLayoutFooter = () => {
 				const data = await response.json();
 				setPrices(data);
 
-				if (data.length > 0) {
+				const savedPriceTypeKey = localStorage.getItem("priceTypeKey");
+
+				// If there's a saved price type and it exists in the data, use it
+				if (
+					savedPriceTypeKey &&
+					data.some((price) => price.item_id === savedPriceTypeKey)
+				) {
+					const savedPrice = data.find(
+						(price) => price.item_id === savedPriceTypeKey,
+					);
+					setPriceTypeKeyData(savedPriceTypeKey);
+
+					// Update other related values from the saved price
+					localStorage.setItem(
+						"matchingProductByCurrency",
+						savedPrice.productByCurrency,
+					);
+					localStorage.setItem(
+						"falseCurrencyBoolean",
+						savedPrice.currency,
+					);
+				}
+				// Otherwise, if no price type is selected or saved price doesn't exist anymore
+				else if (data.length > 0) {
 					const lastPrice = data[data.length - 1];
-
-					if (!localStorage.getItem("priceTypeKey")) {
-						localStorage.setItem("priceTypeKey", lastPrice.item_id);
-						setPriceTypeKeyData(lastPrice.item_id);
-					}
-
-					if (!localStorage.getItem("matchingProductByCurrency")) {
-						localStorage.setItem(
-							"matchingProductByCurrency",
-							lastPrice.productByCurrency,
-						);
-					}
-
-					if (!localStorage.getItem("falseCurrencyBoolean")) {
-						localStorage.setItem(
-							"falseCurrencyBoolean",
-							lastPrice.currency,
-						);
-					}
+					localStorage.setItem("priceTypeKey", lastPrice.item_id);
+					localStorage.setItem(
+						"matchingProductByCurrency",
+						lastPrice.productByCurrency,
+					);
+					localStorage.setItem(
+						"falseCurrencyBoolean",
+						lastPrice.currency,
+					);
+					setPriceTypeKeyData(lastPrice.item_id);
 				}
 			} catch (error) {
 				console.error("Error fetching prices:", error);
@@ -195,6 +208,28 @@ const SalesPageLayoutFooter = () => {
 
 		fetchPrices();
 	}, [deviceId, ksbId]);
+
+	const reorderedCurrencies =
+		currencies.length > 0
+			? [
+					currencies.find(
+						(currency) => currency.item_id === currencyKey,
+					),
+					...currencies.filter(
+						(currency) => currency.item_id !== currencyKey,
+					),
+			  ].filter(Boolean)
+			: [];
+
+	const reorderedPrices =
+		prices.length > 0
+			? [
+					prices.find((price) => price.item_id === priceTypeKeyData),
+					...prices.filter(
+						(price) => price.item_id !== priceTypeKeyData,
+					),
+			  ].filter(Boolean)
+			: [];
 
 	useEffect(() => {
 		const initialCurrencyKey = localStorage.getItem("currencyKey");

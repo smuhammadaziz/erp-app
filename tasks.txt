@@ -58,3 +58,9 @@ client bilan chiqadi
 
 -
 
+
+===================================================================
+
+currency va price type ni so'rash kerak
+yani currency da sum muhimlilik darajasi bo'yicha
+va price type muhimlilik darajasi boyich
