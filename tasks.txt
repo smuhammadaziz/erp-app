@@ -5,11 +5,7 @@
 - savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 
 "delivered" bo'ladi, yuborilmasa error console da chiqishi kere men korishim uchun
 
-- agar internet yo'q bo'lsa, savdolar databazani o'ziga saqlanib turishi kerak, va men bergan vaqt bo'yicha
-masalan har 1 minutda savdolar yuborilishi kere
-
-- innerheader dagi sync knopkaga "crm" ga bir marta murojaat qilib qo'yishim kerak, u yangi 
-malumotlarini localstorage ga saqlab qo'yadi. 
+- men bergan vaqt bo'yicha masalan har 1 minutda savdolar yuborilishi kere
 
 - auto savdo yuborishni settings page orqali qilish kere, yani tanlangan minut boyicha har safar yuborib
 turishi kerak
@@ -19,44 +15,16 @@ turishi kerak
 - sales page dagi all products table doimo yangilanib turishi kerak, har 1 yoki 2 minutda, yangilanish
 bor yoki yoqligidan qatiy nazar
 
-- har 1kunda men table dan empty products bolganlarini tozalab turishim kerak, orqa fonda
-
-- agar its muddati tugasa, srazu its deadline screen paydo bo'lishi kerak, va korsatishi kerak,
- yangilash ni bosganda, crm ga zapros yuborib, yangi ITS malumotlarini olishi kerak, agar its o'zgarsa
- oyna yo'qolib ketishi kerak va bitta refresh bo'lishi kerak, agar yangilanmasa, har 60 sekundda
- orqa fonda zapros yuborib turishim kerak.
-
-
-
 - qayta tiklashni boshidan qilish kerak
-
-- kechiktirilgan larni to'liq qilish kere (modal + ustiga bosganda barcha tovarlarini olib +
-keyingi jarayonlari ishlaydigan qilish)
 
 - barcha modallarga "enter" ni ishlatish kerak, enter bu keyingi etap.
 
 - barcha narsaga ctrl + enter ni ishlatish kere, yani ctrl + enter bu = "OK" knopka hisoblanadi. 
 
-- home page da umumiy savdo summasini chiqarishni kelishish kerak + grafikni ham
-
-- klientlarni bosganda bitta klient tanlanishi kerak, default oddiy xaridor bo'lishi kerak, uni 
-bunday qilish kerak, otlojenniega klient bilan saqlanisshi uchun localstorage ga default client berib 
-ketish kerak, agar client tanlansa, srazu client id ni o'zgartirib qoyaman, shunda otlojennie da 
-client bilan chiqadi
-
 - savdo oynasida "NAQD + ONLINE" ni ishlatib qoyish kerak, va yana qilish kerak bolgan narsa: 
 2ta kassaga pul tushadigan qilish (1C tomondan tayyor emas)
 
-- yangi savdo ni bosganda hozirgi savdo otlojenniega saqlanishi kere va page yangilanishi kerak
-
-- savdo oynasida settings da tillarni togrilash ni qilish kerak, yani tilni ozgartirishni qoshish
-
 - savdolar royhatiga yangi modal dizayn qilish kerak
-
-
-
--
-
 
 ===================================================================
 
