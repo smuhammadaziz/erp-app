@@ -1,11 +1,6 @@
 - savdo ni backend dan yuborayotganda agar xatoligi bo'lsa chiqaradigan qilish kerak, yuborilganlari 
 "delivered" bo'ladi, yuborilmasa error console da chiqishi kere men korishim uchun
 
-- men bergan vaqt bo'yicha masalan har 1 minutda savdolar yuborilishi kere
-
-- auto savdo yuborishni settings page orqali qilish kere, yani tanlangan minut boyicha har safar yuborib
-turishi kerak
-
 - set time out vaqtni ham shunaqa qilish kerak, barcha joyga set time out berib ketish kerak,
 
 - sales page dagi all products table doimo yangilanib turishi kerak, har 1 yoki 2 minutda, yangilanish
@@ -24,9 +19,14 @@ bor yoki yoqligidan qatiy nazar
 
 ===================================================================
 
-currency va price type ni so'rash kerak
-yani currency da sum muhimlilik darajasi bo'yicha
-va price type muhimlilik darajasi boyich
+"box": false - 
 
+"one_row": true - agar bu true bolsa, 1ta mahsulot yana qoshils, oziga qoshiladi, agar false bolsa,
+yangi row qilinib, yangi rowga olinishi kere
 
-create sales da bitta id lik savdoni yuborsam ham yuborilmoqda, shuni sorash
+ "one_qty": false - agar true bo'lsa, mahsulotni ustiga 2marta bosganda tepaga qoshilib qoladi,
+agar "false" bolsa, modal ochiladi
+
+"change_price": true - agar false bo'lsa, barcha foydalanuvchilar uchun narxni o'zgartirish yo'q bo'ladi,
+agar true bolsa, foydalanuvchi ichidagi yani "user_settings" API sidagi ruxsatga qarashim kere,
+bu yerda bazi foydalanuvchilarga ruxsat berilmagan bolishi mumkin

@@ -11,13 +11,45 @@ import CustomersPage from "./pages/customers/customers";
 import ProductsPage from "./pages/products/products";
 import SettingsPage from "./pages/settings/settings";
 import { AuthProvider, ProtectedRoute } from "./context/Auth";
+import nodeUrl from "./links";
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 
+	const fetchTime = Number(localStorage.getItem("selectedTimeInMs"));
+
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
+	const userType = localStorage.getItem("userType");
+	const userPassword = localStorage.getItem("userPassword");
+
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 80);
 	}, []);
+
+	const sendSalesBackground = async () => {
+		try {
+			const url = `${nodeUrl}/api/send/sales/${ksbId}`;
+
+			const requestBody = {
+				ip: ipaddressPort,
+				project: mainDatabase,
+				username: userType,
+				password: userPassword,
+			};
+
+			await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestBody),
+			});
+		} catch (err) {
+			console.log("error occured when sending sales background");
+		}
+	};
 
 	const checkInternetConnection = async () => {
 		try {
@@ -26,12 +58,6 @@ export const Router: FC = () => {
 			if (!online) {
 				return false;
 			}
-
-			const ksbId = localStorage.getItem("ksbIdNumber");
-			const ipaddressPort = localStorage.getItem("ipaddress:port");
-			const mainDatabase = localStorage.getItem("mainDatabase");
-			const userType = localStorage.getItem("userType");
-			const userPassword = localStorage.getItem("userPassword");
 
 			const credentials = Buffer.from(
 				`${userType}:${userPassword}`,
@@ -52,19 +78,33 @@ export const Router: FC = () => {
 	};
 
 	useEffect(() => {
+		let sendSales: any;
+
 		const checkNetwork = async () => {
 			const isOnline = await checkInternetConnection();
 
 			if (isOnline) {
-				console.log("network is available");
+				if (!sendSales) {
+					sendSales = setInterval(sendSalesBackground, fetchTime);
+				}
 			} else {
-				console.log("network not available");
+				console.log("Network not available");
+				if (sendSales) {
+					clearInterval(sendSales);
+					sendSales = null;
+				}
 			}
 		};
 
-		const intervalId = setInterval(checkNetwork, 1200000);
-		return () => clearInterval(intervalId);
-	}, []);
+		const intervalId = setInterval(checkNetwork, 20 * 60 * 1000);
+
+		checkNetwork();
+
+		return () => {
+			clearInterval(intervalId);
+			if (sendSales) clearInterval(sendSales);
+		};
+	}, [fetchTime]);
 
 	return loading ? (
 		<Loader />
