@@ -15,8 +15,6 @@ import { AuthProvider, ProtectedRoute } from "./context/Auth";
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 
-	const its_deadline = localStorage.getItem("its_deadline");
-
 	useEffect(() => {
 		setTimeout(() => setLoading(false), 80);
 	}, []);
