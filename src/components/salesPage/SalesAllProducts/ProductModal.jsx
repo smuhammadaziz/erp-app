@@ -124,7 +124,6 @@ function ProductModal({
 	const handleClose = () => {
 		if (searchInputRef.current) {
 			searchInputRef.current.focus();
-			// Don't clear the search query, just let the input be selected
 			searchInputRef.current.select();
 		}
 		onClose();
@@ -255,7 +254,6 @@ function ProductModal({
 					break;
 				case "price":
 					if (changePriceValue) {
-						// Only if price input is enabled
 						okButtonRef.current?.focus();
 					} else {
 						okButtonRef.current?.focus();
