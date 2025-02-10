@@ -19,6 +19,53 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 80);
 	}, []);
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+
+			if (!online) {
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const credentials = Buffer.from(
+				`${userType}:${userPassword}`,
+			).toString("base64");
+
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+
+			return response.status === 200;
+		} catch (error) {
+			console.error("Error during internet connection check:", error);
+			return false;
+		}
+	};
+
+	useEffect(() => {
+		const checkNetwork = async () => {
+			const isOnline = await checkInternetConnection();
+
+			if (isOnline) {
+				console.log("network is available");
+			} else {
+				console.log("network not available");
+			}
+		};
+
+		const intervalId = setInterval(checkNetwork, 1200000);
+		return () => clearInterval(intervalId);
+	}, []);
+
 	return loading ? (
 		<Loader />
 	) : (
