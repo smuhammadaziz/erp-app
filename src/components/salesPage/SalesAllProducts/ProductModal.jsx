@@ -454,40 +454,6 @@ function ProductModal({
 					</div>
 				</div>
 			)}
-
-			{/* {showEmpty && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
-					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
-						<div className="p-6">
-							<div className="flex justify-between items-center mb-4">
-								<h2 className="text-xl font-bold text-gray-800">
-									Хатолик
-								</h2>
-								<button
-									onClick={() => setShowEmpty(false)}
-									className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
-								>
-									<MdClear
-										size={24}
-										className="text-gray-500"
-									/>
-								</button>
-							</div>
-							<p className="text-base text-red-500 mb-4">
-								Маҳсулот сонини киритишингиз керак
-							</p>
-							<div className="flex justify-end">
-								<button
-									onClick={() => setShowEmpty(false)}
-									className="px-5 py-2 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
-								>
-									OK
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			)} */}
 		</>
 	);
 }

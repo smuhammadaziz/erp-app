@@ -335,7 +335,6 @@ function SalesMainAllProducts() {
 	}
 
 	const handleProductAdded = (productId) => {
-		// You can handle any additional logic here if needed
 		console.log("Product added:", productId);
 	};
 
