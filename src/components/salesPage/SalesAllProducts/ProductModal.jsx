@@ -129,8 +129,51 @@ function ProductModal({
 		onClose();
 	};
 
+	const handlePriceFocus = (e) => {
+		e.target.select();
+	};
+
+	const handleKeyDown = (e, currentField) => {
+		// Handle Ctrl + Enter from quantity input
+		if (e.ctrlKey && e.key === "Enter") {
+			e.preventDefault();
+			handleSubmit(e);
+			return;
+		}
+
+		// Handle regular Enter key navigation
+		if (e.key === "Enter" && !e.ctrlKey) {
+			e.preventDefault();
+			switch (currentField) {
+				case "quantity":
+					priceInputRef.current?.focus();
+					break;
+				case "price":
+					okButtonRef.current?.focus();
+					break;
+				case "okButton":
+					handleSubmit(e);
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
+	// Update price change handler to only work when changePriceValue is true
+	const handlePriceChange = (e) => {
+		if (changePriceValue) {
+			const value = e.target.value.replace(/[^0-9.]/g, "");
+			if (!isNaN(value) && value !== "") {
+				setCustomPrice(Number(value));
+			}
+		}
+	};
+
 	const handleSubmit = async (e) => {
-		e.preventDefault();
+		if (e) {
+			e.preventDefault();
+		}
 
 		if (quantity > product.stock[0].qty) {
 			setShowErrorModal(true);
@@ -223,19 +266,6 @@ function ProductModal({
 		}
 	};
 
-	const handlePriceFocus = (e) => {
-		e.target.value = "";
-		setCustomPrice(null);
-	};
-
-	const handlePriceChange = (e) => {
-		const value = e.target.value;
-		if (!isNaN(value)) {
-			setCustomPrice(Number(value));
-			e.target.value = value;
-		}
-	};
-
 	const [changePriceValue, setChangePriceValue] = useState(() => {
 		const savedValue = localStorage.getItem("changePriceValue");
 		return savedValue === "true";
@@ -244,26 +274,6 @@ function ProductModal({
 	useEffect(() => {
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
-
-	const handleKeyDown = (e, currentField) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			switch (currentField) {
-				case "quantity":
-					priceInputRef.current?.focus();
-					break;
-				case "price":
-					if (changePriceValue) {
-						okButtonRef.current?.focus();
-					} else {
-						okButtonRef.current?.focus();
-					}
-					break;
-				default:
-					break;
-			}
-		}
-	};
 
 	return (
 		<>
@@ -362,21 +372,18 @@ function ProductModal({
 											<input
 												ref={priceInputRef}
 												type="text"
-												defaultValue={(() => {
-													return convertedPrice.toLocaleString(
-														"ru-RU",
-														{
-															minimumFractionDigits: 2,
-															maximumFractionDigits: 2,
-														},
-													);
-												})()}
+												defaultValue={convertedPrice.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													},
+												)}
 												onKeyDown={(e) =>
 													handleKeyDown(e, "price")
 												}
-												onFocus={handlePriceFocus}
-												disabled={!changePriceValue}
 												onChange={handlePriceChange}
+												readOnly={!changePriceValue}
 												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
 											/>
 										</div>
@@ -402,6 +409,9 @@ function ProductModal({
 								<button
 									ref={okButtonRef}
 									type="submit"
+									onKeyDown={(e) =>
+										handleKeyDown(e, "okButton")
+									}
 									className="px-12 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
 								>
 									OK
