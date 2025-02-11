@@ -160,6 +160,8 @@ function HeaderInner({ onRefresh }) {
 					"settingsMaxDiscount",
 					exactUser.max_discount,
 				);
+				localStorage.setItem("userChangePrice", exactUser.change_price);
+				localStorage.setItem("userViewBuy", exactUser.view_buy);
 			} else {
 				console.log("User not found in settingsData.");
 			}

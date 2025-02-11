@@ -28,83 +28,89 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 80);
 	}, []);
 
-	const sendSalesBackground = async () => {
-		try {
-			const url = `${nodeUrl}/api/send/sales/${ksbId}`;
+	// const sendSalesBackground = async () => {
+	// 	try {
+	// 		const url = `${nodeUrl}/api/send/sales/${ksbId}`;
 
-			const requestBody = {
-				ip: ipaddressPort,
-				project: mainDatabase,
-				username: userType,
-				password: userPassword,
-			};
+	// 		const requestBody = {
+	// 			ip: ipaddressPort,
+	// 			project: mainDatabase,
+	// 			username: userType,
+	// 			password: userPassword,
+	// 		};
 
-			await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(requestBody),
-			});
-		} catch (err) {
-			console.log("error occured when sending sales background");
-		}
-	};
+	// 		const data = await fetch(url, {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 			body: JSON.stringify(requestBody),
+	// 		});
 
-	const checkInternetConnection = async () => {
-		try {
-			const online = window.navigator.onLine;
+	// 		if (data.ok) {
+	// 			console.log("ok");
+	// 		} else {
+	// 			console.log("err");
+	// 		}
+	// 	} catch (err) {
+	// 		console.log("error occured when sending sales background");
+	// 	}
+	// };
 
-			if (!online) {
-				return false;
-			}
+	// const checkInternetConnection = async () => {
+	// 	try {
+	// 		const online = window.navigator.onLine;
 
-			const credentials = Buffer.from(
-				`${userType}:${userPassword}`,
-			).toString("base64");
+	// 		if (!online) {
+	// 			return false;
+	// 		}
 
-			const response = await fetch(
-				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
-				{
-					headers: { Authorization: `Basic ${credentials}` },
-				},
-			);
+	// 		const credentials = Buffer.from(
+	// 			`${userType}:${userPassword}`,
+	// 		).toString("base64");
 
-			return response.status === 200;
-		} catch (error) {
-			console.error("Error during internet connection check:", error);
-			return false;
-		}
-	};
+	// 		const response = await fetch(
+	// 			`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+	// 			{
+	// 				headers: { Authorization: `Basic ${credentials}` },
+	// 			},
+	// 		);
 
-	useEffect(() => {
-		let sendSales: any;
+	// 		return response.status === 200;
+	// 	} catch (error) {
+	// 		console.error("Error during internet connection check:", error);
+	// 		return false;
+	// 	}
+	// };
 
-		const checkNetwork = async () => {
-			const isOnline = await checkInternetConnection();
+	// useEffect(() => {
+	// 	let sendSales: any;
 
-			if (isOnline) {
-				if (!sendSales) {
-					sendSales = setInterval(sendSalesBackground, fetchTime);
-				}
-			} else {
-				console.log("Network not available");
-				if (sendSales) {
-					clearInterval(sendSales);
-					sendSales = null;
-				}
-			}
-		};
+	// 	const checkNetwork = async () => {
+	// 		const isOnline = await checkInternetConnection();
 
-		const intervalId = setInterval(checkNetwork, 20 * 60 * 1000);
+	// 		if (isOnline) {
+	// 			if (!sendSales) {
+	// 				sendSales = setInterval(sendSalesBackground, fetchTime);
+	// 			}
+	// 		} else {
+	// 			console.log("Network not available");
+	// 			if (sendSales) {
+	// 				clearInterval(sendSales);
+	// 				sendSales = null;
+	// 			}
+	// 		}
+	// 	};
 
-		checkNetwork();
+	// 	const intervalId = setInterval(checkNetwork, 20 * 60 * 1000);
 
-		return () => {
-			clearInterval(intervalId);
-			if (sendSales) clearInterval(sendSales);
-		};
-	}, [fetchTime]);
+	// 	checkNetwork();
+
+	// 	return () => {
+	// 		clearInterval(intervalId);
+	// 		if (sendSales) clearInterval(sendSales);
+	// 	};
+	// }, [fetchTime]);
 
 	return loading ? (
 		<Loader />
