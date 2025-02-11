@@ -209,6 +209,72 @@ function LoginPageKSB() {
 
 				localStorage.setItem("showSettingsModal", data.showSettings);
 				localStorage.setItem("userPassword", passwordToStore);
+
+				let exactUserId;
+
+				try {
+					const responseDevices = await fetch(
+						`${nodeUrl}/api/get/registered/devices/${deviceId}/${ksbId}`,
+					);
+
+					const deviceData = await responseDevices.json();
+
+					const exactUser = deviceData.find(
+						(user) => user.user_type === userType,
+					);
+
+					if (exactUser) {
+						exactUserId = exactUser.user_id;
+					}
+				} catch (err) {
+					console.log(err);
+				}
+
+				try {
+					const responseSettings = await fetch(
+						`${nodeUrl}/api/get/settings/${deviceId}/${ksbId}`,
+					);
+
+					const settingsData = await responseSettings.json();
+
+					const exactUser = settingsData.find(
+						(user) => user.user_id === exactUserId,
+					);
+
+					if (exactUser) {
+						localStorage.setItem("user_id", exactUserId);
+						localStorage.setItem(
+							"settingsWarehouse",
+							JSON.stringify(exactUser.warehouse),
+						);
+						localStorage.setItem(
+							"settingsPriceType",
+							JSON.stringify(exactUser.price_types),
+						);
+						localStorage.setItem(
+							"settingsCash",
+							JSON.stringify(exactUser.cash),
+						);
+						localStorage.setItem(
+							"settingsCurrency",
+							exactUser.currency,
+						);
+						localStorage.setItem(
+							"settingsMaxDiscount",
+							exactUser.max_discount,
+						);
+						localStorage.setItem(
+							"userChangePrice",
+							exactUser.change_price,
+						);
+						localStorage.setItem("userViewBuy", exactUser.view_buy);
+					} else {
+						console.log("User not found in settingsData.");
+					}
+				} catch (err) {
+					console.log(err);
+				}
+
 				toast.success(
 					<div className="flex items-center text-white">
 						<FaCheckCircle className="mr-2" size={20} />
