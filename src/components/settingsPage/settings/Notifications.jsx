@@ -64,7 +64,7 @@ const MessageNotifications = () => {
 			setStatus(
 				result.status === "successfully"
 					? content[language].settingsUsers.recoveryDataSuccess
-					: "Recovery failed. Please try again.",
+					: content[language].firstSync.tryAgain,
 			);
 			setCurrentModal("result");
 		} catch (err) {
@@ -100,7 +100,7 @@ const MessageNotifications = () => {
 											.recoveryNow
 									}
 								</h2>
-								<p className="text-sm text-gray-700 text-center mb-6">
+								<p className="text-base text-gray-700 text-center mb-6">
 									{
 										content[language].settingsUsers
 											.recoveryEnterYourPassword
@@ -140,7 +140,7 @@ const MessageNotifications = () => {
 						<div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[500]">
 							<div className="relative w-full max-w-md p-8 bg-white rounded-2xl shadow-lg flex flex-col items-center">
 								<AiOutlineLoading3Quarters className="animate-spin text-blue-500 text-4xl mb-4" />
-								<p className="text-black text-center text-sm">
+								<p className="text-black text-center text-lg">
 									{
 										content[language].settingsUsers
 											.recoveryProcessingRequest
@@ -163,19 +163,15 @@ const MessageNotifications = () => {
 									{content[language].settingsUsers.recovery}
 								</h2>
 								<p
-									className={`text-center mb-6 ${
-										status.includes("successful")
-											? "text-green-600"
-											: "text-red-600"
-									}`}
+									className={`text-center text-base font-semibold mb-6 text-green-600`}
 								>
 									{status}
 								</p>
 								<button
 									onClick={() => setCurrentModal(null)}
-									className="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white shadow-lg transition-all duration-300"
+									className="px-10 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white shadow-lg transition-all duration-300"
 								>
-									Close
+									OK
 								</button>
 							</div>
 						</div>

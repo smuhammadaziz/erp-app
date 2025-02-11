@@ -325,7 +325,7 @@ const content: Content = {
 			recoveryNow: "Қайта тиклаш",
 			recoveryEnterYourPassword:
 				"Маълумотингизни тиклаш учун қуйида паролингизни киритинг. ",
-			recoveryProcessingRequest: "Сўровингиз кўриб чиқилмоқда...",
+			recoveryProcessingRequest: "Амалиёт бажарилмоқда...",
 			recoveryDataSuccess:
 				"Қайта тиклаш муваффақиятли!  Маълумотларингиз тикланди. ",
 		},
@@ -533,7 +533,7 @@ const content: Content = {
 			recoveryNow: "Восстановление",
 			recoveryEnterYourPassword:
 				"Введите пароль ниже, чтобы восстановить вашу информацию.",
-			recoveryProcessingRequest: "Ваш запрос обрабатывается...",
+			recoveryProcessingRequest: "Процесс продолжается...",
 			recoveryDataSuccess:
 				"Восстановление прошло успешно! Ваши данные восстановлены. ",
 		},
