@@ -134,7 +134,11 @@ function ProductsTable({
 
 					const apiData = await response.json();
 
-					const warehouseData = settingsWarehouse.reduce(
+					const mainWarehouseIds = settingsWarehouse
+						.filter((item) => item.main)
+						.map((item) => item.warehouse);
+
+					const warehouseData = mainWarehouseIds.reduce(
 						(acc, warehouseId) => {
 							const matchedWarehouse = apiData.find(
 								(item) => item.item_id === warehouseId,
