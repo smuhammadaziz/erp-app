@@ -455,9 +455,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 									disabled
 									className="w-full px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50 pr-16"
 								/>
-								<span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-xl font-bold">
+								{/* <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-xl font-bold">
 									{currencyData[data.mainCurrency]}
-								</span>
+								</span> */}
 							</div>
 						</div>
 
