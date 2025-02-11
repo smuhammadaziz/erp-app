@@ -176,60 +176,72 @@ function SalesPageLayoutHeader() {
 				</button>
 			</div>
 			{isListModalOpen && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[85vh] overflow-hidden">
-						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
-							<h2 className="text-xl font-semibold flex items-center">
-								<BsBasket3 className="mr-2" />{" "}
+				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-40">
+					<div className="bg-white rounded-lg w-full max-w-[95vw] max-h-[90vh] overflow-hidden">
+						<div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-white">
+							<h2 className="text-lg font-semibold flex items-center gap-2 text-gray-900">
+								<BsBasket3 className="text-xl" />
 								{content[language].salesPage.headerList}
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
-								className="p-1 hover:bg-green-700 rounded-full transition-colors"
+								className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
 							>
-								<MdClose className="text-2xl" />
+								<MdClose className="text-xl" />
 							</button>
 						</div>
 
-						<div className="p-4">
-							<div className="relative">
-								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+						<div className="p-3 border-b border-gray-200 bg-gray-50">
+							<div className="relative max-w-md">
+								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
 								<input
 									type="text"
 									placeholder="Поиск..."
-									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
 								/>
 							</div>
 						</div>
-						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
-							<div className="grid gap-4 p-4">
-								{productData.length > 0 &&
-									productData
-										.map((sale) => (
-											<div
-												key={sale.id}
-												className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
-											>
-												<div className="flex items-start">
-													<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
-													<div>
-														<p className="text-sm text-gray-500">
-															Клиент
-														</p>
-														<p className="font-medium text-lg block truncate">
-															{sale.client_name}
-														</p>
-													</div>
-												</div>
 
-												<div className="grid grid-cols-3 gap-4">
-													<div className="flex items-start">
-														<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
-														<div>
-															<p className="text-sm text-gray-500">
-																Сумма
-															</p>
-															<p className="font-medium text-lg">
+						<div className="overflow-y-auto max-h-[calc(90vh-8rem)]">
+							<div className="min-w-full divide-y divide-gray-200">
+								{/* Header */}
+								<div className="bg-gray-50 border-y border-gray-200">
+									<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm font-medium text-gray-500">
+										<div className="col-span-3">Клиент</div>
+										<div className="col-span-2">Сумма</div>
+										<div className="col-span-3">Дата</div>
+										<div className="col-span-2">Статус</div>
+										<div className="col-span-2 text-right">
+											Действия
+										</div>
+									</div>
+								</div>
+
+								{/* Table Body */}
+								<div className="divide-y divide-gray-200 bg-white">
+									{productData.length > 0 &&
+										productData
+											.map((sale) => (
+												<div
+													key={sale.id}
+													className="hover:bg-gray-50"
+												>
+													<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm">
+														<div className="col-span-3 flex items-center gap-2">
+															<MdPersonOutline className="text-gray-400 text-lg flex-shrink-0" />
+															<span
+																className="font-medium text-gray-900 truncate"
+																title={
+																	sale.client_name
+																}
+															>
+																{
+																	sale.client_name
+																}
+															</span>
+														</div>
+														<div className="col-span-2 flex items-center">
+															<span className="text-gray-900">
 																{parseFloat(
 																	sale.total_price,
 																).toLocaleString(
@@ -246,51 +258,38 @@ function SalesPageLayoutHeader() {
 																			.currency
 																	]
 																}
-															</p>
+															</span>
 														</div>
-													</div>
-													<div className="flex items-start">
-														<MdAccessTime className="text-gray-500 mr-2 text-xl" />
-														<div>
-															<p className="text-sm text-gray-500">
-																Дата
-															</p>
-															<p className="font-medium text-lg">
+														<div className="col-span-3 flex items-center">
+															<span className="text-gray-900">
 																{moment(
 																	sale.date,
 																).format("LLL")}
-															</p>
+															</span>
 														</div>
-													</div>
-													<div className="flex items-center justify-between">
-														<div className="flex items-center">
-															<div className="mr-4 items-center">
-																<p className="text-sm text-gray-500">
-																	Статус
-																</p>
-																<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
-																	{
-																		sale.status
-																	}
-																</span>
-															</div>
+														<div className="col-span-2 flex items-center">
+															<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+																{sale.status}
+															</span>
 														</div>
-														<button
-															onClick={() =>
-																openDetailModal(
-																	sale,
-																)
-															}
-															className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
-														>
-															<MdOutlineInfo className="mr-1" />
-															более
-														</button>
+														<div className="col-span-2 flex items-center justify-end">
+															<button
+																onClick={() =>
+																	openDetailModal(
+																		sale,
+																	)
+																}
+																className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
+															>
+																<MdOutlineInfo className="text-lg" />
+																более
+															</button>
+														</div>
 													</div>
 												</div>
-											</div>
-										))
-										.reverse()}
+											))
+											.reverse()}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -299,161 +298,158 @@ function SalesPageLayoutHeader() {
 
 			{/* Detail Modal */}
 			{isDetailModalOpen && selectedSale && (
-				<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[90vh] overflow-hidden">
-						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
-							<h2 className="text-xl font-semibold flex items-center">
-								<MdOutlineInfo className="mr-2" /> Подробности
-								продажи
+				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+					<div className="bg-white rounded-lg w-full max-w-[95vw] max-h-[90vh] overflow-hidden">
+						<div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-white">
+							<h2 className="text-lg font-semibold flex items-center gap-2 text-gray-900">
+								<MdOutlineInfo className="text-xl" />
+								Подробности продажи
 							</h2>
 							<button
 								onClick={() => setIsDetailModalOpen(false)}
-								className="p-1 hover:bg-blue-700 rounded-full transition-colors"
+								className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
 							>
-								<MdClose className="text-2xl" />
+								<MdClose className="text-xl" />
 							</button>
 						</div>
 
 						<div className="overflow-y-auto max-h-[calc(90vh-4rem)]">
-							<div className="px-6 py-4 space-y-6">
-								<div className="bg-slate-50 p-4 rounded-lg">
-									<h3 className="text-lg font-semibold mb-4 flex items-center">
-										<MdPersonOutline className="mr-2" />{" "}
-										Информация о продаже
-									</h3>
-									<div className="grid grid-cols-3 gap-4">
-										<p>
-											<span className="text-gray-600">
-												Клиент:
-											</span>{" "}
+							{/* Basic Info Header */}
+							<div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
+								<div className="grid grid-cols-3 gap-4 text-sm">
+									<div>
+										<span className="text-gray-500 block">
+											Клиент
+										</span>
+										<span className="font-medium text-gray-900">
 											{selectedSale.client_name}
-										</p>
-										<p>
-											<span className="text-gray-600">
-												Дата:
-											</span>{" "}
+										</span>
+									</div>
+									<div>
+										<span className="text-gray-500 block">
+											Дата
+										</span>
+										<span className="font-medium text-gray-900">
 											{moment(selectedSale.date).format(
 												"LLL",
 											)}
-										</p>
-										<p className="text-gray-600">
-											Статус:
-											<span className="inline-flex ml-2 text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
-												{/* {selectedSale.status} */}
-												Не доставлено
-											</span>
-										</p>
+										</span>
+									</div>
+									<div>
+										<span className="text-gray-500 block">
+											Статус
+										</span>
+										<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+											Не доставлено
+										</span>
 									</div>
 								</div>
+							</div>
 
-								{/* Products */}
-								<div className="">
-									<h3 className="text-lg font-semibold mb-4 flex items-center">
-										<MdInventory className="mr-2" />{" "}
-										Продукты
-									</h3>
-									<div className="space-y-3">
+							{/* Products Table */}
+							<div className="px-4 py-3">
+								<h3 className="text-base font-semibold mb-3">
+									Продукты
+								</h3>
+								<div className="border border-gray-200 rounded-lg overflow-hidden">
+									<div className="grid grid-cols-4 gap-4 bg-gray-50 px-4 py-2 border-b border-gray-200 text-sm font-medium text-gray-500">
+										<div>Продукт</div>
+										<div>Количество</div>
+										<div>Цена</div>
+										<div>Сумма</div>
+									</div>
+									<div className="divide-y divide-gray-200">
 										{selectedSale.products.map(
 											(product, index) => (
 												<div
 													key={index}
-													className="border rounded-lg p-3 bg-slate-50 hover:bg-slate-100"
+													className="grid grid-cols-4 gap-4 px-4 py-2 text-sm"
 												>
-													<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-														<p className="font-medium">
+													<div
+														className="truncate"
+														title={
+															product.product_name
+														}
+													>
+														{product.product_name}
+													</div>
+													<div>
+														{product.quantity}
+													</div>
+													<div>
+														{parseFloat(
+															product.price,
+														).toLocaleString(
+															"ru-RU",
 															{
-																product.product_name
-															}
-														</p>
-														<p>
-															Количество:{" "}
-															<span className="font-medium">
-																{
-																	product.quantity
-																}
-															</span>
-														</p>
-														<p>
-															Цена:{" "}
-															<span className="font-medium">
-																{parseFloat(
-																	product.price,
-																).toLocaleString(
-																	"ru-RU",
-																	{
-																		minimumFractionDigits: 2,
-																		maximumFractionDigits: 2,
-																	},
-																)}{" "}
-																{
-																	currencyData[
-																		selectedSale
-																			.details[0]
-																			.currency
-																	]
-																}
-															</span>
-														</p>
-														<p>
-															Сумма:{" "}
-															<span className="font-medium">
-																{parseFloat(
-																	product.sum,
-																).toLocaleString(
-																	"ru-RU",
-																	{
-																		minimumFractionDigits: 2,
-																		maximumFractionDigits: 2,
-																	},
-																)}{" "}
-																{
-																	currencyData[
-																		selectedSale
-																			.details[0]
-																			.currency
-																	]
-																}
-															</span>
-														</p>
+																minimumFractionDigits: 2,
+																maximumFractionDigits: 2,
+															},
+														)}{" "}
+														{
+															currencyData[
+																selectedSale
+																	.details[0]
+																	.currency
+															]
+														}
+													</div>
+													<div>
+														{parseFloat(
+															product.sum,
+														).toLocaleString(
+															"ru-RU",
+															{
+																minimumFractionDigits: 2,
+																maximumFractionDigits: 2,
+															},
+														)}{" "}
+														{
+															currencyData[
+																selectedSale
+																	.details[0]
+																	.currency
+															]
+														}
 													</div>
 												</div>
 											),
 										)}
 									</div>
 								</div>
+							</div>
 
-								<div className="bg-slate-50 p-4 rounded-lg">
-									<h3 className="text-lg font-semibold mb-4 flex items-center">
-										<MdPayment className="mr-2" />
-										Реквизиты платежа
-									</h3>
-									<div className="space-y-2">
-										<div className="border-b pb-2 mb-2">
-											<div className="flex justify-between font-semibold">
-												<span>Общая сумма</span>
-												<span>
-													{parseFloat(
-														selectedSale.total_price,
-													).toLocaleString("ru-RU", {
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
-													})}{" "}
-													{
-														currencyData[
-															selectedSale
-																.details[0]
-																.currency
-														]
-													}
-												</span>
-											</div>
+							{/* Payment Details */}
+							<div className="px-4 py-3 border-t border-gray-200">
+								<h3 className="text-base font-semibold mb-3">
+									Реквизиты платежа
+								</h3>
+								<div className="border border-gray-200 rounded-lg overflow-hidden">
+									<div className="divide-y divide-gray-200">
+										<div className="grid grid-cols-2 px-4 py-2 bg-gray-50">
+											<span className="font-medium text-gray-900">
+												Общая сумма
+											</span>
+											<span className="text-right">
+												{parseFloat(
+													selectedSale.total_price,
+												).toLocaleString("ru-RU", {
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												})}{" "}
+												{
+													currencyData[
+														selectedSale.details[0]
+															.currency
+													]
+												}
+											</span>
 										</div>
-
-										<div className="flex justify-between border-b pb-2 mb-2">
-											<span className="font-semibold">
+										<div className="grid grid-cols-2 px-4 py-2">
+											<span className="font-medium text-gray-900">
 												Skidka
 											</span>
-											<span className="font-medium">
+											<span className="text-right">
 												{parseFloat(
 													selectedSale.details[0]
 														.discount,
@@ -473,16 +469,16 @@ function SalesPageLayoutHeader() {
 											(payment, index) => (
 												<div
 													key={index}
-													className="flex justify-between"
+													className="grid grid-cols-2 px-4 py-2"
 												>
-													<span>
+													<span className="text-gray-600">
 														{
 															findObjectById(
 																payment.cash,
 															)?.name
 														}
 													</span>
-													<span className="font-medium">
+													<span className="text-right">
 														{parseFloat(
 															payment.sum,
 														).toLocaleString(
