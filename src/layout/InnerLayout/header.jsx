@@ -200,16 +200,35 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
-	const currencyRateData = JSON.parse(localStorage.getItem("currency_rate"));
+	const [displayMessage, setDisplayMessage] = useState("- = -");
 
-	const displayMessage =
-		currencyRateData &&
-		currencyRateData.uzs &&
-		currencyRateData.usd &&
-		currencyRateData.uzsName &&
-		currencyRateData.usdName
-			? `${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`
-			: "- = -";
+	useEffect(() => {
+		const updateCurrencyRate = () => {
+			const currencyRateData = JSON.parse(
+				localStorage.getItem("currency_rate"),
+			);
+
+			if (
+				currencyRateData &&
+				currencyRateData.uzs &&
+				currencyRateData.usd &&
+				currencyRateData.uzsName &&
+				currencyRateData.usdName
+			) {
+				setDisplayMessage(
+					`${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`,
+				);
+			} else {
+				setDisplayMessage("- = -");
+			}
+		};
+
+		updateCurrencyRate();
+
+		const intervalId = setInterval(updateCurrencyRate, 10000);
+
+		return () => clearInterval(intervalId);
+	}, []);
 
 	return (
 		<>
