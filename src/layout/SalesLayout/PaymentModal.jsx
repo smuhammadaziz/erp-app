@@ -243,7 +243,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				const result = await response.json();
 
 				console.log(result);
-				onClose();
 			} else {
 				console.error("Failed to submit data to the API");
 			}
@@ -351,7 +350,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 				const data = await response.json();
 				if (response.ok) {
+					onClose();
 					window.location.reload();
+
 					console.log("Sent sales successfully.");
 				} else {
 					console.log("Failed to send sales.");
