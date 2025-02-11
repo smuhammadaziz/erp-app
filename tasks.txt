@@ -6,16 +6,9 @@
 - sales page dagi all products table doimo yangilanib turishi kerak, har 1 yoki 2 minutda, yangilanish
 bor yoki yoqligidan qatiy nazar
 
-- qayta tiklashni boshidan qilish kerak
-
-- barcha modallarga "enter" ni ishlatish kerak, enter bu keyingi etap.
-
-- barcha narsaga ctrl + enter ni ishlatish kere, yani ctrl + enter bu = "OK" knopka hisoblanadi. 
-
 - savdo oynasida "NAQD + ONLINE" ni ishlatib qoyish kerak, va yana qilish kerak bolgan narsa: 
 2ta kassaga pul tushadigan qilish (1C tomondan tayyor emas)
 
-- savdolar royhatiga yangi modal dizayn qilish kerak
 
 ===================================================================
 
