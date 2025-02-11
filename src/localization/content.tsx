@@ -322,7 +322,7 @@ const content: Content = {
 			confirmNewPassword: "Янги паролни тасдиқланг",
 			updatePassword: "Ўзгартириш",
 			recoveryYourInformation: "Маълумотларингизни қайта тикланг",
-			recoveryNow: "Тиклаш",
+			recoveryNow: "Қайта тиклаш",
 			recoveryEnterYourPassword:
 				"Маълумотингизни тиклаш учун қуйида паролингизни киритинг. ",
 			recoveryProcessingRequest: "Сўровингиз кўриб чиқилмоқда...",
