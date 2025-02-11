@@ -195,6 +195,16 @@ type Content = {
 			noInternet: string;
 			pleaseCheck: string;
 		};
+		settingsDevice: {
+			autoSendSales: string;
+			setTimeToSend: string;
+			currentSendTime: string;
+			newSendTime: string;
+			timeoutSettings: string;
+			setTimeoutForYou: string;
+			saveTimeout: string;
+			timeoutSaved: string;
+		};
 	};
 };
 
@@ -406,6 +416,16 @@ const content: Content = {
 			pleaseCheck:
 				"Бошланғич маълумотларингизни синхронизация қилиш учун интернетга уланишингиз керак. ",
 		},
+		settingsDevice: {
+			autoSendSales: "Савдоларни автоматик юбориш",
+			setTimeToSend: "Савдоларни автоматик юбориш учун вақт танланг",
+			currentSendTime: "Жорий вақт",
+			newSendTime: "Савдоларни автоматик юбориш янги вақтга ўзгарди: ",
+			timeoutSettings: "TimeOut созламалари",
+			setTimeoutForYou: "TimeOut учун вақт киритинг (секундларда)",
+			saveTimeout: "Сақлаш",
+			timeoutSaved: "TimeOut учун янги вақт сақланди:",
+		},
 	},
 	ru: {
 		intro: {
@@ -613,6 +633,17 @@ const content: Content = {
 			noInternet: "Нет подключения к Интернету",
 			pleaseCheck:
 				"Чтобы синхронизировать ваши исходные данные, вам необходимо подключиться к Интернету. ",
+		},
+		settingsDevice: {
+			autoSendSales: "Автоматически отправлять продажи",
+			setTimeToSend: "Выберите время для автоматической отправки продажи",
+			currentSendTime: "Текущее время",
+			newSendTime:
+				"Автоматическая отправка продажи изменена на новое время: ",
+			timeoutSettings: "Настройки TimeOut",
+			setTimeoutForYou: "Введите время для TimeOut (в секундах).",
+			saveTimeout: "Сохранить",
+			timeoutSaved: "Новое время сохранено для TimeOut: ",
 		},
 	},
 };

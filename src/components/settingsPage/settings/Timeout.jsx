@@ -3,6 +3,9 @@ import { toast } from "sonner";
 import { BiTime, BiSave } from "react-icons/bi";
 import SectionContainer from "./SectionContainer";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const TIMEOUT_STORAGE_KEY = "timeoutSeconds";
 const DEFAULT_TIMEOUT = 30;
 
@@ -13,6 +16,8 @@ function TimeoutSettings() {
 	});
 
 	const [inputValue, setInputValue] = useState(savedTimeout);
+
+	const [language, setLanguage] = useLang("uz");
 
 	// Set default value on first load
 	useEffect(() => {
@@ -28,9 +33,11 @@ function TimeoutSettings() {
 		if (inputValue && inputValue > 0 && inputValue <= 3600) {
 			setSavedTimeout(inputValue);
 			localStorage.setItem(TIMEOUT_STORAGE_KEY, inputValue.toString());
-			toast.success(`Timeout updated to ${inputValue} seconds`);
+			toast.success(
+				`${content[language].settingsDevice.timeoutSaved} ${inputValue}`,
+			);
 		} else {
-			toast.error("Please enter a value between 1 and 3600 seconds");
+			toast.error("1-3600");
 		}
 	};
 
@@ -39,7 +46,9 @@ function TimeoutSettings() {
 	};
 
 	return (
-		<SectionContainer title="timeout settings">
+		<SectionContainer
+			title={content[language].settingsDevice.timeoutSettings}
+		>
 			<style>
 				{`
           input[type="number"]::-webkit-outer-spin-button,
@@ -56,7 +65,9 @@ function TimeoutSettings() {
 			<div className="flex flex-col space-y-4 w-[500px]">
 				<div className="text-sm text-gray-500 flex items-center gap-2">
 					<BiTime className="w-4 h-4" />
-					<span>Set timeout duration (seconds)</span>
+					<span>
+						{content[language].settingsDevice.setTimeoutForYou}
+					</span>
 				</div>
 
 				<div className="flex gap-3">
@@ -78,7 +89,7 @@ function TimeoutSettings() {
                        focus:border-transparent text-gray-800"
 							min="1"
 							max="3600"
-							placeholder="Enter seconds..."
+							placeholder=""
 						/>
 					</div>
 					<button
@@ -87,7 +98,7 @@ function TimeoutSettings() {
                      transition-colors duration-200 flex items-center gap-2 whitespace-nowrap"
 					>
 						<BiSave className="w-5 h-5" />
-						Save
+						{content[language].settingsDevice.saveTimeout}
 					</button>
 				</div>
 			</div>

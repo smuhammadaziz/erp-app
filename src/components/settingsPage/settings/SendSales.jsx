@@ -5,13 +5,16 @@ import SectionContainer from "./SectionContainer";
 
 const STORAGE_KEY = "selectedTimeInMs";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 const timeOptions = [
-	{ label: "1 min", value: 1 },
-	{ label: "2 min", value: 2 },
-	{ label: "5 min", value: 5 },
-	{ label: "10 min", value: 10 },
-	{ label: "15 min", value: 15 },
-	{ label: "30 min", value: 30 },
+	{ label: "1 минут", value: 1 },
+	{ label: "2 минут", value: 2 },
+	{ label: "5 минут", value: 5 },
+	{ label: "10 минут", value: 10 },
+	{ label: "15 минут", value: 15 },
+	{ label: "30 минут", value: 30 },
 ];
 
 function SendSales() {
@@ -26,19 +29,27 @@ function SendSales() {
 		}
 	}, []);
 
+	const [language, setLanguage] = useLang("uz");
+
 	const handleTimeSelect = (minutes) => {
 		const milliseconds = minutes * 60 * 1000;
 		setSelectedTime(milliseconds);
 		localStorage.setItem(STORAGE_KEY, milliseconds.toString());
-		toast.success(`Selected ${minutes} minute${minutes > 1 ? "s" : ""}`);
+		toast.success(
+			`${content[language].settingsDevice.newSendTime} ${minutes} минут`,
+		);
 	};
 
 	return (
-		<SectionContainer title="send sales">
+		<SectionContainer
+			title={content[language].settingsDevice.autoSendSales}
+		>
 			<div className="flex flex-col space-y-4">
 				<div className="text-sm text-gray-500 flex items-center gap-2">
 					<BiTime className="w-4 h-4" />
-					<span>Select time interval</span>
+					<span>
+						{content[language].settingsDevice.setTimeToSend}
+					</span>
 				</div>
 
 				<div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -61,7 +72,8 @@ function SendSales() {
 				</div>
 
 				<p className="text-sm text-gray-600">
-					Current interval: {selectedTime / (60 * 1000)} minutes
+					{content[language].settingsDevice.currentSendTime}{" "}
+					{selectedTime / (60 * 1000)}
 				</p>
 			</div>
 
