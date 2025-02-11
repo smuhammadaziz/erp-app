@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
 import { v4 as uuidv4 } from "uuid";
+import { MdClear } from "react-icons/md";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
@@ -160,6 +161,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 			return false;
 		}
 	};
+
+	const [showErrorModal, setShowErrorModal] = useState(false);
+	const [showError, setShowError] = useState("");
 
 	const handleSaveSales = async (e) => {
 		e.preventDefault();
@@ -347,16 +351,17 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 
 				const data = await response.json();
 				if (response.ok) {
+					window.location.reload();
 					console.log("Sent sales successfully.");
 				} else {
 					console.log("Failed to send sales.");
+					setShowErrorModal(true);
+					setShowError("failed to send sales");
 				}
 			} catch (error) {
 				console.error("Error sending sales data:", error);
 			}
 		}
-
-		window.location.reload();
 	};
 
 	if (!isOpen) return null;
@@ -555,6 +560,40 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				onSelect={setSelectedClient}
 				clients={customers}
 			/>
+
+			{showErrorModal && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
+					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
+						<div className="p-6">
+							<div className="flex justify-between items-center mb-4">
+								<h2 className="text-xl font-bold text-gray-800">
+									Ошибка
+								</h2>
+								<button
+									onClick={() => setShowErrorModal(false)}
+									className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
+								>
+									<MdClear
+										size={24}
+										className="text-gray-500"
+									/>
+								</button>
+							</div>
+							<p className="text-base text-red-500 mb-4">
+								{showError}
+							</p>
+							<div className="flex justify-end">
+								<button
+									onClick={() => setShowErrorModal(false)}
+									className="px-5 py-2 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+								>
+									OK
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };

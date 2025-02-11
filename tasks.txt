@@ -44,6 +44,9 @@ yubormaydigan qilish kerak va birinchi kirganda ham yuborishni togrilash kerak
 - savdo yuborilganda window.location.reload() agar internet mavjud va savdo yuborilganda bolishi kere,
 agar xatolik chiqsa, reload bolmasligi kerak. xatolik, bitta modalda chiqishi kerak
 
-- skidka uchun yangi modalni qilish
-
 - payment uchun yangi modal qilish
+
+
+=============================================
+
+create sales da xatolik bor
