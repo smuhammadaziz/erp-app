@@ -217,8 +217,13 @@ const DownloaderModal = () => {
 				`${nodeUrl}/api/get/cash/${device_id}/${ksb_id}`,
 			);
 
+			const responseSettingsDevice = await fetch(
+				`${nodeUrl}/api/get/settings/device/${device_id}/${ksb_id}`,
+			);
+
 			const settingsData = await responseSettings.json();
 			const cashData = await responseCash.json();
+			const settingsDeviceData = await responseSettingsDevice.json();
 
 			const exactUser = settingsData.find(
 				(user) => user.user_id === userId,
@@ -244,6 +249,10 @@ const DownloaderModal = () => {
 				);
 				localStorage.setItem("userChangePrice", exactUser.change_price);
 				localStorage.setItem("userViewBuy", exactUser.view_buy);
+				localStorage.setItem(
+					"settingsDevice",
+					JSON.stringify(settingsDeviceData),
+				);
 			} else {
 				console.log("User not found in settingsData.");
 			}

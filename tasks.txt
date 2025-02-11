@@ -36,13 +36,6 @@ bu yerda bazi foydalanuvchilarga ruxsat berilmagan bolishi mumkin
 
 
 ====================================================================
-
-- user settings ga hamma info lar yozildi, lekin har bitta user uchun alohida user settings, login
-qilganda yangilanib qolishi kerak, ya'ni, bitta user uchun alohida ozinikini olishi kerak, buni qilish
-uchun settings tablega yana bitta API yoziladi, bu api da "device_id, ksb_id, user_id" boyicha har safar
-malumotlarni olib, tegishli userga beriladi. 
-
-
 - /settings ni qilish kerak, toliq. 
 
 - avto savdo yuborishda xatolik bor, shuni togrilash kerak, agar savdo yo'q bolsa, 
