@@ -298,7 +298,7 @@ const content: Content = {
 			article: "Артикул",
 			box: "Коробка",
 			extra: "қўшимча",
-			view: "кўпроқ",
+			view: "батафсил",
 			main: "асосий",
 			stock: "Склад",
 			price: "нарх",
