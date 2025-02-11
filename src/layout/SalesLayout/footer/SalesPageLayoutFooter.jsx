@@ -131,19 +131,16 @@ const SalesPageLayoutFooter = () => {
 				setCurrencies(data);
 
 				const savedCurrencyKey = localStorage.getItem("currencyKey");
+				const settingsCurrency =
+					localStorage.getItem("settingsCurrency");
 
-				// If there's a saved currency key and it exists in the data, use it
 				if (
 					savedCurrencyKey &&
 					data.some((curr) => curr.item_id === savedCurrencyKey)
 				) {
 					setCurrencyKey(savedCurrencyKey);
-				}
-				// Otherwise, if no currency is selected or saved currency doesn't exist anymore
-				else if (data.length > 0) {
-					const lastCurrency = data[data.length - 1];
-					localStorage.setItem("currencyKey", lastCurrency.item_id);
-					setCurrencyKey(lastCurrency.item_id);
+				} else if (data.length > 0) {
+					setCurrencyKey(settingsCurrency);
 				}
 			} catch (error) {
 				console.error("Error fetching currencies:", error);
@@ -167,7 +164,12 @@ const SalesPageLayoutFooter = () => {
 
 				const savedPriceTypeKey = localStorage.getItem("priceTypeKey");
 
-				// If there's a saved price type and it exists in the data, use it
+				const priceType = JSON.parse(
+					localStorage.getItem("settingsPriceType"),
+				);
+
+				const mainPriceType = priceType.find((item) => item.main);
+
 				if (
 					savedPriceTypeKey &&
 					data.some((price) => price.item_id === savedPriceTypeKey)
@@ -177,7 +179,6 @@ const SalesPageLayoutFooter = () => {
 					);
 					setPriceTypeKeyData(savedPriceTypeKey);
 
-					// Update other related values from the saved price
 					localStorage.setItem(
 						"matchingProductByCurrency",
 						savedPrice.productByCurrency,
@@ -186,11 +187,12 @@ const SalesPageLayoutFooter = () => {
 						"falseCurrencyBoolean",
 						savedPrice.currency,
 					);
-				}
-				// Otherwise, if no price type is selected or saved price doesn't exist anymore
-				else if (data.length > 0) {
+				} else if (data.length > 0) {
 					const lastPrice = data[data.length - 1];
-					localStorage.setItem("priceTypeKey", lastPrice.item_id);
+					localStorage.setItem(
+						"priceTypeKey",
+						mainPriceType.price_type,
+					);
 					localStorage.setItem(
 						"matchingProductByCurrency",
 						lastPrice.productByCurrency,
