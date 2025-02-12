@@ -9,6 +9,7 @@ bor yoki yoqligidan qatiy nazar
 - savdo oynasida "NAQD + ONLINE" ni ishlatib qoyish kerak, va yana qilish kerak bolgan narsa: 
 2ta kassaga pul tushadigan qilish (1C tomondan tayyor emas)
 
+- ping tekshirayotganda "empty password" bolsa, serverga ulanmagan degan xatolikni togrilash kere
 
 ===================================================================
 
@@ -42,4 +43,4 @@ agar xatolik chiqsa, reload bolmasligi kerak. xatolik, bitta modalda chiqishi ke
 
 =============================================
 
-create sales da xatolik bor
+

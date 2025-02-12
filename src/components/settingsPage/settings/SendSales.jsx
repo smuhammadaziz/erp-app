@@ -72,8 +72,8 @@ function SendSales() {
 				</div>
 
 				<p className="text-sm text-gray-600">
-					{content[language].settingsDevice.currentSendTime}{" "}
-					{selectedTime / (60 * 1000)}
+					{content[language].settingsDevice.currentSendTime}:{" "}
+					{selectedTime / (60 * 1000)} минут
 				</p>
 			</div>
 
