@@ -137,10 +137,11 @@ function SalesPageLayoutHeader() {
 						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
+				<div className="mx-5">|</div>
 				<div className="flex items-center">
 					<button
 						onClick={() => handleOpenModal("klientlar")}
-						className="flex items-center mr-2 justify-center bg-blue-500 hover:bg-blue-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600"
+						className="flex items-center mr-2 justify-center bg-slate-100 hover:bg-slate-300 rounded-lg text-black px-7 py-2 text-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600"
 					>
 						<FaUsersLine className="mr-3 text-xl" />
 						<span className="font-semibold">
