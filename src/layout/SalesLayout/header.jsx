@@ -211,7 +211,7 @@ function SalesPageLayoutHeader() {
 										<div className="col-span-2">Сумма</div>
 										<div className="col-span-3">Дата</div>
 										<div className="col-span-2">Статус</div>
-										<div className="col-span-2 text-right">
+										<div className="col-span-2 text-right mr-3">
 											Действия
 										</div>
 									</div>
@@ -219,7 +219,7 @@ function SalesPageLayoutHeader() {
 
 								{/* Table Body */}
 								<div className="divide-y divide-gray-200 bg-white">
-									{productData.length > 0 &&
+									{productData.length > 0 ? (
 										productData
 											.map((sale) => (
 												<div
@@ -288,7 +288,12 @@ function SalesPageLayoutHeader() {
 													</div>
 												</div>
 											))
-											.reverse()}
+											.reverse()
+									) : (
+										<div className="flex items-center justify-center py-10 text-gray-500 text-sm">
+											Ҳозирча савдолар йўқ
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
