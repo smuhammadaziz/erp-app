@@ -136,7 +136,7 @@ function HeaderInner({ onRefresh }) {
 			);
 
 			const responseSettingsDevice = await fetch(
-				`${nodeUrl}/api/get/settings/device/${device_id}/${ksb_id}`,
+				`${nodeUrl}/api/get/settings/device/${deviceId}/${ksbId}`,
 			);
 
 			const settingsData = await responseSettings.json();
