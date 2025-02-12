@@ -141,6 +141,7 @@ const SalesPageLayoutFooter = () => {
 					setCurrencyKey(savedCurrencyKey);
 				} else if (data.length > 0) {
 					setCurrencyKey(settingsCurrency);
+					localStorage.setItem("currencyKey", settingsCurrency);
 				}
 			} catch (error) {
 				console.error("Error fetching currencies:", error);
@@ -178,6 +179,8 @@ const SalesPageLayoutFooter = () => {
 						(price) => price.item_id === savedPriceTypeKey,
 					);
 					setPriceTypeKeyData(savedPriceTypeKey);
+
+					localStorage.setItem("priceTypeKey", savedPriceTypeKey);
 
 					localStorage.setItem(
 						"matchingProductByCurrency",
