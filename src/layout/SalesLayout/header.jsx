@@ -150,7 +150,6 @@ function SalesPageLayoutHeader() {
 				</div>
 			</div>
 			<div className="mr-2.5 flex items-center">
-				{/* {renderStatusButton()} */}
 				<button
 					// onClick={() => handleOpenModal("skidka")}
 					onClick={() => setIsModalOpenDis(true)}
@@ -177,7 +176,7 @@ function SalesPageLayoutHeader() {
 			</div>
 			{isListModalOpen && (
 				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-[95vw] max-h-[90vh] overflow-hidden">
+					<div className="bg-white rounded-lg w-full max-w-[95vw] h-[90vh] overflow-hidden">
 						<div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-white">
 							<h2 className="text-lg font-semibold flex items-center gap-2 text-gray-900">
 								<BsBasket3 className="text-xl" />
@@ -207,11 +206,11 @@ function SalesPageLayoutHeader() {
 								{/* Header */}
 								<div className="bg-gray-50 border-y border-gray-200">
 									<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm font-medium text-gray-500">
-										<div className="col-span-3">Клиент</div>
+										<div className="col-span-5">Клиент</div>
 										<div className="col-span-2">Сумма</div>
 										<div className="col-span-3">Дата</div>
-										<div className="col-span-2">Статус</div>
-										<div className="col-span-2 text-right mr-3">
+										<div className="col-span-1">Статус</div>
+										<div className="col-span-1 text-right mr-6">
 											Действия
 										</div>
 									</div>
@@ -227,7 +226,7 @@ function SalesPageLayoutHeader() {
 													className="hover:bg-gray-50"
 												>
 													<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm">
-														<div className="col-span-3 flex items-center gap-2">
+														<div className="col-span-5 flex items-center gap-2">
 															<MdPersonOutline className="text-gray-400 text-lg flex-shrink-0" />
 															<span
 																className="font-medium text-gray-900 truncate"
@@ -267,12 +266,19 @@ function SalesPageLayoutHeader() {
 																).format("LLL")}
 															</span>
 														</div>
-														<div className="col-span-2 flex items-center">
+														<div className="col-span-1 flex items-center">
 															<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-																{sale.status}
+																{sale.status ===
+																"process"
+																	? "Юборилмади"
+																	: sale.status ===
+																	  "delivered"
+																	? "Юборилди"
+																	: sale.status}
 															</span>
 														</div>
-														<div className="col-span-2 flex items-center justify-end">
+
+														<div className="col-span-1 flex items-center justify-end">
 															<button
 																onClick={() =>
 																	openDetailModal(
@@ -282,7 +288,12 @@ function SalesPageLayoutHeader() {
 																className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
 															>
 																<MdOutlineInfo className="text-lg" />
-																более
+																{
+																	content[
+																		language
+																	].product
+																		.view
+																}
 															</button>
 														</div>
 													</div>
