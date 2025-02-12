@@ -206,10 +206,10 @@ function SalesPageLayoutHeader() {
 								{/* Header */}
 								<div className="bg-gray-50 border-y border-gray-200">
 									<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm font-medium text-gray-500">
-										<div className="col-span-5">Клиент</div>
+										<div className="col-span-4">Клиент</div>
 										<div className="col-span-2">Сумма</div>
 										<div className="col-span-3">Дата</div>
-										<div className="col-span-1">Статус</div>
+										<div className="col-span-2">Статус</div>
 										<div className="col-span-1 text-right mr-6">
 											Действия
 										</div>
@@ -226,7 +226,7 @@ function SalesPageLayoutHeader() {
 													className="hover:bg-gray-50"
 												>
 													<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm">
-														<div className="col-span-5 flex items-center gap-2">
+														<div className="col-span-4 flex items-center gap-2">
 															<MdPersonOutline className="text-gray-400 text-lg flex-shrink-0" />
 															<span
 																className="font-medium text-gray-900 truncate"
@@ -266,7 +266,7 @@ function SalesPageLayoutHeader() {
 																).format("LLL")}
 															</span>
 														</div>
-														<div className="col-span-1 flex items-center">
+														<div className="col-span-2 flex items-center">
 															<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
 																{sale.status ===
 																"process"

@@ -351,7 +351,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				const data = await response.json();
 				if (response.ok) {
 					onClose();
-					window.location.reload();
 
 					console.log("Sent sales successfully.");
 				} else {
@@ -363,6 +362,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 				console.error("Error sending sales data:", error);
 			}
 		}
+
+		window.location.reload();
 	};
 
 	if (!isOpen) return null;
