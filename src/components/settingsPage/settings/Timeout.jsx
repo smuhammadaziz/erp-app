@@ -7,7 +7,7 @@ import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
 const TIMEOUT_STORAGE_KEY = "timeoutSeconds";
-const DEFAULT_TIMEOUT = 30;
+const DEFAULT_TIMEOUT = 60;
 
 function TimeoutSettings() {
 	const [savedTimeout, setSavedTimeout] = useState(() => {

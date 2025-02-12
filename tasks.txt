@@ -11,6 +11,8 @@ bor yoki yoqligidan qatiy nazar
 
 - ping tekshirayotganda "empty password" bolsa, serverga ulanmagan degan xatolikni togrilash kere
 
+- login da agar boshqa ksb_id ni useri bolsa chiqib qolishini togrilash kere
+
 ===================================================================
 
 /settings API
