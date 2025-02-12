@@ -376,7 +376,7 @@ const content: Content = {
 			saleModalCount: "Сони",
 			saleModalNotEnough: "Қолдиқда йетарли эмас",
 			sidebarClientSelect: "Клиент танлаш",
-			sidebarClientSearch: "Клиент қидириш",
+			sidebarClientSearch: "қидириш",
 		},
 		headerProfile: {
 			settings: "Созламалар",
@@ -594,7 +594,7 @@ const content: Content = {
 			saleModalCount: "Количество",
 			saleModalNotEnough: "Осталось недостаточно.",
 			sidebarClientSelect: "Выбрать клиента",
-			sidebarClientSearch: "Поиск клиентов",
+			sidebarClientSearch: "Поиск",
 		},
 		headerProfile: {
 			settings: "Настройки",
