@@ -200,9 +200,7 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
-	const [displayMessage, setDisplayMessage] = useState(
-		content[language].product.loading,
-	);
+	const [displayMessage, setDisplayMessage] = useState(`-`);
 
 	useEffect(() => {
 		const updateCurrencyRate = () => {
@@ -212,6 +210,7 @@ function HeaderInner({ onRefresh }) {
 
 			if (
 				currencyRateData &&
+				currencyRateData.ksb_id === ksbId &&
 				currencyRateData.uzs &&
 				currencyRateData.usd &&
 				currencyRateData.uzsName &&
@@ -221,7 +220,7 @@ function HeaderInner({ onRefresh }) {
 					`${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`,
 				);
 			} else {
-				setDisplayMessage(content[language].product.loading);
+				setDisplayMessage(`-`);
 			}
 		};
 
