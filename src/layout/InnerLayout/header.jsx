@@ -200,7 +200,9 @@ function HeaderInner({ onRefresh }) {
 		}
 	};
 
-	const [displayMessage, setDisplayMessage] = useState("- = -");
+	const [displayMessage, setDisplayMessage] = useState(
+		content[language].product.loading,
+	);
 
 	useEffect(() => {
 		const updateCurrencyRate = () => {
@@ -219,13 +221,13 @@ function HeaderInner({ onRefresh }) {
 					`${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`,
 				);
 			} else {
-				setDisplayMessage("- = -");
+				setDisplayMessage(content[language].product.loading);
 			}
 		};
 
 		updateCurrencyRate();
 
-		const intervalId = setInterval(updateCurrencyRate, 10000);
+		const intervalId = setInterval(updateCurrencyRate, 1000);
 
 		return () => clearInterval(intervalId);
 	}, []);
