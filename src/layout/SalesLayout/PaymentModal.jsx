@@ -355,8 +355,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 					console.log("Sent sales successfully.");
 				} else {
 					console.log("Failed to send sales.");
-					setShowErrorModal(true);
-					setShowError("failed to send sales");
+					// setShowErrorModal(true);
+					// setShowError("failed to send sales");
 				}
 			} catch (error) {
 				console.error("Error sending sales data:", error);

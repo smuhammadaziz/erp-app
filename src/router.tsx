@@ -25,7 +25,7 @@ export const Router: FC = () => {
 	const userPassword = localStorage.getItem("userPassword");
 
 	useEffect(() => {
-		setTimeout(() => setLoading(false), 80);
+		setTimeout(() => setLoading(false), 20);
 	}, []);
 
 	// const sendSalesBackground = async () => {
