@@ -14,7 +14,7 @@ import PasswordModal from "./components/PasswordModal";
 
 import nodeUrl from "../../links";
 
-function LoginPageKSB() {
+function LoginPageKSB({ socket }) {
 	const { login } = useAuth();
 	const [userType, setUserType] = useState("");
 	const [password, setPassword] = useState("");
@@ -126,13 +126,23 @@ function LoginPageKSB() {
 		};
 	}, [ksbId]);
 
+	// useEffect(() => {
+	// 	handleLogin();
+
+	// 	const updateHandler = () => handleLogin();
+	// 	socket.on("update", updateHandler);
+
+	// 	return () => {
+	// 		socket.off("update", updateHandler);
+	// 	};
+	// }, []);
+
 	const handleLogin = async (e) => {
 		if (e && e.preventDefault) {
 			e.preventDefault();
 		}
 
 		if (!userType) {
-			toast.error(content[language].login.selectUserType);
 			return;
 		}
 
@@ -203,8 +213,10 @@ function LoginPageKSB() {
 			const data = await response.json();
 
 			if (data.success) {
+				console.log(socket.id);
 				login(data.token);
 				localStorage.setItem("userType", userType);
+				localStorage.setItem("socketUserId", socket.id);
 				const passwordToStore = password || "EMPTY_PASSWORD_ALLOWED";
 
 				localStorage.setItem("showSettingsModal", data.showSettings);

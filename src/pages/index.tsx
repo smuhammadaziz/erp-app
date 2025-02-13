@@ -31,6 +31,8 @@ import { useNavigate } from "react-router-dom";
 
 import DeadlineModal from "./itsModal";
 
+import { Socket } from "socket.io-client";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -41,9 +43,13 @@ ChartJS.register(
 	Legend,
 );
 
+interface IndexPageProps {
+	socket: Socket;
+}
+
 import nodeUrl from "../links";
 
-const IndexPage: FC = () => {
+const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const [language, setLanguage] = useLang();
 	const [filter, setFilter] = useState<string>(
 		content[language as string].home.time.month,
@@ -118,45 +124,63 @@ const IndexPage: FC = () => {
 	};
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
-					{
-						method: "POST",
-					},
-				);
-				const data = await response.json();
-				setAllProducts(data.products.length);
-			} catch (error) {
-				console.error("Error fetching products:", error);
-			}
+		fetchProductsData();
+
+		const updateHandler = () => fetchProductsData();
+		socket.on("gettingProducts", updateHandler);
+
+		return () => {
+			socket.off("gettingProducts", updateHandler);
 		};
 
-		const intervalId = setInterval(() => {
-			fetchProducts();
-		}, 1000);
-		return () => clearInterval(intervalId);
+		// const intervalId = setInterval(() => {
+		// 	fetchProducts();
+		// }, 1000);
+		// return () => clearInterval(intervalId);
 	}, []);
+
+	const fetchProductsData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+				},
+			);
+			const data = await response.json();
+			setAllProducts(data.products.length);
+		} catch (error) {
+			console.error("Error fetching products:", error);
+		}
+	};
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/client/${ksbId}/${deviceId}`,
-				);
-				const data = await response.json();
-				setAllClient(data.data.length);
-			} catch (error) {
-				console.error("Error fetching products:", error);
-			}
+		fetchClientsData();
+
+		const updateHandler = () => fetchClientsData();
+		socket.on("gettingClients", updateHandler);
+
+		return () => {
+			socket.off("gettingClients", updateHandler);
 		};
 
-		const intervalId = setInterval(() => {
-			fetchProducts();
-		}, 1000);
-		return () => clearInterval(intervalId);
+		// const intervalId = setInterval(() => {
+		// 	fetchProducts();
+		// }, 1000);
+		// return () => clearInterval(intervalId);
 	}, []);
+
+	const fetchClientsData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/client/${ksbId}/${deviceId}`,
+			);
+			const data = await response.json();
+			setAllClient(data.data.length);
+		} catch (error) {
+			console.error("Error fetching products:", error);
+		}
+	};
 
 	const handleClick = async (e: MouseEvent<HTMLAnchorElement>) => {
 		e.preventDefault();
@@ -208,9 +232,9 @@ const IndexPage: FC = () => {
 						? allClient
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-						: "-";
+						: "0";
 				} catch (error) {
-					return "-";
+					return "0";
 				}
 			})(),
 			change: "+8.1%",
@@ -229,9 +253,9 @@ const IndexPage: FC = () => {
 						? allProducts
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-						: "-";
+						: "0";
 				} catch (error) {
-					return "-";
+					return "0";
 				}
 			})(),
 			change: "+5.3%",

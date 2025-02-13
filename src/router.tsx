@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import IndexPage from "./pages";
 import { PopupPage } from "./pages/popup";
+import { io } from "socket.io-client";
 
 import LoginPageKSB from "./components/loginPage/login";
 import IntroPageKSB from "./components/introPage/intro";
@@ -12,6 +13,8 @@ import ProductsPage from "./pages/products/products";
 import SettingsPage from "./pages/settings/settings";
 import { AuthProvider, ProtectedRoute } from "./context/Auth";
 import nodeUrl from "./links";
+
+const socket = io("http://localhost:8000");
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -123,12 +126,15 @@ export const Router: FC = () => {
 							index
 							element={
 								<ProtectedRoute>
-									<IndexPage />
+									<IndexPage socket={socket} />
 								</ProtectedRoute>
 							}
 						/>
 					</Route>
-					<Route path="/login" element={<LoginPageKSB />} />
+					<Route
+						path="/login"
+						element={<LoginPageKSB socket={socket} />}
+					/>
 					<Route path="/intro" element={<IntroPageKSB />} />
 					<Route
 						path="/sales"
