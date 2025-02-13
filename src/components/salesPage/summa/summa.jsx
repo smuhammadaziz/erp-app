@@ -4,7 +4,7 @@ import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineCreditCard } from "react-icons/hi";
 import nodeUrl from "../../../links";
 
-function SalespageSummaSection() {
+function SalespageSummaSection({ socket }) {
 	const [price, setPrice] = useState(0);
 	const [discount, setDiscount] = useState(null);
 	const [finalPrice, setFinalPrice] = useState(0);
@@ -12,27 +12,34 @@ function SalespageSummaSection() {
 	const sales_id = localStorage.getItem("sales_id");
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/sales/${sales_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
+		fetchSoldProducts();
 
-				setPrice(parseFloat(data[sales_id].summa));
-				setDiscount(parseFloat(data[sales_id].discount));
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
 
-				setFinalPrice(data[sales_id].summa - data[sales_id].discount);
-			} catch (err) {
-				console.log(err);
-			}
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
 		};
-		const intervalId = setInterval(fetchProducts, 400);
-		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+
+			setPrice(parseFloat(data[sales_id].summa));
+			setDiscount(parseFloat(data[sales_id].discount));
+
+			setFinalPrice(data[sales_id].summa - data[sales_id].discount);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className="items-center py-1">

@@ -132,11 +132,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 		return () => {
 			socket.off("gettingProducts", updateHandler);
 		};
-
-		// const intervalId = setInterval(() => {
-		// 	fetchProducts();
-		// }, 1000);
-		// return () => clearInterval(intervalId);
 	}, []);
 
 	const fetchProductsData = async () => {
@@ -163,11 +158,6 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 		return () => {
 			socket.off("gettingClients", updateHandler);
 		};
-
-		// const intervalId = setInterval(() => {
-		// 	fetchProducts();
-		// }, 1000);
-		// return () => clearInterval(intervalId);
 	}, []);
 
 	const fetchClientsData = async () => {

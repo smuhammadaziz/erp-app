@@ -41,7 +41,7 @@ moment.locale("ru");
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
-function SalesPageLayoutSidebar() {
+function SalesPageLayoutSidebar({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -76,8 +76,6 @@ function SalesPageLayoutSidebar() {
 				console.log(err);
 			}
 		};
-		// const intervalId = setInterval(fetchProducts, 400);
-		// return () => clearInterval(intervalId);
 
 		fetchProducts();
 	}, [nodeUrl, ksb_id]);
@@ -160,6 +158,7 @@ function SalesPageLayoutSidebar() {
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
 				totalAmount={50000}
+				socket={socket}
 			/>
 
 			{isListModalOpen && (

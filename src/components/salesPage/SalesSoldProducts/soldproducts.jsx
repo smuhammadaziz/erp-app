@@ -5,7 +5,7 @@ import nodeUrl from "../../../links";
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
-function SalesSoldProducts({ lastAddedProductId }) {
+function SalesSoldProducts({ lastAddedProductId, socket }) {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -35,33 +35,40 @@ function SalesSoldProducts({ lastAddedProductId }) {
 	};
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/sales/${sales_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
-				const newProducts = data[sales_id]?.products || [];
-				setProducts(newProducts);
+		fetchSoldProducts();
 
-				if (newProducts.length > 0 && !selectedRowId) {
-					const lastProduct = newProducts[newProducts.length - 1];
-					setSelectedRowId(lastProduct.id);
-					scrollToSelectedRow(lastProduct.id);
-				}
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
 
-				setError(null);
-				setLoading(false);
-			} catch (err) {
-				setLoading(false);
-			}
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
 		};
-		const intervalId = setInterval(fetchProducts, 400);
-		return () => clearInterval(intervalId);
 	}, [sales_id, lastAddedProductId]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			const newProducts = data[sales_id]?.products || [];
+			setProducts(newProducts);
+
+			if (newProducts.length > 0 && !selectedRowId) {
+				const lastProduct = newProducts[newProducts.length - 1];
+				setSelectedRowId(lastProduct.id);
+				scrollToSelectedRow(lastProduct.id);
+			}
+
+			setError(null);
+			setLoading(false);
+		} catch (err) {
+			setLoading(false);
+		}
+	};
 
 	const handleRowClick = (productId) => {
 		setSelectedRowId(productId);

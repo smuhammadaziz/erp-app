@@ -140,9 +140,7 @@ export const Router: FC = () => {
 						path="/sales"
 						element={
 							<ProtectedRoute>
-								<SalesMainPage
-								//  socket={socket}
-								/>
+								<SalesMainPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>

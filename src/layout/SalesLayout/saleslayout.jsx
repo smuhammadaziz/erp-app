@@ -4,7 +4,7 @@ import SalesPageLayoutSidebar from "./sidebar";
 import { Layout } from "../../layout/SalesHomeLayout/layout";
 import SalesPageLayoutHeader from "./header";
 
-function SalesPageLayoutMain({ children }) {
+function SalesPageLayoutMain({ children, socket }) {
 	return (
 		<Layout>
 			<div className="flex flex-col z-0">
@@ -17,7 +17,7 @@ function SalesPageLayoutMain({ children }) {
 					</div>
 
 					<div className="w-52 bg-slate-100 text-white border-l-2">
-						<SalesPageLayoutSidebar />
+						<SalesPageLayoutSidebar socket={socket} />
 					</div>
 				</div>
 

@@ -8,7 +8,7 @@ import { MdClear } from "react-icons/md";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
-const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
+const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
 	const [cardAmount, setCardAmount] = useState(0);
@@ -51,33 +51,38 @@ const PaymentModal = ({ isOpen, onClose, totalAmount }) => {
 	}, []);
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/sales/${sales_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const datas = await response.json();
+		fetchSoldProducts();
 
-				setPrice(parseFloat(datas[sales_id].summa));
-				setDiscount(parseFloat(datas[sales_id].discount));
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
 
-				setTotalPrice(
-					parseFloat(
-						datas[sales_id].summa - datas[sales_id].discount,
-					),
-				);
-
-				setData(datas[sales_id]);
-			} catch (err) {
-				console.log(err);
-			}
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
 		};
-		const intervalId = setInterval(fetchProducts, 1000);
-		return () => clearInterval(intervalId);
 	}, [nodeUrl, sales_id]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const datas = await response.json();
+
+			setPrice(parseFloat(datas[sales_id].summa));
+			setDiscount(parseFloat(datas[sales_id].discount));
+
+			setTotalPrice(
+				parseFloat(datas[sales_id].summa - datas[sales_id].discount),
+			);
+
+			setData(datas[sales_id]);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const [cashAmount, setCashAmount] = useState(price);
 
