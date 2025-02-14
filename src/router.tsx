@@ -22,6 +22,7 @@ export const Router: FC = () => {
 	const fetchTime = Number(localStorage.getItem("selectedTimeInMs"));
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
 	const ipaddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
 	const userType = localStorage.getItem("userType");
@@ -31,89 +32,153 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 20);
 	}, []);
 
-	// const sendSalesBackground = async () => {
-	// 	try {
-	// 		const url = `${nodeUrl}/api/send/sales/${ksbId}`;
+	useEffect(() => {
+		fetchUpdatingSymbolData();
 
-	// 		const requestBody = {
-	// 			ip: ipaddressPort,
-	// 			project: mainDatabase,
-	// 			username: userType,
-	// 			password: userPassword,
-	// 		};
+		const updateHandler = () => fetchUpdatingSymbolData();
+		socket.on("updatingSymbols", updateHandler);
 
-	// 		const data = await fetch(url, {
-	// 			method: "POST",
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			body: JSON.stringify(requestBody),
-	// 		});
+		return () => {
+			socket.off("updatingSymbols", updateHandler);
+		};
+	}, []);
 
-	// 		if (data.ok) {
-	// 			console.log("ok");
-	// 		} else {
-	// 			console.log("err");
-	// 		}
-	// 	} catch (err) {
-	// 		console.log("error occured when sending sales background");
-	// 	}
-	// };
+	const fetchUpdatingSymbolData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/symbol/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
 
-	// const checkInternetConnection = async () => {
-	// 	try {
-	// 		const online = window.navigator.onLine;
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
 
-	// 		if (!online) {
-	// 			return false;
-	// 		}
+	useEffect(() => {
+		fetchUpdatingCurrencyData();
 
-	// 		const credentials = Buffer.from(
-	// 			`${userType}:${userPassword}`,
-	// 		).toString("base64");
+		const updateHandler = () => fetchUpdatingCurrencyData();
+		socket.on("updatingCurrencies", updateHandler);
 
-	// 		const response = await fetch(
-	// 			`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
-	// 			{
-	// 				headers: { Authorization: `Basic ${credentials}` },
-	// 			},
-	// 		);
+		return () => {
+			socket.off("updatingCurrencies", updateHandler);
+		};
+	}, []);
 
-	// 		return response.status === 200;
-	// 	} catch (error) {
-	// 		console.error("Error during internet connection check:", error);
-	// 		return false;
-	// 	}
-	// };
+	const fetchUpdatingCurrencyData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/currency/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
 
-	// useEffect(() => {
-	// 	let sendSales: any;
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
 
-	// 	const checkNetwork = async () => {
-	// 		const isOnline = await checkInternetConnection();
+	useEffect(() => {
+		fetchUpdatingPriceTypeData();
 
-	// 		if (isOnline) {
-	// 			if (!sendSales) {
-	// 				sendSales = setInterval(sendSalesBackground, fetchTime);
-	// 			}
-	// 		} else {
-	// 			console.log("Network not available");
-	// 			if (sendSales) {
-	// 				clearInterval(sendSales);
-	// 				sendSales = null;
-	// 			}
-	// 		}
-	// 	};
+		const updateHandler = () => fetchUpdatingPriceTypeData();
+		socket.on("updatingPriceType", updateHandler);
 
-	// 	const intervalId = setInterval(checkNetwork, 20 * 60 * 1000);
+		return () => {
+			socket.off("updatingPriceType", updateHandler);
+		};
+	}, []);
 
-	// 	checkNetwork();
+	const fetchUpdatingPriceTypeData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/price_type/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
 
-	// 	return () => {
-	// 		clearInterval(intervalId);
-	// 		if (sendSales) clearInterval(sendSales);
-	// 	};
-	// }, [fetchTime]);
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchWarehouseData();
+
+		const updateHandler = () => fetchWarehouseData();
+		socket.on("updatingWarehouse", updateHandler);
+
+		return () => {
+			socket.off("updatingWarehouse", updateHandler);
+		};
+	}, []);
+
+	const fetchWarehouseData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/warehouse/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
 
 	return loading ? (
 		<Loader />

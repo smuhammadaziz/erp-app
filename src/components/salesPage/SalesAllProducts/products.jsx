@@ -4,7 +4,7 @@ import ProductsTable from "./ProductsTable";
 import ProductModal from "./ProductModal";
 import nodeUrl from "../../../links";
 
-function SalesMainAllProducts() {
+function SalesMainAllProducts({ socket }) {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [originalData, setOriginalData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
@@ -32,10 +32,18 @@ function SalesMainAllProducts() {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	const fetchProducts = useCallback(async () => {
-		const now = Date.now();
-		if (now - lastFetchTime.current < 500) return;
+	useEffect(() => {
+		fetchProductsData();
 
+		const updateHandler = () => fetchProductsData();
+		socket.on("gettingsAllProductsData", updateHandler);
+
+		return () => {
+			socket.off("gettingsAllProductsData", updateHandler);
+		};
+	}, [isSearching, displayedData.length, deviceId, ksbId]);
+
+	const fetchProductsData = useCallback(async () => {
 		try {
 			const response = await fetch(
 				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
@@ -63,7 +71,6 @@ function SalesMainAllProducts() {
 
 			setLoading(false);
 			setError(null);
-			lastFetchTime.current = now;
 		} catch (err) {
 			setError(err.message);
 			setOriginalData([]);
@@ -74,22 +81,6 @@ function SalesMainAllProducts() {
 			setLoading(false);
 		}
 	}, [isSearching, displayedData.length, deviceId, ksbId]);
-
-	useEffect(() => {
-		fetchProducts();
-
-		fetchIntervalRef.current = setInterval(() => {
-			if (!isLoadingMore) {
-				fetchProducts();
-			}
-		}, 500);
-
-		return () => {
-			if (fetchIntervalRef.current) {
-				clearInterval(fetchIntervalRef.current);
-			}
-		};
-	}, [fetchProducts, isLoadingMore]);
 
 	useEffect(() => {
 		if (searchQuery) {

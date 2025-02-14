@@ -27,7 +27,10 @@ function SalesMainPage({ socket }) {
 					</div>
 				</div>
 				<div className="">
-					<SalesMainAllProducts onProductAdded={handleProductAdded} />
+					<SalesMainAllProducts
+						onProductAdded={handleProductAdded}
+						socket={socket}
+					/>
 				</div>
 			</div>
 		</SalesPageLayoutMain>
