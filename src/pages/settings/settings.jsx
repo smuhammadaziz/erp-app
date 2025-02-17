@@ -14,7 +14,7 @@ function SettingsPage() {
 		<Layout>
 			<InnerLayoutSection>
 				<div className="h-[80vh] bg-gray-100">
-					<div className="container mx-auto flex space-x-6">
+					<div className=" mx-auto flex space-x-6">
 						<Sidebar
 							activeSection={activeSection}
 							setActiveSection={setActiveSection}
