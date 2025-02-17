@@ -4,6 +4,7 @@ import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
 import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
+import { HiOutlineUserCircle } from "react-icons/hi2";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -132,8 +133,8 @@ function SalesPageLayoutHeader() {
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
 				<div className="flex items-center gap-4 pr-5">
-					<span className="text-gray-600 text-lg flex items-center gap-2">
-						<FaUserAlt className="text-xl" />
+					<span className="text-black text-lg flex items-center gap-2">
+						<HiOutlineUserCircle className="text-xl" />
 						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
