@@ -288,7 +288,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 														<h3 className="text-4xl font-bold text-gray-800 mb-2">
 															{card.value}
 														</h3>
-														<p className="text-gray-500 font-medium">
+														<p className="text-black font-medium">
 															{card.title}
 														</p>
 													</div>
@@ -401,3 +401,4 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 };
 
 export default IndexPage;
+
