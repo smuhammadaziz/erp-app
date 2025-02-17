@@ -238,3 +238,4 @@ export const Router: FC = () => {
 		</HashRouter>
 	);
 };
+
