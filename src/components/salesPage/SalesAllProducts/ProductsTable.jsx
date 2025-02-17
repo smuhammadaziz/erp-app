@@ -730,7 +730,7 @@ function ProductsTable({
 										})()}
 									</td>
 									<td
-										className={`py-1 px-5 border-b text-left w-1/10 min-w-[120px] ${
+										className={`py-1 px-5 border-b text-left text-[11px] w-1/10 min-w-[120px] ${
 											selectedCell.row === index &&
 											selectedCell.col === 6
 												? "bg-blue-500 text-white"
