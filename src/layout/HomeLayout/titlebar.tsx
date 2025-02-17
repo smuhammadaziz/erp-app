@@ -244,7 +244,7 @@ export const Titlebar: FC = () => {
 
 			{isExitModalOpen && (
 				<div className="fixed inset-0 z-10  bg-black bg-opacity-80 flex items-center justify-center p-8">
-					<div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-gray-200 p-10 space-y-6 transform transition-all duration-300 ease-in-out">
+					<div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-200 p-10 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<IoExitOutline className="text-5xl font-bold mb-4 flex justify-center mx-auto text-center" />
 							<h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -279,3 +279,4 @@ export const Titlebar: FC = () => {
 		</div>
 	);
 };
+
