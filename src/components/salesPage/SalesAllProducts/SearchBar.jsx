@@ -32,7 +32,7 @@ function SearchBar({
 
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
-	const typingSpeedThreshold = 10;
+	const typingSpeedThreshold = 3;
 
 	const [language] = useLang("uz");
 
