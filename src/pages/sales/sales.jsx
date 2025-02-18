@@ -15,7 +15,7 @@ function SalesMainPage({ socket }) {
 	return (
 		<SalesPageLayoutMain socket={socket}>
 			<div className="">
-				<div className="flex gap-4 justify-between">
+				<div className="flex gap-2 justify-between">
 					<div className="w-[90vw] ">
 						<SalesSoldProducts
 							key={lastAddedProductId}

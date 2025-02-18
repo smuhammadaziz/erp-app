@@ -175,7 +175,7 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 
 	return (
 		<>
-			<div className="py-1 h-[33vh] relative z-0">
+			<div className="py-1 h-[34vh] relative z-0">
 				<div className="bg-white shadow-md rounded-lg h-full flex flex-col">
 					<div className="overflow-x-auto overflow-y-auto flex-grow">
 						<table

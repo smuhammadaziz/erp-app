@@ -12,7 +12,7 @@ function SalesPageLayoutMain({ children, socket }) {
 					<SalesPageLayoutHeader />
 				</header>
 				<div className="flex flex-1 ">
-					<div className="flex-1  px-2 py-1 bg-white overflow-auto">
+					<div className="flex-1  px-1 py-0 bg-white overflow-auto">
 						{children}
 					</div>
 
