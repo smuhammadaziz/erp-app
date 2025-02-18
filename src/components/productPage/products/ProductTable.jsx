@@ -263,3 +263,4 @@ const ProductTable = React.memo(
 );
 
 export default ProductTable;
+

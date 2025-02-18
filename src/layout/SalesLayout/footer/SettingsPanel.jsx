@@ -45,3 +45,4 @@ const SettingsPanel = ({ isSettingsOpen, toggleSettings, settingsOptions }) => (
 );
 
 export default SettingsPanel;
+

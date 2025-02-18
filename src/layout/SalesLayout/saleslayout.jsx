@@ -30,3 +30,4 @@ function SalesPageLayoutMain({ children, socket }) {
 }
 
 export default SalesPageLayoutMain;
+

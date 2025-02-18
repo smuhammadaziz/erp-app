@@ -102,3 +102,4 @@ const CustomerRow = ({ customer, onView, index, content, language }) => {
 };
 
 export default CustomerRow;
+

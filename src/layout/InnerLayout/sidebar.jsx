@@ -126,3 +126,4 @@ function SidebarInner({ onToggle }) {
 }
 
 export default SidebarInner;
+

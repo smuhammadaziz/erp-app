@@ -47,3 +47,4 @@ const ThemeSettingsModal = ({
 );
 
 export default ThemeSettingsModal;
+

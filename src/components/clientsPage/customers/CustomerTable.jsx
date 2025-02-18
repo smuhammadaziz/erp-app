@@ -60,3 +60,4 @@ const CustomerTable = ({ customers, onView, onDelete, content, language }) => (
 );
 
 export default CustomerTable;
+

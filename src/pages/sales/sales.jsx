@@ -38,3 +38,4 @@ function SalesMainPage({ socket }) {
 }
 
 export default SalesMainPage;
+

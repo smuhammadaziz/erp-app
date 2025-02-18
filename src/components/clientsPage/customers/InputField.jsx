@@ -16,3 +16,4 @@ const InputField = ({ label, name, value, onChange, type = "text" }) => (
 );
 
 export default InputField;
+

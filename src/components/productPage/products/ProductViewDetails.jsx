@@ -307,3 +307,4 @@ const ProductViewDetails = ({ product }) => {
 };
 
 export default ProductViewDetails;
+

@@ -12,3 +12,4 @@ const useLang = () => {
 };
 
 export default useLang;
+

@@ -289,3 +289,4 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 };
 
 export default DiscountModal;
+

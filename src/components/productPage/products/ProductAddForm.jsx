@@ -146,3 +146,4 @@ const ProductAddForm = ({ onAddProduct, onCancel }) => {
 };
 
 export default ProductAddForm;
+

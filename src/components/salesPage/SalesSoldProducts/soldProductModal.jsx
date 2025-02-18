@@ -389,3 +389,4 @@ function ProductModal({ product, onClose }) {
 }
 
 export default ProductModal;
+

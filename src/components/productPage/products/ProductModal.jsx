@@ -49,3 +49,4 @@ const ProductModal = ({ isOpen, onClose, title, children }) => {
 };
 
 export default ProductModal;
+

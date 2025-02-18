@@ -282,3 +282,4 @@ function SalesPageLayoutSidebar({ socket }) {
 }
 
 export default SalesPageLayoutSidebar;
+

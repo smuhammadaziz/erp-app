@@ -22,3 +22,4 @@ root.render(
 		</LangProvider>
 	</React.StrictMode>,
 );
+

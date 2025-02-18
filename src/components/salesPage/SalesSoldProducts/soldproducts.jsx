@@ -333,3 +333,4 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 }
 
 export default SalesSoldProducts;
+

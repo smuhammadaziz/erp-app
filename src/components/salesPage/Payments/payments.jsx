@@ -19,3 +19,4 @@ function SalesPagePaymentsSection() {
 }
 
 export default SalesPagePaymentsSection;
+

@@ -36,3 +36,4 @@ const SearchBar = ({ value, onChange, content, language }) => {
 };
 
 export default SearchBar;
+

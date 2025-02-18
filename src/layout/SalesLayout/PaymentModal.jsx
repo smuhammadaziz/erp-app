@@ -712,3 +712,4 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 };
 
 export default PaymentModal;
+
