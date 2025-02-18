@@ -65,12 +65,13 @@ function SalesPageLayoutSidebar({ socket }) {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					`${nodeUrl}/api/all/sales/${ksb_id}`,
+					`${nodeUrl}/api/get/process/sales/${ksb_id}`,
 				);
 				if (!response.ok) {
 					throw new Error("Failed to fetch products");
 				}
 				const data = await response.json();
+
 				setProductData(data);
 			} catch (err) {
 				console.log(err);
@@ -84,22 +85,22 @@ function SalesPageLayoutSidebar({ socket }) {
 
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of productData) {
-			if (product.details && !currencyData[product.details]) {
+			if (product && !currencyData[product]) {
 				try {
 					const response = await fetch(
-						`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.details[0].currency}`,
+						`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.mainCurrency}`,
 					);
 					const data = await response.json();
 
 					setCurrencyData((prev) => ({
 						...prev,
-						[product.details[0].currency]: data[0]?.name || "-",
+						[product.mainCurrency]: data[0]?.name || "-",
 					}));
 				} catch (error) {
 					console.error("Failed to fetch currency data", error);
 					setCurrencyData((prev) => ({
 						...prev,
-						[product.details[0].currency]: "-",
+						[product.mainCurrency]: "-",
 					}));
 				}
 			}
@@ -118,6 +119,8 @@ function SalesPageLayoutSidebar({ socket }) {
 		const result = cashDataAll.find((item) => item.cash_id === id);
 		return result || null;
 	}
+
+	const reversedArray = [...productData].reverse();
 
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
@@ -141,7 +144,7 @@ function SalesPageLayoutSidebar({ socket }) {
 
 			<div className="relative mt-auto mb-10">
 				<div className="absolute -top-2 -left-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
-					19
+					{productData.length > 0 ? productData.length : 0}
 				</div>
 				<button
 					onClick={() => setIsListModalOpen(true)}
@@ -166,8 +169,8 @@ function SalesPageLayoutSidebar({ socket }) {
 						{/* Header */}
 						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm">
 							<h2 className="text-base font-bold flex items-center">
-								<BsBasket3 className="mr-2 text-lg" /> Списка
-								продаж
+								<BsBasket3 className="mr-2 text-lg" />{" "}
+								{content[language].salesPage.sidebarProcess}
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
@@ -191,7 +194,7 @@ function SalesPageLayoutSidebar({ socket }) {
 
 						{/* Table Section */}
 						<div className="overflow-y-auto max-h-[calc(75vh-5rem)] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-							{productData.length > 0 ? (
+							{reversedArray.length > 0 ? (
 								<table className="w-full text-left text-gray-700 text-sm">
 									<thead className="bg-gray-100 text-gray-600 font-medium">
 										<tr>
@@ -209,7 +212,7 @@ function SalesPageLayoutSidebar({ socket }) {
 										</tr>
 									</thead>
 									<tbody>
-										{productData.map((sale) => (
+										{reversedArray.map((sale) => (
 											<tr
 												key={sale.id}
 												className="border-b hover:bg-gray-50 transition-all"
@@ -230,7 +233,7 @@ function SalesPageLayoutSidebar({ socket }) {
 														<MdPriceCheck className="text-green-600 text-sm" />
 														<span>
 															{parseFloat(
-																sale.total_price,
+																sale.summa,
 															).toLocaleString(
 																"ru-RU",
 																{
@@ -241,8 +244,7 @@ function SalesPageLayoutSidebar({ socket }) {
 															{
 																currencyData[
 																	sale
-																		.details[0]
-																		.currency
+																		.mainCurrency
 																]
 															}
 														</span>
@@ -264,7 +266,7 @@ function SalesPageLayoutSidebar({ socket }) {
 												{/* Status */}
 												<td className="px-3 py-2">
 													<span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-amber-100 text-amber-800">
-														Не доставлено
+														{sale.status}
 													</span>
 												</td>
 
