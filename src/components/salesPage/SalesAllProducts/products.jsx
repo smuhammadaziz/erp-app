@@ -86,9 +86,14 @@ function SalesMainAllProducts({ socket }) {
 		if (searchQuery) {
 			setIsSearching(true);
 			const lowercasedQuery = searchQuery.toLowerCase();
-			const filtered = originalData.filter((product) =>
-				product.name?.toLowerCase().includes(lowercasedQuery),
+			const filtered = originalData.filter(
+				(product) =>
+					product.name?.toLowerCase().includes(lowercasedQuery) ||
+					product.barcode?.some((barcode) =>
+						barcode.includes(lowercasedQuery),
+					),
 			);
+
 			setFilteredData(filtered);
 			setPage(1);
 			setDisplayedData(filtered.slice(0, itemsPerPage));
