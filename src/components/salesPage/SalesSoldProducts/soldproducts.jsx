@@ -183,8 +183,8 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 							className="min-w-full bg-white border border-gray-200"
 						>
 							<thead className="sticky top-0 bg-gray-100 shadow-sm z-10">
-								<tr className="text-gray-700 uppercase text-xs ">
-									<th className="py-2 px-5 border-b border-r border-gray-200 text-left w-[500px]">
+								<tr className="text-gray-700 uppercase text-[10px] ">
+									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[500px]">
 										{content[language].salesPage.soldName}
 									</th>
 									<th className="py-2 px-5 border-b border-r border-gray-200 text-center w-[50px]">
@@ -282,7 +282,7 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 												)}
 											</td>
 											<td
-												className="py-1 px-5 border-b border-gray-200 text-center w-[120px] relative"
+												className="py-1 px-5 border-b border-gray-200 text-left w-[120px] relative"
 												title={product.summa}
 											>
 												<span>
