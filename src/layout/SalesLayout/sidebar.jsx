@@ -160,60 +160,75 @@ function SalesPageLayoutSidebar({ socket }) {
 				totalAmount={50000}
 				socket={socket}
 			/>
-
 			{isListModalOpen && (
-				<div className="fixed inset-0 text-black bg-black bg-opacity-50 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-5xl max-h-[85vh] overflow-hidden">
-						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-blue-600 text-white">
-							<h2 className="text-xl font-semibold flex items-center">
-								<BsBasket3 className="mr-2" /> Списка продаж
+				<div className="fixed inset-0 text-black bg-gray-900/75 backdrop-blur-sm flex items-center justify-center z-40">
+					<div className="bg-white rounded-xl w-full max-w-7xl h-[80vh] overflow-hidden shadow-lg">
+						{/* Header */}
+						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm">
+							<h2 className="text-base font-bold flex items-center">
+								<BsBasket3 className="mr-2 text-lg" /> Списка
+								продаж
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
-								className="p-1 hover:bg-green-700 rounded-full transition-colors"
+								className="p-1 hover:bg-white/20 rounded transition-colors duration-200"
 							>
-								<MdClose className="text-2xl" />
+								<MdClose className="text-lg" />
 							</button>
 						</div>
 
-						<div className="p-4">
+						{/* Search Section */}
+						<div className="p-3 border-b border-gray-200">
 							<div className="relative">
-								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl" />
+								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm" />
 								<input
 									type="text"
 									placeholder="Поиск..."
-									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+									className="w-full pl-8 pr-2 py-2 bg-gray-50 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
 								/>
 							</div>
 						</div>
-						<div className="overflow-y-auto max-h-[calc(70vh-4rem)]">
-							<div className="grid gap-4 p-4">
-								{productData.length > 0 &&
-									productData.map((sale) => (
-										<div
-											key={sale.id}
-											className="bg-slate-50 border rounded-lg p-4 shadow-sm hover:shadow-md hover:bg-slate-100 transition-shadow"
-										>
-											<div className="flex items-start">
-												<MdPersonOutline className="text-gray-500 mr-2 text-xl" />
-												<div>
-													<p className="text-sm text-gray-500">
-														Клиент
-													</p>
-													<p className="font-medium text-lg block truncate">
-														{sale.client_name}
-													</p>
-												</div>
-											</div>
 
-											<div className="grid grid-cols-3 gap-4">
-												<div className="flex items-start">
-													<MdPriceCheck className="text-gray-500 mr-2 text-xl" />
-													<div>
-														<p className="text-sm text-gray-500">
-															Сумма
-														</p>
-														<p className="font-medium text-lg">
+						{/* Table Section */}
+						<div className="overflow-y-auto max-h-[calc(75vh-5rem)] scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+							{productData.length > 0 ? (
+								<table className="w-full text-left text-gray-700 text-sm">
+									<thead className="bg-gray-100 text-gray-600 font-medium">
+										<tr>
+											<th className="px-3 py-2">
+												Клиент
+											</th>
+											<th className="px-3 py-2">Сумма</th>
+											<th className="px-3 py-2">Дата</th>
+											<th className="px-3 py-2">
+												Статус
+											</th>
+											<th className="px-3 py-2 text-center">
+												Действие
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{productData.map((sale) => (
+											<tr
+												key={sale.id}
+												className="border-b hover:bg-gray-50 transition-all"
+											>
+												{/* Client Name */}
+												<td className="px-3 py-2 font-medium text-gray-900">
+													<div className="flex items-center space-x-2">
+														<MdPersonOutline className="text-blue-600 text-sm" />
+														<span className="truncate max-w-[200px]">
+															{sale.client_name}
+														</span>
+													</div>
+												</td>
+
+												{/* Total Price */}
+												<td className="px-3 py-2">
+													<div className="flex items-center space-x-1">
+														<MdPriceCheck className="text-green-600 text-sm" />
+														<span>
 															{parseFloat(
 																sale.total_price,
 															).toLocaleString(
@@ -230,49 +245,51 @@ function SalesPageLayoutSidebar({ socket }) {
 																		.currency
 																]
 															}
-														</p>
+														</span>
 													</div>
-												</div>
-												<div className="flex items-start">
-													<MdAccessTime className="text-gray-500 mr-2 text-xl" />
-													<div>
-														<p className="text-sm text-gray-500">
-															Дата
-														</p>
-														<p className="font-medium text-lg">
+												</td>
+
+												{/* Date */}
+												<td className="px-3 py-2">
+													<div className="flex items-center space-x-1">
+														<MdAccessTime className="text-purple-600 text-sm" />
+														<span>
 															{moment(
 																sale.date,
 															).format("LLL")}
-														</p>
+														</span>
 													</div>
-												</div>
-												<div className="flex items-center justify-between">
-													<div className="flex items-center">
-														<div className="mr-4 items-center">
-															<p className="text-sm text-gray-500">
-																Статус
-															</p>
-															<span className="inline-flex text-xl items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-300 text-green-800">
-																{/* {sale.status} */}
-																Не доставлено
-															</span>
-														</div>
-													</div>
+												</td>
+
+												{/* Status */}
+												<td className="px-3 py-2">
+													<span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-amber-100 text-amber-800">
+														Не доставлено
+													</span>
+												</td>
+
+												{/* Action Button */}
+												<td className="px-3 py-2 text-center">
 													<button
 														onClick={() =>
 															openDetailModal(
 																sale,
 															)
 														}
-														className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-lg flex items-center transition-colors"
+														className="bg-gray-50 hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
 													>
 														Смотреть
 													</button>
-												</div>
-											</div>
-										</div>
-									))}
-							</div>
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</table>
+							) : (
+								<div className="text-center py-10 text-gray-500 text-lg font-medium">
+									Нет продаж
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
