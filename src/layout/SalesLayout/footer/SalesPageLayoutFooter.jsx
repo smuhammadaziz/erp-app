@@ -18,6 +18,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import nodeUrl from "../../../links";
 import ChangePrice from "./ChangePrice";
 
+import { v4 as uuidv4 } from "uuid";
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
@@ -299,6 +300,31 @@ const SalesPageLayoutFooter = () => {
 			? `${currencyRateData.uzs} ${currencyRateData.usdName} = ${currencyRateData.usd} ${currencyRateData.uzsName}`
 			: "- = -";
 
+	const handleClick = async (e) => {
+		e.preventDefault();
+
+		const newSalesId = uuidv4();
+		localStorage.setItem("sales_id", newSalesId);
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/create/sales/${newSalesId}`,
+				{
+					method: "POST",
+				},
+			);
+			const data = await response.json();
+
+			if (response.ok) {
+				window.location.reload();
+			} else {
+				console.log("error");
+			}
+		} catch (err) {
+			console.log("error creating empty sales", err);
+		}
+	};
+
 	return (
 		<>
 			<div className="salesfooter z-0  bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative ">
@@ -351,7 +377,10 @@ const SalesPageLayoutFooter = () => {
 						</select>
 					</div>
 					<div className="mx-2">
-						<button className="bg-gradient-to-r from-green-500 to-green-700 text-white flex items-center py-2 px-6 rounded-lg shadow hover:from-green-600 hover:to-green-800 transition">
+						<button
+							onClick={handleClick}
+							className="bg-gradient-to-r from-green-500 to-green-700 text-white flex items-center py-2 px-6 rounded-lg shadow hover:from-green-600 hover:to-green-800 transition"
+						>
 							<span className="mr-3 inline-block">
 								<FaPlus />
 							</span>
