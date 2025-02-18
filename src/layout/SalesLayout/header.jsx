@@ -138,7 +138,7 @@ function SalesPageLayoutHeader() {
 						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
-				<div className="mx-5">|</div>
+				{/* <div className="mx-5">|</div>
 				<div className="flex items-center">
 					<button
 						onClick={() => handleOpenModal("klientlar")}
@@ -149,7 +149,7 @@ function SalesPageLayoutHeader() {
 							{content[language].salesPage.headerClients}
 						</span>
 					</button>
-				</div>
+				</div> */}
 			</div>
 			<div className="mr-2.5 flex items-center">
 				<button
