@@ -122,6 +122,16 @@ function SalesPageLayoutSidebar({ socket }) {
 
 	const reversedArray = [...productData].reverse();
 
+	const handleClick = async (sales_id) => {
+		localStorage.setItem("sales_id", sales_id);
+
+		if (sales_id) {
+			window.location.reload();
+		} else {
+			alert("Ошибка");
+		}
+	};
+
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
@@ -274,9 +284,7 @@ function SalesPageLayoutSidebar({ socket }) {
 												<td className="px-3 py-2 text-center">
 													<button
 														onClick={() =>
-															openDetailModal(
-																sale,
-															)
+															handleClick(sale.id)
 														}
 														className="bg-gray-100 border hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
 													>
