@@ -187,7 +187,7 @@ function SalesPageLayoutSidebar({ socket }) {
 								<input
 									type="text"
 									placeholder="Поиск..."
-									className="w-full pl-8 pr-2 py-2 bg-gray-50 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+									className="w-[500px] pl-8 pr-2 py-2 bg-gray-50 border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
 								/>
 							</div>
 						</div>
@@ -278,9 +278,9 @@ function SalesPageLayoutSidebar({ socket }) {
 																sale,
 															)
 														}
-														className="bg-gray-50 hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
+														className="bg-gray-100 border hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
 													>
-														Смотреть
+														Танлаш
 													</button>
 												</td>
 											</tr>
