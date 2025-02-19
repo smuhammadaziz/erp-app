@@ -41,6 +41,10 @@ function ProductsTable({
 		localStorage.getItem("settingsWarehouse"),
 	);
 
+	const settingsDeviceData = JSON.parse(
+		localStorage.getItem("settingsDevice") || "{}",
+	);
+
 	const [language] = useLang("uz");
 
 	const observer = useRef(null);
@@ -206,7 +210,7 @@ function ProductsTable({
 			if (!selectedCell.row && selectedCell.row !== 0) return;
 			if (isSelectionEnabled) return;
 
-			const totalColumns = 7;
+			const totalColumns = settingsDeviceData?.box === 1 ? 8 : 7;
 			const totalRows = filteredData.length;
 
 			switch (e.key) {
@@ -373,6 +377,18 @@ function ProductsTable({
 								{getSortIcon("currency")}
 							</span>
 						</th>
+						{settingsDeviceData?.box === 1 && (
+							<th
+								className="py-1.5 px-5 border-b text-[10px] border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
+								onClick={() => onSort("box")}
+							>
+								{content[language].salesPage.saleTableBox ||
+									"упк."}
+								<span className="ml-2">
+									{getSortIcon("box")}
+								</span>
+							</th>
+						)}
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("stock.0.qty")}
@@ -568,10 +584,34 @@ function ProductsTable({
 											}
 										})()}
 									</td>
+									{settingsDeviceData?.box === 1 && (
+										<td
+											className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
+												selectedCell.row === index &&
+												selectedCell.col === 3
+													? "bg-blue-500 text-white"
+													: ""
+											}`}
+											onClick={(e) => {
+												if (!isSelectionEnabled) {
+													e.stopPropagation();
+													setSelectedCell({
+														row: index,
+														col: 3,
+													});
+												}
+											}}
+										>
+											{product.box || "-"}
+										</td>
+									)}
 									<td
 										className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
 											selectedCell.row === index &&
-											selectedCell.col === 3
+											selectedCell.col ===
+												(settingsDeviceData?.box === 1
+													? 4
+													: 3)
 												? "bg-blue-500 text-white"
 												: ""
 										}`}
@@ -580,7 +620,11 @@ function ProductsTable({
 												e.stopPropagation();
 												setSelectedCell({
 													row: index,
-													col: 3,
+													col:
+														settingsDeviceData?.box ===
+														1
+															? 4
+															: 3,
 												});
 											}
 										}}
@@ -757,8 +801,12 @@ function ProductsTable({
 							{hasMore && (
 								<tr ref={loadingRef}>
 									<td
-										colSpan="7"
-										className="py-2 text-center"
+										colSpan={
+											settingsDeviceData?.box === 1
+												? "8"
+												: "7"
+										}
+										className="py-3 text-center text-red-500"
 									>
 										<div className="text-sm text-gray-500">
 											Маҳсулотлар юкланмоқда...
