@@ -208,11 +208,12 @@ function SalesPageLayoutSidebar({ socket }) {
 								<table className="w-full text-left text-gray-700 text-sm">
 									<thead className="bg-gray-100 text-gray-600 font-medium">
 										<tr>
-											<th className="px-3 py-2">
+											{/* <th className="px-3 py-2">
 												Клиент
-											</th>
-											<th className="px-3 py-2">Сумма</th>
+											</th> */}
 											<th className="px-3 py-2">Дата</th>
+											<th className="px-3 py-2">Сумма</th>
+
 											<th className="px-3 py-2">
 												Статус
 											</th>
@@ -228,11 +229,35 @@ function SalesPageLayoutSidebar({ socket }) {
 												className="border-b hover:bg-gray-50 transition-all"
 											>
 												{/* Client Name */}
-												<td className="px-3 py-2 font-medium text-gray-900">
+												{/* <td className="px-3 py-2 font-medium text-gray-900">
 													<div className="flex items-center space-x-2">
 														<MdPersonOutline className="text-blue-600 text-sm" />
 														<span className="truncate max-w-[200px]">
 															{sale.client_name}
+														</span>
+													</div>
+												</td> */}
+
+												<td className="px-3 py-2">
+													<div className="flex items-center space-x-1">
+														<MdAccessTime className="text-purple-600 text-sm" />
+														<span>
+															{moment(
+																sale.date,
+															).isSame(
+																moment(),
+																"day",
+															)
+																? moment(
+																		sale.date,
+																  ).format(
+																		"HH:mm",
+																  )
+																: moment(
+																		sale.date,
+																  ).format(
+																		"DD.MM.YYYY HH:mm",
+																  )}
 														</span>
 													</div>
 												</td>
@@ -262,16 +287,6 @@ function SalesPageLayoutSidebar({ socket }) {
 												</td>
 
 												{/* Date */}
-												<td className="px-3 py-2">
-													<div className="flex items-center space-x-1">
-														<MdAccessTime className="text-purple-600 text-sm" />
-														<span>
-															{moment(
-																sale.date,
-															).format("LLL")}
-														</span>
-													</div>
-												</td>
 
 												{/* Status */}
 												<td className="px-3 py-2">
@@ -288,7 +303,7 @@ function SalesPageLayoutSidebar({ socket }) {
 														}
 														className="bg-gray-100 border hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
 													>
-														Танлаш
+														Davom etish
 													</button>
 												</td>
 											</tr>
