@@ -9,6 +9,8 @@ import { FaBuilding, FaUserAlt } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
+import { MdEdit } from "react-icons/md";
+import { MdDeleteForever } from "react-icons/md";
 import {
 	MdOutlineFormatListBulleted,
 	MdCalendarToday,
@@ -175,7 +177,7 @@ function SalesPageLayoutSidebar({ socket }) {
 			/>
 			{isListModalOpen && (
 				<div className="fixed inset-0 text-black bg-gray-900/75 backdrop-blur-sm flex items-center justify-center z-40">
-					<div className="bg-white rounded-xl w-full max-w-7xl h-[80vh] overflow-hidden shadow-lg">
+					<div className="bg-white rounded-xl w-full max-w-5xl h-[80vh] overflow-hidden shadow-lg">
 						{/* Header */}
 						<div className="px-4 py-2 border-b border-gray-200 flex justify-between items-center bg-gradient-to-r from-blue-600 to-blue-800 text-white text-sm">
 							<h2 className="text-base font-bold flex items-center">
@@ -297,14 +299,17 @@ function SalesPageLayoutSidebar({ socket }) {
 
 												{/* Action Button */}
 												<td className="px-3 py-2 text-center">
-													<button
-														onClick={() =>
-															handleClick(sale.id)
-														}
-														className="bg-gray-100 border hover:bg-blue-600 text-gray-700 hover:text-white px-4 py-1.5 rounded transition-colors duration-200 font-medium text-sm"
-													>
-														Davom etish
-													</button>
+													<div className="relative inline-block mx-2 group">
+														<button className="bg-gray-100 border hover:bg-red-500 hover:text-white text-black px-2 py-1.5 rounded transition-colors duration-200 font-medium text-sm">
+															<MdDeleteForever />
+														</button>
+													</div>
+
+													<div className="relative inline-block mx-2 group">
+														<button className="bg-gray-100 border hover:bg-blue-600 text-black hover:text-white px-2 py-1.5 rounded transition-colors duration-200 font-medium text-sm">
+															<MdEdit />
+														</button>
+													</div>
 												</td>
 											</tr>
 										))}
