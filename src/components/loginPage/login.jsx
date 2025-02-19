@@ -251,8 +251,14 @@ function LoginPageKSB({ socket }) {
 						`${nodeUrl}/api/get/currency/rate/${deviceId}/${ksbId}`,
 					);
 
+					const responseSettingsDevice = await fetch(
+						`${nodeUrl}/api/get/settings/device/${deviceId}/${ksbId}`,
+					);
+
 					const settingsData = await responseSettings.json();
 					const currencyData = await responseCurrency.json();
+					const settingsDeviceData =
+						await responseSettingsDevice.json();
 
 					const exactUser = settingsData.find(
 						(user) => user.user_id === exactUserId,
@@ -288,6 +294,10 @@ function LoginPageKSB({ socket }) {
 						localStorage.setItem(
 							"currency_rate",
 							JSON.stringify(currencyData),
+						);
+						localStorage.setItem(
+							"settingsDevice",
+							JSON.stringify(settingsDeviceData),
 						);
 					} else {
 						console.log("User not found in settingsData.");

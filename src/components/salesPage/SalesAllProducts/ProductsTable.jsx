@@ -41,6 +41,10 @@ function ProductsTable({
 		localStorage.getItem("settingsWarehouse"),
 	);
 
+	const settingsDeviceData = JSON.parse(
+		localStorage.getItem("settingsDevice") || "{}",
+	);
+
 	const [language] = useLang("uz");
 
 	const observer = useRef(null);
@@ -206,7 +210,7 @@ function ProductsTable({
 			if (!selectedCell.row && selectedCell.row !== 0) return;
 			if (isSelectionEnabled) return;
 
-			const totalColumns = 7;
+			const totalColumns = settingsDeviceData?.box === 1 ? 9 : 7;
 			const totalRows = filteredData.length;
 
 			switch (e.key) {
@@ -265,7 +269,12 @@ function ProductsTable({
 					break;
 			}
 		},
-		[selectedCell.row, filteredData.length, isSelectionEnabled],
+		[
+			selectedCell.row,
+			filteredData.length,
+			isSelectionEnabled,
+			settingsDeviceData?.box,
+		],
 	);
 
 	useEffect(() => {
@@ -373,15 +382,52 @@ function ProductsTable({
 								{getSortIcon("currency")}
 							</span>
 						</th>
-						<th
-							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
-							onClick={() => onSort("stock.0.qty")}
-						>
-							{content[language].salesPage.saleTableOstatka}
-							<span className="ml-2">
-								{getSortIcon("stock.0.qty")}
-							</span>
-						</th>
+						{settingsDeviceData?.box === 1 && (
+							<th
+								className="py-1.5 px-5 border-b text-[10px] border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
+								onClick={() => onSort("box")}
+							>
+								{content[language].salesPage.saleTableBox ||
+									"упк."}
+								<span className="ml-2">
+									{getSortIcon("box")}
+								</span>
+							</th>
+						)}
+						{settingsDeviceData?.box === 1 ? (
+							<th
+								className="p-0 border-b border-r w-[250px]"
+								colSpan="3"
+							>
+								<div className="text-center py-1.5 border-b">
+									{
+										content[language].salesPage
+											.saleTableOstatka
+									}
+								</div>
+								<div className="flex">
+									<div className="py-1 px-2 text-center border-r w-[83px] cursor-pointer hover:bg-gray-200">
+										кор
+									</div>
+									<div className="py-1 px-2 text-center border-r w-[83px] cursor-pointer hover:bg-gray-200">
+										дона
+									</div>
+									<div className="py-1 px-2 text-center w-[84px] cursor-pointer hover:bg-gray-200">
+										жами
+									</div>
+								</div>
+							</th>
+						) : (
+							<th
+								className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[50px] cursor-pointer hover:bg-gray-200"
+								onClick={() => onSort("stock.0.qty")}
+							>
+								{content[language].salesPage.saleTableOstatka}
+								<span className="ml-2">
+									{getSortIcon("stock.0.qty")}
+								</span>
+							</th>
+						)}
 						<th
 							className="py-1.5 px-5 border-b border-r text-center w-1/10 min-w-[150px] cursor-pointer hover:bg-gray-200"
 							onClick={() => onSort("convertedPrice")}
@@ -568,25 +614,75 @@ function ProductsTable({
 											}
 										})()}
 									</td>
-									<td
-										className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
-											selectedCell.row === index &&
-											selectedCell.col === 3
-												? "bg-blue-500 text-white"
-												: ""
-										}`}
-										onClick={(e) => {
-											if (!isSelectionEnabled) {
-												e.stopPropagation();
-												setSelectedCell({
-													row: index,
-													col: 3,
-												});
-											}
-										}}
-									>
-										{product.stock[0].qty}
-									</td>
+									{settingsDeviceData?.box === 1 && (
+										<td
+											className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
+												selectedCell.row === index &&
+												selectedCell.col === 3
+													? "bg-blue-500 text-white"
+													: ""
+											}`}
+											onClick={(e) => {
+												if (!isSelectionEnabled) {
+													e.stopPropagation();
+													setSelectedCell({
+														row: index,
+														col: 3,
+													});
+												}
+											}}
+										>
+											{product.box || "-"}
+										</td>
+									)}
+									{settingsDeviceData?.box === 1 ? (
+										<>
+											<td className="py-1.5 px-3 border-b border-r text-right w-[83px]">
+												{product.box
+													? Math.floor(
+															product.stock[0]
+																.qty /
+																product.box,
+													  ).toFixed(2)
+													: "-"}
+											</td>
+											<td className="py-1.5 px-3 border-b border-r text-right w-[83px]">
+												{product.box &&
+												product.stock[0].qty %
+													product.box >
+													0
+													? (
+															product.stock[0]
+																.qty %
+															product.box
+													  ).toFixed(2)
+													: ""}
+											</td>
+											<td className="py-1.5 px-3 border-b border-r text-right w-[84px]">
+												{product.stock[0].qty}
+											</td>
+										</>
+									) : (
+										<td
+											className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[50px] ${
+												selectedCell.row === index &&
+												selectedCell.col === 3
+													? "bg-blue-500 text-white"
+													: ""
+											}`}
+											onClick={(e) => {
+												if (!isSelectionEnabled) {
+													e.stopPropagation();
+													setSelectedCell({
+														row: index,
+														col: 3,
+													});
+												}
+											}}
+										>
+											{product.stock[0].qty}
+										</td>
+									)}
 									<td
 										className={`py-1.5 px-5 border-b border-r text-right w-1/10 min-w-[120px] ${
 											selectedCell.row === index &&
@@ -757,7 +853,11 @@ function ProductsTable({
 							{hasMore && (
 								<tr ref={loadingRef}>
 									<td
-										colSpan="7"
+										colSpan={
+											settingsDeviceData?.box === 1
+												? "9"
+												: "7"
+										}
 										className="py-2 text-center"
 									>
 										<div className="text-sm text-gray-500">
@@ -770,7 +870,9 @@ function ProductsTable({
 					) : (
 						<tr>
 							<td
-								colSpan="7"
+								colSpan={
+									settingsDeviceData?.box === 1 ? "9" : "7"
+								}
 								className="py-3 text-center text-gray-500"
 							>
 								Маҳсулотлар топилмади.
