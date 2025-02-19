@@ -5,6 +5,10 @@ import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
 import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
 import { HiOutlineUserCircle } from "react-icons/hi2";
+import { MdPendingActions } from "react-icons/md";
+import { MdOutlineDoneAll } from "react-icons/md";
+import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
+import { HiOutlineDocumentMinus } from "react-icons/hi2";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -268,15 +272,26 @@ function SalesPageLayoutHeader() {
 																).format("LLL")}
 															</span>
 														</div>
-														<div className="col-span-2 flex items-center">
+														<div className="col-span-2 flex items-center justify-between mr-20">
 															<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
 																{sale.status ===
 																"process"
-																	? "Юборилмади"
+																	? "Кутилмоқда"
 																	: sale.status ===
 																	  "delivered"
-																	? "Юборилди"
+																	? "Жўнатилди"
 																	: sale.status}
+															</span>
+															<span>
+																{sale.status ===
+																"process" ? (
+																	<MdPendingActions className="text-xl ml-3 text-red-600" />
+																) : sale.status ===
+																  "delivered" ? (
+																	<HiOutlineClipboardDocumentCheck className="text-xl ml-3 text-blue-600" />
+																) : (
+																	sale.status
+																)}
 															</span>
 														</div>
 
