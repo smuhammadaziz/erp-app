@@ -250,7 +250,6 @@ function SalesPageLayoutHeader() {
 													key={sale.id}
 													className="hover:bg-gray-50"
 												>
-													{/* <td className="border border-gray-200 p-1 text-center"></td> */}
 													<td className="border border-gray-200 p-2 text-sm ">
 														<span className="mr-4">
 															{sale.status ===
