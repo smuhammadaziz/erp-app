@@ -159,7 +159,6 @@ function SalesPageLayoutSidebar({ socket }) {
 					onClick={() => setIsListModalOpen(true)}
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
-					{/* <CiClock1 className="mr-3 text-lg" /> */}
 					<span className="font-semibold">
 						{content[language].salesPage.sidebarProcess}
 					</span>
