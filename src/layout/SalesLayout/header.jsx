@@ -139,6 +139,68 @@ function SalesPageLayoutHeader() {
 		day: "2-digit",
 	});
 
+	const [warehouseData, setWarehouseData] = useState({});
+
+	const settingsWarehouse = JSON.parse(
+		localStorage.getItem("settingsWarehouse"),
+	);
+
+	const fetchWarehouseData = useCallback(async () => {
+		for (const product of productData) {
+			if (
+				product.details[0].warehouse &&
+				!warehouseData[product.details[0].warehouse]
+			) {
+				const deviceId = localStorage.getItem("device_id");
+				const ksbId = localStorage.getItem("ksbIdNumber");
+
+				try {
+					if (
+						!Array.isArray(settingsWarehouse) ||
+						settingsWarehouse.length === 0
+					) {
+						throw new Error("Invalid settingsWarehouse data");
+					}
+
+					const response = await fetch(
+						`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.details[0].warehouse}`,
+					);
+
+					const apiData = await response.json();
+
+					const mainWarehouseIds = settingsWarehouse
+						.filter((item) => item.main)
+						.map((item) => item.warehouse);
+
+					const warehouseData = mainWarehouseIds.reduce(
+						(acc, warehouseId) => {
+							const matchedWarehouse = apiData.find(
+								(item) => item.item_id === warehouseId,
+							);
+
+							acc[warehouseId] = matchedWarehouse
+								? matchedWarehouse.name
+								: "-";
+							return acc;
+						},
+						{},
+					);
+
+					setWarehouseData((prev) => ({ ...prev, ...warehouseData }));
+				} catch (error) {
+					console.error(
+						"Error fetching or processing warehouse data",
+						error,
+					);
+				}
+			}
+		}
+	}, [productData, warehouseData]);
+
+	useEffect(() => {
+		fetchWarehouseData();
+	}, [fetchWarehouseData]);
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -286,17 +348,20 @@ function SalesPageLayoutHeader() {
 															}
 														>
 															{
-																sale.details[0]
-																	?.warehouse
+																warehouseData[
+																	sale
+																		.details[0]
+																		.warehouse
+																]
 															}
 														</div>
 														<div
 															className="p-2 truncate font-medium"
 															title={
-																sale.client_id
+																sale.client_name
 															}
 														>
-															{sale.client_id}
+															{sale.client_name}
 														</div>
 													</td>
 													<td className="border border-gray-200 font-medium p-2 text-sm">
