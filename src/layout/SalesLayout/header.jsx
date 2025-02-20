@@ -9,6 +9,10 @@ import { MdPendingActions } from "react-icons/md";
 import { MdOutlineDoneAll } from "react-icons/md";
 import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
 import { HiOutlineDocumentMinus } from "react-icons/hi2";
+import { HiOutlineDocumentCheck } from "react-icons/hi2";
+import { HiOutlineDocument } from "react-icons/hi2";
+import { LuClock4 } from "react-icons/lu";
+import { LuClockAlert } from "react-icons/lu";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -273,22 +277,35 @@ function SalesPageLayoutHeader() {
 															</span>
 														</div>
 														<div className="col-span-2 flex items-center justify-between mr-20">
-															<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+															<span className="inline-flex items-center  block">
 																{sale.status ===
-																"process"
-																	? "Кутилмоқда"
-																	: sale.status ===
-																	  "delivered"
-																	? "Жўнатилди"
-																	: sale.status}
+																"process" ? (
+																	<p className="bg-orange-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
+																		Кутилмоқда
+																	</p>
+																) : sale.status ===
+																  "delivered" ? (
+																	<p className="bg-green-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
+																		Юборилди
+																	</p>
+																) : "falseDelivered" ? (
+																	<p className="bg-green-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
+																		Юборилди
+																	</p>
+																) : (
+																	sale.status
+																)}
 															</span>
 															<span>
 																{sale.status ===
 																"process" ? (
-																	<MdPendingActions className="text-xl ml-3 text-red-600" />
+																	<LuClock4 className="text-xl ml-3 text-orange-500" />
 																) : sale.status ===
 																  "delivered" ? (
-																	<HiOutlineClipboardDocumentCheck className="text-xl ml-3 text-blue-600" />
+																	<HiOutlineDocumentCheck className="text-xl ml-3 text-blue-600" />
+																) : sale.status ===
+																  "falseDelivered" ? (
+																	<HiOutlineDocument className="text-xl ml-3 text-blue-600" />
 																) : (
 																	sale.status
 																)}
