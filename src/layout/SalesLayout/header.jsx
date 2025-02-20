@@ -259,6 +259,12 @@ function SalesPageLayoutHeader() {
 
 	const filteredData = getFilteredData();
 
+	useEffect(() => {
+		if (!selectedDate) {
+			setShowCalendar(false);
+		}
+	}, [selectedDate]);
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -336,19 +342,27 @@ function SalesPageLayoutHeader() {
 										className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
 									/>
 								</div>
-
 								<div className="relative">
 									<button
-										onClick={() =>
-											setShowCalendar(!showCalendar)
-										}
-										className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+										onClick={() => {
+											if (selectedDate) {
+												setSelectedDate(null);
+											} else {
+												setShowCalendar(!showCalendar);
+											}
+										}}
+										className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
 									>
-										{selectedDate
-											? moment(selectedDate).format(
+										{selectedDate ? (
+											<>
+												{moment(selectedDate).format(
 													"DD.MM.YYYY",
-											  )
-											: "Выберите дату"}
+												)}
+												<MdClose className="text-sm" />
+											</>
+										) : (
+											"Выберите дату"
+										)}
 									</button>
 									{showCalendar && (
 										<div className="absolute top-full mt-2 z-50">
@@ -360,7 +374,6 @@ function SalesPageLayoutHeader() {
 										</div>
 									)}
 								</div>
-
 								<div className="flex gap-4">
 									<label className="flex items-center gap-2 text-sm">
 										<input
