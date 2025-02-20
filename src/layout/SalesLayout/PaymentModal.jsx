@@ -89,7 +89,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
 		delete: false,
-		name: "Оддий Харидор",
+		name: "<не указан>",
 		archive: false,
 		phone_number: "",
 		negative_balance: [],
@@ -615,7 +615,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
 		delete: false,
-		name: "Оддий Харидор",
+		name: "<не указан>",
 		archive: false,
 		phone_number: "",
 		negative_balance: [],

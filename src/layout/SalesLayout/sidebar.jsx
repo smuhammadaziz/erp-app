@@ -155,9 +155,6 @@ function SalesPageLayoutSidebar({ socket }) {
 			</div>
 
 			<div className="relative mt-auto mb-10">
-				<div className="absolute -top-2 -left-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
-					{productData.length > 0 ? productData.length : 0}
-				</div>
 				<button
 					onClick={() => setIsListModalOpen(true)}
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
@@ -167,6 +164,9 @@ function SalesPageLayoutSidebar({ socket }) {
 						{content[language].salesPage.sidebarProcess}
 					</span>
 				</button>
+				<div className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
+					{productData.length > 0 ? productData.length : 0}
+				</div>
 			</div>
 
 			<PaymentModal

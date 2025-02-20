@@ -13,6 +13,7 @@ import { HiOutlineDocumentCheck } from "react-icons/hi2";
 import { HiOutlineDocument } from "react-icons/hi2";
 import { LuClock4 } from "react-icons/lu";
 import { LuClockAlert } from "react-icons/lu";
+import { IoInformation } from "react-icons/io5";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -38,6 +39,7 @@ import useLang from "../../hooks/useLang";
 
 import moment from "moment";
 import "moment/locale/ru";
+import { ImInfo } from "react-icons/im";
 
 moment.locale("ru");
 
@@ -186,9 +188,9 @@ function SalesPageLayoutHeader() {
 			</div>
 			{isListModalOpen && (
 				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-[95vw] h-[90vh] overflow-hidden">
-						<div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-white">
-							<h2 className="text-lg font-semibold flex items-center gap-2 text-gray-900">
+					<div className="bg-white rounded-lg w-full max-w-[80vw] h-[90vh] overflow-hidden">
+						<div className="px-4 py-3 border-b border-gray-200 flex text-white justify-between items-center bg-blue-600">
+							<h2 className="text-lg font-semibold flex items-center gap-2 text-white">
 								<BsBasket3 className="text-xl" />
 								{content[language].salesPage.headerList}
 							</h2>
@@ -212,140 +214,151 @@ function SalesPageLayoutHeader() {
 						</div>
 
 						<div className="overflow-y-auto max-h-[calc(90vh-8rem)]">
-							<div className="min-w-full divide-y divide-gray-200">
-								{/* Header */}
-								<div className="bg-gray-50 border-y border-gray-200">
-									<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm font-medium text-gray-500">
-										<div className="col-span-4">Клиент</div>
-										<div className="col-span-2">Сумма</div>
-										<div className="col-span-3">Дата</div>
-										<div className="col-span-2">Статус</div>
-										<div className="col-span-1 text-right mr-6">
-											Действия
-										</div>
-									</div>
-								</div>
-
-								{/* Table Body */}
-								<div className="divide-y divide-gray-200 bg-white">
+							<table className="w-full border-collapse">
+								<thead>
+									<tr className="bg-gray-100">
+										{/* <th className="w-8 border border-gray-200 p-2 text-center align-top">
+											<ImInfo className="text-sm inline" />
+										</th> */}
+										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+											Дата
+										</th>
+										<th className="border border-gray-200 font-medium text-sm">
+											<div className="p-2 border-b border-gray-200 text-left">
+												Склад
+											</div>
+											<div className="p-2 text-left">
+												Клиент
+											</div>
+										</th>
+										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+											Сумма
+										</th>
+										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+											Статус
+										</th>
+										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+											Автор
+										</th>
+									</tr>
+								</thead>
+								<tbody>
 									{productData.length > 0 ? (
 										productData
 											.map((sale) => (
-												<div
+												<tr
 													key={sale.id}
 													className="hover:bg-gray-50"
 												>
-													<div className="grid grid-cols-12 gap-2 px-4 py-3 text-sm">
-														<div className="col-span-4 flex items-center gap-2">
-															<MdPersonOutline className="text-gray-400 text-lg flex-shrink-0" />
-															<span
-																className="font-medium text-gray-900 truncate"
-																title={
-																	sale.client_name
-																}
-															>
-																{
-																	sale.client_name
-																}
-															</span>
-														</div>
-														<div className="col-span-2 flex items-center">
-															<span className="text-gray-900">
-																{parseFloat(
-																	sale.total_price,
-																).toLocaleString(
-																	"ru-RU",
-																	{
-																		minimumFractionDigits: 2,
-																		maximumFractionDigits: 2,
-																	},
-																)}{" "}
-																{
-																	currencyData[
-																		sale
-																			.details[0]
-																			.currency
-																	]
-																}
-															</span>
-														</div>
-														<div className="col-span-3 flex items-center">
-															<span className="text-gray-900">
-																{moment(
+													{/* <td className="border border-gray-200 p-1 text-center"></td> */}
+													<td className="border border-gray-200 p-2 text-sm ">
+														<span className="mr-4">
+															{sale.status ===
+															"process" ? (
+																<HiOutlineDocument className="text-xl text-blue-600 inline" />
+															) : sale.status ===
+															  "delivered" ? (
+																<HiOutlineDocumentCheck className="text-xl text-blue-600 inline" />
+															) : sale.status ===
+															  "falseDelivered" ? (
+																<HiOutlineDocument className="text-xl text-blue-600 inline" />
+															) : (
+																sale.status
+															)}
+														</span>
+														{moment(
+															sale.date,
+														).isSame(
+															moment(),
+															"day",
+														)
+															? moment(
 																	sale.date,
-																).format("LLL")}
-															</span>
+															  ).format("HH:mm")
+															: moment(
+																	sale.date,
+															  ).format(
+																	"DD.MM.YYYY HH:mm",
+															  )}
+													</td>
+													<td className="border border-gray-200 text-sm">
+														<div
+															className="p-2 border-b border-gray-200 truncate"
+															title={
+																sale.details[0]
+																	?.warehouse
+															}
+														>
+															{
+																sale.details[0]
+																	?.warehouse
+															}
 														</div>
-														<div className="col-span-2 flex items-center justify-between mr-20">
-															<span className="inline-flex items-center  block">
-																{sale.status ===
-																"process" ? (
-																	<p className="bg-orange-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
-																		Кутилмоқда
-																	</p>
-																) : sale.status ===
-																  "delivered" ? (
-																	<p className="bg-green-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
-																		Юборилди
-																	</p>
-																) : "falseDelivered" ? (
-																	<p className="bg-green-500 w-[100px] text-center px-2 py-0.5 rounded-full text-xs font-medium text-white">
-																		Юборилди
-																	</p>
-																) : (
-																	sale.status
-																)}
-															</span>
-															<span>
-																{sale.status ===
-																"process" ? (
-																	<LuClock4 className="text-xl ml-3 text-orange-500" />
-																) : sale.status ===
-																  "delivered" ? (
-																	<HiOutlineDocumentCheck className="text-xl ml-3 text-blue-600" />
-																) : sale.status ===
-																  "falseDelivered" ? (
-																	<HiOutlineDocument className="text-xl ml-3 text-blue-600" />
-																) : (
-																	sale.status
-																)}
-															</span>
+														<div
+															className="p-2 truncate font-medium"
+															title={
+																sale.client_name
+															}
+														>
+															{sale.client_name}
 														</div>
-
-														<div className="col-span-1 flex items-center justify-end">
-															<button
-																onClick={() =>
-																	openDetailModal(
-																		sale,
-																	)
-																}
-																className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-sm font-medium transition-colors"
-															>
-																<MdOutlineInfo className="text-lg" />
-																{
-																	content[
-																		language
-																	].product
-																		.view
-																}
-															</button>
-														</div>
-													</div>
-												</div>
+													</td>
+													<td className="border border-gray-200 font-medium p-2 text-sm">
+														{parseFloat(
+															sale.total_price,
+														).toLocaleString(
+															"ru-RU",
+															{
+																minimumFractionDigits: 2,
+																maximumFractionDigits: 2,
+															},
+														)}{" "}
+														{
+															currencyData[
+																sale.details[0]
+																	.currency
+															]
+														}
+													</td>
+													<td className="border border-gray-200 p-1">
+														{sale.status ===
+														"process" ? (
+															<p className="bg-orange-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center">
+																Кутилмоқда
+															</p>
+														) : sale.status ===
+																"delivered" ||
+														  sale.status ===
+																"falseDelivered" ? (
+															<p className="bg-green-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center">
+																Юборилди
+															</p>
+														) : (
+															sale.status
+														)}
+													</td>
+													<td className="border border-gray-200 p-2 text-sm">
+														Менеджер
+													</td>
+												</tr>
 											))
 											.reverse()
 									) : (
-										<div className="flex items-center justify-center py-10 text-gray-500 text-sm">
-											Ҳозирча савдолар йўқ
-										</div>
+										<tr>
+											<td
+												colSpan="6"
+												className="text-center py-10 text-gray-500 text-sm border border-gray-200"
+											>
+												Ҳозирча савдолар йўқ
+											</td>
+										</tr>
 									)}
-								</div>
-							</div>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
 			)}
-
 			{/* Detail Modal */}
 			{isDetailModalOpen && selectedSale && (
 				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
