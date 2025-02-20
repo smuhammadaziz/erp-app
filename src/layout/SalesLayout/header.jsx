@@ -196,7 +196,7 @@ function SalesPageLayoutHeader() {
 							</h2>
 							<button
 								onClick={() => setIsListModalOpen(false)}
-								className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+								className="p-1.5 hover:bg-blue-500 rounded-lg transition-colors"
 							>
 								<MdClose className="text-xl" />
 							</button>
