@@ -217,9 +217,6 @@ function SalesPageLayoutHeader() {
 							<table className="w-full border-collapse">
 								<thead>
 									<tr className="bg-gray-100">
-										{/* <th className="w-8 border border-gray-200 p-2 text-center align-top">
-											<ImInfo className="text-sm inline" />
-										</th> */}
 										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
 											Дата
 										</th>
