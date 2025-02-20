@@ -18,6 +18,9 @@ import { IoInformation } from "react-icons/io5";
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
 
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+
 import {
 	MdOutlineShoppingCart,
 	MdAccessTime,
@@ -201,6 +204,61 @@ function SalesPageLayoutHeader() {
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
+	const [searchTerm, setSearchTerm] = useState("");
+	const [showCalendar, setShowCalendar] = useState(false);
+	const [selectedDate, setSelectedDate] = useState(null);
+	const [statusFilters, setStatusFilters] = useState({
+		process: false,
+		delivered: false,
+		falseDelivered: false,
+	});
+
+	// Filter function that combines all filters
+	const getFilteredData = () => {
+		return productData.filter((sale) => {
+			// Search filter
+			const searchMatch =
+				sale.client_name
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				warehouseData[sale.details[0].warehouse]
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase()) ||
+				sale.total_price.toString().includes(searchTerm);
+
+			// Date filter
+			const dateMatch = selectedDate
+				? moment(sale.date).isSame(moment(selectedDate), "day")
+				: true;
+
+			// Status filters
+			const statusMatch =
+				(!statusFilters.process &&
+					!statusFilters.delivered &&
+					!statusFilters.falseDelivered) ||
+				(statusFilters.process && sale.status === "process") ||
+				(statusFilters.delivered && sale.status === "delivered") ||
+				(statusFilters.falseDelivered &&
+					sale.status === "falseDelivered");
+
+			return searchMatch && dateMatch && statusMatch;
+		});
+	};
+
+	const handleStatusFilterChange = (status) => {
+		setStatusFilters((prev) => ({
+			...prev,
+			[status]: !prev[status],
+		}));
+	};
+
+	const handleDateSelect = (date) => {
+		setSelectedDate(date);
+		setShowCalendar(false);
+	};
+
+	const filteredData = getFilteredData();
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -265,13 +323,87 @@ function SalesPageLayoutHeader() {
 						</div>
 
 						<div className="p-3 border-b border-gray-200 bg-gray-50">
-							<div className="relative max-w-md">
-								<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-								<input
-									type="text"
-									placeholder="Поиск..."
-									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
-								/>
+							<div className="flex flex-wrap gap-4 items-center">
+								<div className="relative max-w-md flex-grow">
+									<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+									<input
+										type="text"
+										value={searchTerm}
+										onChange={(e) =>
+											setSearchTerm(e.target.value)
+										}
+										placeholder="Поиск..."
+										className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+									/>
+								</div>
+
+								<div className="relative">
+									<button
+										onClick={() =>
+											setShowCalendar(!showCalendar)
+										}
+										className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors"
+									>
+										{selectedDate
+											? moment(selectedDate).format(
+													"DD.MM.YYYY",
+											  )
+											: "Выберите дату"}
+									</button>
+									{showCalendar && (
+										<div className="absolute top-full mt-2 z-50">
+											<Calendar
+												onChange={handleDateSelect}
+												value={selectedDate}
+												className="border border-gray-200 rounded-lg shadow-lg"
+											/>
+										</div>
+									)}
+								</div>
+
+								<div className="flex gap-4">
+									<label className="flex items-center gap-2 text-sm">
+										<input
+											type="checkbox"
+											checked={statusFilters.process}
+											onChange={() =>
+												handleStatusFilterChange(
+													"process",
+												)
+											}
+											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										Кутилмоқда
+									</label>
+									<label className="flex items-center gap-2 text-sm">
+										<input
+											type="checkbox"
+											checked={statusFilters.delivered}
+											onChange={() =>
+												handleStatusFilterChange(
+													"delivered",
+												)
+											}
+											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										Юборилди
+									</label>
+									<label className="flex items-center gap-2 text-sm">
+										<input
+											type="checkbox"
+											checked={
+												statusFilters.falseDelivered
+											}
+											onChange={() =>
+												handleStatusFilterChange(
+													"falseDelivered",
+												)
+											}
+											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										Бекор қилинди
+									</label>
+								</div>
 							</div>
 						</div>
 
@@ -302,14 +434,15 @@ function SalesPageLayoutHeader() {
 									</tr>
 								</thead>
 								<tbody>
-									{productData.length > 0 ? (
-										productData
+									{filteredData.length > 0 ? (
+										[...filteredData]
+											.reverse()
 											.map((sale) => (
 												<tr
 													key={sale.id}
 													className="hover:bg-gray-50"
 												>
-													<td className="border border-gray-200 p-2 text-sm ">
+													<td className="border border-gray-200 p-2 text-sm">
 														<span className="mr-4">
 															{sale.status ===
 															"process" ? (
@@ -403,7 +536,6 @@ function SalesPageLayoutHeader() {
 													</td>
 												</tr>
 											))
-											.reverse()
 									) : (
 										<tr>
 											<td
