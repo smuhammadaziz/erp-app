@@ -293,10 +293,10 @@ function SalesPageLayoutHeader() {
 														<div
 															className="p-2 truncate font-medium"
 															title={
-																sale.client_name
+																sale.client_id
 															}
 														>
-															{sale.client_name}
+															{sale.client_id}
 														</div>
 													</td>
 													<td className="border border-gray-200 font-medium p-2 text-sm">
