@@ -136,6 +136,45 @@ const DownloaderModal = () => {
 		}
 	};
 
+
+	const upsertUpdatedProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/product_update/data/${device_id}/${ksb_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error(
+					`Data sync failed: ${response.status} ${
+						errorData?.message || response.statusText
+					}`,
+				);
+			}
+
+			const data = await response.json();
+
+			if (!data) {
+				throw new Error("Received empty response from sync API");
+			}
+
+			if(data){
+				console.log("Creating products successfully:", data);
+			}
+			return data;
+		} catch (error) {
+			console.error("Fetch Device Data Error:", error);
+			setError(error.message);
+			throw error;
+		}
+	};
+
 	const startDownload = async () => {
 		// First, check internet connection
 		const isInternetAvailable = await checkInternetConnection();
@@ -155,6 +194,8 @@ const DownloaderModal = () => {
 			}
 
 			await fetchDeviceData();
+			await upsertUpdatedProducts()
+
 			setDownloadStatus("completed");
 		} catch (error) {
 			console.error("Download process failed:", error);
