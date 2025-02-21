@@ -137,13 +137,14 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const fetchProductsData = async () => {
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
 				{
-					method: "POST",
+					method: "GET",
 				},
 			);
-			const data = await response.json();
-			setAllProducts(data.products.length);
+			const data = await response.json()
+
+			setAllProducts(data.count);
 		} catch (error) {
 			console.error("Error fetching products:", error);
 		}
