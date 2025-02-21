@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import HeaderInner from "./header";
 import SidebarInner from "./sidebar";
 
-function InnerLayoutSection({ children }) {
+function InnerLayoutSection({ children, socket }) {
 	const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
 
@@ -19,7 +19,7 @@ function InnerLayoutSection({ children }) {
 			<SidebarInner onToggle={handleSidebarToggle} />
 
 			<div className={`flex-1 ${isSidebarExpanded ? "ml-64" : "ml-20"}`}>
-				<HeaderInner onRefresh={handleDataRefresh} />
+				<HeaderInner onRefresh={handleDataRefresh} socket={socket} />
 				<main className="p-4 bg-slate-100" key={refreshKey}>
 					{children}
 				</main>

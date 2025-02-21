@@ -19,7 +19,7 @@ import nodeUrl from "../../links";
 import useNetworkStatus from "../../hooks/useNetworkStatus";
 import { NavLink } from "react-router-dom";
 
-function HeaderInner({ onRefresh }) {
+function HeaderInner({ onRefresh, socket }) {
 	const { isOnline, networkStatus, checkNetworkConnection } =
 		useNetworkStatus();
 
@@ -86,6 +86,40 @@ function HeaderInner({ onRefresh }) {
 			setIsNoInternetModalOpen(true);
 		} finally {
 			setIsSyncing(false);
+		}
+	};
+
+	const upsertUpdatedProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => null);
+				throw new Error("Upserting products");
+			}
+
+			const data = await response.json();
+
+			if (!data) {
+				throw new Error("Received empty response from sync API");
+			}
+
+			if (data) {
+				console.log("Creating products successfully:", data);
+			}
+			return data;
+		} catch (error) {
+			console.error("Fetch Device Data Error:", error);
+			setError(error.message);
+			throw error;
 		}
 	};
 
@@ -247,7 +281,18 @@ function HeaderInner({ onRefresh }) {
 							? "bg-gray-700"
 							: "bg-gray-500/50 hover:bg-gray-700/50"
 					}`}
-					onClick={handleSync}
+					onClick={() => {
+						handleSync();
+
+						upsertUpdatedProducts();
+
+						// const updateHandler = () => upsertUpdatedProducts();
+						// socket.on("gettingProducts", updateHandler);
+
+						// return () => {
+						// 	socket.off("gettingProducts", updateHandler);
+						// };
+					}}
 					disabled={isSyncing}
 				>
 					{isSyncing ? (

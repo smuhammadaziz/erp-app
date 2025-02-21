@@ -261,7 +261,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 
 	return (
 		<Layout>
-			<InnerLayoutSection>
+			<InnerLayoutSection socket={socket}>
 				{isLoading ? (
 					<div className="flex items-center justify-center h-screen">
 						<div className="text-purple-600 text-4xl animate-spin">
