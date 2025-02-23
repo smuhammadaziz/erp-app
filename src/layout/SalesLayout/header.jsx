@@ -58,6 +58,7 @@ function SalesPageLayoutHeader() {
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 	const [selectedSale, setSelectedSale] = useState(null);
 	const [productData, setProductData] = useState([]);
+	const [selectedRowId, setSelectedRowId] = useState(null);
 
 	const [isModalOpenDis, setIsModalOpenDis] = useState(false);
 
@@ -460,7 +461,17 @@ function SalesPageLayoutHeader() {
 											.map((sale) => (
 												<tr
 													key={sale.id}
-													className="hover:bg-gray-50 cursor-pointer active:bg-slate-200"
+													className={`cursor-pointer transition-colors ${
+														selectedRowId ===
+														sale.id
+															? "bg-blue-500 text-white hover:bg-blue-500"
+															: "hover:bg-gray-50"
+													}`}
+													onClick={() =>
+														setSelectedRowId(
+															sale.id,
+														)
+													}
 													onDoubleClick={() =>
 														openDetailModal(sale)
 													}
@@ -469,13 +480,34 @@ function SalesPageLayoutHeader() {
 														<span className="mr-4">
 															{sale.status ===
 															"process" ? (
-																<HiOutlineDocument className="text-xl text-blue-600 inline" />
+																<HiOutlineDocument
+																	className={`text-xl inline ${
+																		selectedRowId ===
+																		sale.id
+																			? "text-white"
+																			: "text-blue-600"
+																	}`}
+																/>
 															) : sale.status ===
 															  "delivered" ? (
-																<HiOutlineDocumentCheck className="text-xl text-blue-600 inline" />
+																<HiOutlineDocumentCheck
+																	className={`text-xl inline ${
+																		selectedRowId ===
+																		sale.id
+																			? "text-white"
+																			: "text-blue-600"
+																	}`}
+																/>
 															) : sale.status ===
 															  "falseDelivered" ? (
-																<HiOutlineDocument className="text-xl text-blue-600 inline" />
+																<HiOutlineDocument
+																	className={`text-xl inline ${
+																		selectedRowId ===
+																		sale.id
+																			? "text-white"
+																			: "text-blue-600"
+																	}`}
+																/>
 															) : (
 																sale.status
 															)}
@@ -540,14 +572,28 @@ function SalesPageLayoutHeader() {
 													<td className="border border-gray-200 p-1">
 														{sale.status ===
 														"process" ? (
-															<p className="bg-orange-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center">
+															<p
+																className={`${
+																	selectedRowId ===
+																	sale.id
+																		? "bg-orange-600"
+																		: "bg-orange-500"
+																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+															>
 																Кутилмоқда
 															</p>
 														) : sale.status ===
 																"delivered" ||
 														  sale.status ===
 																"falseDelivered" ? (
-															<p className="bg-green-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center">
+															<p
+																className={`${
+																	selectedRowId ===
+																	sale.id
+																		? "bg-green-600"
+																		: "bg-green-500"
+																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+															>
 																Юборилди
 															</p>
 														) : (
