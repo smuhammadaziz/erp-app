@@ -651,31 +651,104 @@ function SalesPageLayoutHeader() {
 										<span className="text-gray-500 block">
 											Клиент
 										</span>
-										<span className="font-medium text-gray-900">
+										<span
+											className={`font-medium ${
+												selectedSale.client_name ===
+												"<не указан>"
+													? "text-slate-300"
+													: "text-gray-900"
+											}`}
+										>
 											{selectedSale.client_name}
 										</span>
 									</div>
+
 									<div>
 										<span className="text-gray-500 block">
 											Дата
 										</span>
 										<span className="font-medium text-gray-900">
-											{moment(selectedSale.date).format(
-												"LLL",
-											)}
+											{moment(selectedSale.date).isSame(
+												moment(),
+												"day",
+											)
+												? moment(
+														selectedSale.date,
+												  ).format("HH:mm")
+												: moment(
+														selectedSale.date,
+												  ).format("DD.MM.YYYY HH:mm")}
 										</span>
 									</div>
 									<div>
 										<span className="text-gray-500 block">
 											Статус
 										</span>
-										<span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-											{selectedSale.status === "process"
-												? "Юборилмади"
-												: selectedSale.status ===
-												  "delivered"
-												? "Юборилди"
-												: selectedSale.status}
+										<span className="flex items-center">
+											<span className="mr-3">
+												{selectedSale.status ===
+												"process" ? (
+													<p
+														className={`${
+															selectedRowId ===
+															selectedSale.id
+																? "bg-orange-600"
+																: "bg-orange-500"
+														} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+													>
+														Кутилмоқда
+													</p>
+												) : selectedSale.status ===
+														"delivered" ||
+												  selectedSale.status ===
+														"falseDelivered" ? (
+													<p
+														className={`${
+															selectedRowId ===
+															selectedSale.id
+																? "bg-green-600"
+																: "bg-green-500"
+														} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+													>
+														Юборилди
+													</p>
+												) : (
+													selectedSale.status
+												)}
+											</span>
+											{selectedSale.status ===
+											"process" ? (
+												<HiOutlineDocument
+													className={`text-xl inline ${
+														selectedRowId ===
+														selectedSale.id
+															? "text-blue-600"
+															: "text-blue-600"
+													}`}
+												/>
+											) : selectedSale.status ===
+											  "delivered" ? (
+												<HiOutlineDocumentCheck
+													className={`text-xl inline ${
+														selectedRowId ===
+														selectedSale.id
+															? "text-blue-600"
+															: "text-blue-600"
+													}`}
+												/>
+											) : selectedSale.status ===
+											  "falseDelivered" ? (
+												<HiOutlineDocument
+													className={`text-xl inline ${
+														selectedRowId ===
+														selectedSale.id
+															? "text-blue-600"
+															: "text-blue-600"
+													}`}
+												/>
+											) : (
+												selectedSale.status
+											)}
 										</span>
 									</div>
 								</div>
