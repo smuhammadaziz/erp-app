@@ -425,6 +425,9 @@ function SalesPageLayoutHeader() {
 										Кутилмоқда
 									</label>
 								</div>
+								<div className="font-bold">
+									({filteredData ? filteredData.length : 0})
+								</div>
 							</div>
 						</div>
 
