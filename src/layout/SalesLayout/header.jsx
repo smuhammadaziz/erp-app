@@ -378,19 +378,6 @@ function SalesPageLayoutHeader() {
 									<label className="flex items-center gap-2 text-sm">
 										<input
 											type="checkbox"
-											checked={statusFilters.process}
-											onChange={() =>
-												handleStatusFilterChange(
-													"process",
-												)
-											}
-											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-										/>
-										Кутилмоқда
-									</label>
-									<label className="flex items-center gap-2 text-sm">
-										<input
-											type="checkbox"
 											checked={statusFilters.delivered}
 											onChange={() =>
 												handleStatusFilterChange(
@@ -399,7 +386,7 @@ function SalesPageLayoutHeader() {
 											}
 											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 										/>
-										Юборилди
+										Тасдиқланди
 									</label>
 									<label className="flex items-center gap-2 text-sm">
 										<input
@@ -414,7 +401,20 @@ function SalesPageLayoutHeader() {
 											}
 											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 										/>
-										Бекор қилинди
+										Тасдиқланмади
+									</label>
+									<label className="flex items-center gap-2 text-sm">
+										<input
+											type="checkbox"
+											checked={statusFilters.process}
+											onChange={() =>
+												handleStatusFilterChange(
+													"process",
+												)
+											}
+											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+										/>
+										Кутилмоқда
 									</label>
 								</div>
 							</div>
