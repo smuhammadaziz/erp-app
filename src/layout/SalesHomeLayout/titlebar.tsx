@@ -74,7 +74,7 @@ export const Titlebar: FC = () => {
 
 		let apiCheckInterval: NodeJS.Timeout;
 		if (isNetworkAvailable) {
-			apiCheckInterval = setInterval(checkApiConnection, 15000);
+			apiCheckInterval = setInterval(checkApiConnection, 20 * 60 * 1000);
 		}
 
 		return () => {
