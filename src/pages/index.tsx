@@ -362,8 +362,15 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 										</div>
 									))}
 								</div>
+								<div className="bg-white rounded-3xl border shadow-xl p-8 mb-6 relative">
+									{/* Overlay with blurred background and centered text */}
+									<div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-30 backdrop-blur-sm rounded-3xl z-10">
+										<span className="text-2xl font-bold text-gray-800">
+											Тез орада...
+										</span>
+									</div>
 
-								<div className="bg-white rounded-3xl border shadow-xl p-8 mb-6">
+									{/* Existing content */}
 									<div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
 										<h3 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
 											<BiTrendingUp className="text-purple-600" />
