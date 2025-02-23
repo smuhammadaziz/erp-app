@@ -453,7 +453,10 @@ function SalesPageLayoutHeader() {
 											.map((sale) => (
 												<tr
 													key={sale.id}
-													className="hover:bg-gray-50"
+													className="hover:bg-gray-50 cursor-pointer active:bg-slate-200"
+													onDoubleClick={() =>
+														openDetailModal(sale)
+													}
 												>
 													<td className="border border-gray-200 p-2 text-sm">
 														<span className="mr-4">
@@ -487,7 +490,7 @@ function SalesPageLayoutHeader() {
 													</td>
 													<td className="border border-gray-200 text-sm">
 														<div
-															className="p-2 border-b border-gray-200 truncate"
+															className="p-1 border-b border-gray-200 truncate"
 															title={
 																sale.details[0]
 																	?.warehouse
@@ -502,7 +505,7 @@ function SalesPageLayoutHeader() {
 															}
 														</div>
 														<div
-															className="p-2 truncate font-medium"
+															className="p-1 truncate font-medium"
 															title={
 																sale.client_name
 															}
