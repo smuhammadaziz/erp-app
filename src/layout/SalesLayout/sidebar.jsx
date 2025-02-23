@@ -298,11 +298,11 @@ function SalesPageLayoutSidebar({ socket }) {
 
 												{/* Action Button */}
 												<td className="px-3 py-2 text-center">
-													<div className="relative inline-block mx-2 group">
+													{/* <div className="relative inline-block mx-2 group">
 														<button className="bg-gray-100 border hover:bg-red-500 hover:text-white text-black px-2 py-1.5 rounded transition-colors duration-200 font-medium text-sm">
 															<MdDeleteForever />
 														</button>
-													</div>
+													</div> */}
 
 													<div className="relative inline-block mx-2 group">
 														<button className="bg-gray-100 border hover:bg-blue-600 text-black hover:text-white px-2 py-1.5 rounded transition-colors duration-200 font-medium text-sm">
