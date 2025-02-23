@@ -176,6 +176,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		let currentTime = new Date();
 		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
 
+		const userType = localStorage.getItem("userType");
+
 		let clientId = "";
 		let clientName = "";
 		let newProcessedProduct = [];
@@ -233,6 +235,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					sum: data.summa - data.discount,
 				},
 			],
+			seller: userType,
 		};
 
 		try {

@@ -545,7 +545,7 @@ function SalesPageLayoutHeader() {
 														)}
 													</td>
 													<td className="border border-gray-200 p-2 text-sm">
-														Менеджер
+														{sale.seller}
 													</td>
 												</tr>
 											))
