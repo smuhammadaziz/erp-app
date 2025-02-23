@@ -14,6 +14,7 @@ import { HiOutlineDocument } from "react-icons/hi2";
 import { LuClock4 } from "react-icons/lu";
 import { LuClockAlert } from "react-icons/lu";
 import { IoInformation } from "react-icons/io5";
+import { FiPrinter } from "react-icons/fi";
 
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -341,6 +342,12 @@ function SalesPageLayoutHeader() {
 										placeholder="Поиск..."
 										className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
 									/>
+								</div>
+								<div className="relative">
+									<button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2">
+										<FiPrinter />
+										Печать{" "}
+									</button>
 								</div>
 								<div className="relative">
 									<button
