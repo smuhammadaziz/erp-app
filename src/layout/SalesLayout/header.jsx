@@ -544,7 +544,12 @@ function SalesPageLayoutHeader() {
 															}
 														</div>
 														<div
-															className="p-1 truncate font-medium"
+															className={`p-1 truncate font-medium ${
+																sale.client_name ===
+																"<не указан>"
+																	? "text-slate-300"
+																	: ""
+															}`}
 															title={
 																sale.client_name
 															}
