@@ -95,6 +95,36 @@ function LoginPageKSB({ socket }) {
 				const data = await response.json();
 
 				localStorage.setItem(
+					"enterpriseFullTitle",
+					data.enterpriseInfo.full_title
+						? data.enterpriseInfo.full_title
+						: null,
+				);
+				localStorage.setItem(
+					"enterprisePhone1",
+					data.enterpriseInfo.phone1
+						? data.enterpriseInfo.phone1
+						: null,
+				);
+				localStorage.setItem(
+					"enterprisePhone2",
+					data.enterpriseInfo.phone2
+						? data.enterpriseInfo.phone2
+						: null,
+				);
+				localStorage.setItem(
+					"enterpriseSlogan1",
+					data.enterpriseInfo.slogan1
+						? data.enterpriseInfo.slogan1
+						: null,
+				);
+				localStorage.setItem(
+					"enterpriseSlogan2",
+					data.enterpriseInfo.slogan2
+						? data.enterpriseInfo.slogan2
+						: null,
+				);
+				localStorage.setItem(
 					"enterpriseName",
 					data.enterpriseInfo.title,
 				);
