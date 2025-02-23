@@ -58,6 +58,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const [isVisible, setIsVisible] = useState(false);
 	const [allProducts, setAllProducts] = useState(0);
 	const [allClient, setAllClient] = useState(0);
+	const [allSales, setAllSales] = useState(0);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbId = localStorage.getItem("ksbIdNumber");
@@ -124,6 +125,35 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	};
 
 	useEffect(() => {
+		fetchSalesData();
+
+		const updateHandler = () => fetchSalesData();
+		socket.on("gettingsSalesData", updateHandler);
+
+		return () => {
+			socket.off("gettingsSalesData", updateHandler);
+		};
+	}, []);
+
+	const fetchSalesData = async () => {
+		try {
+			const response = await fetch(`${nodeUrl}/api/all/sales/${ksbId}`, {
+				method: "GET",
+			});
+			const data = await response.json();
+
+			const totalSalesAmount = data.reduce(
+				(sum: any, sale: any) => sum + Number(sale.total_price),
+				0,
+			);
+
+			setAllSales(totalSalesAmount);
+		} catch (error) {
+			console.error("Error fetching sales data:", error);
+		}
+	};
+
+	useEffect(() => {
 		fetchProductsData();
 
 		const updateHandler = () => fetchProductsData();
@@ -142,7 +172,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 					method: "POST",
 				},
 			);
-			const data = await response.json()
+			const data = await response.json();
 
 			setAllProducts(data.products.length);
 		} catch (error) {
@@ -202,7 +232,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
-			value: "0",
+			value: (() => {
+				try {
+					return allSales
+						? allSales
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+						: "0";
+				} catch (error) {
+					return "0";
+				}
+			})(),
 			change: "+12.5%",
 			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
 			bgColor:
