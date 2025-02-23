@@ -394,7 +394,7 @@ function SalesPageLayoutHeader() {
 											}
 											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 										/>
-										Тасдиқланди
+										Тасдиқланган
 									</label>
 									<label className="flex items-center gap-2 text-sm">
 										<input
@@ -409,7 +409,7 @@ function SalesPageLayoutHeader() {
 											}
 											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
 										/>
-										Тасдиқланмади
+										Тасдиқланмаган
 									</label>
 									<label className="flex items-center gap-2 text-sm">
 										<input
