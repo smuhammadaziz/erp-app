@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+import icons from "../../assets/tick.json";
+
 function PrintingModal({ setPrintModal, setSuccessModal }) {
-	const [countdown, setCountdown] = useState(5);
+	const [countdown, setCountdown] = useState(10);
 
 	useEffect(() => {
 		if (countdown > 0) {
@@ -35,19 +39,30 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 							<MdClear size={24} className="text-gray-500" />
 						</button>
 					</div>
-					<p className="text-base text-black mb-4">Чек чиқариш</p>
+					<div className="flex flex-col">
+						<p>
+							<DotLottieReact
+								src="https://lottie.host/d5389980-4b6f-4baa-a4ff-9a5be6a63576/u2mwyfC6SH.lottie"
+								loop
+								autoplay
+							/>
+						</p>
+						<p className="text-lg font-semibold text-black mb-4 text-center">
+							Савдодан чек чиқарасизми?
+						</p>
+					</div>
 					<div className="flex justify-center mt-5">
 						<button
 							onClick={showSuccessModal}
 							className="px-10 mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
 						>
-							OK ({countdown})
+							Да ({countdown})
 						</button>
 						<button
 							onClick={() => setPrintModal(false)}
-							className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
+							className="px-12 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
 						>
-							Отмена
+							Нет
 						</button>
 					</div>
 				</div>
