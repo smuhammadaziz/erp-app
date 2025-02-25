@@ -627,9 +627,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 		positive_balance: [],
 	};
 
-	const clientsArray = Array.isArray(clients)
-		? [defaultClient, ...clients]
-		: [defaultClient];
+	const clientsArray = Array.isArray(clients) ? clients : [];
 
 	const filteredClients =
 		searchTerm.trim() === ""
@@ -647,8 +645,8 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 	return (
 		<div className="fixed inset-0 rounded-lg bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
 			<div
-				className="bg-white rounded-lg w-[600px] shadow-xl flex flex-col"
-				style={{ height: "500px" }}
+				className="bg-white rounded-lg w-[800px] shadow-xl flex flex-col"
+				style={{ height: "600px" }}
 			>
 				<div className="px-5 py-3 border-b flex justify-between items-center bg-white sticky top-0">
 					<h2 className="text-lg font-semibold">
@@ -662,7 +660,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 					</button>
 				</div>
 
-				<div className="px-4 pt-4 bg-white sticky top-0 z-10">
+				<div className="px-4 pt-4 bg-white sticky top-0 z-10 border-b-2 pb-4">
 					<div className="relative">
 						<input
 							type="text"
@@ -676,7 +674,7 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 				</div>
 
 				<div
-					className="flex-1 overflow-y-auto mt-4 px-4"
+					className="flex-1 overflow-y-auto px-4"
 					style={{ minHeight: "300px" }}
 				>
 					{filteredClients.length === 0 ? (
