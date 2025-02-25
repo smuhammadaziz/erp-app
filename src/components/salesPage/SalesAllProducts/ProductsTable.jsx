@@ -510,9 +510,9 @@ function ProductsTable({
 											? "bg-blue-500 text-white"
 											: !isSelectionEnabled &&
 											  (tableClickedRow === index
-													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
+													? "bg-blue-200 text-black hover:bg-blue-200 hover:text-black"
 													: selectedCell.row === index
-													? "bg-slate-300 text-black hover:bg-slate-300 hover:text-black"
+													? "bg-blue-200 text-black hover:bg-blue-200 hover:text-black"
 													: "hover:bg-slate-50")
 									}`}
 									style={{ outline: "none" }}
