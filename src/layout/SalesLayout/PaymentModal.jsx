@@ -440,7 +440,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									}
 									readOnly
 									placeholder="оддий харидор"
-									className="w-full px-4 pr-16 py-2 text-right text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-full px-4 pr-16 py-2 text-left text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 								<button
 									onClick={() => setIsClientSearchOpen(true)}
