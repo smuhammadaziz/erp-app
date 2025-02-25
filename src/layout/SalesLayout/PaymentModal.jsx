@@ -184,8 +184,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		let newProcessedProductForSendAPI = [];
 
 		if (selectedClient) {
-			clientId = selectedClient.client_id;
-			clientName = selectedClient.name;
+			clientId =
+				selectedClient.client_id ||
+				"00000000-0000-0000-0000-000000000000";
+			clientName = selectedClient.name || "<не указан>";
 		} else {
 			clientId = defaultClient.client_id;
 			clientName = defaultClient.name;
