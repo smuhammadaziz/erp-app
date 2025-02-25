@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { HiOutlineCreditCard, HiOutlineCash } from "react-icons/hi";
 import { CiClock1 } from "react-icons/ci";
 import PaymentModal from "./PaymentModal";
+import PrintingModal from "./PrintModal";
 
 import nodeUrl from "../../links";
 
@@ -134,6 +135,8 @@ function SalesPageLayoutSidebar({ socket }) {
 		}
 	};
 
+	const [printModal, setPrintModal] = useState(false);
+
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
@@ -146,7 +149,10 @@ function SalesPageLayoutSidebar({ socket }) {
 						{content[language].salesPage.sidebarCash}
 					</span>
 				</button>
-				<button className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400">
+				<button
+					onClick={() => setPrintModal(true)}
+					className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
+				>
 					<HiOutlineCreditCard className="mr-3 text-xl" />
 					<span className="font-semibold">
 						{content[language].salesPage.sidebarCard}
@@ -174,6 +180,9 @@ function SalesPageLayoutSidebar({ socket }) {
 				totalAmount={50000}
 				socket={socket}
 			/>
+
+			{printModal && <PrintingModal setPrintModal={setPrintModal} />}
+
 			{isListModalOpen && (
 				<div className="fixed inset-0 text-black bg-gray-900/75 backdrop-blur-sm flex items-center justify-center z-40">
 					<div className="bg-white rounded-xl w-full max-w-4xl h-[80vh] overflow-hidden shadow-lg">
