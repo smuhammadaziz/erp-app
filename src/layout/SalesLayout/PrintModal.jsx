@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 
-function PrintingModal({ setPrintModal }) {
-	const [successModal, setSuccessModal] = useState(false);
+function PrintingModal({ setPrintModal, setSuccessModal }) {
+	// const [successModal, setSuccessModal] = useState(false);
 
 	const showSuccessModal = () => {
+		setPrintModal(false);
+
 		setSuccessModal(true);
-		setTimeout(() => setSuccessModal(false), 1200);
+
+		setTimeout(() => setSuccessModal(false), 1000);
 	};
 
 	return (
@@ -42,8 +45,6 @@ function PrintingModal({ setPrintModal }) {
 					</div>
 				</div>
 			</div>
-
-			{successModal && <SuccessModal setSuccessModal={setSuccessModal} />}
 		</div>
 	);
 }

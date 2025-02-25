@@ -43,6 +43,7 @@ moment.locale("ru");
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+import SuccessModal from "./SuccessModal";
 
 function SalesPageLayoutSidebar({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -136,6 +137,7 @@ function SalesPageLayoutSidebar({ socket }) {
 	};
 
 	const [printModal, setPrintModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
 
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
@@ -181,7 +183,14 @@ function SalesPageLayoutSidebar({ socket }) {
 				socket={socket}
 			/>
 
-			{printModal && <PrintingModal setPrintModal={setPrintModal} />}
+			{printModal && (
+				<PrintingModal
+					setPrintModal={setPrintModal}
+					setSuccessModal={setSuccessModal}
+				/>
+			)}
+
+			{successModal && <SuccessModal />}
 
 			{isListModalOpen && (
 				<div className="fixed inset-0 text-black bg-gray-900/75 backdrop-blur-sm flex items-center justify-center z-40">

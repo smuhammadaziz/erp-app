@@ -3,10 +3,10 @@ import { MdClear } from "react-icons/md";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-function SuccessModal({ setSuccessModal }) {
+function SuccessModal() {
 	return (
 		<div className="fixed inset-0 flex items-center justify-center  z-[100]">
-			<div className="bg-transparent w-[400px] h-[300px]  relative">
+			<div className="bg-transparent w-[450px] h-[300px]  relative">
 				<div className="p-6">
 					<p className="text-base text-black mb-4 justify-center">
 						<DotLottieReact
