@@ -1,7 +1,7 @@
 import React from "react";
 import { MdClear } from "react-icons/md";
 
-import tickIcon from "../../assets/tick.json";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function SuccessModal({ setSuccessModal }) {
 	return (
@@ -20,22 +20,12 @@ function SuccessModal({ setSuccessModal }) {
 						</button>
 					</div>
 					<p className="text-base text-black mb-4">
-						<tickIcon />
+						<DotLottieReact
+							src="https://lottie.host/fc406ebe-b131-43cf-99c1-36e8a4361abd/VnuvL768sW.lottie"
+							loop
+							autoplay
+						/>
 					</p>
-					<div className="flex justify-center mt-5">
-						<button
-							// onClick={() => setShowErrorModal(false)}
-							className="px-10 mx-5 py-2 bg-white border-2 border-black text-black text-lg font-medium rounded-lg hover:bg-slate-100 transform hover:scale-105 transition-all duration-200"
-						>
-							OK (10)
-						</button>
-						<button
-							// onClick={() => setShowErrorModal(false)}
-							className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
-						>
-							Отмена
-						</button>
-					</div>
 				</div>
 			</div>
 		</div>
