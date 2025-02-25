@@ -436,10 +436,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									value={
 										selectedClient
 											? selectedClient.name
-											: defaultClient.name
+											: null
 									}
 									readOnly
-									placeholder="оддий харидор"
+									placeholder="Клиент танланг"
 									className="w-full px-4 pr-16 py-2 text-left text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 								<button
