@@ -3,8 +3,6 @@ import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 
 function PrintingModal({ setPrintModal, setSuccessModal }) {
-	// const [successModal, setSuccessModal] = useState(false);
-
 	const showSuccessModal = () => {
 		setPrintModal(false);
 
