@@ -467,7 +467,7 @@ function SalesPageLayoutHeader() {
 													className={`cursor-pointer transition-colors ${
 														selectedRowId ===
 														sale.id
-															? "bg-blue-500 text-white hover:bg-blue-500"
+															? "bg-blue-200 text-black hover:bg-blue-200"
 															: "hover:bg-gray-50"
 													}`}
 													onClick={() =>
@@ -487,7 +487,7 @@ function SalesPageLayoutHeader() {
 																	className={`text-xl inline ${
 																		selectedRowId ===
 																		sale.id
-																			? "text-white"
+																			? "text-black"
 																			: "text-blue-600"
 																	}`}
 																/>
@@ -497,7 +497,7 @@ function SalesPageLayoutHeader() {
 																	className={`text-xl inline ${
 																		selectedRowId ===
 																		sale.id
-																			? "text-white"
+																			? "text-black"
 																			: "text-blue-600"
 																	}`}
 																/>
@@ -507,7 +507,7 @@ function SalesPageLayoutHeader() {
 																	className={`text-xl inline ${
 																		selectedRowId ===
 																		sale.id
-																			? "text-white"
+																			? "text-black"
 																			: "text-blue-600"
 																	}`}
 																/>
