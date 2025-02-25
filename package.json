@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "@lottiefiles/dotlottie-react": "^0.13.0",
     "auto-launch": "^5.0.5",
     "base-64": "^1.0.0",
     "bcryptjs": "^2.4.3",
