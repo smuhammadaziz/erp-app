@@ -3,11 +3,20 @@ import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 
 function PrintingModal({ setPrintModal, setSuccessModal }) {
+	const [countdown, setCountdown] = useState(5);
+
+	useEffect(() => {
+		if (countdown > 0) {
+			const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+			return () => clearTimeout(timer);
+		} else {
+			showSuccessModal();
+		}
+	}, [countdown]);
+
 	const showSuccessModal = () => {
 		setPrintModal(false);
-
 		setSuccessModal(true);
-
 		setTimeout(() => setSuccessModal(false), 1000);
 	};
 
@@ -29,12 +38,15 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 					<p className="text-base text-black mb-4">Чек чиқариш</p>
 					<div className="flex justify-center mt-5">
 						<button
-							onClick={() => showSuccessModal()}
-							className="px-10 mx-5 py-2 bg-white border-2 border-black text-black text-lg font-medium rounded-lg hover:bg-slate-100 transform hover:scale-105 transition-all duration-200"
+							onClick={showSuccessModal}
+							className="px-10 mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
 						>
-							OK (10)
+							OK ({countdown})
 						</button>
-						<button className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200">
+						<button
+							onClick={() => setPrintModal(false)}
+							className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
+						>
 							Отмена
 						</button>
 					</div>
