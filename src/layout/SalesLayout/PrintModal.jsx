@@ -34,10 +34,7 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 						>
 							OK (10)
 						</button>
-						<button
-							// onClick={() => setShowErrorModal(false)}
-							className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
-						>
+						<button className="px-8 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200">
 							Отмена
 						</button>
 					</div>
