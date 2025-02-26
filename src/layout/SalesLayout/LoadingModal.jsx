@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FiLoader } from "react-icons/fi";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-function SuccessModal() {
+function LoadingModalSendSales() {
 	const [status, setStatus] = useState("loading");
 
 	useEffect(() => {
@@ -24,5 +24,5 @@ function SuccessModal() {
 	);
 }
 
-export default SuccessModal;
+export default LoadingModalSendSales;
 
