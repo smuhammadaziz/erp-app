@@ -4,6 +4,7 @@ import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineCreditCard } from "react-icons/hi";
 import { BiBasket } from "react-icons/bi";
 import { RiDiscountPercentLine } from "react-icons/ri";
+import { CiMoneyCheck1 } from "react-icons/ci";
 import nodeUrl from "../../../links";
 
 function SalespageSummaSection({ socket }) {
@@ -76,7 +77,7 @@ function SalespageSummaSection({ socket }) {
 			</p>
 
 			<p className="flex items-center font-bold bg-gray-100 w-[200px] px-3 py-2 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
-				{/* <HiOutlineCreditCard className="mr-2 text-2xl" />{" "} */}
+				<HiOutlineCreditCard className="mr-2 text-2xl" />{" "}
 				{finalPrice?.toLocaleString("ru-RU", {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
