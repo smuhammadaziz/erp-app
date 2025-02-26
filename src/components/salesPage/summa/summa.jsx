@@ -5,6 +5,9 @@ import { HiOutlineCreditCard } from "react-icons/hi";
 import { BiBasket } from "react-icons/bi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { CiMoneyCheck1 } from "react-icons/ci";
+import { IoCash } from "react-icons/io5";
+import { FaCashRegister } from "react-icons/fa6";
+import { PiCashRegisterFill } from "react-icons/pi";
 import nodeUrl from "../../../links";
 
 function SalespageSummaSection({ socket }) {
@@ -45,10 +48,13 @@ function SalespageSummaSection({ socket }) {
 	};
 
 	return (
-		<div className="items-center py-1">
+		<div className="items-center py-1 mt-2">
 			<p
-				className={`flex items-center w-[200px] bg-gray-100 font-bold px-3 py-2 rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4`}
+				className={`flex relative items-center w-[200px] text-green-800 bg-gray-100 font-bold px-3 py-3 rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4`}
 			>
+				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
+					Продажа
+				</span>
 				<BiBasket className="mr-2 text-2xl" />
 				<span
 					className={`${
@@ -68,16 +74,22 @@ function SalespageSummaSection({ socket }) {
 				</span>
 			</p>
 
-			<p className="flex items-center w-[200px] bg-gray-100 font-bold px-3 py-2 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
-				<RiDiscountPercentLine className="mr-2 text-2xl" />{" "}
+			<p className="flex items-center w-[200px] relative text-red-500 bg-gray-100 font-bold px-3 py-3 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
+				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
+					Скидка
+				</span>
+				<RiDiscountPercentLine className="mr-2 text-red-500 text-2xl" />{" "}
 				{discount?.toLocaleString("ru-RU", {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
 				}) || "0,00"}
 			</p>
 
-			<p className="flex items-center font-bold bg-gray-100 w-[200px] px-3 py-2 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
-				<HiOutlineCreditCard className="mr-2 text-2xl" />{" "}
+			<p className="flex items-center font-bold relative bg-gray-100 w-[200px] px-3 py-3 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
+					К оплате
+				</span>
+				<PiCashRegisterFill className="mr-2 text-2xl" />{" "}
 				{finalPrice?.toLocaleString("ru-RU", {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
