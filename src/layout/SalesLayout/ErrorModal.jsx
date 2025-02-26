@@ -1,6 +1,7 @@
 import React from "react";
 import { MdClear } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
+import { TbAlertCircleFilled } from "react-icons/tb";
 
 function ErrorModal({ setPrintModal }) {
 	return (
@@ -15,10 +16,13 @@ function ErrorModal({ setPrintModal }) {
 							onClick={() => setPrintModal(false)}
 							className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
 						>
-							<MdClear size={24} className="text-gray-500" />
+							<TbAlertCircleFilled
+								size={24}
+								className="text-gray-500"
+							/>
 						</button>
 					</div>
-					<p className="text-base text-black mb-4">Чек чиқариш</p>
+					<p className="text-base text-black mb-4">Xatolik</p>
 					<div className="flex justify-center mt-5">
 						<button
 							// onClick={() => setShowErrorModal(false)}
