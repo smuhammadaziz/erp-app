@@ -289,23 +289,23 @@ function SalesPageLayoutHeader() {
 					</button>
 				</div> */}
 			</div>
-			<div className="mr-2.5 flex items-center">
+			<div className="mr-3 flex items-center">
 				<button
 					// onClick={() => handleOpenModal("skidka")}
 					onClick={() => setIsModalOpenDis(true)}
-					className="flex items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
+					className="flex w-[150px]  items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
 					<CiDiscount1 className="mr-3 text-xl" />
-					<span className="font-semibold">
+					<span className="font-500">
 						{content[language].salesPage.headerDiscount}
 					</span>
 				</button>
 				<button
 					onClick={() => setIsListModalOpen(true)}
-					className="flex items-center mr-6 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
+					className="flex w-[200px] items-center mr-7 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-6 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
 				>
 					<MdOutlineFormatListBulleted className="mr-3 text-xl" />
-					<span className="font-semibold">
+					<span className="font-500">
 						{content[language].salesPage.headerList}
 					</span>
 				</button>

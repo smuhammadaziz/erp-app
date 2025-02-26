@@ -341,7 +341,7 @@ const content: Content = {
 		},
 		salesPage: {
 			headerClients: "Клиентлар",
-			headerDiscount: "Скидка",
+			headerDiscount: "Чегирма",
 			headerList: "Савдо рўйҳати",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
@@ -560,7 +560,7 @@ const content: Content = {
 		salesPage: {
 			headerClients: "Клиенты",
 			headerDiscount: "Скидка",
-			headerList: "Списка",
+			headerList: "Список продаж",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",
