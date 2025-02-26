@@ -16,6 +16,7 @@ import { LuClockAlert } from "react-icons/lu";
 import { IoInformation } from "react-icons/io5";
 import { FiPrinter } from "react-icons/fi";
 
+import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
 
@@ -272,7 +273,7 @@ function SalesPageLayoutHeader() {
 			<div className="flex items-center justify-start">
 				<div className="flex items-center gap-4 pr-5">
 					<span className="text-black text-lg flex items-center gap-2">
-						<HiOutlineUserCircle className="text-xl" />
+						<HiOutlineUserCircle className="text-2xl" />
 						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
@@ -295,14 +296,14 @@ function SalesPageLayoutHeader() {
 					onClick={() => setIsModalOpenDis(true)}
 					className="flex w-[150px]  items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
-					<CiDiscount1 className="mr-3 text-xl" />
+					<RiDiscountPercentLine className="mr-3 text-2xl " />
 					<span className="font-500">
 						{content[language].salesPage.headerDiscount}
 					</span>
 				</button>
 				<button
 					onClick={() => setIsListModalOpen(true)}
-					className="flex w-[200px] items-center mr-7 justify-center bg-green-600 hover:bg-green-700 text-slate-100 px-6 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
+					className="flex w-[200px] items-center mr-7 justify-center bg-green-600 hover:bg-green-500 text-slate-100 px-6 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
 				>
 					<MdOutlineFormatListBulleted className="mr-3 text-xl" />
 					<span className="font-500">

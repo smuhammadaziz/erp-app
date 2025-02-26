@@ -152,7 +152,7 @@ function SalesPageLayoutSidebar({ socket }) {
 					}}
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
-					<span className="font-semibold flex items-center">
+					<span className="font-500 flex items-center">
 						{/* <FaMoneyBill className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCash}
 					</span>
@@ -161,7 +161,7 @@ function SalesPageLayoutSidebar({ socket }) {
 					onClick={() => setIsCardModalOpen(true)}
 					className="flex items-center justify-center spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
 				>
-					<span className="font-semibold flex items-center">
+					<span className="font-500 flex items-center">
 						{/* <HiOutlineCreditCard className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCard}
 					</span>
@@ -171,9 +171,9 @@ function SalesPageLayoutSidebar({ socket }) {
 			<div className="relative mt-auto mb-10">
 				<button
 					onClick={() => setIsListModalOpen(true)}
-					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					className="flex items-center justify-center w-full max-w-xs bg-green-600 hover:bg-green-500 text-slate-100 px-5 py-2 text-base rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
-					<span className="font-semibold">
+					<span className="font-500">
 						{content[language].salesPage.sidebarProcess}
 					</span>
 				</button>
