@@ -144,28 +144,34 @@ function SalesPageLayoutSidebar({ socket }) {
 	const [successModal, setSuccessModal] = useState(false);
 
 	return (
-		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
+		<div className="salespage bg-slate-100 h-[87vh] px-3 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
 					onClick={() => {
 						setIsModalOpen(true);
 						// setPrintModal(false);
 					}}
-					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					className="flex items-center justify-between w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<span className="font-500 flex items-center">
 						{/* <FaMoneyBill className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCash}
 					</span>
+					<div className="text-xs py-1 px-3 rounded-full bg-slate-100 text-black">
+						F9
+					</div>
 				</button>
 				<button
 					onClick={() => setIsCardModalOpen(true)}
-					className="flex items-center justify-center spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
+					className="flex items-center justify-between spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
 				>
 					<span className="font-500 flex items-center">
 						{/* <HiOutlineCreditCard className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCard}
 					</span>
+					<div className="text-xs py-1 px-2 rounded-full bg-slate-100 text-black">
+						F10
+					</div>
 				</button>
 			</div>
 

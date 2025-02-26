@@ -388,10 +388,10 @@ const SalesPageLayoutFooter = () => {
 						</button>
 					</div>
 				</div>
-				<div className="mr-2.5">
+				<div className="-mr-1">
 					<button
 						onClick={() => setIsExitModalOpen(true)}
-						className="flex items-center justify-center w-45 bg-red-700 hover:bg-red-600 text-slate-100 px-9 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
+						className="flex w-[180px] items-center justify-center w-45 bg-red-700 hover:bg-red-600 text-slate-100 px-9 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400"
 					>
 						<ImExit className="mr-3 text-xl" />
 						<span className="font-semibold">
