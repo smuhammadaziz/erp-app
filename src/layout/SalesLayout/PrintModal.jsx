@@ -4,8 +4,6 @@ import SuccessModal from "./SuccessModal";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-import icons from "../../assets/tick.json";
-
 function PrintingModal({ setPrintModal, setSuccessModal }) {
 	const [countdown, setCountdown] = useState(10);
 
