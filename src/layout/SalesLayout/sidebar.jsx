@@ -143,13 +143,42 @@ function SalesPageLayoutSidebar({ socket }) {
 	const [printModal, setPrintModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "F9") {
+				setIsModalOpen(true);
+			} else if (e.key === "Escape") {
+				setIsModalOpen(false);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "F10") {
+				setIsCardModalOpen(true);
+			} else if (e.key === "Escape") {
+				setIsCardModalOpen(false);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-3 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
 					onClick={() => {
 						setIsModalOpen(true);
-						// setPrintModal(false);
 					}}
 					className="flex items-center justify-between w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
@@ -160,6 +189,7 @@ function SalesPageLayoutSidebar({ socket }) {
 						F9
 					</div>
 				</button>
+
 				<button
 					onClick={() => setIsCardModalOpen(true)}
 					className="flex items-center justify-between spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
