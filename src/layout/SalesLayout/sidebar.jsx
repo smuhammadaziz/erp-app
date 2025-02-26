@@ -195,6 +195,7 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsCardModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
+				setPrintModal={setPrintModal}
 			/>
 
 			{printModal && (
