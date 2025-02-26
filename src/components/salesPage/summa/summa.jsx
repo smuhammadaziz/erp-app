@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { FaPercentage } from "react-icons/fa";
 import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineCreditCard } from "react-icons/hi";
+import { BiBasket } from "react-icons/bi";
+import { RiDiscountPercentLine } from "react-icons/ri";
 import nodeUrl from "../../../links";
 
 function SalespageSummaSection({ socket }) {
@@ -44,15 +46,15 @@ function SalespageSummaSection({ socket }) {
 	return (
 		<div className="items-center py-1">
 			<p
-				className={`flex items-center w-[200px] font-bold px-3 py-2 rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4`}
+				className={`flex items-center w-[200px] bg-gray-100 font-bold px-3 py-2 rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4`}
 			>
-				<HiOutlineCash className="mr-2 text-2xl" />
+				<BiBasket className="mr-2 text-2xl" />
 				<span
 					className={`${
 						price.toString().length > 10
 							? "text-xs"
 							: price.toString().length > 7
-							? "text-sm"
+							? "text-xs"
 							: price.toString().length > 5
 							? "text-md"
 							: "text-lg"
@@ -65,16 +67,16 @@ function SalespageSummaSection({ socket }) {
 				</span>
 			</p>
 
-			<p className="flex items-center w-[200px] font-bold px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
-				<FaPercentage className="mr-2 text-2xl" />{" "}
+			<p className="flex items-center w-[200px] bg-gray-100 font-bold px-3 py-2 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
+				<RiDiscountPercentLine className="mr-2 text-2xl" />{" "}
 				{discount?.toLocaleString("ru-RU", {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,
 				}) || "0,00"}
 			</p>
 
-			<p className="flex items-center font-bold w-[200px] px-3 py-2 text-md rounded-md border-2 border-gray-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
-				<HiOutlineCreditCard className="mr-2 text-2xl" />{" "}
+			<p className="flex items-center font-bold bg-gray-100 w-[200px] px-3 py-2 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
+				{/* <HiOutlineCreditCard className="mr-2 text-2xl" />{" "} */}
 				{finalPrice?.toLocaleString("ru-RU", {
 					minimumFractionDigits: 2,
 					maximumFractionDigits: 2,

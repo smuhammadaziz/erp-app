@@ -8,6 +8,7 @@ import nodeUrl from "../../links";
 
 import { FaBuilding, FaUserAlt } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
+import { FaMoneyBill } from "react-icons/fa";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
 import { MdEdit } from "react-icons/md";
@@ -146,19 +147,19 @@ function SalesPageLayoutSidebar({ socket }) {
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
 					onClick={() => setIsModalOpen(true)}
-					className="flex items-center justify-between w-full max-w-xs bg-slate-100 border-2 border-black hover:scale-105 text-black px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<span className="font-semibold flex items-center">
-						<HiOutlineCash className="mr-3 text-xl" />
+						{/* <FaMoneyBill className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCash}
 					</span>
 				</button>
 				<button
 					onClick={() => setIsCardModalOpen(true)}
-					className="flex items-center justify-between w-full max-w-xs bg-slate-100 border-2 border-black hover:scale-105 text-black px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					className="flex items-center justify-center spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
 				>
 					<span className="font-semibold flex items-center">
-						<HiOutlineCreditCard className="mr-3 text-xl" />
+						{/* <HiOutlineCreditCard className="mr-3 text-xl" /> */}
 						{content[language].salesPage.sidebarCard}
 					</span>
 				</button>
