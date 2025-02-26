@@ -15,17 +15,15 @@ function ErrorModal({ setPrintModal }) {
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 			<div className="bg-white w-[500px] rounded-xl shadow-2xl relative">
-				{/* Blinking Indicator in Top-Right */}
 				<span
 					onClick={() => setShowPopup(!showPopup)}
 					className={`absolute top-3 right-3 bg-red-600 p-1 px-2 rounded-full cursor-pointer text-white font-semibold text-sm ${
-						blink ? "opacity-100" : "opacity-30"
+						blink ? "opacity-100" : "opacity-60"
 					} transition-opacity duration-500`}
 				>
 					⚠️
 				</span>
 
-				{/* Popup Window */}
 				{showPopup && (
 					<div className="absolute top-10 right-5 bg-white border border-gray-300 shadow-lg rounded-lg p-4 w-80 text-sm text-gray-700">
 						Lorem, ipsum dolor sit amet consectetur adipisicing
