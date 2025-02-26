@@ -4,7 +4,7 @@ import SuccessModal from "./SuccessModal";
 import LoadingModalSendSales from "./LoadingModal";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-function PrintingModal({ setPrintModal, setSuccessModal }) {
+function PrintingModal({ setPrintModal, setSuccessModal, setErrorModal }) {
 	const [countdown, setCountdown] = useState(10);
 	const [showLoading, setShowLoading] = useState(false);
 	const [isProcessing, setIsProcessing] = useState(false);
@@ -33,8 +33,8 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 
 	const showSuccessModal = () => {
 		setPrintModal(false);
-		setSuccessModal(true);
-		setTimeout(() => setSuccessModal(false), 1000);
+		setErrorModal(true);
+		// setTimeout(() => setErrorModal(false), 10000);
 	};
 
 	const okButton = useRef();

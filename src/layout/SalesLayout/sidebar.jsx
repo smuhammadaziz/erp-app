@@ -47,6 +47,7 @@ import useLang from "../../hooks/useLang";
 import SuccessModal from "./SuccessModal";
 import CardPaymentModal from "./CardPaymentModal";
 import ProcessSalesComponent from "./processSales";
+import ErrorModal from "./ErrorModal";
 
 function SalesPageLayoutSidebar({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -142,6 +143,7 @@ function SalesPageLayoutSidebar({ socket }) {
 
 	const [printModal, setPrintModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
+	const [errorModal, setErrorModal] = useState(false);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -237,10 +239,13 @@ function SalesPageLayoutSidebar({ socket }) {
 				<PrintingModal
 					setPrintModal={setPrintModal}
 					setSuccessModal={setSuccessModal}
+					setErrorModal={setErrorModal}
 				/>
 			)}
 
 			{successModal && <SuccessModal />}
+
+			{errorModal && <ErrorModal />}
 
 			{isListModalOpen && (
 				<ProcessSalesComponent
