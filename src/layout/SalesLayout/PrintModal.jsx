@@ -54,7 +54,7 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 					<div className="flex justify-center mt-5">
 						<button
 							onClick={showSuccessModal}
-							className="px-10 mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
+							className="px-10 w-[150px] mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
 						>
 							Да ({countdown})
 						</button>
