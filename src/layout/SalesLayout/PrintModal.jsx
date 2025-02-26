@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 import LoadingModalSendSales from "./LoadingModal";
-
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function PrintingModal({ setPrintModal, setSuccessModal }) {
@@ -15,17 +14,21 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 			const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
 			return () => clearTimeout(timer);
 		} else if (!isProcessing && countdown === 0) {
-			showSuccessModal();
+			startLoadingAndShowSuccess();
 		}
 	}, [countdown, isProcessing]);
 
-	const handleConfirm = () => {
+	const startLoadingAndShowSuccess = () => {
 		setShowLoading(true);
 		setIsProcessing(true);
 		setTimeout(() => {
 			setShowLoading(false);
 			showSuccessModal();
 		}, 2000);
+	};
+
+	const handleConfirm = () => {
+		startLoadingAndShowSuccess();
 	};
 
 	const showSuccessModal = () => {
@@ -107,7 +110,7 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 						</button>
 						<button
 							ref={cancelButton}
-							onClick={() => setPrintModal(false)}
+							onClick={handleConfirm}
 							className="px-12 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
 							disabled={isProcessing}
 						>
