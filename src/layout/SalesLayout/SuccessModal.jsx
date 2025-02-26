@@ -3,12 +3,12 @@ import { FiLoader } from "react-icons/fi";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function SuccessModal() {
-	const [status, setStatus] = useState("loading"); // "loading" -> "success"
+	const [status, setStatus] = useState("loading");
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setStatus("success");
-		}, 2000); // Switch to success after 2 seconds
+		}, 2000);
 
 		return () => clearTimeout(timer);
 	}, []);
