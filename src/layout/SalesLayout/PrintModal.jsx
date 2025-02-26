@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 
@@ -23,6 +23,36 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 		setSuccessModal(true);
 		setTimeout(() => setSuccessModal(false), 1000);
 	};
+
+	const okButton = useRef();
+	const cancelButton = useRef();
+
+	useEffect(() => {
+		// Focus the OK button when the modal opens
+		if (okButton.current) {
+			okButton.current.focus();
+		}
+
+		const handleKeyDown = (e) => {
+			if (
+				document.activeElement === okButton.current ||
+				document.activeElement === cancelButton.current
+			) {
+				if (e.key === "Enter") {
+					document.activeElement.click(); // Trigger the click event
+				} else if (e.key === "ArrowRight") {
+					cancelButton.current?.focus();
+				} else if (e.key === "ArrowLeft") {
+					okButton.current?.focus();
+				}
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
 
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
@@ -53,12 +83,14 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 					</div>
 					<div className="flex justify-center mt-5">
 						<button
+							ref={okButton}
 							onClick={showSuccessModal}
 							className="px-10 w-[150px] mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
 						>
 							Да ({countdown})
 						</button>
 						<button
+							ref={cancelButton}
 							onClick={() => setPrintModal(false)}
 							className="px-12 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
 						>
