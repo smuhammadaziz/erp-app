@@ -11,7 +11,6 @@ import useLang from "../../hooks/useLang";
 const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
-	const [cardAmount, setCardAmount] = useState(0);
 	const [discountAmount, setDiscountAmount] = useState(0);
 	const [isClientSearchOpen, setIsClientSearchOpen] = useState(false);
 	const [customers, setCustomers] = useState([]);
@@ -83,9 +82,6 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			console.log(err);
 		}
 	};
-
-	const [cashAmount, setCashAmount] = useState(totalPrice);
-	const [isTyping, setIsTyping] = useState(false);
 
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
@@ -377,6 +373,11 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		window.location.reload();
 	};
 
+	const [cashAmount, setCashAmount] = useState(0);
+	const [isTyping, setIsTyping] = useState(false);
+
+	const [cardAmount, setCardAmount] = useState(totalPrice);
+
 	const searchInputRef = useRef();
 	const cardInputRef = useRef();
 	const handleSubmitButton = useRef();
@@ -389,32 +390,32 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	};
 
 	useEffect(() => {
-		if (isOpen && searchInputRef.current) {
-			searchInputRef.current.value = formatRussianNumber(totalPrice);
-			searchInputRef.current.focus();
-			searchInputRef.current.select();
+		if (isOpen && cardInputRef.current) {
+			cardInputRef.current.value = formatRussianNumber(totalPrice);
+			cardInputRef.current.focus();
+			cardInputRef.current.select();
 		}
 	}, [isOpen]);
 
 	const handleFocus = () => {
-		if (searchInputRef.current) {
-			searchInputRef.current.select();
+		if (cardInputRef.current) {
+			cardInputRef.current.select();
 		}
 	};
 
-	const handleKeyPress = (e) => {
-		if (e.key === "Enter") {
-			if (isTyping) {
-				const numericValue = parseFloat(cashAmount) || 0;
-				setCashAmount(numericValue);
-				setIsTyping(false);
-			}
+	// const handleKeyPress = (e) => {
+	// 	if (e.key === "Enter") {
+	// 		if (isTyping) {
+	// 			const numericValue = parseFloat(cashAmount) || 0;
+	// 			setCashAmount(numericValue);
+	// 			setIsTyping(false);
+	// 		}
 
-			if (cardInputRef.current) {
-				cardInputRef.current.focus();
-			}
-		}
-	};
+	// 		if (cardInputRef.current) {
+	// 			cardInputRef.current.focus();
+	// 		}
+	// 	}
+	// };
 
 	if (!isOpen) return null;
 
@@ -529,40 +530,17 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								<input
 									ref={searchInputRef}
 									type="text"
-									value={
-										isTyping
-											? cashAmount
-											: formatRussianNumber(cashAmount)
-									}
+									value={cashAmount === 0 ? "" : cashAmount}
 									onChange={(e) => {
-										if (!isTyping) {
-											setIsTyping(true);
-											setCashAmount(
-												e.target.value.replace(
-													/[^0-9]/g,
-													"",
-												),
+										const numericInput =
+											e.target.value.replace(
+												/[^0-9]/g,
+												"",
 											);
-										} else {
-											const numericInput =
-												e.target.value.replace(
-													/[^0-9]/g,
-													"",
-												);
-											setCashAmount(numericInput);
-										}
+										setCashAmount(
+											Number(numericInput) || 0,
+										);
 									}}
-									onBlur={() => {
-										// Convert to number and keep the new value
-										if (isTyping) {
-											const numericValue =
-												parseFloat(cashAmount) || 0;
-											setCashAmount(numericValue);
-											setIsTyping(false);
-										}
-									}}
-									onFocus={handleFocus}
-									onKeyPress={handleKeyPress}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -577,17 +555,39 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								<input
 									ref={cardInputRef}
 									type="text"
-									value={cardAmount === 0 ? "" : cardAmount}
+									value={
+										isTyping
+											? cardAmount
+											: formatRussianNumber(cardAmount)
+									}
 									onChange={(e) => {
-										const numericInput =
-											e.target.value.replace(
-												/[^0-9]/g,
-												"",
+										if (!isTyping) {
+											setIsTyping(true);
+											setCardAmount(
+												e.target.value.replace(
+													/[^0-9]/g,
+													"",
+												),
 											);
-										setCardAmount(
-											Number(numericInput) || 0,
-										);
+										} else {
+											const numericInput =
+												e.target.value.replace(
+													/[^0-9]/g,
+													"",
+												);
+											setCardAmount(numericInput);
+										}
 									}}
+									onBlur={() => {
+										// Convert to number and keep the new value
+										if (isTyping) {
+											const numericValue =
+												parseFloat(cashAmount) || 0;
+											setCardAmount(numericValue);
+											setIsTyping(false);
+										}
+									}}
+									onFocus={handleFocus}
 									onKeyPress={(e) => {
 										if (e.key == "Enter") {
 											handleSubmitButton.current.focus();
