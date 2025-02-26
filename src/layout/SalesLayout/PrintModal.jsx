@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
+import LoadingModalSendSales from "./LoadingModal";
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
