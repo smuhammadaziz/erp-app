@@ -424,7 +424,8 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
 				<div className="flex justify-between items-center mb-4 border-b">
 					<h2 className="text-xl font-semibold text-gray-800">
-						{content[language].salesPage.sidebarCashPay}
+						{content[language].salesPage.sidebarCashPay} (
+						{content[language].salesPage.sidebarCashCard})
 					</h2>
 					<button
 						onClick={onClose}
