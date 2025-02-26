@@ -426,7 +426,7 @@ function SalesPageLayoutHeader() {
 										Кутилмоқда
 									</label>
 								</div>
-								<div className="font-bold">
+								<div className="font-bold ml-10">
 									({filteredData ? filteredData.length : 0})
 								</div>
 							</div>
@@ -436,10 +436,10 @@ function SalesPageLayoutHeader() {
 							<table className="w-full border-collapse">
 								<thead>
 									<tr className="bg-gray-100">
-										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+										<th className="border w-[200px] border-gray-200 p-2 text-left font-medium text-sm align-top">
 											Дата
 										</th>
-										<th className="border border-gray-200 font-medium text-sm">
+										<th className="border w-[500px] border-gray-200 font-medium text-sm">
 											<div className="p-2 border-b border-gray-200 text-left">
 												Склад
 											</div>
@@ -450,7 +450,7 @@ function SalesPageLayoutHeader() {
 										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
 											Сумма
 										</th>
-										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
+										<th className="border w-[150px] border-gray-200 p-2 text-left font-medium text-sm align-top">
 											Статус
 										</th>
 										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
@@ -480,7 +480,7 @@ function SalesPageLayoutHeader() {
 														openDetailModal(sale)
 													}
 												>
-													<td className="border border-gray-200 p-2 text-sm">
+													<td className="border border-gray-200 p-2 text-sm w-[200px]">
 														<span className="mr-4">
 															{sale.status ===
 															"process" ? (
@@ -531,7 +531,7 @@ function SalesPageLayoutHeader() {
 																	"DD.MM.YYYY HH:mm",
 															  )}
 													</td>
-													<td className="border border-gray-200 text-sm">
+													<td className="border border-gray-200 text-sm w-[500px]">
 														<div
 															className="p-1 border-b border-gray-200 truncate"
 															title={
@@ -578,7 +578,7 @@ function SalesPageLayoutHeader() {
 															]
 														}
 													</td>
-													<td className="border border-gray-200 p-1">
+													<td className="border border-gray-200 p-1 w-[150px]">
 														{sale.status ===
 														"process" ? (
 															<p
