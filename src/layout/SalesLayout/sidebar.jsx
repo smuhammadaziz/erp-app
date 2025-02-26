@@ -184,7 +184,7 @@ function SalesPageLayoutSidebar({ socket }) {
 						{content[language].salesPage.sidebarProcess}
 					</span>
 				</button>
-				<div className="absolute -top-2 -right-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg">
+				<div className="absolute -top-3 -right-2 flex items-center justify-center w-8 h-8 bg-red-500 text-white text-sm font-bold rounded-full shadow-lg">
 					{productData.length > 0 ? productData.length : 0}
 				</div>
 			</div>
