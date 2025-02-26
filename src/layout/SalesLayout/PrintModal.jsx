@@ -28,7 +28,6 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 	const cancelButton = useRef();
 
 	useEffect(() => {
-		// Focus the OK button when the modal opens
 		if (okButton.current) {
 			okButton.current.focus();
 		}
@@ -39,7 +38,7 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 				document.activeElement === cancelButton.current
 			) {
 				if (e.key === "Enter") {
-					document.activeElement.click(); // Trigger the click event
+					document.activeElement.click();
 				} else if (e.key === "ArrowRight") {
 					cancelButton.current?.focus();
 				} else if (e.key === "ArrowLeft") {
