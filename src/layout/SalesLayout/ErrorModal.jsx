@@ -1,14 +1,15 @@
 import React from "react";
 import { MdClear } from "react-icons/md";
+import { IoIosWarning } from "react-icons/io";
 
-function PrintingModal({ setPrintModal }) {
+function ErrorModal({ setPrintModal }) {
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 			<div className="bg-white w-[500px] rounded-xl shadow-2xl relative">
 				<div className="p-6">
 					<div className="flex justify-between items-center mb-4">
 						<h2 className="text-xl font-bold text-gray-800">
-							Печать
+							<IoIosWarning />
 						</h2>
 						<button
 							onClick={() => setPrintModal(false)}
@@ -38,5 +39,5 @@ function PrintingModal({ setPrintModal }) {
 	);
 }
 
-export default PrintingModal;
+export default ErrorModal;
 
