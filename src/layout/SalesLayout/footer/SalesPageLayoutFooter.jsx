@@ -332,7 +332,8 @@ const SalesPageLayoutFooter = () => {
 					<div className="flex items-center gap-4">
 						<button
 							onClick={toggleSettings}
-							className="text-white bg-slate-700 p-2 rounded-md text-lg flex items-center gap-2 hover:text-gray-800 transition-colors duration-200"
+							disabled
+							className="text-white bg-slate-700 cursor-not-allowed p-2 rounded-md text-lg flex items-center gap-2  transition-colors duration-200"
 						>
 							<FiSettings className="text-xl" />
 						</button>
