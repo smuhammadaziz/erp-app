@@ -44,9 +44,11 @@ moment.locale("ru");
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 import SuccessModal from "./SuccessModal";
+import CardPaymentModal from "./CardPaymentModal";
 
 function SalesPageLayoutSidebar({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isCardModalOpen, setIsCardModalOpen] = useState(false);
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 	const [selectedSale, setSelectedSale] = useState(null);
@@ -144,19 +146,19 @@ function SalesPageLayoutSidebar({ socket }) {
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
 					onClick={() => setIsModalOpen(true)}
-					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					className="flex items-center justify-between w-full max-w-xs bg-slate-100 border-2 border-black hover:scale-105 text-black px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
-					<HiOutlineCash className="mr-3 text-xl" />
-					<span className="font-semibold">
+					<span className="font-semibold flex items-center">
+						<HiOutlineCash className="mr-3 text-xl" />
 						{content[language].salesPage.sidebarCash}
 					</span>
 				</button>
 				<button
-					onClick={() => setPrintModal(true)}
-					className="flex items-center justify-center w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
+					onClick={() => setIsCardModalOpen(true)}
+					className="flex items-center justify-between w-full max-w-xs bg-slate-100 border-2 border-black hover:scale-105 text-black px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
-					<HiOutlineCreditCard className="mr-3 text-xl" />
-					<span className="font-semibold">
+					<span className="font-semibold flex items-center">
+						<HiOutlineCreditCard className="mr-3 text-xl" />
 						{content[language].salesPage.sidebarCard}
 					</span>
 				</button>
@@ -179,6 +181,13 @@ function SalesPageLayoutSidebar({ socket }) {
 			<PaymentModal
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
+				totalAmount={50000}
+				socket={socket}
+			/>
+
+			<CardPaymentModal
+				isOpen={isCardModalOpen}
+				onClose={() => setIsCardModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
 			/>
