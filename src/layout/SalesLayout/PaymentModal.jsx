@@ -379,6 +379,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 	const searchInputRef = useRef();
 	const cardInputRef = useRef();
+	const handleSubmitButton = useRef();
 
 	const formatRussianNumber = (num) => {
 		return num.toLocaleString("ru-RU", {
@@ -587,7 +588,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 											Number(numericInput) || 0,
 										);
 									}}
-									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									onKeyPress={(e) => {
+										if (e.key == "Enter") {
+											handleSubmitButton.current.focus();
+										}
+									}}
+									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
 						</div>
@@ -627,6 +633,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
+						ref={handleSubmitButton}
 						onClick={handleSaveSales}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
