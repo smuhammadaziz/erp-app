@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoSearchOutline } from "react-icons/io5";
 import nodeUrl from "../../links";
@@ -84,7 +84,8 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		}
 	};
 
-	const [cashAmount, setCashAmount] = useState(price);
+	const [cashAmount, setCashAmount] = useState(totalPrice);
+	const [isTyping, setIsTyping] = useState(false);
 
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
@@ -376,6 +377,45 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		window.location.reload();
 	};
 
+	const searchInputRef = useRef();
+	const cardInputRef = useRef();
+	const handleSubmitButton = useRef();
+
+	const formatRussianNumber = (num) => {
+		return num.toLocaleString("ru-RU", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	};
+
+	useEffect(() => {
+		if (isOpen && searchInputRef.current) {
+			searchInputRef.current.value = formatRussianNumber(totalPrice);
+			searchInputRef.current.focus();
+			searchInputRef.current.select();
+		}
+	}, [isOpen]);
+
+	const handleFocus = () => {
+		if (searchInputRef.current) {
+			searchInputRef.current.select();
+		}
+	};
+
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			if (isTyping) {
+				const numericValue = parseFloat(cashAmount) || 0;
+				setCashAmount(numericValue);
+				setIsTyping(false);
+			}
+
+			if (cardInputRef.current) {
+				cardInputRef.current.focus();
+			}
+		}
+	};
+
 	if (!isOpen) return null;
 
 	return (
@@ -487,14 +527,42 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									}
 								</label>
 								<input
+									ref={searchInputRef}
 									type="text"
-									value={totalPrice.toLocaleString("ru-RU", {
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									})}
-									onChange={(e) =>
-										setCashAmount(e.target.value)
+									value={
+										isTyping
+											? cashAmount
+											: formatRussianNumber(cashAmount)
 									}
+									onChange={(e) => {
+										if (!isTyping) {
+											setIsTyping(true);
+											setCashAmount(
+												e.target.value.replace(
+													/[^0-9]/g,
+													"",
+												),
+											);
+										} else {
+											const numericInput =
+												e.target.value.replace(
+													/[^0-9]/g,
+													"",
+												);
+											setCashAmount(numericInput);
+										}
+									}}
+									onBlur={() => {
+										// Convert to number and keep the new value
+										if (isTyping) {
+											const numericValue =
+												parseFloat(cashAmount) || 0;
+											setCashAmount(numericValue);
+											setIsTyping(false);
+										}
+									}}
+									onFocus={handleFocus}
+									onKeyPress={handleKeyPress}
 									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
@@ -507,12 +575,25 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									}
 								</label>
 								<input
+									ref={cardInputRef}
 									type="text"
-									value={cardAmount}
-									onChange={(e) =>
-										setCardAmount(Number(e.target.value))
-									}
-									className="w-3/4 px-4 py-1 text-right text-3xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									value={cardAmount === 0 ? "" : cardAmount}
+									onChange={(e) => {
+										const numericInput =
+											e.target.value.replace(
+												/[^0-9]/g,
+												"",
+											);
+										setCardAmount(
+											Number(numericInput) || 0,
+										);
+									}}
+									onKeyPress={(e) => {
+										if (e.key == "Enter") {
+											handleSubmitButton.current.focus();
+										}
+									}}
+									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
 								/>
 							</div>
 						</div>
@@ -552,6 +633,7 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
+						ref={handleSubmitButton}
 						onClick={handleSaveSales}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
