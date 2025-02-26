@@ -146,7 +146,10 @@ function SalesPageLayoutSidebar({ socket }) {
 		<div className="salespage bg-slate-100 h-[87vh] px-6 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
-					onClick={() => setIsModalOpen(true)}
+					onClick={() => {
+						setIsModalOpen(true);
+						// setPrintModal(false);
+					}}
 					className="flex items-center justify-center w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-5 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
 				>
 					<span className="font-semibold flex items-center">
@@ -184,6 +187,7 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
+				setPrintModal={setPrintModal}
 			/>
 
 			<CardPaymentModal

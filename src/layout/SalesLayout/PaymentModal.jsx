@@ -8,7 +8,13 @@ import { MdClear } from "react-icons/md";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
-const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
+const PaymentModal = ({
+	isOpen,
+	onClose,
+	totalAmount,
+	socket,
+	setPrintModal,
+}) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
 	const [cardAmount, setCardAmount] = useState(0);
@@ -635,7 +641,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						ref={handleSubmitButton}
-						onClick={handleSaveSales}
+						// onClick={handleSaveSales}
+						onClick={() => {
+							setPrintModal(true);
+							onClose();
+						}}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK
