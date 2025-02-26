@@ -7,15 +7,26 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 function PrintingModal({ setPrintModal, setSuccessModal }) {
 	const [countdown, setCountdown] = useState(10);
+	const [showLoading, setShowLoading] = useState(false);
+	const [isProcessing, setIsProcessing] = useState(false);
 
 	useEffect(() => {
-		if (countdown > 0) {
+		if (!isProcessing && countdown > 0) {
 			const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
 			return () => clearTimeout(timer);
-		} else {
+		} else if (!isProcessing && countdown === 0) {
 			showSuccessModal();
 		}
-	}, [countdown]);
+	}, [countdown, isProcessing]);
+
+	const handleConfirm = () => {
+		setShowLoading(true);
+		setIsProcessing(true);
+		setTimeout(() => {
+			setShowLoading(false);
+			showSuccessModal();
+		}, 2000);
+	};
 
 	const showSuccessModal = () => {
 		setPrintModal(false);
@@ -52,6 +63,10 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 		};
 	}, []);
 
+	if (showLoading) {
+		return <LoadingModalSendSales />;
+	}
+
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 			<div className="bg-white w-[500px] rounded-xl shadow-2xl relative">
@@ -82,15 +97,19 @@ function PrintingModal({ setPrintModal, setSuccessModal }) {
 					<div className="flex justify-center mt-5">
 						<button
 							ref={okButton}
-							onClick={showSuccessModal}
+							onClick={handleConfirm}
 							className="px-10 w-[150px] mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
+							disabled={isProcessing}
 						>
-							Да ({countdown})
+							{isProcessing
+								? "Обработка..."
+								: `Да (${countdown})`}
 						</button>
 						<button
 							ref={cancelButton}
 							onClick={() => setPrintModal(false)}
 							className="px-12 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
+							disabled={isProcessing}
 						>
 							Нет
 						</button>
