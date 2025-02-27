@@ -1,41 +1,47 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FaBuilding, FaUserAlt } from "react-icons/fa";
+import { FaBuilding, FaUserAlt, FaRegEdit } from "react-icons/fa";
 import { BsClock } from "react-icons/bs";
 import { FaUsersLine } from "react-icons/fa6";
 import { CiDiscount1 } from "react-icons/ci";
-import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
+import {
+	MdOutlineFormatListBulleted,
+	MdCalendarToday,
+	MdDelete,
+	MdClose,
+	MdFilterList,
+	MdOutlineMoreVert,
+} from "react-icons/md";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdPendingActions } from "react-icons/md";
 import { MdOutlineDoneAll } from "react-icons/md";
-import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
-import { HiOutlineDocumentMinus } from "react-icons/hi2";
-import { HiOutlineDocumentCheck } from "react-icons/hi2";
-import { HiOutlineDocument } from "react-icons/hi2";
-import { LuClock4 } from "react-icons/lu";
-import { LuClockAlert } from "react-icons/lu";
+import {
+	HiOutlineClipboardDocumentCheck,
+	HiOutlineDocumentMinus,
+	HiOutlineDocumentCheck,
+	HiOutlineDocument,
+} from "react-icons/hi2";
+import { LuClock4, LuClockAlert } from "react-icons/lu";
 import { IoInformation } from "react-icons/io5";
-import { FiPrinter } from "react-icons/fi";
+import { FiPrinter, FiChevronDown, FiEye } from "react-icons/fi";
 import { TbBasketExclamation } from "react-icons/tb";
-
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import DiscountModal from "./DiscountModal";
-
-import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
+import {
+	BsBasket3,
+	BsCreditCard2Back,
+	BsBarChart,
+	BsThreeDots,
+} from "react-icons/bs";
 import {
 	MdOutlineShoppingCart,
 	MdAccessTime,
 	MdPriceCheck,
 	MdPersonOutline,
 	MdOutlineInfo,
-	MdClose,
 	MdPayment,
 	MdInventory,
 	MdWarehouse,
 	MdSearch,
-	MdFilterList,
 } from "react-icons/md";
 
 import Calendar from "react-calendar";
@@ -54,7 +60,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 	const [language] = useLang("uz");
 
 	const [selectedRowId, setSelectedRowId] = useState(null);
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [selectedDate, setSelectedDate] = useState(null);
@@ -63,6 +68,9 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 		delivered: false,
 		falseDelivered: false,
 	});
+	const [showFilters, setShowFilters] = useState(false);
+	const [viewMode, setViewMode] = useState("table"); // "table" or "card"
+	const [showActionsMenu, setShowActionsMenu] = useState(null);
 
 	const [currencyData, setCurrencyData] = useState({});
 
@@ -110,7 +118,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 						[product.mainWarehouse]: data[0]?.name || "-",
 					}));
 				} catch (error) {
-					console.error("Failed to fetch currency data", error);
+					console.error("Failed to fetch warehouse data", error);
 					setWarehouseData((prev) => ({
 						...prev,
 						[product.mainWarehouse]: "-",
@@ -129,12 +137,12 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 		return productData.filter((sale) => {
 			const searchMatch =
 				sale.client_name
-					.toLowerCase()
+					?.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
 				warehouseData[sale.mainWarehouse]
-					.toLowerCase()
+					?.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				sale.summa.toString().includes(searchTerm);
+				sale.summa?.toString().includes(searchTerm);
 
 			// Date filter
 			const dateMatch = selectedDate
@@ -152,7 +160,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 					sale.status === "falseDelivered");
 
 			return searchMatch && dateMatch && statusMatch;
-			// return dateMatch && statusMatch;
 		});
 	};
 
@@ -175,209 +182,576 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 			setShowCalendar(false);
 		}
 	}, [selectedDate]);
+
+	const getStatusBadge = (status) => {
+		switch (status) {
+			case "process":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200">
+						<HiOutlineDocument className="text-sm" />
+					</div>
+				);
+			case "delivered":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+						<HiOutlineDocumentCheck className="text-sm" />
+					</div>
+				);
+			case "falseDelivered":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
+						<HiOutlineDocumentMinus className="text-sm" />
+					</div>
+				);
+			default:
+				return status;
+		}
+	};
+
+	const clearAllFilters = () => {
+		setSearchTerm("");
+		setSelectedDate(null);
+		setStatusFilters({
+			process: false,
+			delivered: false,
+			falseDelivered: false,
+		});
+	};
+
+	// Close action menu when clicking outside
+	useEffect(() => {
+		const handleClickOutside = () => {
+			setShowActionsMenu(null);
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, []);
+
 	return (
-		<div>
-			<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-40">
-				<div className="bg-white rounded-lg w-full max-w-[70vw] h-[90vh] overflow-hidden">
-					<div className="px-4 py-3 border-b border-gray-200 flex text-white justify-between items-center bg-blue-600">
-						<h2 className="text-lg font-semibold flex items-center gap-2 text-white">
-							<TbBasketExclamation className="text-xl" />
-							{content[language].salesPage.sidebarProcess}
-						</h2>
+		<div className="fixed inset-0 bg-black/70 flex items-center text-black justify-center z-40 backdrop-blur-sm">
+			<div className="bg-white rounded-xl w-full max-w-[75vw] h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+				{/* Header */}
+				<div className="px-6 py-4 border-b flex justify-between items-center bg-white">
+					<div className="flex items-center gap-3">
+						<div className="bg-indigo-50 p-2 rounded-lg">
+							<TbBasketExclamation className="text-2xl text-indigo-600" />
+						</div>
+						<div>
+							<h2 className="text-xl font-semibold text-gray-800">
+								{content[language].salesPage.sidebarProcess}
+							</h2>
+							<p className="text-sm text-gray-500">
+								Управление заказами и отслеживание доставки
+							</p>
+						</div>
+					</div>
+
+					<div className="flex items-center gap-3">
+						<button
+							className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+							onClick={() =>
+								setViewMode(
+									viewMode === "table" ? "card" : "table",
+								)
+							}
+						>
+							{viewMode === "table" ? (
+								<MdOutlineFormatListBulleted className="text-xl" />
+							) : (
+								<MdOutlineFormatListBulleted className="text-xl" />
+							)}
+						</button>
+
 						<button
 							onClick={() => setIsListModalOpen(false)}
-							className="p-1.5 hover:bg-blue-500 rounded-lg transition-colors"
+							className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
 						>
 							<MdClose className="text-xl" />
 						</button>
 					</div>
+				</div>
 
-					<div className="p-3 border-b border-gray-200 bg-gray-50">
-						<div className="flex justify-between flex-wrap gap-4 items-center">
-							<div className="flex flex-wrap gap-4 items-center">
-								<div className="relative max-w-md flex-grow">
-									<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-									<input
-										type="text"
-										value={searchTerm}
-										onChange={(e) =>
-											setSearchTerm(e.target.value)
-										}
-										placeholder="Поиск..."
-										className="w-[300px] pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+				{/* Search and filters */}
+				<div className="p-5 bg-white border-b">
+					<div className="flex flex-wrap items-center gap-3">
+						<div className="relative flex-grow max-w-md">
+							<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+								<BiSearch className="text-gray-400" />
+							</div>
+							<input
+								type="text"
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								placeholder="Поиск по имени, складу или сумме..."
+								className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm transition-all"
+							/>
+							{searchTerm && (
+								<button
+									onClick={() => setSearchTerm("")}
+									className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+								>
+									<MdClose />
+								</button>
+							)}
+						</div>
+
+						<div className="relative">
+							<button
+								onClick={() => {
+									if (selectedDate) {
+										setSelectedDate(null);
+									} else {
+										setShowCalendar(!showCalendar);
+									}
+								}}
+								className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+									selectedDate
+										? "bg-indigo-500 text-white hover:bg-indigo-600"
+										: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+								}`}
+							>
+								<MdCalendarToday />
+								{selectedDate
+									? `${moment(selectedDate).format(
+											"DD.MM.YYYY",
+									  )}`
+									: "Выберите дату"}
+								{selectedDate && (
+									<MdClose className="text-sm hover:text-gray-100" />
+								)}
+							</button>
+							{showCalendar && (
+								<div className="absolute top-full mt-2 z-50">
+									<Calendar
+										onChange={handleDateSelect}
+										value={selectedDate}
+										className="border border-gray-200 rounded-lg shadow-xl"
 									/>
 								</div>
-								<div className="relative text-black">
-									<button
-										onClick={() => {
-											if (selectedDate) {
-												setSelectedDate(null);
-											} else {
-												setShowCalendar(!showCalendar);
-											}
-										}}
-										className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
-									>
-										{selectedDate ? (
-											<>
-												{moment(selectedDate).format(
-													"DD.MM.YYYY",
-												)}
-												<MdClose className="text-sm" />
-											</>
-										) : (
-											"Выберите дату"
-										)}
-									</button>
-									{showCalendar && (
-										<div className="absolute top-full mt-2 z-50">
-											<Calendar
-												onChange={handleDateSelect}
-												value={selectedDate}
-												className="border border-gray-200 rounded-lg shadow-lg"
-											/>
-										</div>
-									)}
-								</div>
-							</div>
-							<div className="font-bold text-black mr-5">
-								({filteredData ? filteredData.length : 0})
-							</div>
+							)}
+						</div>
+
+						<button
+							onClick={() => setShowFilters(!showFilters)}
+							className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+								Object.values(statusFilters).some(Boolean)
+									? "bg-indigo-50 text-indigo-700 border border-indigo-200"
+									: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+							}`}
+						>
+							<MdFilterList />
+							Фильтры
+							{Object.values(statusFilters).some(Boolean) && (
+								<span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs text-white">
+									{
+										Object.values(statusFilters).filter(
+											Boolean,
+										).length
+									}
+								</span>
+							)}
+						</button>
+
+						{(searchTerm ||
+							selectedDate ||
+							Object.values(statusFilters).some(Boolean)) && (
+							<button
+								onClick={clearAllFilters}
+								className="px-4 py-2.5 rounded-lg text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
+							>
+								Сбросить фильтры
+							</button>
+						)}
+
+						<div className="ml-auto text-sm text-gray-500 font-medium">
+							Найдено:{" "}
+							<span className="text-gray-900 font-semibold">
+								{filteredData.length}
+							</span>
 						</div>
 					</div>
 
-					<div className="overflow-y-auto max-h-[calc(90vh-8rem)]">
-						<table className="w-full border-collapse">
-							<thead>
-								<tr className="bg-gray-100 text-black">
-									<th className="border w-[200px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-										Дата
-									</th>
-									<th className="border w-[300px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-										Склад
-									</th>
+					{/* Status filters */}
+					{showFilters && (
+						<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+							<h4 className="text-sm font-medium text-gray-700 mb-3">
+								Фильтр по статусу:
+							</h4>
+							<div className="flex flex-wrap gap-3">
+								<button
+									onClick={() =>
+										handleStatusFilterChange("process")
+									}
+									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+										statusFilters.process
+											? "bg-indigo-100 text-indigo-800 border border-indigo-300"
+											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+									}`}
+								>
+									<HiOutlineDocument
+										className={
+											statusFilters.process
+												? "text-indigo-600"
+												: "text-gray-500"
+										}
+									/>
+									В процессе
+								</button>
+								<button
+									onClick={() =>
+										handleStatusFilterChange("delivered")
+									}
+									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+										statusFilters.delivered
+											? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+									}`}
+								>
+									<HiOutlineDocumentCheck
+										className={
+											statusFilters.delivered
+												? "text-emerald-600"
+												: "text-gray-500"
+										}
+									/>
+									Доставлено
+								</button>
+								<button
+									onClick={() =>
+										handleStatusFilterChange(
+											"falseDelivered",
+										)
+									}
+									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+										statusFilters.falseDelivered
+											? "bg-rose-100 text-rose-800 border border-rose-300"
+											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+									}`}
+								>
+									<HiOutlineDocumentMinus
+										className={
+											statusFilters.falseDelivered
+												? "text-rose-600"
+												: "text-gray-500"
+										}
+									/>
+									Не доставлено
+								</button>
+							</div>
+						</div>
+					)}
+				</div>
 
-									<th className="border w-[150px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-										Сумма
-									</th>
-									<th className="border w-[200px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-										Автор
-									</th>
-									<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
-										Amallar
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{filteredData.length > 0 ? (
-									[...filteredData].reverse().map((sale) => (
-										<tr
-											key={sale.id}
-											className={`cursor-pointer transition-colors ${
-												selectedRowId === sale.id
-													? "bg-blue-200 text-black hover:bg-blue-200"
-													: "hover:bg-gray-50 text-black"
-											}`}
-											onClick={() =>
-												setSelectedRowId(sale.id)
-											}
-											onDoubleClick={() =>
-												openDetailModal(sale)
-											}
-										>
-											<td className="border w-[200px] border-gray-200 p-2 text-sm">
-												<span className="mr-4">
-													{sale.status ===
-													"process" ? (
-														<HiOutlineDocument
-															className={`text-xl inline ${
-																selectedRowId ===
-																sale.id
-																	? "text-black"
-																	: "text-blue-600"
-															}`}
-														/>
-													) : sale.status ===
-													  "delivered" ? (
-														<HiOutlineDocumentCheck
-															className={`text-xl inline ${
-																selectedRowId ===
-																sale.id
-																	? "text-black"
-																	: "text-blue-600"
-															}`}
-														/>
-													) : sale.status ===
-													  "falseDelivered" ? (
-														<HiOutlineDocument
-															className={`text-xl inline ${
-																selectedRowId ===
-																sale.id
-																	? "text-black"
-																	: "text-blue-600"
-															}`}
-														/>
-													) : (
-														sale.status
-													)}
-												</span>
-												{moment(sale.date).isSame(
-													moment(),
-													"day",
-												)
-													? moment(sale.date).format(
-															"HH:mm",
-													  )
-													: moment(sale.date).format(
-															"DD.MM.YYYY HH:mm",
-													  )}
-											</td>
-											<td className="border p-2 w-[300px] border-gray-200 text-sm">
-												<span className="">
-													Асосий склад
-												</span>
-											</td>
-
-											<td className="border border-gray-200 w-[150px] font-medium p-2 text-sm">
-												{/* {parseFloat(
-													sale.total_price,
-												).toLocaleString("ru-RU", {
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												})}{" "}
-												{
-													currencyData[
-														sale.mainCurrency
-													]
-												} */}
-												100 000,00
-											</td>
-											<td className="border border-gray-200 w-[200px] p-2 text-sm">
-												Menedger
-											</td>
-											<td className="border border-gray-200 p-2 text-sm">
-												<button className="py-2 px-6 bg-green-600 text-white rounded-lg">
-													<FaRegEdit className="text-lg" />
-												</button>
-												<button className="py-2 px-6 ml-5  bg-red-500 text-white rounded-lg">
-													<MdDelete className="text-lg" />
-												</button>
-											</td>
+				{/* Data display */}
+				<div className="overflow-y-auto flex-grow p-5 bg-gray-50">
+					{filteredData.length > 0 ? (
+						viewMode === "table" ? (
+							<div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+								<table className="min-w-full divide-y divide-gray-200 table-fixed">
+									<thead className="bg-gray-50">
+										<tr>
+											<th
+												scope="col"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+											>
+												Дата
+											</th>
+											<th
+												scope="col"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[300px]"
+											>
+												Склад
+											</th>
+											<th
+												scope="col"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[150px]"
+											>
+												Сумма
+											</th>
+											<th
+												scope="col"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+											>
+												Автор
+											</th>
+											<th
+												scope="col"
+												className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]"
+											>
+												Действия
+											</th>
 										</tr>
-									))
-								) : (
-									<tr>
-										<td
-											colSpan="6"
-											className="text-center py-10 text-gray-500 text-sm border border-gray-200"
-										>
-											Ҳозирча савдолар йўқ
-										</td>
-									</tr>
-								)}
-							</tbody>
-						</table>
-					</div>
+									</thead>
+									<tbody className="bg-white divide-y divide-gray-200">
+										{[...filteredData]
+											.reverse()
+											.map((sale) => (
+												<tr
+													key={sale.id}
+													className={`group transition-all ${
+														selectedRowId ===
+														sale.id
+															? "bg-indigo-50"
+															: "hover:bg-gray-50"
+													}`}
+													onClick={() =>
+														setSelectedRowId(
+															sale.id,
+														)
+													}
+													onDoubleClick={() =>
+														openDetailModal &&
+														openDetailModal(sale)
+													}
+												>
+													<td className="px-6 py-4">
+														<div className="flex items-center">
+															{getStatusBadge(
+																sale.status,
+															)}
+															<div className="ml-3 text-sm text-gray-500">
+																{moment(
+																	sale.date,
+																).isSame(
+																	moment(),
+																	"day",
+																)
+																	? moment(
+																			sale.date,
+																	  ).format(
+																			"HH:mm",
+																	  )
+																	: moment(
+																			sale.date,
+																	  ).format(
+																			"DD.MM.YYYY HH:mm",
+																	  )}
+															</div>
+														</div>
+													</td>
+													<td className="px-6 py-4">
+														<div className="flex items-center">
+															{/* <div className="flex-shrink-0 h-8 w-8 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-600">
+																<MdWarehouse />
+															</div> */}
+															<div className="">
+																<div className="text-sm font-medium text-gray-900">
+																	Асосий склад
+																</div>
+																<div className="text-xs text-gray-500">
+																	Основной
+																</div>
+															</div>
+														</div>
+													</td>
+													<td className="px-6 py-4">
+														<div className="text-sm font-medium text-gray-900">
+															100 000,00
+														</div>
+														<div className="text-xs text-gray-500">
+															УЗС
+														</div>
+													</td>
+													<td className="px-6 py-4">
+														<div className="flex items-center">
+															{/* <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+																<HiOutlineUserCircle className="text-gray-600" />
+															</div> */}
+															<div className="">
+																<div className="text-sm font-medium text-gray-900">
+																	Menedger
+																</div>
+															</div>
+														</div>
+													</td>
+													<td className="px-6 py-4">
+														<div className="flex items-center justify-center space-x-1">
+															<button
+																className="p-1.5 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors"
+																onClick={(
+																	e,
+																) => {
+																	e.stopPropagation();
+																	// Edit action
+																}}
+															>
+																<FaRegEdit />
+															</button>
+															<button
+																className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
+																onClick={(
+																	e,
+																) => {
+																	e.stopPropagation();
+																	// Delete action
+																}}
+															>
+																<MdDelete />
+															</button>
+															<div className="relative">
+																<button
+																	className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+																	onClick={(
+																		e,
+																	) => {
+																		e.stopPropagation();
+																		setShowActionsMenu(
+																			showActionsMenu ===
+																				sale.id
+																				? null
+																				: sale.id,
+																		);
+																	}}
+																>
+																	<BsThreeDots />
+																</button>
+
+																{showActionsMenu ===
+																	sale.id && (
+																	<div
+																		className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10 py-1"
+																		onClick={(
+																			e,
+																		) =>
+																			e.stopPropagation()
+																		}
+																	>
+																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																			<FiEye className="text-gray-500" />
+																			Просмотреть
+																			детали
+																		</button>
+																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																			<FiPrinter className="text-gray-500" />
+																			Печать
+																		</button>
+																	</div>
+																)}
+															</div>
+														</div>
+													</td>
+												</tr>
+											))}
+									</tbody>
+								</table>
+							</div>
+						) : (
+							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+								{[...filteredData].reverse().map((sale) => (
+									<div
+										key={sale.id}
+										className={`bg-white rounded-xl border ${
+											selectedRowId === sale.id
+												? "border-indigo-300 ring-2 ring-indigo-100"
+												: "border-gray-200 hover:border-indigo-200"
+										} shadow-sm overflow-hidden transition-all cursor-pointer group`}
+										onClick={() =>
+											setSelectedRowId(sale.id)
+										}
+										onDoubleClick={() =>
+											openDetailModal &&
+											openDetailModal(sale)
+										}
+									>
+										<div className="p-4 flex justify-between border-b border-gray-100">
+											<div className="flex items-center gap-2">
+												<div className="flex-shrink-0 h-10 w-10 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-600">
+													<MdWarehouse />
+												</div>
+												<div>
+													<div className="font-medium text-gray-900">
+														Асосий склад
+													</div>
+													<div className="text-xs text-gray-500">
+														Основной
+													</div>
+												</div>
+											</div>
+											<div className="flex items-center">
+												{getStatusBadge(sale.status)}
+											</div>
+										</div>
+
+										<div className="p-4">
+											<div className="flex justify-between mb-3">
+												<div className="text-xs text-gray-500">
+													Дата:
+												</div>
+												<div className="text-sm">
+													{moment(sale.date).isSame(
+														moment(),
+														"day",
+													)
+														? moment(
+																sale.date,
+														  ).format("HH:mm")
+														: moment(
+																sale.date,
+														  ).format(
+																"DD.MM.YYYY HH:mm",
+														  )}
+												</div>
+											</div>
+
+											<div className="flex justify-between mb-3">
+												<div className="text-xs text-gray-500">
+													Сумма:
+												</div>
+												<div className="text-sm font-medium">
+													100 000,00 УЗС
+												</div>
+											</div>
+
+											<div className="flex justify-between">
+												<div className="text-xs text-gray-500">
+													Автор:
+												</div>
+												<div className="text-sm">
+													Menedger
+												</div>
+											</div>
+										</div>
+
+										<div className="bg-gray-50 p-3 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity border-t border-gray-100">
+											<button className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors">
+												<FaRegEdit />
+											</button>
+											<button className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors">
+												<MdDelete />
+											</button>
+											<button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+												<BsThreeDots />
+											</button>
+										</div>
+									</div>
+								))}
+							</div>
+						)
+					) : (
+						<div className="flex flex-col items-center justify-center h-64 rounded-xl border border-gray-200 bg-white shadow-sm">
+							<div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+								<TbBasketExclamation className="text-3xl text-gray-400" />
+							</div>
+							<h3 className="text-lg font-medium text-gray-700 mb-1">
+								Ҳозирча савдолар йўқ
+							</h3>
+							<p className="text-gray-500 text-sm max-w-md text-center mb-4">
+								Попробуйте изменить критерии поиска или добавьте
+								новые продажи
+							</p>
+							<div className="flex gap-3">
+								<button className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-medium hover:bg-indigo-100 transition-colors">
+									Сбросить фильтры
+								</button>
+								<button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+									Добавить продажу
+								</button>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

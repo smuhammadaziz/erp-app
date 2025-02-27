@@ -465,46 +465,47 @@ const CardPaymentModal = ({
 	if (!isOpen) return null;
 
 	return (
-		<div className="fixed inset-0 bg-black text-black bg-opacity-80 flex items-center justify-center p-6 z-[50]">
-			<div className="bg-white rounded-lg w-full max-w-3xl shadow-lg px-6 py-2 transition-all duration-300 transform scale-95">
-				<div className="flex justify-between items-center mb-4 border-b">
-					<h2 className="text-xl font-semibold text-gray-800">
-						{content[language].salesPage.sidebarCashPay} (
-						{content[language].salesPage.sidebarCashCard})
+		<div className="fixed inset-0 text-black bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-[50]">
+			<div className="bg-white rounded-xl w-full max-w-4xl shadow-xl overflow-hidden flex flex-col">
+				{/* Header */}
+				<div className="bg-blue-600 px-6 py-3 flex justify-between items-center">
+					<h2 className="text-lg font-medium text-white">
+						{content[language].salesPage.sidebarCashPay}
 					</h2>
 					<button
 						onClick={onClose}
-						className="p-2 text-gray-600 hover:text-gray-800 transition duration-200"
+						className="p-1.5 text-white/80 hover:text-white hover:bg-white/20 transition duration-200 rounded-full"
 					>
-						<IoClose className="w-6 h-6" />
+						<IoClose className="w-5 h-5" />
 					</button>
 				</div>
 
-				<div className="space-y-6">
-					<div className="grid grid-cols-12 gap-4">
-						<div className="col-span-8">
-							<label className="text-sm font-medium text-gray-700">
-								{
-									content[language].salesPage
-										.headerDiscountSumma
-								}
-							</label>
-							<div className="bg-green-50 p-4 rounded-md flex items-center">
-								<div className="font-bold text-left text-3xl text-gray-800">
+				{/* Content - Split Layout */}
+				<div className="flex flex-row flex-1 overflow-hidden">
+					{/* Left Side - Information */}
+					<div className="w-1/2 p-5 bg-gray-50 border-r border-gray-200 flex flex-col space-y-4">
+						{/* Summary Cards */}
+						<div className="grid grid-cols-2 gap-3">
+							<div className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
+								<label className="text-xs font-medium text-gray-500 block mb-1">
+									{
+										content[language].salesPage
+											.headerDiscountSumma
+									}
+								</label>
+								<div className="font-semibold text-xl text-gray-800">
 									{price.toLocaleString("ru-RU", {
 										minimumFractionDigits: 2,
 										maximumFractionDigits: 2,
 									})}
 								</div>
 							</div>
-						</div>
 
-						<div className="col-span-4">
-							<label className="text-sm font-medium text-gray-700">
-								{content[language].salesPage.headerDiscount}
-							</label>
-							<div className="bg-red-50 p-4 rounded-md flex items-center">
-								<div className="font-bold text-left text-3xl text-gray-800">
+							<div className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
+								<label className="text-xs font-medium text-gray-500 block mb-1">
+									{content[language].salesPage.headerDiscount}
+								</label>
+								<div className="font-semibold text-xl text-gray-800">
 									{discount.toLocaleString("ru-RU", {
 										minimumFractionDigits: 2,
 										maximumFractionDigits: 2,
@@ -512,14 +513,13 @@ const CardPaymentModal = ({
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<div className="space-y-4">
-						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/4 text-lg font-medium text-gray-700">
+						{/* Client Selection */}
+						<div className="bg-white rounded-lg border border-gray-200 p-3 shadow-sm">
+							<label className="text-xs font-medium text-gray-500 block mb-1">
 								Клиент
 							</label>
-							<div className="w-3/4 relative group">
+							<div className="relative group">
 								<input
 									type="text"
 									value={
@@ -529,171 +529,188 @@ const CardPaymentModal = ({
 									}
 									readOnly
 									placeholder="Клиент танланг"
-									className="w-full px-4 pr-16 py-2 text-left text-xl font-semibold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
+									className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 								/>
 								<button
 									onClick={() => setIsClientSearchOpen(true)}
-									className="absolute right-4 p-1 rounded-lg top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+									className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 rounded-md bg-gray-100 text-gray-500 hover:bg-blue-500 hover:text-white transition-all duration-200"
 								>
-									<IoSearchOutline className="w-6 h-6" />
+									<IoSearchOutline className="w-4 h-4" />
 								</button>
-								<span className="absolute left-1/2 transform -translate-x-1/2 mt-10 w-max px-3 py-1 text-xs bg-black text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-									{selectedClient
-										? selectedClient.name
-										: defaultClient.name}
-								</span>
 							</div>
 						</div>
 
-						<div className="flex items-center justify-between gap-4">
-							<label className="w-1/4 text-lg font-medium text-gray-700">
+						{/* Total to Pay */}
+						<div className="bg-blue-50 rounded-lg border border-blue-100 p-3 shadow-sm">
+							<label className="text-xs font-medium text-blue-700 block mb-1">
 								{content[language].salesPage.sidebarCashToPay}
 							</label>
-							<div className="relative w-3/4">
-								<input
-									type="text"
-									value={totalPrice.toLocaleString("ru-RU", {
-										minimumFractionDigits: 2,
-										maximumFractionDigits: 2,
-									})}
-									disabled
-									className="w-full px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
-								/>
-								{/* <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black text-xl font-bold">
-									{currencyData[data.mainCurrency]}
-								</span> */}
-							</div>
-						</div>
-
-						<div className="border-t-2 py-4">
-							<div className="flex items-center justify-between gap-4 mb-4">
-								<label className="w-1/4 text-lg font-medium text-gray-700">
-									{
-										content[language].salesPage
-											.sidebarCashCash
-									}
-								</label>
-								<input
-									ref={searchInputRef}
-									type="text"
-									value={cashAmount === 0 ? "" : cashAmount}
-									onChange={(e) => {
-										const numericInput =
-											e.target.value.replace(
-												/[^0-9]/g,
-												"",
-											);
-										setCashAmount(
-											Number(numericInput) || 0,
-										);
-									}}
-									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
-								/>
-							</div>
-
-							<div className="flex items-center justify-between gap-4">
-								<label className="w-1/4 text-lg font-medium text-gray-700">
-									{
-										content[language].salesPage
-											.sidebarCashCard
-									}
-								</label>
-								<input
-									ref={cardInputRef}
-									type="text"
-									value={
-										isTyping
-											? cardAmount
-											: formatRussianNumber(cardAmount)
-									}
-									onChange={(e) => {
-										if (!isTyping) {
-											setIsTyping(true);
-											setCardAmount(
-												e.target.value.replace(
-													/[^0-9]/g,
-													"",
-												),
-											);
-										} else {
-											const numericInput =
-												e.target.value.replace(
-													/[^0-9]/g,
-													"",
-												);
-											setCardAmount(numericInput);
-										}
-									}}
-									onBlur={() => {
-										if (isTyping) {
-											const numericValue =
-												parseFloat(cashAmount) ||
-												totalPrice;
-											setCardAmount(numericValue);
-											setIsTyping(false);
-										}
-									}}
-									onFocus={handleFocus}
-									onKeyPress={(e) => {
-										if (e.key == "Enter") {
-											handleSubmitButton.current.focus();
-										}
-									}}
-									className="w-3/4 px-4 py-1 text-right text-3xl font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 bg-gray-50"
-								/>
-							</div>
-						</div>
-					</div>
-
-					<div className="flex items-start justify-between bg-gray-50  rounded-md border border-gray-200">
-						<div className="w-3/5 px-6 py-6">
-							<input
-								type="text"
-								value={totalPrice.toLocaleString("ru-RU", {
+							<div className="font-bold text-xl text-gray-800">
+								{totalPrice.toLocaleString("ru-RU", {
 									minimumFractionDigits: 2,
 									maximumFractionDigits: 2,
 								})}
-								disabled
-								className="w-full px-4 py-3 text-right text-3xl font-bold border border-gray-300 rounded-md bg-white"
-							/>
-							<label className="text-lg font-medium text-gray-700">
+							</div>
+						</div>
+
+						{/* Total Price (Final) */}
+						<div className="bg-green-50 rounded-lg border border-green-100 p-3 shadow-sm mt-auto">
+							<label className="text-xs font-medium text-green-700 block mb-1">
 								{
 									content[language].salesPage
 										.sidebarCashTotalPrice
 								}
 							</label>
+							<div className="font-bold text-xl text-gray-800">
+								{totalPrice.toLocaleString("ru-RU", {
+									minimumFractionDigits: 2,
+									maximumFractionDigits: 2,
+								})}
+							</div>
 						</div>
-						<div className="w-2/5 py-6 pr-6 pl-0">
+					</div>
+
+					{/* Right Side - Input Fields */}
+					<div className="w-1/2 p-5 flex flex-col space-y-4">
+						{/* Cash Payment */}
+						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+							<div className="flex items-center gap-3 mb-2">
+								<div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 24 24"
+										fill="currentColor"
+										className="w-4 h-4 text-blue-600"
+									>
+										<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"></path>
+									</svg>
+								</div>
+								<label className="text-sm font-medium text-gray-700">
+									{
+										content[language].salesPage
+											.sidebarCashCash
+									}
+								</label>
+							</div>
+							<input
+								ref={searchInputRef}
+								type="text"
+								value={cashAmount === 0 ? "" : cashAmount}
+								onChange={(e) => {
+									const numericInput = e.target.value.replace(
+										/[^0-9]/g,
+										"",
+									);
+									setCashAmount(Number(numericInput) || 0);
+								}}
+								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+							/>
+						</div>
+
+						{/* Card Payment */}
+						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+							<div className="flex items-center gap-3 mb-2">
+								<div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										viewBox="0 0 24 24"
+										fill="currentColor"
+										className="w-4 h-4 text-indigo-600"
+									>
+										<path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"></path>
+									</svg>
+								</div>
+								<label className="text-sm font-medium text-gray-700">
+									{
+										content[language].salesPage
+											.sidebarCashCard
+									}
+								</label>
+							</div>
+							<input
+								ref={cardInputRef}
+								type="text"
+								value={
+									isTyping
+										? cardAmount
+										: formatRussianNumber(cardAmount)
+								}
+								onChange={(e) => {
+									if (!isTyping) {
+										setIsTyping(true);
+										setCardAmount(
+											e.target.value.replace(
+												/[^0-9]/g,
+												"",
+											),
+										);
+									} else {
+										const numericInput =
+											e.target.value.replace(
+												/[^0-9]/g,
+												"",
+											);
+										setCardAmount(numericInput);
+									}
+								}}
+								onBlur={() => {
+									if (isTyping) {
+										const numericValue =
+											parseFloat(cashAmount) ||
+											totalPrice;
+										setCardAmount(numericValue);
+										setIsTyping(false);
+									}
+								}}
+								onFocus={handleFocus}
+								onKeyPress={(e) => {
+									if (e.key == "Enter") {
+										handleSubmitButton.current.focus();
+									}
+								}}
+								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+							/>
+						</div>
+
+						{/* Comment */}
+						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+							<label className="text-sm font-medium text-gray-700 block mb-2">
+								{content?.[language]?.salesPage
+									?.sidebarCashComment ?? ""}
+							</label>
 							<textarea
-								className="w-full px-4 py-3 text-gray-700 border border-gray-300 rounded-md bg-white resize-none"
+								className="w-full px-3 py-2 text-gray-700 border border-gray-200 rounded-lg resize-none h-[80px] focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 								placeholder={`${
 									content?.[language]?.salesPage
 										?.sidebarCashComment ?? ""
 								}...`}
 								onChange={(e) => setComment(e.target.value)}
-								rows="4"
 							/>
 						</div>
+
+						{/* Spacer */}
+						<div className="flex-grow"></div>
 					</div>
 				</div>
 
-				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
+				{/* Action Buttons */}
+				<div className="bg-gray-100 px-6 py-3 border-t border-gray-200 flex justify-end gap-3">
+					<button
+						onClick={onClose}
+						className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition duration-200 text-sm font-medium"
+					>
+						{content[language].salesPage.headerDiscountCancel}
+					</button>
 					<button
 						ref={handleSubmitButton}
-						onClick={handleSaveSales}
 						// onClick={() => {
 						// 	setPrintModal(true);
 						// 	onClose();
 						// }}
-						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
+						onClick={handleSaveSales}
+						className="px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 text-sm font-medium shadow-sm"
 					>
 						OK
-					</button>
-					<button
-						onClick={onClose}
-						className="w-48 bg-red-600 text-white py-3 px-6 rounded-md hover:bg-red-700 transition duration-200 text-xl"
-					>
-						{content[language].salesPage.headerDiscountCancel}
 					</button>
 				</div>
 			</div>
@@ -706,30 +723,21 @@ const CardPaymentModal = ({
 			/>
 
 			{showErrorModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
-					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
-						<div className="p-6">
-							<div className="flex justify-between items-center mb-4">
-								<h2 className="text-xl font-bold text-gray-800">
-									Ошибка
-								</h2>
-								<button
-									onClick={() => setShowErrorModal(false)}
-									className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
-								>
-									<MdClear
-										size={24}
-										className="text-gray-500"
-									/>
-								</button>
-							</div>
-							<p className="text-base text-red-500 mb-4">
+				<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
+					<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden">
+						<div className="bg-red-500 px-4 py-3">
+							<h2 className="text-base font-medium text-white">
+								Ошибка
+							</h2>
+						</div>
+						<div className="p-4">
+							<p className="text-sm text-gray-700 mb-4">
 								{showError}
 							</p>
 							<div className="flex justify-end">
 								<button
 									onClick={() => setShowErrorModal(false)}
-									className="px-5 py-2 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+									className="px-4 py-2 bg-red-500 text-white text-sm font-medium rounded-lg hover:bg-red-600 transition-all duration-200"
 								>
 									OK
 								</button>
