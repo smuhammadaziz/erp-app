@@ -93,7 +93,10 @@ function SalesPageLayoutSidebar({ socket }) {
 				throw new Error("Failed to fetch products");
 			}
 			const data = await response.json();
-			setDisabled(data[sales_id].products.length === 0);
+			const isDisabled = data[sales_id].products.length === 0;
+			setDisabled(isDisabled);
+
+			socket.emit("updateSoldProductsStatus", { sales_id, isDisabled });
 		} catch (err) {
 			console.log(err);
 			setDisabled(true);
@@ -176,7 +179,29 @@ function SalesPageLayoutSidebar({ socket }) {
 	const [errorModal, setErrorModal] = useState(false);
 
 	useEffect(() => {
+		const handleSoldProductsUpdate = ({
+			sales_id: updatedId,
+			isDisabled,
+		}) => {
+			if (updatedId === sales_id) {
+				setDisabled(isDisabled);
+			}
+		};
+
+		socket.on("updateSoldProductsStatus", handleSoldProductsUpdate);
+
+		return () => {
+			socket.off("updateSoldProductsStatus", handleSoldProductsUpdate);
+		};
+	}, [sales_id, socket]);
+
+	useEffect(() => {
 		const handleKeyDown = (e) => {
+			if (disabled && (e.key === "F9" || e.key === "F10")) {
+				e.preventDefault();
+				return;
+			}
+
 			if (e.key === "F9") {
 				setIsModalOpen(true);
 			} else if (e.key === "Escape") {
@@ -188,10 +213,15 @@ function SalesPageLayoutSidebar({ socket }) {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, []);
+	}, [disabled]);
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
+			if (disabled && e.key === "F10") {
+				e.preventDefault();
+				return;
+			}
+
 			if (e.key === "F10") {
 				setIsCardModalOpen(true);
 			} else if (e.key === "Escape") {
@@ -203,7 +233,7 @@ function SalesPageLayoutSidebar({ socket }) {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, []);
+	}, [disabled]);
 
 	return (
 		<div className="salespage bg-slate-100 h-[87vh] px-3 py-2 text-slate-100 flex flex-col">
