@@ -93,6 +93,55 @@ const PaymentModal = ({
 	const [cashAmount, setCashAmount] = useState(totalPrice);
 	const [isTyping, setIsTyping] = useState(false);
 
+	const searchInputRef = useRef();
+	const cardInputRef = useRef();
+	const handleSubmitButton = useRef();
+
+	const formatRussianNumber = (num) => {
+		return num.toLocaleString("ru-RU", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	};
+
+	useEffect(() => {
+		if (isOpen && searchInputRef.current) {
+			searchInputRef.current.value = formatRussianNumber(totalPrice);
+			searchInputRef.current.focus();
+			searchInputRef.current.select();
+		}
+	}, [isOpen]);
+
+	const handleFocus = () => {
+		if (searchInputRef.current) {
+			searchInputRef.current.select();
+		}
+	};
+
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			if (isTyping) {
+				const numericValue = parseFloat(cashAmount) || 0;
+				setCashAmount(numericValue);
+				setIsTyping(false);
+			}
+
+			if (cardInputRef.current) {
+				cardInputRef.current.focus();
+			}
+		}
+	};
+
+	const parseFormattedNumber = (formattedValue) => {
+		if (!formattedValue) return 0;
+		// Remove all non-numeric characters except decimal points
+		const numericString = formattedValue
+			.toString()
+			.replace(/[^\d,\.]/g, "")
+			.replace(",", ".");
+		return parseFloat(numericString) || 0;
+	};
+
 	const defaultClient = {
 		client_id: "00000000-0000-0000-0000-000000000000",
 		delete: false,
@@ -185,11 +234,11 @@ const PaymentModal = ({
 
 		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
 
-		const mainCashCashData = mainCashValue.find((e) => e.type == "Пластик");
-
-		const mainCashCardData = mainCashValue.find(
+		const mainCashCashData = mainCashValue.find(
 			(e) => e.type == "Наличные",
 		);
+
+		const mainCashCardData = mainCashValue.find((e) => e.type == "Пластик");
 
 		const userType = localStorage.getItem("userType");
 
@@ -221,6 +270,32 @@ const PaymentModal = ({
 			newProcessedProduct = [];
 		}
 
+		const cashValue = searchInputRef.current
+			? parseFloat(searchInputRef.current.value.replace(/[^\d.]/g, "")) ||
+			  0
+			: 0;
+		const cardValue = cardInputRef.current
+			? parseFloat(cardInputRef.current.value.replace(/[^\d.]/g, "")) || 0
+			: 0;
+
+		let paymentsArray = [];
+
+		if (cashValue > 0) {
+			paymentsArray.push({
+				cash: mainCashCashData.cash,
+				currency: data.mainCurrency,
+				sum: cashValue,
+			});
+		}
+
+		if (cardValue > 0) {
+			paymentsArray.push({
+				cash: mainCashCardData.cash,
+				currency: data.mainCurrency,
+				sum: cardValue,
+			});
+		}
+
 		const currentData = {
 			id: sales_id,
 			ksb_id: ksbIdNumber,
@@ -244,13 +319,7 @@ const PaymentModal = ({
 				},
 			],
 			products: newProcessedProduct,
-			payments: [
-				{
-					cash: mainCashData,
-					currency: data.mainCurrency,
-					sum: data.summa - data.discount,
-				},
-			],
+			payments: paymentsArray,
 			seller: userType,
 		};
 
@@ -325,6 +394,31 @@ const PaymentModal = ({
 				newProcessedProductForSendAPI = [];
 			}
 
+			const cashValue = searchInputRef.current
+				? parseFormattedNumber(searchInputRef.current.value)
+				: 0;
+			const cardValue = cardInputRef.current
+				? parseFormattedNumber(cardInputRef.current.value)
+				: 0;
+
+			let paymentsApiArray = [];
+
+			if (cashValue > 0) {
+				paymentsApiArray.push({
+					cash: mainCashCashData.cash,
+					currency: data.mainCurrency,
+					sum: Number(cashValue),
+				});
+			}
+
+			if (cardValue > 0) {
+				paymentsApiArray.push({
+					cash: mainCashCardData.cash,
+					currency: data.mainCurrency,
+					sum: Number(cardValue),
+				});
+			}
+
 			const oneSale = {
 				sales: [
 					{
@@ -343,13 +437,7 @@ const PaymentModal = ({
 							},
 						],
 						products: newProcessedProductForSendAPI,
-						payments: [
-							{
-								cash: mainCashData,
-								currency: data.mainCurrency,
-								sum: Number(data.summa - data.discount),
-							},
-						],
+						payments: paymentsApiArray,
 					},
 				],
 			};
@@ -388,45 +476,6 @@ const PaymentModal = ({
 		}
 
 		window.location.reload();
-	};
-
-	const searchInputRef = useRef();
-	const cardInputRef = useRef();
-	const handleSubmitButton = useRef();
-
-	const formatRussianNumber = (num) => {
-		return num.toLocaleString("ru-RU", {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		});
-	};
-
-	useEffect(() => {
-		if (isOpen && searchInputRef.current) {
-			searchInputRef.current.value = formatRussianNumber(totalPrice);
-			searchInputRef.current.focus();
-			searchInputRef.current.select();
-		}
-	}, [isOpen]);
-
-	const handleFocus = () => {
-		if (searchInputRef.current) {
-			searchInputRef.current.select();
-		}
-	};
-
-	const handleKeyPress = (e) => {
-		if (e.key === "Enter") {
-			if (isTyping) {
-				const numericValue = parseFloat(cashAmount) || 0;
-				setCashAmount(numericValue);
-				setIsTyping(false);
-			}
-
-			if (cardInputRef.current) {
-				cardInputRef.current.focus();
-			}
-		}
 	};
 
 	if (!isOpen) return null;
