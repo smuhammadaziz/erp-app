@@ -117,6 +117,7 @@ const CardPaymentModal = ({
 
 	useEffect(() => {
 		if (isOpen && cardInputRef.current) {
+			setCardAmount(totalPrice);
 			cardInputRef.current.value = formatRussianNumber(totalPrice);
 			cardInputRef.current.focus();
 			cardInputRef.current.select();
@@ -625,10 +626,11 @@ const CardPaymentModal = ({
 										}
 									}}
 									onBlur={() => {
-										// Convert to number and keep the new value
 										if (isTyping) {
+											// Don't reset to 0 - preserve the current value
 											const numericValue =
-												parseFloat(cashAmount) || 0;
+												parseFloat(cashAmount) ||
+												totalPrice;
 											setCardAmount(numericValue);
 											setIsTyping(false);
 										}

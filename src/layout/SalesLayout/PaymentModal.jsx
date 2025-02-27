@@ -106,6 +106,7 @@ const PaymentModal = ({
 
 	useEffect(() => {
 		if (isOpen && searchInputRef.current) {
+			setCashAmount(totalPrice);
 			searchInputRef.current.value = formatRussianNumber(totalPrice);
 			searchInputRef.current.focus();
 			searchInputRef.current.select();
@@ -615,8 +616,10 @@ const PaymentModal = ({
 									}}
 									onBlur={() => {
 										if (isTyping) {
+											// Don't reset to 0 - preserve the current value
 											const numericValue =
-												parseFloat(cashAmount) || 0;
+												parseFloat(cashAmount) ||
+												totalPrice;
 											setCashAmount(numericValue);
 											setIsTyping(false);
 										}
