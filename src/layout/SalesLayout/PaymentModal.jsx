@@ -271,11 +271,10 @@ const PaymentModal = ({
 		}
 
 		const cashValue = searchInputRef.current
-			? parseFloat(searchInputRef.current.value.replace(/[^\d.]/g, "")) ||
-			  0
+			? parseFormattedNumber(searchInputRef.current.value)
 			: 0;
 		const cardValue = cardInputRef.current
-			? parseFloat(cardInputRef.current.value.replace(/[^\d.]/g, "")) || 0
+			? parseFormattedNumber(cardInputRef.current.value)
 			: 0;
 
 		let paymentsArray = [];
