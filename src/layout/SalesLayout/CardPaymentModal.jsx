@@ -99,6 +99,46 @@ const CardPaymentModal = ({
 		positive_balance: [],
 	};
 
+	const [cashAmount, setCashAmount] = useState(0);
+	const [isTyping, setIsTyping] = useState(false);
+
+	const [cardAmount, setCardAmount] = useState(totalPrice);
+
+	const searchInputRef = useRef();
+	const cardInputRef = useRef();
+	const handleSubmitButton = useRef();
+
+	const formatRussianNumber = (num) => {
+		return num.toLocaleString("ru-RU", {
+			minimumFractionDigits: 2,
+			maximumFractionDigits: 2,
+		});
+	};
+
+	useEffect(() => {
+		if (isOpen && cardInputRef.current) {
+			cardInputRef.current.value = formatRussianNumber(totalPrice);
+			cardInputRef.current.focus();
+			cardInputRef.current.select();
+		}
+	}, [isOpen]);
+
+	const handleFocus = () => {
+		if (cardInputRef.current) {
+			cardInputRef.current.select();
+		}
+	};
+
+	const parseFormattedNumber = (formattedValue) => {
+		if (!formattedValue) return 0;
+		// Remove all non-numeric characters except decimal points
+		const numericString = formattedValue
+			.toString()
+			.replace(/[^\d,\.]/g, "")
+			.replace(",", ".");
+		return parseFloat(numericString) || 0;
+	};
+
 	const [currencyData, setCurrencyData] = useState({});
 
 	useEffect(() => {
@@ -178,6 +218,13 @@ const CardPaymentModal = ({
 
 		let currentTime = new Date();
 		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
+		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
+
+		const mainCashCashData = mainCashValue.find(
+			(e) => e.type == "Наличные",
+		);
+
+		const mainCashCardData = mainCashValue.find((e) => e.type == "Пластик");
 
 		const userType = localStorage.getItem("userType");
 
@@ -210,6 +257,31 @@ const CardPaymentModal = ({
 			newProcessedProduct = [];
 		}
 
+		const cashValue = searchInputRef.current
+			? parseFormattedNumber(searchInputRef.current.value)
+			: 0;
+		const cardValue = cardInputRef.current
+			? parseFormattedNumber(cardInputRef.current.value)
+			: 0;
+
+		let paymentsArray = [];
+
+		if (cashValue > 0) {
+			paymentsArray.push({
+				cash: mainCashCashData.cash,
+				currency: data.mainCurrency,
+				sum: cashValue,
+			});
+		}
+
+		if (cardValue > 0) {
+			paymentsArray.push({
+				cash: mainCashCardData.cash,
+				currency: data.mainCurrency,
+				sum: cardValue,
+			});
+		}
+
 		const currentData = {
 			id: sales_id,
 			ksb_id: ksbIdNumber,
@@ -233,13 +305,7 @@ const CardPaymentModal = ({
 				},
 			],
 			products: newProcessedProduct,
-			payments: [
-				{
-					cash: mainCashData,
-					currency: data.mainCurrency,
-					sum: data.summa - data.discount,
-				},
-			],
+			payments: paymentsArray,
 			seller: userType,
 		};
 
@@ -314,6 +380,31 @@ const CardPaymentModal = ({
 				newProcessedProductForSendAPI = [];
 			}
 
+			const cashValue = searchInputRef.current
+				? parseFormattedNumber(searchInputRef.current.value)
+				: 0;
+			const cardValue = cardInputRef.current
+				? parseFormattedNumber(cardInputRef.current.value)
+				: 0;
+
+			let paymentsApiArray = [];
+
+			if (cashValue > 0) {
+				paymentsApiArray.push({
+					cash: mainCashCashData.cash,
+					currency: data.mainCurrency,
+					sum: Number(cashValue),
+				});
+			}
+
+			if (cardValue > 0) {
+				paymentsApiArray.push({
+					cash: mainCashCardData.cash,
+					currency: data.mainCurrency,
+					sum: Number(cardValue),
+				});
+			}
+
 			const oneSale = {
 				sales: [
 					{
@@ -332,13 +423,7 @@ const CardPaymentModal = ({
 							},
 						],
 						products: newProcessedProductForSendAPI,
-						payments: [
-							{
-								cash: mainCashData,
-								currency: data.mainCurrency,
-								sum: Number(data.summa - data.discount),
-							},
-						],
+						payments: paymentsApiArray,
 					},
 				],
 			};
@@ -378,50 +463,6 @@ const CardPaymentModal = ({
 
 		window.location.reload();
 	};
-
-	const [cashAmount, setCashAmount] = useState(0);
-	const [isTyping, setIsTyping] = useState(false);
-
-	const [cardAmount, setCardAmount] = useState(totalPrice);
-
-	const searchInputRef = useRef();
-	const cardInputRef = useRef();
-	const handleSubmitButton = useRef();
-
-	const formatRussianNumber = (num) => {
-		return num.toLocaleString("ru-RU", {
-			minimumFractionDigits: 2,
-			maximumFractionDigits: 2,
-		});
-	};
-
-	useEffect(() => {
-		if (isOpen && cardInputRef.current) {
-			cardInputRef.current.value = formatRussianNumber(totalPrice);
-			cardInputRef.current.focus();
-			cardInputRef.current.select();
-		}
-	}, [isOpen]);
-
-	const handleFocus = () => {
-		if (cardInputRef.current) {
-			cardInputRef.current.select();
-		}
-	};
-
-	// const handleKeyPress = (e) => {
-	// 	if (e.key === "Enter") {
-	// 		if (isTyping) {
-	// 			const numericValue = parseFloat(cashAmount) || 0;
-	// 			setCashAmount(numericValue);
-	// 			setIsTyping(false);
-	// 		}
-
-	// 		if (cardInputRef.current) {
-	// 			cardInputRef.current.focus();
-	// 		}
-	// 	}
-	// };
 
 	if (!isOpen) return null;
 
@@ -641,11 +682,11 @@ const CardPaymentModal = ({
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						ref={handleSubmitButton}
-						// onClick={handleSaveSales}
-						onClick={() => {
-							setPrintModal(true);
-							onClose();
-						}}
+						onClick={handleSaveSales}
+						// onClick={() => {
+						// 	setPrintModal(true);
+						// 	onClose();
+						// }}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK
