@@ -277,22 +277,9 @@ function SalesPageLayoutHeader() {
 						<span className="font-medium">{basicUsername}</span>
 					</span>
 				</div>
-				{/* <div className="mx-5">|</div>
-				<div className="flex items-center">
-					<button
-						onClick={() => handleOpenModal("klientlar")}
-						className="flex items-center mr-2 justify-center bg-slate-100 hover:bg-slate-300 rounded-lg text-black px-7 py-2 text-md transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600"
-					>
-						<FaUsersLine className="mr-3 text-xl" />
-						<span className="font-semibold">
-							{content[language].salesPage.headerClients}
-						</span>
-					</button>
-				</div> */}
 			</div>
 			<div className="flex items-center">
 				<button
-					// onClick={() => handleOpenModal("skidka")}
 					onClick={() => setIsModalOpenDis(true)}
 					className="flex w-[150px]  items-center mr-2 cursor-pointer justify-center bg-red-500 hover:bg-red-600 text-slate-100 px-7 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-600"
 				>
@@ -311,7 +298,6 @@ function SalesPageLayoutHeader() {
 					</span>
 				</button>
 				<p className="flex items-center w-[180px] justify-center bg-slate-100 border-2 border-black  text-black px-7 py-1.5 text-lg rounded-lg transition duration-300 ease-in-out ">
-					{/* <MdCalendarToday className="mr-3 text-xl" /> */}
 					<span className="font-semibold">{today}</span>
 				</p>
 			</div>
