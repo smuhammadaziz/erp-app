@@ -242,14 +242,13 @@ const PaymentModal = ({
 
 		const userType = localStorage.getItem("userType");
 
-		let clientId = "";
-		let clientName = "";
+		let clientId = defaultClient.client_id;
+		let clientName = defaultClient.name;
 		let newProcessedProduct = [];
 		let newProcessedProductForSendAPI = [];
 
-		if (selectedClient) {
-			clientId == selectedClient.client_id ||
-				"00000000-0000-0000-0000-000000000000";
+		if (selectedClient && selectedClient.client_id) {
+			clientId = selectedClient.client_id;
 			clientName = selectedClient.name || "<не указан>";
 		} else {
 			clientId = defaultClient.client_id;
