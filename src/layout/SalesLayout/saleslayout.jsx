@@ -22,7 +22,7 @@ function SalesPageLayoutMain({ children, socket }) {
 				</div>
 
 				<div className="fixed bottom-0 left-0 w-full bg-white shadow-lg">
-					<SalesPageLayoutFooter />
+					<SalesPageLayoutFooter socket={socket} />
 				</div>
 			</div>
 		</Layout>

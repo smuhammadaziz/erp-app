@@ -22,7 +22,7 @@ import { v4 as uuidv4 } from "uuid";
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
-const SalesPageLayoutFooter = () => {
+const SalesPageLayoutFooter = ({ socket }) => {
 	const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 	const [activeModal, setActiveModal] = useState(null);
 	const [currencies, setCurrencies] = useState([]);
@@ -325,6 +325,38 @@ const SalesPageLayoutFooter = () => {
 		}
 	};
 
+	const [disabled, setDisabled] = useState();
+
+	const sales_id = localStorage.getItem("sales_id");
+
+	useEffect(() => {
+		fetchSoldProducts();
+
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
+
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
+		};
+	}, [nodeUrl, sales_id]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			const isDisabled = data[sales_id].products.length >= 1;
+			setDisabled(isDisabled);
+		} catch (err) {
+			console.log(err);
+			setDisabled(true);
+		}
+	};
+
 	return (
 		<>
 			<div className="salesfooter z-0  bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative ">
@@ -344,9 +376,12 @@ const SalesPageLayoutFooter = () => {
 					</div>
 					<div className="flex items-center gap-4 mx-2">
 						<select
-							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
+							className={`px-4 py-2 border border-gray-300 rounded-lg text-gray-700 ${
+								disabled ? "cursor-not-allowed" : ""
+							}`}
 							value={priceTypeKeyData}
 							onChange={handleChangePriceType}
+							disabled={disabled}
 						>
 							{reorderedPrices.map((price) => (
 								<option
@@ -363,9 +398,12 @@ const SalesPageLayoutFooter = () => {
 						</select>
 
 						<select
-							className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700"
+							className={`px-4 py-2 border border-gray-300 rounded-lg text-gray-700 ${
+								disabled ? "cursor-not-allowed" : ""
+							}`}
 							value={currencyKey}
 							onChange={handleChange}
+							disabled={disabled}
 						>
 							{reorderedCurrencies.map((currency) => (
 								<option
