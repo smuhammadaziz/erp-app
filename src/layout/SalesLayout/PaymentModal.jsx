@@ -695,11 +695,11 @@ const PaymentModal = ({
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						ref={handleSubmitButton}
-						onClick={handleSaveSales}
-						// onClick={() => {
-						// 	setPrintModal(true);
-						// 	onClose();
-						// }}
+						// onClick={handleSaveSales}
+						onClick={() => {
+							setPrintModal(true);
+							onClose();
+						}}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK

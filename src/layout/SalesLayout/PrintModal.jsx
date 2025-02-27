@@ -3,6 +3,7 @@ import { MdClear } from "react-icons/md";
 import SuccessModal from "./SuccessModal";
 import LoadingModalSendSales from "./LoadingModal";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import pritingIcon from "../../assets/printing.gif";
 
 function PrintingModal({ setPrintModal, setSuccessModal, setErrorModal }) {
 	const [countdown, setCountdown] = useState(10);
@@ -86,14 +87,13 @@ function PrintingModal({ setPrintModal, setSuccessModal, setErrorModal }) {
 						</button>
 					</div>
 					<div className="flex flex-col">
-						<p>
-							<DotLottieReact
-								src="https://lottie.host/d5389980-4b6f-4baa-a4ff-9a5be6a63576/u2mwyfC6SH.lottie"
-								loop
-								autoplay
-							/>
-						</p>
-						<p className="text-lg font-semibold text-black mb-4 text-center">
+						<img
+							src={pritingIcon}
+							alt=""
+							width="300"
+							className="mx-auto justify-center flex"
+						/>
+						<p className="text-2xl font-semibold text-black mb-4 text-center">
 							Савдодан чек чиқарасизми?
 						</p>
 					</div>
