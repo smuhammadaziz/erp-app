@@ -567,7 +567,6 @@ const PaymentModal = ({
 										}
 									}}
 									onBlur={() => {
-										// Convert to number and keep the new value
 										if (isTyping) {
 											const numericValue =
 												parseFloat(cashAmount) || 0;
