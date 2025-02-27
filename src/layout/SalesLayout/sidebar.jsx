@@ -57,6 +57,7 @@ function SalesPageLayoutSidebar({ socket }) {
 	const [selectedSale, setSelectedSale] = useState(null);
 	const [status, setStatus] = useState("checking");
 	const [productData, setProductData] = useState([]);
+	const [disabled, setDisabled] = useState();
 
 	const [language] = useLang("uz");
 
@@ -69,6 +70,35 @@ function SalesPageLayoutSidebar({ socket }) {
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 	const device_id = localStorage.getItem("device_id");
+
+	const sales_id = localStorage.getItem("sales_id");
+
+	useEffect(() => {
+		fetchSoldProducts();
+
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
+
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
+		};
+	}, [nodeUrl, sales_id]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			setDisabled(data[sales_id].products.length === 0);
+		} catch (err) {
+			console.log(err);
+			setDisabled(true);
+		}
+	};
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -179,10 +209,11 @@ function SalesPageLayoutSidebar({ socket }) {
 		<div className="salespage bg-slate-100 h-[87vh] px-3 py-2 text-slate-100 flex flex-col">
 			<div className="flex flex-col items-center gap-5 mt-4">
 				<button
-					onClick={() => {
-						setIsModalOpen(true);
-					}}
-					className="flex items-center justify-between w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400"
+					onClick={() => setIsModalOpen(true)}
+					disabled={disabled}
+					className={`flex items-center justify-between w-full max-w-xs bg-emerald-700 hover:bg-emerald-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-emerald-400 
+                ${disabled ? "cursor-not-allowed" : ""}
+            `}
 				>
 					<span className="font-500 flex items-center">
 						{content[language].salesPage.sidebarCash}
@@ -194,7 +225,10 @@ function SalesPageLayoutSidebar({ socket }) {
 
 				<button
 					onClick={() => setIsCardModalOpen(true)}
-					className="flex items-center justify-between spacing-2 w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400"
+					disabled={disabled}
+					className={`flex items-center justify-between w-full max-w-xs bg-blue-700 hover:bg-blue-600 text-slate-100 px-3 py-2 text-lg rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-400 
+                ${disabled ? "cursor-not-allowed" : ""}
+            `}
 				>
 					<span className="font-500 flex items-center">
 						{content[language].salesPage.sidebarCard}
