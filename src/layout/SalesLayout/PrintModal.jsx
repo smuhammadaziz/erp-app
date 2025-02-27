@@ -34,8 +34,8 @@ function PrintingModal({ setPrintModal, setSuccessModal, setErrorModal }) {
 
 	const showSuccessModal = () => {
 		setPrintModal(false);
-		setErrorModal(true);
-		// setTimeout(() => setErrorModal(false), 10000);
+		setSuccessModal(true);
+		setTimeout(() => setSuccessModal(false), 1000);
 	};
 
 	const okButton = useRef();
