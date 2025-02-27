@@ -132,7 +132,6 @@ const CardPaymentModal = ({
 
 	const parseFormattedNumber = (formattedValue) => {
 		if (!formattedValue) return 0;
-		// Remove all non-numeric characters except decimal points
 		const numericString = formattedValue
 			.toString()
 			.replace(/[^\d,\.]/g, "")
@@ -627,7 +626,6 @@ const CardPaymentModal = ({
 									}}
 									onBlur={() => {
 										if (isTyping) {
-											// Don't reset to 0 - preserve the current value
 											const numericValue =
 												parseFloat(cashAmount) ||
 												totalPrice;
