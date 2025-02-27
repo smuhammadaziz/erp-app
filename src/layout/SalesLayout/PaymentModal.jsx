@@ -183,6 +183,14 @@ const PaymentModal = ({
 		let currentTime = new Date();
 		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
 
+		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
+
+		const mainCashCashData = mainCashValue.find((e) => e.type == "Пластик");
+
+		const mainCashCardData = mainCashValue.find(
+			(e) => e.type == "Наличные",
+		);
+
 		const userType = localStorage.getItem("userType");
 
 		let clientId = "";
@@ -191,8 +199,7 @@ const PaymentModal = ({
 		let newProcessedProductForSendAPI = [];
 
 		if (selectedClient) {
-			clientId =
-				selectedClient.client_id ||
+			clientId == selectedClient.client_id ||
 				"00000000-0000-0000-0000-000000000000";
 			clientName = selectedClient.name || "<не указан>";
 		} else {
@@ -641,11 +648,11 @@ const PaymentModal = ({
 				<div className="flex gap-6 mt-4 justify-center items-center pb-2">
 					<button
 						ref={handleSubmitButton}
-						// onClick={handleSaveSales}
-						onClick={() => {
-							setPrintModal(true);
-							onClose();
-						}}
+						onClick={handleSaveSales}
+						// onClick={() => {
+						// 	setPrintModal(true);
+						// 	onClose();
+						// }}
 						className="w-40 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition duration-200 text-xl"
 					>
 						OK
