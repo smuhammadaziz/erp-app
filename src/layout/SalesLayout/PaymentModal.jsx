@@ -40,6 +40,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [successModal, setSuccessModal] = useState(false);
 	const [errorModal, setErrorModal] = useState(false);
 	const [loadingModal, setLoadingModal] = useState(false);
+	const [errorMessage, setErrorMessage] = useState(false);
 
 	useEffect(() => {
 		const fetchCustomers = async () => {
