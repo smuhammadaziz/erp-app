@@ -7,14 +7,11 @@ import { MdClear } from "react-icons/md";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+import PrintingModal from "./PrintModal";
+import SuccessModal from "./SuccessModal";
+import ErrorModal from "./ErrorModal";
 
-const PaymentModal = ({
-	isOpen,
-	onClose,
-	totalAmount,
-	socket,
-	setPrintModal,
-}) => {
+const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
 	const [cardAmount, setCardAmount] = useState(0);
@@ -37,6 +34,10 @@ const PaymentModal = ({
 	const username = localStorage.getItem("userType");
 	const password = localStorage.getItem("userPassword");
 	const sales_id = localStorage.getItem("sales_id");
+
+	const [printModal, setPrintModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [errorModal, setErrorModal] = useState(false);
 
 	useEffect(() => {
 		const fetchCustomers = async () => {
@@ -718,11 +719,11 @@ const PaymentModal = ({
 					</button>
 					<button
 						ref={handleSubmitButton}
-						// onClick={() => {
-						// 	setPrintModal(true);
-						// 	onClose();
-						// }}
-						onClick={handleSaveSales}
+						onClick={() => {
+							setPrintModal(true);
+							// onClose();
+						}}
+						// onClick={handleSaveSales}
 						className="px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 text-sm font-medium shadow-sm"
 					>
 						OK
@@ -736,6 +737,18 @@ const PaymentModal = ({
 				onSelect={setSelectedClient}
 				clients={customers}
 			/>
+
+			{printModal && (
+				<PrintingModal
+					setPrintModal={setPrintModal}
+					setSuccessModal={setSuccessModal}
+					setErrorModal={setErrorModal}
+				/>
+			)}
+
+			{successModal && <SuccessModal />}
+
+			{errorModal && <ErrorModal />}
 
 			{showErrorModal && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">

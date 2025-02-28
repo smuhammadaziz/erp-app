@@ -174,10 +174,6 @@ function SalesPageLayoutSidebar({ socket }) {
 		}
 	};
 
-	const [printModal, setPrintModal] = useState(false);
-	const [successModal, setSuccessModal] = useState(false);
-	const [errorModal, setErrorModal] = useState(false);
-
 	useEffect(() => {
 		const handleSoldProductsUpdate = ({
 			sales_id: updatedId,
@@ -288,7 +284,7 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
-				setPrintModal={setPrintModal}
+				// setPrintModal={setPrintModal}
 			/>
 
 			<CardPaymentModal
@@ -296,20 +292,8 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsCardModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
-				setPrintModal={setPrintModal}
+				// setPrintModal={setPrintModal}
 			/>
-
-			{printModal && (
-				<PrintingModal
-					setPrintModal={setPrintModal}
-					setSuccessModal={setSuccessModal}
-					setErrorModal={setErrorModal}
-				/>
-			)}
-
-			{successModal && <SuccessModal />}
-
-			{errorModal && <ErrorModal />}
 
 			{isListModalOpen && (
 				<ProcessSalesComponent
