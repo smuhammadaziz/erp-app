@@ -10,6 +10,7 @@ import useLang from "../../hooks/useLang";
 import PrintingModal from "./PrintModal";
 import SuccessModal from "./SuccessModal";
 import ErrorModal from "./ErrorModal";
+import LoadingModalSendSales from "./LoadingModal";
 
 const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
@@ -38,6 +39,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [printModal, setPrintModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [errorModal, setErrorModal] = useState(false);
+	const [loadingModal, setLoadingModal] = useState(false);
 
 	useEffect(() => {
 		const fetchCustomers = async () => {
