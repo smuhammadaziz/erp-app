@@ -813,7 +813,12 @@ function ProcessSalesComponent({
 										</div>
 
 										<div className="bg-gray-50 p-3 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity border-t border-gray-100">
-											<button className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors">
+											<button
+												onClick={(e) => {
+													handleClick(sale.id);
+												}}
+												className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors"
+											>
 												<FaRegEdit />
 											</button>
 											<button
@@ -824,9 +829,9 @@ function ProcessSalesComponent({
 											>
 												<MdDelete />
 											</button>
-											<button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+											{/* <button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
 												<BsThreeDots />
-											</button>
+											</button> */}
 										</div>
 									</div>
 								))}
