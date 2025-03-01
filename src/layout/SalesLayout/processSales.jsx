@@ -782,14 +782,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 								Попробуйте изменить критерии поиска или добавьте
 								новые продажи
 							</p>
-							<div className="flex gap-3">
-								<button className="px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg text-sm font-medium hover:bg-indigo-100 transition-colors">
-									Сбросить фильтры
-								</button>
-								<button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
-									Добавить продажу
-								</button>
-							</div>
 						</div>
 					)}
 				</div>
