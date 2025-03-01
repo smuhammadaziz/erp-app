@@ -2,16 +2,6 @@ import React, { useState, useEffect } from "react";
 import { IoIosWarning } from "react-icons/io";
 
 function ErrorModal({ setPrintModal }) {
-	const [showPopup, setShowPopup] = useState(false);
-	const [blink, setBlink] = useState(true);
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setBlink((prev) => !prev);
-		}, 500);
-		return () => clearInterval(interval);
-	}, []);
-
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
 			<div className="bg-white w-[500px] rounded-xl shadow-2xl relative">
