@@ -104,24 +104,31 @@ function SalesPageLayoutSidebar({ socket }) {
 	};
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/get/process/sales/${ksb_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
+		fetchProcessSales();
 
-				setProductData(data);
-			} catch (err) {
-				console.log(err);
-			}
+		const updateHandler = () => fetchProcessSales();
+		socket.on("gettingProcessSales", updateHandler);
+
+		return () => {
+			socket.off("gettingProcessSales", updateHandler);
 		};
+	}, []);
 
-		fetchProducts();
-	}, [nodeUrl, ksb_id]);
+	const fetchProcessSales = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/process/sales/${ksb_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+
+			setProductData(data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const [currencyData, setCurrencyData] = useState({});
 
@@ -299,6 +306,7 @@ function SalesPageLayoutSidebar({ socket }) {
 				<ProcessSalesComponent
 					productData={productData}
 					setIsListModalOpen={setIsListModalOpen}
+					socket={socket}
 				/>
 			)}
 		</div>

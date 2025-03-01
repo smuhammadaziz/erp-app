@@ -26,6 +26,9 @@ import { FiPrinter, FiChevronDown, FiEye } from "react-icons/fi";
 import { TbBasketExclamation } from "react-icons/tb";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
+import { GoAlert } from "react-icons/go";
+import { ImExit } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
 import {
 	BsBasket3,
 	BsCreditCard2Back,
@@ -58,7 +61,7 @@ import { ImInfo } from "react-icons/im";
 
 moment.locale("ru");
 
-function ProcessSalesComponent({ productData, setIsListModalOpen }) {
+function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 	const [language] = useLang("uz");
 
 	const [selectedRowId, setSelectedRowId] = useState(null);
@@ -234,6 +237,29 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, []);
+
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+	const deleteOneSales = async (salesId) => {
+		// const salesId = localStorage.getItem("sales_id");
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/one/sales/${salesId}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				console.log("removed");
+			} else {
+				console.log("no item to remove");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
 
 	return (
 		<div className="fixed inset-0 bg-black/70 flex items-center text-black justify-center z-40 backdrop-blur-sm">
@@ -601,17 +627,18 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 															>
 																<FaRegEdit />
 															</button>
-															<button
-																className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
-																onClick={(
-																	e,
-																) => {
-																	e.stopPropagation();
-																	// Delete action
-																}}
-															>
-																<MdDelete />
-															</button>
+															<div>
+																<button
+																	className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
+																	onClick={() =>
+																		setIsExitModalOpen(
+																			true,
+																		)
+																	}
+																>
+																	<MdDelete />
+																</button>
+															</div>
 															<div className="relative">
 																<button
 																	className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
@@ -757,7 +784,12 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 											<button className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors">
 												<FaRegEdit />
 											</button>
-											<button className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors">
+											<button
+												onClick={() =>
+													setIsExitModalOpen(true)
+												}
+												className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors"
+											>
 												<MdDelete />
 											</button>
 											<button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
@@ -780,6 +812,42 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 					)}
 				</div>
 			</div>
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
+								<GoAlert className="text-red-600 text-6xl" />
+							</h2>
+							<p className="text-black text-lg mb-6">
+								Танланган савдони ўчирмоқчимисиз?
+							</p>
+						</div>
+
+						<div className="flex space-x-4">
+							<button
+								onClick={() => {
+									deleteOneSales(selectedRowId);
+									setIsExitModalOpen(false);
+
+									// console.log(selectedRowId);
+								}}
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								Ҳа
+							</button>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								Йўқ
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }
