@@ -640,7 +640,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																</button>
 															</div>
 															<div className="">
-																<button
+																{/* <button
 																	className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
 																	onClick={(
 																		e,
@@ -658,7 +658,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 
 																{showActionsMenu ===
 																	sale.id && (
-																	<div className="absolute right-10 mt-1 w-48 bg-white z-10 rounded-lg shadow-lg border border-gray-200 py-1">
+																	<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
 																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																			<FiEye className="text-gray-500" />
 																			Просмотреть
@@ -674,7 +674,14 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																			эттириш
 																		</button>
 																		<button
-																			onClick={() => {
+																			onClick={(
+																				e,
+																			) => {
+																				e.preventDefault(); // Prevent default behavior
+																				e.stopPropagation(); // Stop event propagation
+																				console.log(
+																					"Delete button clicked",
+																				);
 																				setIsExitModalOpen(
 																					true,
 																				);
@@ -685,7 +692,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																			Ўчириш
 																		</button>
 																	</div>
-																)}
+																)} */}
 															</div>
 														</div>
 													</td>
