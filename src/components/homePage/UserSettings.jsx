@@ -136,7 +136,6 @@ const DownloaderModal = () => {
 		}
 	};
 
-
 	const upsertUpdatedProducts = async () => {
 		try {
 			const response = await fetch(
@@ -164,7 +163,7 @@ const DownloaderModal = () => {
 				throw new Error("Received empty response from sync API");
 			}
 
-			if(data){
+			if (data) {
 				console.log("Creating products successfully:", data);
 			}
 			return data;
@@ -194,7 +193,7 @@ const DownloaderModal = () => {
 			}
 
 			await fetchDeviceData();
-			await upsertUpdatedProducts()
+			await upsertUpdatedProducts();
 
 			setDownloadStatus("completed");
 		} catch (error) {
