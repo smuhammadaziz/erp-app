@@ -686,7 +686,12 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 												</div>
 												<div>
 													<div className="font-medium text-gray-900">
-														Асосий склад
+														{
+															warehouseData[
+																sale
+																	.mainWarehouse
+															]
+														}
 													</div>
 													<div className="text-xs text-gray-500">
 														Основной
@@ -724,18 +729,30 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 													Сумма:
 												</div>
 												<div className="text-sm font-medium">
-													100 000,00 УЗС
+													{new Intl.NumberFormat(
+														"ru-RU",
+														{
+															style: "decimal",
+															minimumFractionDigits: 2,
+															maximumFractionDigits: 2,
+														},
+													).format(sale.summa)}{" "}
+													{
+														currencyData[
+															sale.mainCurrency
+														]
+													}
 												</div>
 											</div>
 
-											<div className="flex justify-between">
+											{/* <div className="flex justify-between">
 												<div className="text-xs text-gray-500">
 													Автор:
 												</div>
 												<div className="text-sm">
 													Menedger
 												</div>
-											</div>
+											</div> */}
 										</div>
 
 										<div className="bg-gray-50 p-3 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity border-t border-gray-100">
