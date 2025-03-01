@@ -778,10 +778,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 							<h3 className="text-lg font-medium text-gray-700 mb-1">
 								Ҳозирча савдолар йўқ
 							</h3>
-							<p className="text-gray-500 text-sm max-w-md text-center mb-4">
-								Попробуйте изменить критерии поиска или добавьте
-								новые продажи
-							</p>
 						</div>
 					)}
 				</div>
