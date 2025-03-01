@@ -645,7 +645,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																	onClick={(
 																		e,
 																	) => {
-																		e.stopPropagation();
 																		setShowActionsMenu(
 																			showActionsMenu ===
 																				sale.id
@@ -659,14 +658,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 
 																{showActionsMenu ===
 																	sale.id && (
-																	<div
-																		className="absolute right-10 mt-1 w-48 bg-white z-10 rounded-lg shadow-lg border border-gray-200 py-1"
-																		onClick={(
-																			e,
-																		) =>
-																			e.stopPropagation()
-																		}
-																	>
+																	<div className="absolute right-10 mt-1 w-48 bg-white z-10 rounded-lg shadow-lg border border-gray-200 py-1">
 																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																			<FiEye className="text-gray-500" />
 																			Просмотреть
@@ -675,6 +667,22 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																			<FiPrinter className="text-gray-500" />
 																			Печать
+																		</button>
+																		<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																			<FaRegEdit className="text-gray-500" />
+																			Давом
+																			эттириш
+																		</button>
+																		<button
+																			onClick={() => {
+																				setIsExitModalOpen(
+																					true,
+																				);
+																			}}
+																			className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																		>
+																			<MdDelete className="text-gray-500 text-lg" />
+																			Ўчириш
 																		</button>
 																	</div>
 																)}
@@ -812,6 +820,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 					)}
 				</div>
 			</div>
+
 			{isExitModalOpen && (
 				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
