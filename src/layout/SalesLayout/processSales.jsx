@@ -14,6 +14,7 @@ import {
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdPendingActions } from "react-icons/md";
 import { MdOutlineDoneAll } from "react-icons/md";
+import { IoBasketOutline } from "react-icons/io5";
 import {
 	HiOutlineClipboardDocumentCheck,
 	HiOutlineDocumentMinus,
@@ -738,7 +739,7 @@ function ProcessSalesComponent({
 										<div className="p-4 flex justify-between border-b border-gray-100">
 											<div className="flex items-center gap-2">
 												<div className="flex-shrink-0 h-10 w-10 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-600">
-													<MdWarehouse />
+													<IoBasketOutline />
 												</div>
 												<div>
 													<div className="font-medium text-gray-900">
