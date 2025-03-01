@@ -235,8 +235,6 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 		};
 	}, []);
 
-	console.log(filteredData);
-
 	return (
 		<div className="fixed inset-0 bg-black/70 flex items-center text-black justify-center z-40 backdrop-blur-sm">
 			<div className="bg-white rounded-xl w-full max-w-[75vw] h-[90vh] overflow-hidden flex flex-col shadow-2xl">
