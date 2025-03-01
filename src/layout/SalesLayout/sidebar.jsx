@@ -307,6 +307,7 @@ function SalesPageLayoutSidebar({ socket }) {
 					productData={productData}
 					setIsListModalOpen={setIsListModalOpen}
 					socket={socket}
+					handleClick={handleClick}
 				/>
 			)}
 		</div>

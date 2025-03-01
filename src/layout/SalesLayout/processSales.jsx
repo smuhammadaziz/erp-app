@@ -61,7 +61,12 @@ import { ImInfo } from "react-icons/im";
 
 moment.locale("ru");
 
-function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
+function ProcessSalesComponent({
+	productData,
+	setIsListModalOpen,
+	socket,
+	handleClick,
+}) {
 	const [language] = useLang("uz");
 
 	const [selectedRowId, setSelectedRowId] = useState(null);
@@ -621,8 +626,9 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																onClick={(
 																	e,
 																) => {
-																	e.stopPropagation();
-																	// Edit action
+																	handleClick(
+																		sale.id,
+																	);
 																}}
 															>
 																<FaRegEdit />
