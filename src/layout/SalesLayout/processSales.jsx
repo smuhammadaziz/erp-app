@@ -32,6 +32,8 @@ import {
 	BsBarChart,
 	BsThreeDots,
 } from "react-icons/bs";
+
+import nodeUrl from "../../links";
 import {
 	MdOutlineShoppingCart,
 	MdAccessTime,
@@ -73,6 +75,9 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 	const [showActionsMenu, setShowActionsMenu] = useState(null);
 
 	const [currencyData, setCurrencyData] = useState({});
+
+	const device_id = localStorage.getItem("device_id");
+	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of productData) {
@@ -229,6 +234,8 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, []);
+
+	console.log(filteredData);
 
 	return (
 		<div className="fixed inset-0 bg-black/70 flex items-center text-black justify-center z-40 backdrop-blur-sm">
@@ -461,22 +468,22 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 											</th>
 											<th
 												scope="col"
-												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[300px]"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 											>
 												Склад
 											</th>
 											<th
 												scope="col"
-												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[150px]"
+												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 											>
 												Сумма
 											</th>
-											<th
+											{/* <th
 												scope="col"
 												className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 											>
 												Автор
-											</th>
+											</th> */}
 											<th
 												scope="col"
 												className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]"
@@ -539,34 +546,50 @@ function ProcessSalesComponent({ productData, setIsListModalOpen }) {
 															</div> */}
 															<div className="">
 																<div className="text-sm font-medium text-gray-900">
-																	Асосий склад
+																	{
+																		warehouseData[
+																			sale
+																				.mainWarehouse
+																		]
+																	}
 																</div>
-																<div className="text-xs text-gray-500">
+																{/* <div className="text-xs text-gray-500">
 																	Основной
-																</div>
+																</div> */}
 															</div>
 														</div>
 													</td>
 													<td className="px-6 py-4">
 														<div className="text-sm font-medium text-gray-900">
-															100 000,00
+															{new Intl.NumberFormat(
+																"ru-RU",
+																{
+																	style: "decimal",
+																	minimumFractionDigits: 2,
+																	maximumFractionDigits: 2,
+																},
+															).format(
+																sale.summa,
+															)}
 														</div>
 														<div className="text-xs text-gray-500">
-															УЗС
+															{
+																currencyData[
+																	sale
+																		.mainCurrency
+																]
+															}
 														</div>
 													</td>
-													<td className="px-6 py-4">
+													{/* <td className="px-6 py-4">
 														<div className="flex items-center">
-															{/* <div className="flex-shrink-0 h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
-																<HiOutlineUserCircle className="text-gray-600" />
-															</div> */}
 															<div className="">
 																<div className="text-sm font-medium text-gray-900">
 																	Menedger
 																</div>
 															</div>
 														</div>
-													</td>
+													</td> */}
 													<td className="px-6 py-4">
 														<div className="flex items-center justify-center space-x-1">
 															<button
