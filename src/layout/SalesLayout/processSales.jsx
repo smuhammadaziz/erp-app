@@ -477,7 +477,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 				</div>
 
 				{/* Data display */}
-				<div className="overflow-y-auto flex-grow p-5 bg-gray-50">
+				<div className="overflow-y-auto flex-grow p-5 bg-gray-50 z-100 relative">
 					{filteredData.length > 0 ? (
 						viewMode === "table" ? (
 							<div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -533,10 +533,10 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 															sale.id,
 														)
 													}
-													onDoubleClick={() =>
-														openDetailModal &&
-														openDetailModal(sale)
-													}
+													// onDoubleClick={() =>
+													// 	openDetailModal &&
+													// 	openDetailModal(sale)
+													// }
 												>
 													<td className="px-6 py-4">
 														<div className="flex items-center">
@@ -639,7 +639,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																	<MdDelete />
 																</button>
 															</div>
-															<div className="relative">
+															<div className="">
 																<button
 																	className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
 																	onClick={(
@@ -660,7 +660,7 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 																{showActionsMenu ===
 																	sale.id && (
 																	<div
-																		className="absolute right-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10 py-1"
+																		className="absolute right-10 mt-1 w-48 bg-white z-10 rounded-lg shadow-lg border border-gray-200 py-1"
 																		onClick={(
 																			e,
 																		) =>
@@ -834,14 +834,14 @@ function ProcessSalesComponent({ productData, setIsListModalOpen, socket }) {
 								}}
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
-								<ImExit className="mr-2 text-xl" />
+								{/* <ImExit className="mr-2 text-xl" /> */}
 								Ҳа
 							</button>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
 								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
 							>
-								<FaTimes className="mr-2 text-xl" />
+								{/* <FaTimes className="mr-2 text-xl" /> */}
 								Йўқ
 							</button>
 						</div>
