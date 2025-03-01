@@ -87,6 +87,13 @@ function ProcessSalesComponent({
 	const device_id = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
 
+	useEffect(() => {
+		const savedViewMode = localStorage.getItem("viewModeProcess");
+		if (savedViewMode) {
+			setViewMode(savedViewMode);
+		}
+	}, []);
+
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of productData) {
 			if (product.mainCurrency && !currencyData[product.mainCurrency]) {
@@ -288,11 +295,15 @@ function ProcessSalesComponent({
 					<div className="flex items-center gap-3">
 						<button
 							className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-							onClick={() =>
-								setViewMode(
-									viewMode === "table" ? "card" : "table",
-								)
-							}
+							onClick={() => {
+								const newViewMode =
+									viewMode === "table" ? "card" : "table";
+								setViewMode(newViewMode); // Update state
+								localStorage.setItem(
+									"viewModeProcess",
+									newViewMode,
+								); // Save to localStorage
+							}}
 						>
 							{viewMode === "table" ? (
 								<MdOutlineFormatListBulleted className="text-xl" />
@@ -300,7 +311,6 @@ function ProcessSalesComponent({
 								<MdOutlineFormatListBulleted className="text-xl" />
 							)}
 						</button>
-
 						<button
 							onClick={() => setIsListModalOpen(false)}
 							className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
