@@ -37,9 +37,7 @@ const DeadlineOverlay = () => {
 			const data = await response.json();
 			setData(data);
 
-			// Update the its_deadline in localStorage with the new value from API
 			if (data && data.response && data.response.its) {
-				// Create date from API response but set it to end of day (23:59:59)
 				const deadlineDate = new Date(data.response.its);
 				const endOfDay = new Date(
 					deadlineDate.getFullYear(),
@@ -52,9 +50,7 @@ const DeadlineOverlay = () => {
 
 				localStorage.setItem("its_deadline", endOfDay.toISOString());
 
-				// Check if the new deadline is in the future
 				if (endOfDay > new Date()) {
-					// Deadline is updated and valid, reload the page
 					window.location.reload();
 				}
 			}
@@ -73,7 +69,6 @@ const DeadlineOverlay = () => {
 		return new Date() > deadlineDate;
 	};
 
-	// Effect to initialize the component and check deadline
 	useEffect(() => {
 		const isExpired = checkDeadline();
 		if (isExpired) {
@@ -96,11 +91,9 @@ const DeadlineOverlay = () => {
 		return () => clearInterval(interval);
 	}, [showOverlay]);
 
-	// Effect to handle the timer countdown
 	useEffect(() => {
 		let countdown;
 		if (showOverlay && isVisible) {
-			// Start timer automatically when overlay is visible
 			countdown = setInterval(() => {
 				setTimer((prev) => prev - 1);
 			}, 1000);
@@ -109,24 +102,18 @@ const DeadlineOverlay = () => {
 		return () => clearInterval(countdown);
 	}, [showOverlay, isVisible]);
 
-	// Effect to handle actions when timer reaches specific values
 	useEffect(() => {
-		// When timer reaches 3, 2, or 1 seconds, make an API request
 		if (timer <= 1 && timer > 0 && showOverlay) {
 			makeApiRequest();
-		}
-		// When timer reaches 0, reset it and continue cycle
-		else if (timer <= 0) {
+		} else if (timer <= 0) {
 			setTimer(60);
 			if (showOverlay) {
-				// Make one final check after the timer expires
 				makeApiRequest();
 			}
 		}
 	}, [timer, showOverlay]);
 
 	const handleManualUpdate = () => {
-		// For manual update button clicks
 		setIsUpdating(true);
 		makeApiRequest().finally(() => {
 			setIsUpdating(false);
