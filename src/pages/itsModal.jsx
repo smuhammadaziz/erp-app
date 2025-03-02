@@ -11,6 +11,7 @@ import { ImExit } from "react-icons/im";
 import { FaTimes } from "react-icons/fa";
 
 import { IoExitOutline } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
 
 const DeadlineOverlay = () => {
 	const [showOverlay, setShowOverlay] = useState(false);
@@ -112,13 +113,13 @@ const DeadlineOverlay = () => {
 							<IoRefreshOutline className="w-6 h-6" />
 							<span>Янгилаш (60)</span>
 						</button>
-						<button
-							onClick={handleUpdate}
+						<NavLink
+							to="/intro"
 							className="w-full flex items-center mx-4 justify-center space-x-3 bg-orange-600/90 hover:bg-orange-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
 						>
 							<MdFirstPage className="w-6 h-6" />
 							<span>KSB-ID дан чиқиш</span>
-						</button>
+						</NavLink>
 						<button
 							onClick={() => setIsExitModalOpen(true)}
 							className="w-full flex items-center mx-4 justify-center space-x-3 bg-red-600/90 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
