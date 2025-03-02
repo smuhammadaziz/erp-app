@@ -4,11 +4,23 @@ import { IoRefreshOutline } from "react-icons/io5";
 import { FiLogOut } from "react-icons/fi";
 import { MdFirstPage } from "react-icons/md";
 
+import content from "../localization/content";
+import useLang from "../hooks/useLang";
+
+import { ImExit } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
+
+import { IoExitOutline } from "react-icons/io5";
+
 const DeadlineOverlay = () => {
 	const [showOverlay, setShowOverlay] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const [timer, setTimer] = useState(60);
 	const [isUpdating, setIsUpdating] = useState(false);
+
+	const [language] = useLang("uz");
+
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
 	const checkDeadline = () => {
 		const deadline = localStorage.getItem("its_deadline");
@@ -108,7 +120,7 @@ const DeadlineOverlay = () => {
 							<span>KSB-ID дан чиқиш</span>
 						</button>
 						<button
-							onClick={handleExit}
+							onClick={() => setIsExitModalOpen(true)}
 							className="w-full flex items-center mx-4 justify-center space-x-3 bg-red-600/90 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
 						>
 							<FiLogOut className="w-6 h-6" />
@@ -117,6 +129,41 @@ const DeadlineOverlay = () => {
 					</div>
 				</div>
 			</div>
+
+			{isExitModalOpen && (
+				<div className="fixed inset-0 z-10  bg-black bg-opacity-80 flex items-center justify-center p-8">
+					<div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-200 p-10 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<IoExitOutline className="text-5xl font-bold mb-4 flex justify-center mx-auto text-center" />
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								{content[language].exit.exit}
+							</h2>
+							<p className="text-black text-lg mb-6">
+								{content[language].exit.exitTest}
+							</p>
+						</div>
+						<div className="flex space-x-4">
+							<button
+								onClick={handleExit}
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								OK
+							</button>
+							<button
+								onClick={() => setIsExitModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								{
+									content[language].salesPage
+										.headerDiscountCancel
+								}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
