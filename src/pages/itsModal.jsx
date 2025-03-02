@@ -77,7 +77,7 @@ const DeadlineOverlay = () => {
 			/>
 			<div className="relative h-full flex flex-col items-center justify-center px-4">
 				<div
-					className={`w-full max-w-3xl flex flex-col items-center transition-all duration-300 ${
+					className={`w-full max-w-4xl flex flex-col items-center transition-all duration-300 ${
 						isVisible
 							? "scale-100 translate-y-0"
 							: "scale-95 translate-y-4"
@@ -95,21 +95,21 @@ const DeadlineOverlay = () => {
 					<div className="w-full flex justify-between mt-auto mb-16">
 						<button
 							onClick={handleUpdate}
-							className="w-full flex items-center mx-2 justify-center space-x-3 bg-green-600/90 hover:bg-green-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
+							className="w-full flex items-center mx-4 justify-center space-x-3 bg-blue-600/90 hover:bg-blue-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
 						>
 							<IoRefreshOutline className="w-6 h-6" />
 							<span>Янгилаш (60)</span>
 						</button>
 						<button
 							onClick={handleUpdate}
-							className="w-full flex items-center mx-2 justify-center space-x-3 bg-green-600/90 hover:bg-green-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
+							className="w-full flex items-center mx-4 justify-center space-x-3 bg-orange-600/90 hover:bg-orange-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
 						>
 							<MdFirstPage className="w-6 h-6" />
 							<span>KSB-ID дан чиқиш</span>
 						</button>
 						<button
 							onClick={handleExit}
-							className="w-full flex items-center mx-2 justify-center space-x-3 bg-red-600/90 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
+							className="w-full flex items-center mx-4 justify-center space-x-3 bg-red-600/90 hover:bg-red-700 text-white py-4 px-6 rounded-xl font-semibold transition-all transform hover:scale-105 active:scale-95"
 						>
 							<FiLogOut className="w-6 h-6" />
 							<span>Дастурдан чиқиш</span>
