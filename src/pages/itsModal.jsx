@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 
 import content from "../localization/content";
 import useLang from "../hooks/useLang";
+import nodeUrl from "../links";
 
 const DeadlineOverlay = () => {
 	const [showOverlay, setShowOverlay] = useState(false);
@@ -19,6 +20,52 @@ const DeadlineOverlay = () => {
 	const [language] = useLang("uz");
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+	const [data, setData] = useState();
+
+	const makeApiRequest = async () => {
+		try {
+			const response = await fetch(`${nodeUrl}/api/${ksb_id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Connection: "keep-alive",
+				},
+				keepalive: true,
+			});
+
+			const data = await response.json();
+			setData(data);
+
+			// Update the its_deadline in localStorage with the new value from API
+			if (data && data.response && data.response.its) {
+				// Create date from API response but set it to end of day (23:59:59)
+				const deadlineDate = new Date(data.response.its);
+				const endOfDay = new Date(
+					deadlineDate.getFullYear(),
+					deadlineDate.getMonth(),
+					deadlineDate.getDate(),
+					23,
+					59,
+					59,
+				);
+
+				localStorage.setItem("its_deadline", endOfDay.toISOString());
+
+				// Check if the new deadline is in the future
+				if (endOfDay > new Date()) {
+					// Deadline is updated and valid, reload the page
+					window.location.reload();
+				}
+			}
+
+			return data;
+		} catch (error) {
+			console.log("API request error:", error);
+			return null;
+		}
+	};
+
 	const checkDeadline = () => {
 		const deadline = localStorage.getItem("its_deadline");
 		if (!deadline) return false;
@@ -26,40 +73,64 @@ const DeadlineOverlay = () => {
 		return new Date() > deadlineDate;
 	};
 
+	// Effect to initialize the component and check deadline
 	useEffect(() => {
 		const isExpired = checkDeadline();
 		if (isExpired) {
 			setShowOverlay(true);
-			setTimeout(() => setIsVisible(true), 50);
+			setTimeout(() => {
+				setIsVisible(true);
+			}, 50);
 		}
 
 		const interval = setInterval(() => {
-			checkDeadline();
+			const isExpired = checkDeadline();
+			if (isExpired && !showOverlay) {
+				setShowOverlay(true);
+				setTimeout(() => {
+					setIsVisible(true);
+				}, 50);
+			}
 		}, 60000);
 
 		return () => clearInterval(interval);
-	}, []);
+	}, [showOverlay]);
 
+	// Effect to handle the timer countdown
 	useEffect(() => {
 		let countdown;
-		if (isUpdating && timer > 0) {
+		if (showOverlay && isVisible) {
+			// Start timer automatically when overlay is visible
 			countdown = setInterval(() => {
 				setTimer((prev) => prev - 1);
 			}, 1000);
-		} else if (timer === 0) {
-			setIsUpdating(false);
+		}
+
+		return () => clearInterval(countdown);
+	}, [showOverlay, isVisible]);
+
+	// Effect to handle actions when timer reaches specific values
+	useEffect(() => {
+		// When timer reaches 3, 2, or 1 seconds, make an API request
+		if (timer <= 1 && timer > 0 && showOverlay) {
+			makeApiRequest();
+		}
+		// When timer reaches 0, reset it and continue cycle
+		else if (timer <= 0) {
 			setTimer(60);
-			const isExpired = checkDeadline();
-			if (isExpired) {
-				setShowOverlay(true);
-				setTimeout(() => setIsVisible(true), 50);
+			if (showOverlay) {
+				// Make one final check after the timer expires
+				makeApiRequest();
 			}
 		}
-		return () => clearInterval(countdown);
-	}, [isUpdating, timer]);
+	}, [timer, showOverlay]);
 
-	const handleUpdate = () => {
+	const handleManualUpdate = () => {
+		// For manual update button clicks
 		setIsUpdating(true);
+		makeApiRequest().finally(() => {
+			setIsUpdating(false);
+		});
 	};
 
 	const handleExit = () => {
@@ -105,15 +176,20 @@ const DeadlineOverlay = () => {
 
 						<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
 							<button
-								onClick={handleUpdate}
-								className="w-full flex items-center justify-center bg-gray-900 text-white py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-800"
+								onClick={handleManualUpdate}
+								disabled={isUpdating}
+								className={`w-full flex items-center justify-center ${
+									isUpdating
+										? "bg-gray-500"
+										: "bg-gray-900 hover:bg-gray-800"
+								} text-white py-4 px-6 rounded-lg font-medium text-lg transition-all`}
 							>
 								<IoRefreshOutline className="w-5 h-5 mr-3" />
 								<span>Янгилаш ({timer})</span>
 							</button>
 							<NavLink
 								to="/intro"
-								className="w-full flex items-center justify-center border border-gray-300  bg-white text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
+								className="w-full flex items-center justify-center border border-gray-300 bg-white text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
 							>
 								<MdFirstPage className="w-5 h-5 mr-3" />
 								<span>KSB-ID дан чиқиш</span>
