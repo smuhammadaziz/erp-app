@@ -154,10 +154,10 @@ const DeadlineOverlay = () => {
 						<div className="text-center mb-12">
 							<BiErrorCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
 							<h2 className="text-3xl font-medium text-gray-900 mb-4">
-								Sizning ITS muddatingiz tugadi
+								{content[language].itsDeadlineModal.yourITS}
 							</h2>
 							<p className="text-gray-600 text-xl max-w-lg mx-auto">
-								Iltimos, obunangizni yangilang
+								{content[language].itsDeadlineModal.updateITS}
 							</p>
 						</div>
 
@@ -172,21 +172,31 @@ const DeadlineOverlay = () => {
 								} text-white py-4 px-6 rounded-lg font-medium text-lg transition-all`}
 							>
 								<IoRefreshOutline className="w-5 h-5 mr-3" />
-								<span>Янгилаш ({timer})</span>
+								<span>
+									{content[language].enterpriseInfo.update} (
+									{timer})
+								</span>
 							</button>
 							<NavLink
 								to="/intro"
 								className="w-full flex items-center justify-center border border-gray-300 bg-white text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
 							>
 								<MdFirstPage className="w-5 h-5 mr-3" />
-								<span>KSB-ID дан чиқиш</span>
+								<span>
+									{content[language].enterpriseInfo.signout}
+								</span>
 							</NavLink>
 							<button
 								onClick={() => setIsExitModalOpen(true)}
 								className="w-full flex items-center justify-center bg-white border border-gray-300 text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
 							>
 								<FiLogOut className="w-5 h-5 mr-3" />
-								<span>Дастурдан чиқиш</span>
+								<span>
+									{
+										content[language].itsDeadlineModal
+											.exitProgram
+									}
+								</span>
 							</button>
 						</div>
 					</div>

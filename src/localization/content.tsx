@@ -206,6 +206,11 @@ type Content = {
 			saveTimeout: string;
 			timeoutSaved: string;
 		};
+		itsDeadlineModal: {
+			yourITS: string;
+			updateITS: string;
+			exitProgram: string;
+		};
 	};
 };
 
@@ -428,6 +433,11 @@ const content: Content = {
 			saveTimeout: "Сақлаш",
 			timeoutSaved: "TimeOut учун янги вақт сақланди:",
 		},
+		itsDeadlineModal: {
+			yourITS: "Сизнинг ИТС муддатингиз тугади!",
+			updateITS: "Илтимос, обунангизни янгиланг.",
+			exitProgram: "Дастурдан чиқиш",
+		},
 	},
 	ru: {
 		intro: {
@@ -647,6 +657,11 @@ const content: Content = {
 			setTimeoutForYou: "Введите время для TimeOut (в секундах).",
 			saveTimeout: "Сохранить",
 			timeoutSaved: "Новое время сохранено для TimeOut: ",
+		},
+		itsDeadlineModal: {
+			yourITS: "Срок действия вашего ITS истек!",
+			updateITS: "Пожалуйста, обновите подписку.",
+			exitProgram: "Выйти из программы",
 		},
 	},
 };
