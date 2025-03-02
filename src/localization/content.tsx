@@ -47,6 +47,7 @@ type Content = {
 				month: string;
 				year: string;
 			};
+			soon: string;
 		};
 		innerLayout: {
 			home: string;
@@ -261,6 +262,7 @@ const content: Content = {
 				month: "Ойлик",
 				year: "Йиллик",
 			},
+			soon: "Тез орада",
 		},
 		innerLayout: {
 			home: "Бош саҳифа",
@@ -479,6 +481,7 @@ const content: Content = {
 				month: "Месяц",
 				year: "Год",
 			},
+			soon: "Скоро",
 		},
 		innerLayout: {
 			home: "Дом",

@@ -367,7 +367,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 									{/* Overlay with blurred background and centered text */}
 									<div className="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-60 backdrop-blur-sm rounded-3xl z-10">
 										<span className="text-2xl font-bold text-gray-800">
-											Тез орада . . .
+											{
+												content[language as string].home
+													.soon
+											}{" "}
+											. . .
 										</span>
 									</div>
 
