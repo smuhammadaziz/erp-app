@@ -78,7 +78,6 @@ const DeadlineOverlay = () => {
 				isVisible ? "opacity-100" : "opacity-0"
 			}`}
 		>
-			{/* Clean, modern backdrop with subtle blur */}
 			<div
 				className={`absolute inset-0 backdrop-blur-sm bg-black/80 transition-all duration-300 ${
 					isVisible ? "scale-100" : "scale-95"
@@ -93,7 +92,6 @@ const DeadlineOverlay = () => {
 							: "scale-95 translate-y-4"
 					}`}
 				>
-					{/* Full-screen minimalist alert */}
 					<div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl p-12 w-full">
 						<div className="text-center mb-12">
 							<BiErrorCircle className="w-16 h-16 text-red-500 mx-auto mb-6" />
@@ -105,7 +103,6 @@ const DeadlineOverlay = () => {
 							</p>
 						</div>
 
-						{/* Modern, full-width button layout */}
 						<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
 							<button
 								onClick={handleUpdate}
