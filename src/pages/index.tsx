@@ -232,17 +232,18 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const cards = [
 		{
 			title: content[language as string].home.totalSales,
-			value: (() => {
-				try {
-					return allSales
-						? allSales
-								.toString()
-								.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-						: "0";
-				} catch (error) {
-					return "0";
-				}
-			})(),
+			// value: (() => {
+			// 	try {
+			// 		return allSales
+			// 			? allSales
+			// 					.toString()
+			// 					.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+			// 			: "0";
+			// 	} catch (error) {
+			// 		return "0";
+			// 	}
+			// })(),
+			value: "0",
 			change: "+12.5%",
 			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
 			bgColor:
