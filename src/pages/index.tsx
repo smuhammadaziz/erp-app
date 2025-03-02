@@ -341,11 +341,11 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 													</div>
 												</div>
 
-												<div className="flex items-center justify-between">
-													<p className="text-green-500 text-sm flex items-center font-semibold bg-green-50 px-3 py-1 rounded-full">
+												<div className="flex items-center justify-end">
+													{/* <p className="text-green-500 text-sm flex items-center font-semibold bg-green-50 px-3 py-1 rounded-full">
 														<BiTrendingUp className="mr-1" />
 														{card.change}
-													</p>
+													</p> */}
 													<NavLink
 														to={card.link}
 														onClick={card.onClick}
