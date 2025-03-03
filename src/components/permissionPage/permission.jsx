@@ -25,7 +25,7 @@ function PermissionComponent() {
 	if (!isModalOpen) return null;
 
 	return (
-		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
+		<div className="fixed inset-0 flex backdrop-blur-lg bg-black/80 items-center justify-center bg-black bg-opacity-50 z-[444]">
 			<div className="bg-white w-100 rounded-lg shadow-xl p-8 relative">
 				<div className="w-[500px]">
 					<TbAlertSquareRounded className="text-5xl text-center text-red-600 flex justify-center mx-auto mb-7" />
