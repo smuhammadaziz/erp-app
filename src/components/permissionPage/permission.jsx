@@ -6,9 +6,13 @@ import { TbAlertSquareRounded } from "react-icons/tb";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
+const { app } = window.require("@electron/remote");
+
 function PermissionComponent() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [language] = useLang("uz");
+
+	const onQuit = () => app.quit();
 
 	useEffect(() => {
 		const permissionModal = localStorage.getItem("devicePermission");
@@ -37,7 +41,7 @@ function PermissionComponent() {
 							Қайта текшириш
 						</button>
 						<button
-							// onClick={startDownload}
+							onClick={onQuit}
 							className="w-full bg-slate-100 text-black border border-slate-200  px-6 py-3 rounded-lg hover:opacity-70 transition"
 						>
 							Дастурдан чиқиш
