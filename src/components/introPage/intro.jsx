@@ -124,6 +124,10 @@ function IntroPageKSB() {
 						matchedDevice.entered_date,
 					);
 					localStorage.setItem(
+						"devicePermission",
+						matchedDevice.permission,
+					);
+					localStorage.setItem(
 						"its_deadline",
 						apiResponse.response.its,
 					);
