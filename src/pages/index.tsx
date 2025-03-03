@@ -48,6 +48,7 @@ interface IndexPageProps {
 }
 
 import nodeUrl from "../links";
+import PermissionComponent from "../components/permissionPage/permission";
 
 const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const [language, setLanguage] = useLang();
@@ -444,6 +445,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 								</div>
 							</div>
 						</div>
+						<PermissionComponent />
 						<InitialUserSettingsForHome />
 					</div>
 				)}

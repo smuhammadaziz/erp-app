@@ -1,31 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { TbHandStop } from "react-icons/tb";
 
+import { TbAlertSquareRounded } from "react-icons/tb";
+
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
 function PermissionComponent() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [language] = useLang("uz");
+
+	useEffect(() => {
+		const permissionModal = localStorage.getItem("devicePermission");
+		if (permissionModal === "1") {
+			setIsModalOpen(true);
+			localStorage.setItem("showSettingsModal", "0");
+		}
+	}, []);
+
+	if (!isModalOpen) return null;
 
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
 			<div className="bg-white w-100 rounded-lg shadow-xl p-8 relative">
 				<div className="w-[500px]">
-					<TbHandStop className="text-6xl text-center text-blue-900 flex justify-center mx-auto mb-5" />
-					<h2 className="text-2xl font-semibold text-black mb-4 text-center">
+					<TbAlertSquareRounded className="text-5xl text-center text-red-600 flex justify-center mx-auto mb-7" />
+					<h2 className="text-2xl font-semibold font-sans text-black mb-7 text-center">
 						Қурилмада чеклов мавжуд.
 					</h2>
 
 					<div className="flex items-center space-x-4">
 						<button
-							onClick={startDownload}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+							// onClick={startDownload}
+							className="w-full bg-black border border-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
 						>
 							Қайтадан текшириш
 						</button>
 						<button
-							onClick={startDownload}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+							// onClick={startDownload}
+							className="w-full bg-slate-100 text-black border border-slate-200  px-6 py-3 rounded-lg hover:opacity-70 transition"
 						>
 							Дастурдан чиқиш
 						</button>
