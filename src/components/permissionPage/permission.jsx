@@ -34,7 +34,7 @@ function PermissionComponent() {
 							// onClick={startDownload}
 							className="w-full bg-black border border-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
 						>
-							Қайтадан текшириш
+							Қайта текшириш
 						</button>
 						<button
 							// onClick={startDownload}
