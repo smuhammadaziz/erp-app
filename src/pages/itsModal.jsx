@@ -167,8 +167,8 @@ const DeadlineOverlay = () => {
 								disabled={isUpdating}
 								className={`w-full flex items-center justify-center ${
 									isUpdating
-										? "bg-gray-500"
-										: "bg-gray-900 hover:bg-gray-800"
+										? "bg-green-500"
+										: "bg-green-700 hover:bg-green-600"
 								} text-white py-4 px-6 rounded-lg font-medium text-lg transition-all`}
 							>
 								<IoRefreshOutline className="w-5 h-5 mr-3" />
