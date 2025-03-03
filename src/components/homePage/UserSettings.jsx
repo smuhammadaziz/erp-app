@@ -227,7 +227,6 @@ const DownloaderModal = () => {
 	};
 
 	const startDownload = async () => {
-		// First, check internet connection
 		const isInternetAvailable = await checkInternetConnection();
 
 		if (!isInternetAvailable) {
@@ -239,10 +238,6 @@ const DownloaderModal = () => {
 		setError(null);
 
 		try {
-			// const isRegistered = await registerDevice();
-			// if (!isRegistered) {
-			// 	throw new Error("Device registration failed");
-			// }
 			await handleRecovery();
 			await fetchDeviceData();
 			await upsertUpdatedProducts();
@@ -376,12 +371,7 @@ const DownloaderModal = () => {
 	};
 
 	if (showPermission) {
-		return (
-			<PermissionComponent
-				onComplete={handlePermissionComplete}
-				// setIsModalOpenModal={setIsModalOpen}
-			/>
-		);
+		return <PermissionComponent onComplete={handlePermissionComplete} />;
 	}
 
 	if (!isModalOpen) return null;
