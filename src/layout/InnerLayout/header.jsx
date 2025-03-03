@@ -18,6 +18,7 @@ import { MdOutlineCurrencyExchange } from "react-icons/md";
 import nodeUrl from "../../links";
 import useNetworkStatus from "../../hooks/useNetworkStatus";
 import { NavLink } from "react-router-dom";
+import PermissionComponent from "../../components/permissionPage/permission";
 
 function HeaderInner({ onRefresh, socket }) {
 	const { isOnline, networkStatus, checkNetworkConnection } =
@@ -300,6 +301,55 @@ function HeaderInner({ onRefresh, socket }) {
 		}
 	};
 
+	const [isPermissionModalOpen, setisPermissionModalOpen] = useState(false);
+
+	const handleFetchData = async () => {
+		const ipaddress = localStorage.getItem("ipaddress:port");
+		const database = localStorage.getItem("mainDatabase");
+		const username = localStorage.getItem("userType");
+		const userpassword = localStorage.getItem("userPassword");
+
+		const ksb_id = localStorage.getItem("ksbIdNumber");
+		const device_id = localStorage.getItem("device_id");
+
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/permission/${ksb_id}/${device_id}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						ipaddress: ipaddress,
+						database: database,
+						username: username,
+						password: userpassword,
+					}),
+				},
+			);
+
+			const data = await response.json();
+
+			console.log(data);
+
+			if (data.status === "successfully") {
+				localStorage.setItem("devicePermission", "1");
+			} else if (data.status === "error") {
+				localStorage.setItem("devicePermission", "0");
+				setisPermissionModalOpen(true);
+			} else if (data.status === "empty") {
+				localStorage.setItem("devicePermission", "0");
+				setisPermissionModalOpen(true);
+			} else {
+				localStorage.setItem("devicePermission", "0");
+				setisPermissionModalOpen(true);
+			}
+		} catch (err) {
+			console.log("error getting permission");
+		}
+	};
+
 	return (
 		<>
 			<header className="flex justify-between items-center px-4 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
@@ -392,6 +442,8 @@ function HeaderInner({ onRefresh, socket }) {
 				</div>
 			</header>
 
+			{isPermissionModalOpen && <PermissionComponent />}
+
 			{isOpen && (
 				<div className="absolute right-3 w-56 bg-white rounded-lg shadow-xl py-2 z-[50] border border-gray-200">
 					<NavLink
@@ -457,6 +509,7 @@ function HeaderInner({ onRefresh, socket }) {
 								handleUserSettings();
 								handleSetCurrency();
 								makeApiRequest();
+								handleFetchData();
 							}}
 						>
 							{content[language].syncing.close}
