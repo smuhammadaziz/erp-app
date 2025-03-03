@@ -4,18 +4,14 @@ function InnerFooter() {
 	const [timeLeft, setTimeLeft] = useState(null);
 
 	useEffect(() => {
-		// Get the deadline from localStorage
 		const deadline = localStorage.getItem("its_deadline");
 
 		if (deadline) {
-			// Parse the deadline date
 			const deadlineDate = new Date(deadline);
 			const currentDate = new Date();
 
-			// Calculate the difference in milliseconds
 			const differenceMs = deadlineDate - currentDate;
 
-			// Calculate days, hours, and minutes
 			const days = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
 			const hours = Math.floor(
 				(differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
@@ -24,7 +20,6 @@ function InnerFooter() {
 				(differenceMs % (1000 * 60 * 60)) / (1000 * 60),
 			);
 
-			// If less than 1 day, show hours and minutes
 			if (days < 1) {
 				setTimeLeft(`${hours} соат ${minutes} минут`);
 			} else {
@@ -34,10 +29,9 @@ function InnerFooter() {
 	}, []);
 
 	if (timeLeft === null) {
-		return null; // Don't render anything until timeLeft is calculated
+		return null;
 	}
 
-	// Check if the time left is less than 1 day
 	const isLessThanOneDay = timeLeft.includes("соат");
 
 	return (
