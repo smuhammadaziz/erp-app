@@ -29,7 +29,6 @@ const DownloaderModal = () => {
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
 		if (showSettingsModal === "true") {
 			setIsModalOpen(true);
-			localStorage.setItem("showSettingsModal", "false");
 		}
 	}, []);
 
@@ -44,49 +43,59 @@ const DownloaderModal = () => {
 		});
 	};
 
-	const registerDevice = async () => {
-		try {
-			const requestBody = {
-				ksb_id: getStorageItem("ksbIdNumber"),
-				device_id: getStorageItem("device_id"),
-				name: getStorageItem("device_info"),
-				"ipaddress:port": getStorageItem("ipaddress:port"),
-				database: getStorageItem("mainDatabase"),
-				username: getStorageItem("userType"),
-				password:
-					localStorage.getItem("userPassword") ===
-					"EMPTY_PASSWORD_ALLOWED"
-						? ""
-						: getStorageItem("userPassword"),
-			};
+	useEffect(() => {
+		const showSettingsModal = localStorage.getItem("showSettingsModal");
 
-			const response = await fetch(`${nodeUrl}/api/register/device`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(requestBody),
-			});
+		const registerDevice = async () => {
+			try {
+				const requestBody = {
+					ksb_id: getStorageItem("ksbIdNumber"),
+					device_id: getStorageItem("device_id"),
+					name: getStorageItem("device_info"),
+					"ipaddress:port": getStorageItem("ipaddress:port"),
+					database: getStorageItem("mainDatabase"),
+					username: getStorageItem("userType"),
+					password:
+						localStorage.getItem("userPassword") ===
+						"EMPTY_PASSWORD_ALLOWED"
+							? ""
+							: getStorageItem("userPassword"),
+				};
 
-			if (!response.ok) {
-				const errorData = await response.json().catch(() => null);
-				throw new Error(
-					`Device registration failed: ${response.status} ${
-						errorData?.message || response.statusText
-					}`,
-				);
+				const response = await fetch(`${nodeUrl}/api/register/device`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(requestBody),
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json().catch(() => null);
+					throw new Error(
+						`Device registration failed: ${response.status} ${
+							errorData?.message || response.statusText
+						}`,
+					);
+				}
+
+				const data = await response.json();
+				console.log("Device registered successfully:", data);
+				localStorage.setItem("user_id", data.user_id);
+				return true;
+			} catch (error) {
+				console.error("Register Device Error:", error);
+				setError(error.message);
+				return false;
 			}
+		};
 
-			const data = await response.json();
-			console.log("Device registered successfully:", data);
-			localStorage.setItem("user_id", data.user_id);
-			return true;
-		} catch (error) {
-			console.error("Register Device Error:", error);
-			setError(error.message);
-			return false;
+		if (showSettingsModal == "true") {
+			registerDevice();
+		} else {
+			console.log("nothing");
 		}
-	};
+	}, []);
 
 	const ksb_id = getStorageItem("ksbIdNumber");
 	const device_id = getStorageItem("device_id");
@@ -94,6 +103,37 @@ const DownloaderModal = () => {
 	const mainDatabase = getStorageItem("mainDatabase");
 	const basicUsername = getStorageItem("userType");
 	const basicPassword = getStorageItem("userPassword");
+
+	const handleRecovery = async () => {
+		const authHeader =
+			"Basic " +
+			Buffer.from(`${basicUsername}:${basicPassword}`).toString("base64");
+
+		const apiBody = {
+			ksb_id: ksb_id,
+			device_id: device_id,
+		};
+
+		try {
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/recovery/ksb?text=pos`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: authHeader,
+					},
+					body: JSON.stringify(apiBody),
+				},
+			);
+
+			if (response.ok) {
+				console.log("Successfully recovered");
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const fetchDeviceData = async () => {
 		try {
@@ -187,15 +227,16 @@ const DownloaderModal = () => {
 		setError(null);
 
 		try {
-			const isRegistered = await registerDevice();
-			if (!isRegistered) {
-				throw new Error("Device registration failed");
-			}
-
+			// const isRegistered = await registerDevice();
+			// if (!isRegistered) {
+			// 	throw new Error("Device registration failed");
+			// }
+			await handleRecovery();
 			await fetchDeviceData();
 			await upsertUpdatedProducts();
 
 			setDownloadStatus("completed");
+			localStorage.setItem("showSettingsModal", "false");
 		} catch (error) {
 			console.error("Download process failed:", error);
 			setDownloadStatus("error");

@@ -445,7 +445,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 								</div>
 							</div>
 						</div>
-						<PermissionComponent />
+						{/* <PermissionComponent /> */}
 						<InitialUserSettingsForHome />
 					</div>
 				)}
