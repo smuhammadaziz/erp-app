@@ -211,6 +211,15 @@ type Content = {
 			updateITS: string;
 			exitProgram: string;
 		};
+		permissionModal: {
+			tasdiqlandi: string;
+			haliBeriTasdiqlanmadi: string;
+			qurilmaTopilmadi: string;
+			qurilmadaXatolik: string;
+			dasturdanChiqish: string;
+			ksbidDanChiqish: string;
+			qaytaUrinish: string;
+		};
 	};
 };
 
@@ -438,6 +447,15 @@ const content: Content = {
 			updateITS: "Илтимос, обунангизни янгиланг.",
 			exitProgram: "Дастурдан чиқиш",
 		},
+		permissionModal: {
+			tasdiqlandi: "Тасдиқланди",
+			haliBeriTasdiqlanmadi: "Бу қурилма ҳали бери тасдиқланмади",
+			qurilmaTopilmadi: "Қурилма топилмади.",
+			qurilmadaXatolik: "Қурилмани тасдиқлашда хатолик.",
+			dasturdanChiqish: "Дастурдан чиқиш",
+			ksbidDanChiqish: "KSB-ID дан чиқиш",
+			qaytaUrinish: "Қайта текшириш",
+		},
 	},
 	ru: {
 		intro: {
@@ -662,6 +680,15 @@ const content: Content = {
 			yourITS: "Срок действия вашего ITS истек!",
 			updateITS: "Пожалуйста, обновите подписку.",
 			exitProgram: "Выйти из программы",
+		},
+		permissionModal: {
+			tasdiqlandi: "Одобренный",
+			haliBeriTasdiqlanmadi: "Это устройство пока не подтверждено.",
+			qurilmaTopilmadi: "Устройство не найдено.",
+			qurilmadaXatolik: "Ошибка аутентификации устройства.",
+			dasturdanChiqish: "Выйти из программы",
+			ksbidDanChiqish: "Выйти из KSB-ID",
+			qaytaUrinish: "Перепроверьте",
 		},
 	},
 };

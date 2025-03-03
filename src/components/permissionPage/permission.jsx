@@ -56,24 +56,34 @@ function PermissionComponent() {
 			const data = await response.json();
 
 			if (data.status === "successfully") {
-				setToastMessage("Tasdiqlandi");
+				setToastMessage(
+					`${content[language].permissionModal.tasdiqlandi}`,
+				);
 				localStorage.setItem("devicePermission", "1");
 				setIsModalOpen(false);
 				setStatus("successfully");
 			} else if (data.status === "error") {
-				setStatusText("Bu qurilma hali beri tasdiqlanmadi");
-				setToastMessage("Bu qurilma hali beri tasdiqlanmadi");
+				setStatusText(
+					`${content[language].permissionModal.haliBeriTasdiqlanmadi}`,
+				);
+				setToastMessage(
+					`${content[language].permissionModal.haliBeriTasdiqlanmadi}`,
+				);
 				setStatus("error");
 			} else if (data.status === "empty") {
 				setToastMessage("Empty");
-				setStatusText("Qurilma topilmadi");
+				setStatusText(
+					`${content[language].permissionModal.qurilmaTopilmadi}`,
+				);
 				setStatus("empty");
 			} else {
 				localStorage.setItem("devicePermission", "0");
 			}
 		} catch (err) {
 			console.error("Fetch Error:", err);
-			setToastMessage("Error getting permission");
+			setToastMessage(
+				`${content[language].permissionModal.qurilmadaXatolik}`,
+			);
 		} finally {
 			setTimeout(() => setToastMessage(""), 2000);
 		}
@@ -98,13 +108,19 @@ function PermissionComponent() {
 										onClick={onQuit}
 										className="w-full bg-black border border-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
 									>
-										Дастурдан чиқиш
+										{
+											content[language].permissionModal
+												.dasturdanChiqish
+										}
 									</button>
 									<NavLink
 										to="/intro"
 										className="w-full text-center flex justify-center bg-slate-100 text-black border border-slate-200 px-6 py-3 rounded-lg hover:opacity-70 transition"
 									>
-										KSB ID dan chiqish
+										{
+											content[language].permissionModal
+												.ksbidDanChiqish
+										}
 									</NavLink>
 								</>
 							) : (
@@ -113,13 +129,19 @@ function PermissionComponent() {
 										onClick={handleFetchData}
 										className="w-full bg-black border border-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
 									>
-										Қайта текшириш
+										{
+											content[language].permissionModal
+												.qaytaUrinish
+										}
 									</button>
 									<button
 										onClick={onQuit}
 										className="w-full bg-slate-100 text-black border border-slate-200 px-6 py-3 rounded-lg hover:opacity-70 transition"
 									>
-										Дастурдан чиқиш
+										{
+											content[language].permissionModal
+												.dasturdanChiqish
+										}
 									</button>
 								</>
 							)}
