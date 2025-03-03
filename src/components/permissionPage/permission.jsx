@@ -7,7 +7,7 @@ import nodeUrl from "../../links";
 
 const { app } = window.require("@electron/remote");
 
-function PermissionComponent() {
+function PermissionComponent({ onComplete }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [toastMessage, setToastMessage] = useState("");
 	const [statusText, setStatusText] = useState("Қурилмада чеклов мавжуд.");
@@ -61,6 +61,8 @@ function PermissionComponent() {
 				);
 				localStorage.setItem("devicePermission", "1");
 				setIsModalOpen(false);
+				// setIsModalOpenModal(true);
+				onComplete();
 				setStatus("successfully");
 			} else if (data.status === "error") {
 				setStatusText(

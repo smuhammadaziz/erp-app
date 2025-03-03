@@ -6,6 +6,8 @@ import { MdErrorOutline } from "react-icons/md";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
+import PermissionComponent from "../permissionPage/permission";
+
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
@@ -14,6 +16,7 @@ const DownloaderModal = () => {
 	const [downloadStatus, setDownloadStatus] = useState("idle");
 	const [error, setError] = useState(null);
 	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
+	const [showPermission, setShowPermission] = useState(false);
 
 	const [language] = useLang("uz");
 
@@ -25,9 +28,18 @@ const DownloaderModal = () => {
 		return value;
 	};
 
+	const handlePermissionComplete = () => {
+		setShowPermission(false);
+		setIsModalOpen(true);
+	};
+
 	useEffect(() => {
 		const showSettingsModal = localStorage.getItem("showSettingsModal");
-		if (showSettingsModal === "true") {
+		const devicePermission = localStorage.getItem("devicePermission");
+
+		if (devicePermission === "0") {
+			setShowPermission(true);
+		} else if (showSettingsModal === "true") {
 			setIsModalOpen(true);
 		}
 	}, []);
@@ -362,6 +374,15 @@ const DownloaderModal = () => {
 			console.log(error);
 		}
 	};
+
+	if (showPermission) {
+		return (
+			<PermissionComponent
+				onComplete={handlePermissionComplete}
+				// setIsModalOpenModal={setIsModalOpen}
+			/>
+		);
+	}
 
 	if (!isModalOpen) return null;
 
