@@ -12,9 +12,9 @@ function PermissionComponent() {
 
 	useEffect(() => {
 		const permissionModal = localStorage.getItem("devicePermission");
-		if (permissionModal === "1") {
+		if (permissionModal === "0") {
 			setIsModalOpen(true);
-			localStorage.setItem("showSettingsModal", "0");
+			// localStorage.setItem("devicePermission", "1");
 		}
 	}, []);
 
