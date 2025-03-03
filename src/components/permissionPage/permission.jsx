@@ -5,6 +5,7 @@ import useLang from "../../hooks/useLang";
 
 function PermissionComponent() {
 	const [language] = useLang("uz");
+
 	return <div>PermissionComponent</div>;
 }
 
