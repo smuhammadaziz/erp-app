@@ -24,6 +24,7 @@ function InnerLayoutSection({ children, socket }) {
 				<main className="p-4 bg-slate-100" key={refreshKey}>
 					{children}
 				</main>
+				<InnerFooter />
 			</div>
 		</div>
 	);

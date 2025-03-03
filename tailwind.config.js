@@ -28,6 +28,10 @@ module.exports = {
 					"0%": { transform: "translateX(-200%)" },
 					"100%": { transform: "translateX(300%)" },
 				},
+				marquee: {
+					"0%": { transform: "translateX(0%)" },
+					"100%": { transform: "translateX(-100%)" },
+				},
 			},
 			animation: {
 				fadeIn: "fadeIn 0.3s ease-out",
@@ -36,6 +40,7 @@ module.exports = {
 				bounce: "bounce 1s ease-in-out infinite",
 				progress: "progress 5s linear",
 				slide: "slide 1s linear infinite",
+				marquee: "marquee 60s linear infinite",
 			},
 		},
 	},
