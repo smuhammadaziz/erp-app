@@ -161,7 +161,7 @@ const DeadlineOverlay = () => {
 							</p>
 						</div>
 
-						<div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+						<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
 							<button
 								onClick={handleManualUpdate}
 								disabled={isUpdating}
@@ -177,7 +177,7 @@ const DeadlineOverlay = () => {
 									{timer})
 								</span>
 							</button>
-							<NavLink
+							{/* <NavLink
 								to="/intro"
 								className="w-full flex items-center justify-center border border-gray-300 bg-white text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
 							>
@@ -185,7 +185,7 @@ const DeadlineOverlay = () => {
 								<span>
 									{content[language].enterpriseInfo.signout}
 								</span>
-							</NavLink>
+							</NavLink> */}
 							<button
 								onClick={() => setIsExitModalOpen(true)}
 								className="w-full flex items-center justify-center bg-white border border-gray-300 text-black py-4 px-6 rounded-lg font-medium text-lg transition-all hover:bg-gray-100"
