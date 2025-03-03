@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HeaderInner from "./header";
 import SidebarInner from "./sidebar";
+import InnerFooter from "./footer";
 
 function InnerLayoutSection({ children, socket }) {
 	const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
