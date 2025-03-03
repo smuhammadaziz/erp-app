@@ -61,7 +61,6 @@ function PermissionComponent({ onComplete }) {
 				);
 				localStorage.setItem("devicePermission", "1");
 				setIsModalOpen(false);
-				// setIsModalOpenModal(true);
 				onComplete();
 				setStatus("successfully");
 			} else if (data.status === "error") {
