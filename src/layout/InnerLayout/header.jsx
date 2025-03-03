@@ -265,6 +265,41 @@ function HeaderInner({ onRefresh, socket }) {
 		return () => clearInterval(intervalId);
 	}, []);
 
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+
+	const makeApiRequest = async () => {
+		try {
+			const response = await fetch(`${nodeUrl}/api/${ksb_id}`, {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Connection: "keep-alive",
+				},
+				keepalive: true,
+			});
+
+			const data = await response.json();
+			if (data.response.its) {
+				const deadlineDate = new Date(data.response.its);
+				const endOfDay = new Date(
+					deadlineDate.getFullYear(),
+					deadlineDate.getMonth(),
+					deadlineDate.getDate(),
+					23,
+					59,
+					59,
+				);
+
+				localStorage.setItem("its_deadline", endOfDay.toISOString());
+			} else {
+				console.log("No data found");
+			}
+		} catch (error) {
+			console.log("API request error:", error);
+			return null;
+		}
+	};
+
 	return (
 		<>
 			<header className="flex justify-between items-center px-4 py-3 bg-gray-900 shadow-xl border-b border-gray-800 transition-all duration-500">
@@ -421,6 +456,7 @@ function HeaderInner({ onRefresh, socket }) {
 								handleDeleteItems();
 								handleUserSettings();
 								handleSetCurrency();
+								makeApiRequest();
 							}}
 						>
 							{content[language].syncing.close}
