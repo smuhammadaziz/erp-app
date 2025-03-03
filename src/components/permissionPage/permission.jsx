@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { TbHandStop } from "react-icons/tb";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
