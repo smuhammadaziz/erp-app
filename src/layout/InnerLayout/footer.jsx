@@ -1,7 +1,7 @@
 import React from "react";
 
 function InnerFooter() {
-	const daysLeft = 2;
+	const daysLeft = 5;
 
 	return (
 		<div className="fixed bottom-0 left-0 w-full bg-white text-black p-2 overflow-hidden border-t border-gray-200">
