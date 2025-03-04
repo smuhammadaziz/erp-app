@@ -498,7 +498,10 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		try {
 			setLoadingModal(true);
 
-			// Step 4: First check API response (if online)
+			// Step 1: Save sales to database
+			await handleSaveSalesToDatabase();
+
+			// Step 2: Send sales to API (only if online)
 			const isOnline = await checkInternetConnection();
 			if (isOnline) {
 				try {
@@ -511,6 +514,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 						setErrorModal(true);
 						return; // Stop execution here if API returns error
 					}
+					// Continue only if API call was successful or we're offline
 				} catch (error) {
 					console.error("Error sending sales to API:", error);
 					setLoadingModal(false);
@@ -520,14 +524,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 				}
 			}
 
-			// Only proceed with these steps if no API error
-			// Step 1: Save sales to database
-			await handleSaveSalesToDatabase();
-
-			// Step 2: Create empty sales
+			// Only continue with these steps if API call was successful or we're offline
+			// Step 3: Create empty sales
 			await handleCreateEmptySalesInDatabase();
 
-			// Step 3: Delete one sales from database
+			// Step 4: Delete one sales from database
 			await handleDeleleOneSalesFromDatabase();
 
 			// Success path
