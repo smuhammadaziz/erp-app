@@ -230,11 +230,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [showError, setShowError] = useState("");
 
-	const handleSaveSales = async (e) => {
-		e.preventDefault();
-
+	const handleSaveSalesToDatabase = async () => {
 		let currentTime = new Date();
-		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
 
 		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
 
@@ -249,7 +246,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		let clientId = defaultClient.client_id;
 		let clientName = defaultClient.name;
 		let newProcessedProduct = [];
-		let newProcessedProductForSendAPI = [];
 
 		if (selectedClient && selectedClient.client_id) {
 			clientId = selectedClient.client_id;
@@ -344,20 +340,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		} catch (error) {
 			console.error("Error submitting the sell data:", error);
 		}
+	};
 
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
-				{
-					method: "DELETE",
-				},
-			);
-
-			const data = await response.json();
-		} catch (error) {
-			console.error("Error deleting", error);
-		}
-
+	const handleCreateEmptySalesInDatabase = async () => {
 		const newSalesId = uuidv4();
 		localStorage.setItem("sales_id", newSalesId);
 
@@ -377,6 +362,43 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			}
 		} catch (err) {
 			console.log("error creating empty sales", err);
+		}
+	};
+
+	const handleDeleleOneSalesFromDatabase = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			const data = await response.json();
+		} catch (error) {
+			console.error("Error deleting", error);
+		}
+	};
+
+	const handleSendSalesToAPI = async () => {
+		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
+
+		const mainCashCashData = mainCashValue.find(
+			(e) => e.type == "Наличные",
+		);
+
+		const mainCashCardData = mainCashValue.find((e) => e.type == "Пластик");
+
+		let clientId = defaultClient.client_id;
+		let clientName = defaultClient.name;
+		let newProcessedProductForSendAPI = [];
+
+		if (selectedClient && selectedClient.client_id) {
+			clientId = selectedClient.client_id;
+			clientName = selectedClient.name || "<не указан>";
+		} else {
+			clientId = defaultClient.client_id;
+			clientName = defaultClient.name;
 		}
 
 		const isOnline = await checkInternetConnection();
@@ -469,13 +491,18 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					console.log("Sent sales successfully.");
 				} else {
 					console.log("Failed to send sales.");
-					// setShowErrorModal(true);
-					// setShowError("failed to send sales");
 				}
 			} catch (error) {
 				console.error("Error sending sales data:", error);
 			}
 		}
+	};
+
+	const handleSaveSales = async () => {
+		await handleSaveSalesToDatabase();
+		await handleCreateEmptySalesInDatabase();
+		await handleDeleleOneSalesFromDatabase();
+		await handleSendSalesToAPI();
 
 		window.location.reload();
 	};
@@ -650,8 +677,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 							/>
 						</div>
-
-						{/* Card Payment */}
+						1{/* Card Payment */}
 						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
 							<div className="flex items-center gap-3 mb-2">
 								<div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
@@ -690,7 +716,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 							/>
 						</div>
-
 						{/* Comment */}
 						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
 							<label className="text-sm font-medium text-gray-700 block mb-2">
@@ -706,7 +731,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								onChange={(e) => setComment(e.target.value)}
 							/>
 						</div>
-
 						{/* Spacer */}
 						<div className="flex-grow"></div>
 					</div>
