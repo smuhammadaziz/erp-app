@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { FiLoader } from "react-icons/fi";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import React from "react";
 
-function LoadingModalSendSales() {
+const LoadingModalSendSales = () => {
 	return (
-		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
-			<div className="bg-transparent w-[450px] h-[300px] relative flex items-center justify-center">
-				<div className="text-black text-4xl animate-spin">
-					<FiLoader />
+		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
+			<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden p-6">
+				<div className="flex flex-col items-center">
+					<div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+					<p className="text-gray-700 text-center">
+						Processing your transaction...
+					</p>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default LoadingModalSendSales;
 

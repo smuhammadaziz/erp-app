@@ -1,127 +1,52 @@
-import React, { useState, useEffect, useRef } from "react";
-import { MdClear } from "react-icons/md";
-import SuccessModal from "./SuccessModal";
-import LoadingModalSendSales from "./LoadingModal";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import pritingIcon from "../../assets/printing.gif";
+import React from "react";
+import { IoClose } from "react-icons/io5";
 
-function PrintingModal({ setPrintModal, setSuccessModal, setErrorModal }) {
-	const [countdown, setCountdown] = useState(10);
-	const [showLoading, setShowLoading] = useState(false);
-	const [isProcessing, setIsProcessing] = useState(false);
-
-	useEffect(() => {
-		if (!isProcessing && countdown > 0) {
-			const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-			return () => clearTimeout(timer);
-		} else if (!isProcessing && countdown === 0) {
-			startLoadingAndShowSuccess();
-		}
-	}, [countdown, isProcessing]);
-
-	const startLoadingAndShowSuccess = () => {
-		setShowLoading(true);
-		setIsProcessing(true);
-		setTimeout(() => {
-			setShowLoading(false);
-			showSuccessModal();
-		}, 2000);
-	};
-
-	const handleConfirm = () => {
-		startLoadingAndShowSuccess();
-	};
-
-	const showSuccessModal = () => {
-		setPrintModal(false);
-		setSuccessModal(true);
-		setTimeout(() => setSuccessModal(false), 1000);
-	};
-
-	const okButton = useRef();
-	const cancelButton = useRef();
-
-	useEffect(() => {
-		if (okButton.current) {
-			okButton.current.focus();
-		}
-
-		const handleKeyDown = (e) => {
-			if (
-				document.activeElement === okButton.current ||
-				document.activeElement === cancelButton.current
-			) {
-				if (e.key === "Enter") {
-					document.activeElement.click();
-				} else if (e.key === "ArrowRight") {
-					cancelButton.current?.focus();
-				} else if (e.key === "ArrowLeft") {
-					okButton.current?.focus();
-				}
-			}
-		};
-
-		window.addEventListener("keydown", handleKeyDown);
-		return () => {
-			window.removeEventListener("keydown", handleKeyDown);
-		};
-	}, []);
-
-	if (showLoading) {
-		return <LoadingModalSendSales />;
-	}
-
+const PrintingModal = ({
+	setPrintModal,
+	setSuccessModal,
+	setErrorModal,
+	handleSaveSales,
+}) => {
 	return (
-		<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
-			<div className="bg-white w-[500px] rounded-xl shadow-2xl relative">
-				<div className="p-6">
-					<div className="flex justify-between items-center mb-4">
-						<h2 className="text-xl font-bold text-gray-800">
-							Печать
-						</h2>
+		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
+			<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden">
+				<div className="bg-blue-600 px-4 py-3 flex justify-between items-center">
+					<h2 className="text-base font-medium text-white">
+						Print Receipt
+					</h2>
+					<button
+						onClick={() => setPrintModal(false)}
+						className="p-1 text-white/80 hover:text-white"
+					>
+						<IoClose className="w-5 h-5" />
+					</button>
+				</div>
+				<div className="p-4">
+					<p className="text-sm text-gray-700 mb-6 text-center">
+						Are you sure you want to print receipt?
+					</p>
+					<div className="flex justify-center gap-4">
 						<button
 							onClick={() => setPrintModal(false)}
-							className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
+							className="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition-all duration-200"
 						>
-							<MdClear size={24} className="text-gray-500" />
-						</button>
-					</div>
-					<div className="flex flex-col">
-						<img
-							src={pritingIcon}
-							alt=""
-							width="300"
-							className="mx-auto justify-center flex"
-						/>
-						<p className="text-2xl font-semibold text-black mb-4 text-center">
-							Савдодан чек чиқарасизми?
-						</p>
-					</div>
-					<div className="flex justify-center mt-5">
-						<button
-							ref={okButton}
-							onClick={handleConfirm}
-							className="px-10 w-[150px] mx-5 py-2 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-600 transform hover:scale-105 transition-all duration-200"
-							disabled={isProcessing}
-						>
-							{isProcessing
-								? "Обработка..."
-								: `Да (${countdown})`}
+							NO
 						</button>
 						<button
-							ref={cancelButton}
-							onClick={handleConfirm}
-							className="px-12 py-2 bg-red-500 text-white text-lg font-medium rounded-lg hover:bg-red-500 transform hover:scale-105 transition-all duration-200"
-							disabled={isProcessing}
+							onClick={() => {
+								setPrintModal(false);
+								handleSaveSales();
+							}}
+							className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200"
 						>
-							Нет
+							YES
 						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
-}
+};
 
 export default PrintingModal;
 

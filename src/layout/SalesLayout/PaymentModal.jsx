@@ -40,7 +40,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [successModal, setSuccessModal] = useState(false);
 	const [errorModal, setErrorModal] = useState(false);
 	const [loadingModal, setLoadingModal] = useState(false);
-	const [errorMessage, setErrorMessage] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(() => {
 		const fetchCustomers = async () => {
@@ -485,26 +485,67 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 				});
 
 				const data = await response.json();
-				if (response.ok) {
-					onClose();
-
-					console.log("Sent sales successfully.");
-				} else {
-					console.log("Failed to send sales.");
-				}
+				return data;
 			} catch (error) {
 				console.error("Error sending sales data:", error);
+				throw error;
 			}
 		}
 	};
 
+	// Replace the handleSaveSales function with this:
 	const handleSaveSales = async () => {
-		await handleSaveSalesToDatabase();
-		await handleCreateEmptySalesInDatabase();
-		await handleDeleleOneSalesFromDatabase();
-		await handleSendSalesToAPI();
+		try {
+			setLoadingModal(true);
 
-		window.location.reload();
+			// Step 4: First check API response (if online)
+			const isOnline = await checkInternetConnection();
+			if (isOnline) {
+				try {
+					const result = await handleSendSalesToAPI();
+					if (result && result.status === "error") {
+						setErrorMessage(
+							result.details || "Failed to send sales",
+						);
+						setLoadingModal(false);
+						setErrorModal(true);
+						return; // Stop execution here if API returns error
+					}
+				} catch (error) {
+					console.error("Error sending sales to API:", error);
+					setLoadingModal(false);
+					setErrorMessage("Failed to connect to server");
+					setErrorModal(true);
+					return; // Stop execution if API call throws an error
+				}
+			}
+
+			// Only proceed with these steps if no API error
+			// Step 1: Save sales to database
+			await handleSaveSalesToDatabase();
+
+			// Step 2: Create empty sales
+			await handleCreateEmptySalesInDatabase();
+
+			// Step 3: Delete one sales from database
+			await handleDeleleOneSalesFromDatabase();
+
+			// Success path
+			setLoadingModal(false);
+			setSuccessModal(true);
+
+			// Reload after 2 seconds
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
+		} catch (error) {
+			console.error("Error in save sales process:", error);
+			setLoadingModal(false);
+			setErrorMessage(
+				error.message || "An error occurred during the sales process",
+			);
+			setErrorModal(true);
+		}
 	};
 
 	if (!isOpen) return null;
@@ -746,11 +787,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					</button>
 					<button
 						ref={handleSubmitButton}
-						// onClick={() => {
-						// 	setPrintModal(true);
-						// 	// onClose();
-						// }}
-						onClick={handleSaveSales}
+						onClick={() => {
+							setPrintModal(true);
+							// onClose();
+						}}
+						// onClick={handleSaveSales}
 						className="px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 text-sm font-medium shadow-sm"
 					>
 						OK
@@ -770,12 +811,20 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					setPrintModal={setPrintModal}
 					setSuccessModal={setSuccessModal}
 					setErrorModal={setErrorModal}
+					handleSaveSales={handleSaveSales}
 				/>
 			)}
 
+			{loadingModal && <LoadingModalSendSales />}
+
 			{successModal && <SuccessModal />}
 
-			{errorModal && <ErrorModal />}
+			{errorModal && (
+				<ErrorModal
+					errorMessage={errorMessage}
+					setErrorModal={setErrorModal}
+				/>
+			)}
 
 			{showErrorModal && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
