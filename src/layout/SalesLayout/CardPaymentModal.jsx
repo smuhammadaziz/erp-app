@@ -7,14 +7,12 @@ import { MdClear } from "react-icons/md";
 
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
+import PrintingModal from "./PrintModal";
+import SuccessModal from "./SuccessModal";
+import ErrorModal from "./ErrorModal";
+import LoadingModalSendSales from "./LoadingModal";
 
-const CardPaymentModal = ({
-	isOpen,
-	onClose,
-	totalAmount,
-	socket,
-	setPrintModal,
-}) => {
+const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [selectedClient, setSelectedClient] = useState(null);
 
 	const [discountAmount, setDiscountAmount] = useState(0);
@@ -36,6 +34,12 @@ const CardPaymentModal = ({
 	const username = localStorage.getItem("userType");
 	const password = localStorage.getItem("userPassword");
 	const sales_id = localStorage.getItem("sales_id");
+
+	const [printModal, setPrintModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [errorModal, setErrorModal] = useState(false);
+	const [loadingModal, setLoadingModal] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	useEffect(() => {
 		const fetchCustomers = async () => {
@@ -213,11 +217,9 @@ const CardPaymentModal = ({
 	const [showErrorModal, setShowErrorModal] = useState(false);
 	const [showError, setShowError] = useState("");
 
-	const handleSaveSales = async (e) => {
-		e.preventDefault();
-
+	const handleSaveSalesToDatabase = async () => {
 		let currentTime = new Date();
-		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
+
 		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
 
 		const mainCashCashData = mainCashValue.find(
@@ -231,7 +233,6 @@ const CardPaymentModal = ({
 		let clientId = defaultClient.client_id;
 		let clientName = defaultClient.name;
 		let newProcessedProduct = [];
-		let newProcessedProductForSendAPI = [];
 
 		if (selectedClient && selectedClient.client_id) {
 			clientId = selectedClient.client_id;
@@ -326,20 +327,9 @@ const CardPaymentModal = ({
 		} catch (error) {
 			console.error("Error submitting the sell data:", error);
 		}
+	};
 
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
-				{
-					method: "DELETE",
-				},
-			);
-
-			const data = await response.json();
-		} catch (error) {
-			console.error("Error deleting", error);
-		}
-
+	const handleCreateEmptySalesInDatabase = async () => {
 		const newSalesId = uuidv4();
 		localStorage.setItem("sales_id", newSalesId);
 
@@ -359,6 +349,43 @@ const CardPaymentModal = ({
 			}
 		} catch (err) {
 			console.log("error creating empty sales", err);
+		}
+	};
+
+	const handleDeleleOneSalesFromDatabase = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/one/sales/${sales_id}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			const data = await response.json();
+		} catch (error) {
+			console.error("Error deleting", error);
+		}
+	};
+
+	const handleSendSalesToAPI = async () => {
+		const mainCashValue = JSON.parse(localStorage.getItem("settingsCash"));
+
+		const mainCashCashData = mainCashValue.find(
+			(e) => e.type == "Наличные",
+		);
+
+		const mainCashCardData = mainCashValue.find((e) => e.type == "Пластик");
+
+		let clientId = defaultClient.client_id;
+		let clientName = defaultClient.name;
+		let newProcessedProductForSendAPI = [];
+
+		if (selectedClient && selectedClient.client_id) {
+			clientId = selectedClient.client_id;
+			clientName = selectedClient.name || "<не указан>";
+		} else {
+			clientId = defaultClient.client_id;
+			clientName = defaultClient.name;
 		}
 
 		const isOnline = await checkInternetConnection();
@@ -445,21 +472,139 @@ const CardPaymentModal = ({
 				});
 
 				const data = await response.json();
-				if (response.ok) {
-					onClose();
-
-					console.log("Sent sales successfully.");
-				} else {
-					console.log("Failed to send sales.");
-					// setShowErrorModal(true);
-					// setShowError("failed to send sales");
-				}
+				return data;
 			} catch (error) {
 				console.error("Error sending sales data:", error);
+				throw error;
 			}
 		}
+	};
 
-		window.location.reload();
+	const handlePrintOneSales = async () => {
+		const full_title = localStorage.getItem("enterpriseFullTitle");
+		const short_title = localStorage.getItem("enterpriseName");
+
+		const phone1 = localStorage.getItem("enterprisePhone1");
+		const phone2 = localStorage.getItem("enterprisePhone2");
+		const slogan1 = localStorage.getItem("enterpriseSlogan1");
+		const slogan2 = localStorage.getItem("enterpriseSlogan2");
+
+		const user_type = localStorage.getItem("userType");
+
+		try {
+			await fetch(`${nodeUrl}/api/print/${sales_id}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					full_title:
+						full_title === "null" ? short_title : full_title,
+					phone1: phone1 === "null" ? "" : phone1,
+					phone2: phone2 === "null" ? "" : phone2,
+					slogan1: slogan1 === "null" ? "" : slogan1,
+					slogan2: slogan2 === "null" ? "" : slogan2,
+					user_type: user_type,
+				}),
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const handleSaveSales = async () => {
+		try {
+			setLoadingModal(true);
+
+			await handleSaveSalesToDatabase();
+
+			const isOnline = await checkInternetConnection();
+			if (isOnline) {
+				try {
+					const result = await handleSendSalesToAPI();
+					if (result && result.status === "error") {
+						setErrorMessage(
+							result.details || "Failed to send sales",
+						);
+						setLoadingModal(false);
+						setErrorModal(true);
+						return;
+					}
+				} catch (error) {
+					console.error("Error sending sales to API:", error);
+					setLoadingModal(false);
+					setErrorMessage("Failed to connect to server");
+					setErrorModal(true);
+					return;
+				}
+			}
+
+			await handleCreateEmptySalesInDatabase();
+
+			await handleDeleleOneSalesFromDatabase();
+
+			setLoadingModal(false);
+			setSuccessModal(true);
+
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
+		} catch (error) {
+			console.error("Error in save sales process:", error);
+			setLoadingModal(false);
+			setErrorMessage(
+				error.message || "An error occurred during the sales process",
+			);
+			setErrorModal(true);
+		}
+	};
+
+	const handleSaveSalesWithPrint = async () => {
+		try {
+			setLoadingModal(true);
+
+			await handleSaveSalesToDatabase();
+			await handlePrintOneSales();
+
+			const isOnline = await checkInternetConnection();
+			if (isOnline) {
+				try {
+					const result = await handleSendSalesToAPI();
+					if (result && result.status === "error") {
+						setErrorMessage(
+							result.details || "Failed to send sales",
+						);
+						setLoadingModal(false);
+						setErrorModal(true);
+						return;
+					}
+				} catch (error) {
+					console.error("Error sending sales to API:", error);
+					setLoadingModal(false);
+					setErrorMessage("Failed to connect to server");
+					setErrorModal(true);
+					return;
+				}
+			}
+
+			await handleCreateEmptySalesInDatabase();
+
+			await handleDeleleOneSalesFromDatabase();
+
+			setLoadingModal(false);
+			setSuccessModal(true);
+
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
+		} catch (error) {
+			console.error("Error in save sales process:", error);
+			setLoadingModal(false);
+			setErrorMessage(
+				error.message || "An error occurred during the sales process",
+			);
+			setErrorModal(true);
+		}
 	};
 
 	if (!isOpen) return null;
@@ -703,11 +848,11 @@ const CardPaymentModal = ({
 					</button>
 					<button
 						ref={handleSubmitButton}
-						// onClick={() => {
-						// 	setPrintModal(true);
-						// 	onClose();
-						// }}
-						onClick={handleSaveSales}
+						onClick={() => {
+							setPrintModal(true);
+							// onClose();
+						}}
+						// onClick={handleSaveSales}
 						className="px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 text-sm font-medium shadow-sm"
 					>
 						OK
@@ -721,6 +866,27 @@ const CardPaymentModal = ({
 				onSelect={setSelectedClient}
 				clients={customers}
 			/>
+
+			{printModal && (
+				<PrintingModal
+					setPrintModal={setPrintModal}
+					setSuccessModal={setSuccessModal}
+					setErrorModal={setErrorModal}
+					handleSaveSales={handleSaveSales}
+					handleSaveSalesWithPrint={handleSaveSalesWithPrint}
+				/>
+			)}
+
+			{loadingModal && <LoadingModalSendSales />}
+
+			{successModal && <SuccessModal />}
+
+			{errorModal && (
+				<ErrorModal
+					errorMessage={errorMessage}
+					setErrorModal={setErrorModal}
+				/>
+			)}
 
 			{showErrorModal && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
