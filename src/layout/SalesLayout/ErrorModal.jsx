@@ -1,12 +1,17 @@
 import React from "react";
 import { FaExclamationTriangle } from "react-icons/fa";
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
 
 const ErrorModal = ({ errorMessage, setErrorModal }) => {
+	const [language] = useLang("uz");
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
 			<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden">
 				<div className="bg-red-500 px-4 py-3">
-					<h2 className="text-base font-medium text-white">Error</h2>
+					<h2 className="text-base font-medium text-white">
+						{content[language].paymentModal.problemToSendSales}
+					</h2>
 				</div>
 				<div className="p-4">
 					<div className="flex items-start mb-4">

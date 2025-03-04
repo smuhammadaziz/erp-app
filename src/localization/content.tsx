@@ -220,6 +220,14 @@ type Content = {
 			ksbidDanChiqish: string;
 			qaytaUrinish: string;
 		};
+		paymentModal: {
+			printCheck: string;
+			yes: string;
+			no: string;
+			processSales: string;
+			success: string;
+			problemToSendSales: string;
+		};
 	};
 };
 
@@ -456,6 +464,14 @@ const content: Content = {
 			ksbidDanChiqish: "KSB-ID дан чиқиш",
 			qaytaUrinish: "Қайта текшириш",
 		},
+		paymentModal: {
+			printCheck: "Савдодан чек чиқарасизми?",
+			yes: "Ҳа",
+			no: "Йўқ",
+			processSales: "Амалиёт бажарилмоқда",
+			success: "",
+			problemToSendSales: "Савдо юборилмади",
+		},
 	},
 	ru: {
 		intro: {
@@ -689,6 +705,14 @@ const content: Content = {
 			dasturdanChiqish: "Выйти из программы",
 			ksbidDanChiqish: "Выйти из KSB-ID",
 			qaytaUrinish: "Перепроверьте",
+		},
+		paymentModal: {
+			printCheck: "Печатаете ли вы чек при продаже?",
+			yes: "Да",
+			no: "Нет",
+			processSales: "",
+			success: "",
+			problemToSendSales: "Продажа не отправлена",
 		},
 	},
 };

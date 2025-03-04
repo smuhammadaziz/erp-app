@@ -1,6 +1,9 @@
 import React from "react";
 import { IoClose, IoPrint } from "react-icons/io5";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 const PrintingModal = ({
 	setPrintModal,
 	setSuccessModal,
@@ -8,6 +11,8 @@ const PrintingModal = ({
 	handleSaveSales,
 	handleSaveSalesWithPrint,
 }) => {
+	const [language] = useLang("uz");
+
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
 			<div className="bg-white w-[450px] py-8 px-6 rounded-lg shadow-2xl flex flex-col items-center relative">
@@ -19,7 +24,7 @@ const PrintingModal = ({
 				</button>
 				<IoPrint className="w-16 h-16 text-blue-600 mb-4" />
 				<h2 className="text-lg font-medium text-gray-800 text-center mb-6">
-					Do you want to print the receipt?
+					{content[language].paymentModal.printCheck}
 				</h2>
 				<div className="flex w-full justify-between">
 					<button
@@ -29,7 +34,7 @@ const PrintingModal = ({
 						}}
 						className="w-1/2 py-3 bg-gray-200 text-gray-800 text-md font-medium rounded-lg hover:bg-gray-300 transition-all duration-200 mr-2"
 					>
-						NO
+						{content[language].paymentModal.no}
 					</button>
 					<button
 						onClick={() => {
@@ -38,7 +43,7 @@ const PrintingModal = ({
 						}}
 						className="w-1/2 py-3 bg-blue-600 text-white text-md font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 ml-2"
 					>
-						YES
+						{content[language].paymentModal.yes}
 					</button>
 				</div>
 			</div>
