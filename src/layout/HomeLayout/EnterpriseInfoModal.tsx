@@ -31,6 +31,8 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	const mainDatabase = localStorage.getItem("mainDatabase");
 	const itsDeadline = localStorage.getItem("its_deadline");
 
+	const device_id = localStorage.getItem("device_id");
+
 	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
@@ -71,6 +73,12 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			label: "Версия",
 			value: `1.0.0`,
 		},
+		{
+			icon: TbVersionsFilled,
+			label: "Устройство-ID",
+			value: device_id,
+			textOnly: true,
+		},
 	];
 
 	return (
@@ -81,7 +89,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			/>
 			<div
 				ref={modalRef}
-				className="absolute top-8 w-[250px] right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9998] border border-slate-200"
+				className="absolute top-8 w-[350px] right-20 w-84 bg-slate-100 rounded-lg shadow-xl transform transition-all duration-200 scale-100 z-[9998] border border-slate-200"
 				style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
 			>
 				<div className="p-3">
@@ -98,24 +106,44 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 					</div>
 
 					<div className="space-y-2">
-						{infoItems.map(({ icon: Icon, label, value }) => (
-							<div
-								key={label}
-								className="flex items-center p-2.5 bg-white rounded-md hover:bg-slate-50 transition-colors border border-slate-200"
-							>
-								<div className="flex-shrink-0">
-									<Icon className="w-4 h-4 text-blue-500" />
-								</div>
-								<div className="ml-3 min-w-0">
-									<p className="text-xs font-medium text-slate-500 mb-0.5">
-										{label}
-									</p>
-									<p className="text-sm font-semibold text-slate-900 truncate">
-										{value}
-									</p>
-								</div>
-							</div>
-						))}
+						{infoItems.map(
+							({ icon: Icon, label, value, textOnly }) =>
+								textOnly ? (
+									<div
+										key={label}
+										className="p-2.5 bg-white flex items-center rounded-md border border-slate-200"
+									>
+										<div className="flex-shrink-0">
+											<Icon className="w-4 h-4 text-blue-500" />
+										</div>
+										<div className="ml-3 min-w-0">
+											<p className="text-xs font-medium text-slate-500 mb-0.5">
+												{label}
+											</p>
+											<p className="text-xs font-semibold text-slate-900 truncate">
+												{value}
+											</p>
+										</div>
+									</div>
+								) : (
+									<div
+										key={label}
+										className="flex items-center p-2.5 bg-white rounded-md hover:bg-slate-50 transition-colors border border-slate-200"
+									>
+										<div className="flex-shrink-0">
+											<Icon className="w-4 h-4 text-blue-500" />
+										</div>
+										<div className="ml-3 min-w-0">
+											<p className="text-xs font-medium text-slate-500 mb-0.5">
+												{label}
+											</p>
+											<p className="text-sm font-semibold text-slate-900 truncate">
+												{value}
+											</p>
+										</div>
+									</div>
+								),
+						)}
 					</div>
 					<hr className="mt-2 text-slate-500" />
 
