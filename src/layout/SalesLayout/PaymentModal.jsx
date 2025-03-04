@@ -493,15 +493,12 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		}
 	};
 
-	// Replace the handleSaveSales function with this:
 	const handleSaveSales = async () => {
 		try {
 			setLoadingModal(true);
 
-			// Step 1: Save sales to database
 			await handleSaveSalesToDatabase();
 
-			// Step 2: Send sales to API (only if online)
 			const isOnline = await checkInternetConnection();
 			if (isOnline) {
 				try {
@@ -512,30 +509,24 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 						);
 						setLoadingModal(false);
 						setErrorModal(true);
-						return; // Stop execution here if API returns error
+						return;
 					}
-					// Continue only if API call was successful or we're offline
 				} catch (error) {
 					console.error("Error sending sales to API:", error);
 					setLoadingModal(false);
 					setErrorMessage("Failed to connect to server");
 					setErrorModal(true);
-					return; // Stop execution if API call throws an error
+					return;
 				}
 			}
 
-			// Only continue with these steps if API call was successful or we're offline
-			// Step 3: Create empty sales
 			await handleCreateEmptySalesInDatabase();
 
-			// Step 4: Delete one sales from database
 			await handleDeleleOneSalesFromDatabase();
 
-			// Success path
 			setLoadingModal(false);
 			setSuccessModal(true);
 
-			// Reload after 2 seconds
 			setTimeout(() => {
 				window.location.reload();
 			}, 2000);
@@ -554,7 +545,6 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	return (
 		<div className="fixed inset-0 text-black bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-[50]">
 			<div className="bg-white rounded-xl w-full max-w-4xl shadow-xl overflow-hidden flex flex-col">
-				{/* Header */}
 				<div className="bg-blue-600 px-6 py-3 flex justify-between items-center">
 					<h2 className="text-lg font-medium text-white">
 						{content[language].salesPage.sidebarCashPay}
