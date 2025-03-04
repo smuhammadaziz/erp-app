@@ -9,8 +9,11 @@ const ErrorModal = ({ errorMessage, setErrorModal }) => {
 					<h2 className="text-base font-medium text-white">Error</h2>
 				</div>
 				<div className="p-4">
-					<div className="flex items-center mb-4">
-						<FaExclamationTriangle className="w-6 h-6 text-red-500 mr-3" />
+					<div className="flex items-start mb-4">
+						<FaExclamationTriangle
+							className="w-6 h-6 text-lg text-red-500 mr-3"
+							size={30}
+						/>
 						<p className="text-sm text-gray-700">
 							{errorMessage ||
 								"An error occurred during the transaction."}
