@@ -493,11 +493,91 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		}
 	};
 
+	const handlePrintOneSales = async () => {
+		const full_title = localStorage.getItem("enterpriseFullTitle");
+		const short_title = localStorage.getItem("enterpriseName");
+
+		const phone1 = localStorage.getItem("enterprisePhone1");
+		const phone2 = localStorage.getItem("enterprisePhone2");
+		const slogan1 = localStorage.getItem("enterpriseSlogan1");
+		const slogan2 = localStorage.getItem("enterpriseSlogan2");
+
+		const user_type = localStorage.getItem("userType");
+
+		try {
+			await fetch(`${nodeUrl}/api/print/${sales_id}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					full_title:
+						full_title === "null" ? short_title : full_title,
+					phone1: phone1 === "null" ? "" : phone1,
+					phone2: phone2 === "null" ? "" : phone2,
+					slogan1: slogan1 === "null" ? "" : slogan1,
+					slogan2: slogan2 === "null" ? "" : slogan2,
+					user_type: user_type,
+				}),
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const handleSaveSales = async () => {
 		try {
 			setLoadingModal(true);
 
 			await handleSaveSalesToDatabase();
+
+			const isOnline = await checkInternetConnection();
+			if (isOnline) {
+				try {
+					const result = await handleSendSalesToAPI();
+					if (result && result.status === "error") {
+						setErrorMessage(
+							result.details || "Failed to send sales",
+						);
+						setLoadingModal(false);
+						setErrorModal(true);
+						return;
+					}
+				} catch (error) {
+					console.error("Error sending sales to API:", error);
+					setLoadingModal(false);
+					setErrorMessage("Failed to connect to server");
+					setErrorModal(true);
+					return;
+				}
+			}
+
+			await handleCreateEmptySalesInDatabase();
+
+			await handleDeleleOneSalesFromDatabase();
+
+			setLoadingModal(false);
+			setSuccessModal(true);
+
+			setTimeout(() => {
+				window.location.reload();
+			}, 2000);
+		} catch (error) {
+			console.error("Error in save sales process:", error);
+			setLoadingModal(false);
+			setErrorMessage(
+				error.message || "An error occurred during the sales process",
+			);
+			setErrorModal(true);
+		}
+	};
+
+	const handleSaveSalesWithPrint = async () => {
+		try {
+			setLoadingModal(true);
+
+			await handleSaveSalesToDatabase();
+			await handlePrintOneSales();
 
 			const isOnline = await checkInternetConnection();
 			if (isOnline) {
@@ -800,6 +880,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					setSuccessModal={setSuccessModal}
 					setErrorModal={setErrorModal}
 					handleSaveSales={handleSaveSales}
+					handleSaveSalesWithPrint={handleSaveSalesWithPrint}
 				/>
 			)}
 

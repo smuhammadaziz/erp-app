@@ -6,6 +6,7 @@ const PrintingModal = ({
 	setSuccessModal,
 	setErrorModal,
 	handleSaveSales,
+	handleSaveSalesWithPrint,
 }) => {
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
@@ -27,7 +28,10 @@ const PrintingModal = ({
 					</p>
 					<div className="flex justify-center gap-4">
 						<button
-							onClick={() => setPrintModal(false)}
+							onClick={() => {
+								setPrintModal(false);
+								handleSaveSales();
+							}}
 							className="px-4 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-300 transition-all duration-200"
 						>
 							NO
@@ -35,7 +39,7 @@ const PrintingModal = ({
 						<button
 							onClick={() => {
 								setPrintModal(false);
-								handleSaveSales();
+								handleSaveSalesWithPrint();
 							}}
 							className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200"
 						>
