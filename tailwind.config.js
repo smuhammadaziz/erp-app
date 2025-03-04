@@ -40,7 +40,7 @@ module.exports = {
 				bounce: "bounce 1s ease-in-out infinite",
 				progress: "progress 5s linear",
 				slide: "slide 1s linear infinite",
-				marquee: "marquee 60s linear infinite",
+				marquee: "marquee 600s linear infinite",
 			},
 		},
 	},

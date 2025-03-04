@@ -41,7 +41,7 @@ function InnerFooter() {
 					isLessThanOneDay ? "bg-red-50" : "bg-white"
 				}`}
 			>
-				{[...Array(4)].map((_, index) => (
+				{[...Array(40)].map((_, index) => (
 					<p
 						key={index}
 						className={`whitespace-nowrap text-base ${
