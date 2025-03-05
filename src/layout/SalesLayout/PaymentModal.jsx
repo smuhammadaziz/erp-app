@@ -467,6 +467,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			};
 
 			const salesBody = {
+				ksb_id: ksbIdNumber,
+				device_id: device_id,
 				host: ipaddress,
 				authUser: username,
 				authPass: password,
