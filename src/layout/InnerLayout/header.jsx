@@ -119,8 +119,6 @@ function HeaderInner({ onRefresh, socket }) {
 			return data;
 		} catch (error) {
 			console.error("Fetch Device Data Error:", error);
-			setError(error.message);
-			throw error;
 		}
 	};
 
