@@ -563,7 +563,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 			setTimeout(() => {
 				window.location.reload();
-			}, 2000);
+			}, 100);
 		} catch (error) {
 			console.error("Error in save sales process:", error);
 			setLoadingModal(false);
@@ -611,7 +611,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 			setTimeout(() => {
 				window.location.reload();
-			}, 2000);
+			}, 100);
 		} catch (error) {
 			console.error("Error in save sales process:", error);
 			setLoadingModal(false);
