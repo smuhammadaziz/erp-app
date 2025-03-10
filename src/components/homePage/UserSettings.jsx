@@ -240,7 +240,7 @@ const DownloaderModal = () => {
 		try {
 			await handleRecovery();
 			await fetchDeviceData();
-			await upsertUpdatedProducts();
+			// await upsertUpdatedProducts();
 
 			setDownloadStatus("completed");
 			localStorage.setItem("showSettingsModal", "false");
