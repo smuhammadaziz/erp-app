@@ -139,9 +139,9 @@ const DownloaderModal = () => {
 				},
 			);
 
-			if (response.ok) {
-				console.log("Successfully recovered");
-			}
+			const data = await response.json();
+
+			return data;
 		} catch (err) {
 			console.log(err);
 		}
@@ -238,12 +238,25 @@ const DownloaderModal = () => {
 		setError(null);
 
 		try {
-			await handleRecovery();
-			await fetchDeviceData();
-			// await upsertUpdatedProducts();
+			const responseRecovery = await handleRecovery();
+			const responseDeviceData = await fetchDeviceData();
 
-			setDownloadStatus("completed");
-			localStorage.setItem("showSettingsModal", "false");
+			if (responseRecovery.status === "successfully") {
+				if (
+					responseDeviceData.message === "Data processed successfully"
+				) {
+					await upsertUpdatedProducts();
+
+					setDownloadStatus("completed");
+					localStorage.setItem("showSettingsModal", "false");
+				} else {
+					throw new Error("device data failed");
+				}
+			} else {
+				throw new Error("Recovery failed");
+			}
+
+			// await upsertUpdatedProducts();
 		} catch (error) {
 			console.error("Download process failed:", error);
 			setDownloadStatus("error");
@@ -437,12 +450,7 @@ const DownloaderModal = () => {
 						<h2 className="text-2xl font-semibold text-gray-800 mb-4">
 							{content[language].firstSync.syncFailed}
 						</h2>
-						<p className="text-red-600 mb-6">
-							{
-								content[language].firstSync
-									.deviceAlreadyRegistered
-							}
-						</p>
+						<p className="text-red-600 mb-6">{error}</p>
 						<div className="flex items-center ">
 							<button
 								onClick={() => setDownloadStatus("idle")}
