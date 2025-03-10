@@ -9,6 +9,7 @@ import {
 	FaTimesCircle,
 	FaNetworkWired,
 } from "react-icons/fa";
+
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../common/loader";
