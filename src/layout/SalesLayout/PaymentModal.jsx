@@ -791,7 +791,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 							/>
 						</div>
-						1{/* Card Payment */}
+						{/* Card Payment */}
 						<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
 							<div className="flex items-center gap-3 mb-2">
 								<div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">

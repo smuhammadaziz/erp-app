@@ -80,7 +80,7 @@ function ProcessSalesComponent({
 		falseDelivered: false,
 	});
 	const [showFilters, setShowFilters] = useState(false);
-	const [viewMode, setViewMode] = useState("table"); // "table" or "card"
+	const [viewMode, setViewMode] = useState("table");
 	const [showActionsMenu, setShowActionsMenu] = useState(null);
 
 	const [currencyData, setCurrencyData] = useState({});
