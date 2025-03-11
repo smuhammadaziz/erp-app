@@ -156,17 +156,6 @@ function LoginPageKSB({ socket }) {
 		};
 	}, [ksbId]);
 
-	// useEffect(() => {
-	// 	handleLogin();
-
-	// 	const updateHandler = () => handleLogin();
-	// 	socket.on("update", updateHandler);
-
-	// 	return () => {
-	// 		socket.off("update", updateHandler);
-	// 	};
-	// }, []);
-
 	const handleLogin = async (e) => {
 		if (e && e.preventDefault) {
 			e.preventDefault();
