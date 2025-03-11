@@ -104,7 +104,6 @@ function SalesMainAllProducts({ socket }) {
 					currentData.current = data;
 					setOriginalData(data);
 
-					// Don't modify filtered data if searching
 					if (!isSearching) {
 						if (sortConfig.key && initialSortApplied) {
 							// Apply existing sort to new data without changing sort direction
