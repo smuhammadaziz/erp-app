@@ -18,7 +18,6 @@ const MessageNotifications = () => {
 
 	const [language, setLanguage] = useLang("uz");
 
-	// Get localStorage values
 	const userPassword = localStorage.getItem("userPassword");
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
