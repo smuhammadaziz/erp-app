@@ -68,7 +68,7 @@ function SearchBar({
 			const isInteractive = e.target.matches(
 				'input, select, textarea, button, a, [role="button"], [contenteditable="true"]',
 			);
-			const isModalOpen = document.querySelector(".fixed.inset-0"); // Check if modal is open
+			const isModalOpen = document.querySelector(".fixed.inset-0");
 
 			if (!shouldSkipFocus && !isInteractive && !isModalOpen) {
 				searchInputRef.current?.focus();
