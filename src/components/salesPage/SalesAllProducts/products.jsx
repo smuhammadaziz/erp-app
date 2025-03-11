@@ -98,7 +98,6 @@ function SalesMainAllProducts({ socket }) {
 			if (result.message === "successfully") {
 				const data = result.products || [];
 
-				// Only update if data actually changed
 				if (
 					JSON.stringify(currentData.current) !== JSON.stringify(data)
 				) {
