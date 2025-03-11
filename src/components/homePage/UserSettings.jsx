@@ -255,8 +255,6 @@ const DownloaderModal = () => {
 			} else {
 				throw new Error("Recovery failed");
 			}
-
-			// await upsertUpdatedProducts();
 		} catch (error) {
 			console.error("Download process failed:", error);
 			setDownloadStatus("error");
