@@ -275,31 +275,48 @@ function ProductModal({
 	return (
 		<>
 			<div
-				className="fixed inset-0 flex items-center justify-center bg-black/60 z-50"
+				className="fixed inset-0 flex items-center justify-center bg-black/70 z-50"
 				data-no-autofocus
 			>
-				<div className="bg-white w-[730px] rounded-xl shadow-2xl relative transform transition-all">
-					<div className="p-6">
-						<form onSubmit={handleSubmit} className="space-y-4">
-							<div className="grid grid-cols-1 gap-2">
-								<div className="bg-gray-50 px-4 py-2 rounded-lg">
-									<label className="block text-sm font-medium text-gray-700 mb-0.5">
-										{
-											content[language].salesPage
-												.saleTableName
-										}
-									</label>
-									<input
-										type="text"
-										value={product.name}
-										readOnly
-										className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
-									/>
-								</div>
+				<div className="bg-white w-[760px] rounded-lg shadow-xl relative transform transition-all">
+					{/* Header */}
+					<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+						<h2 className="text-xl font-semibold text-gray-800">
+							Add Item
+						</h2>
+						<button
+							onClick={handleClose}
+							className="rounded-full p-1 hover:bg-gray-100 transition-colors"
+						>
+							<MdClear size={22} className="text-gray-500" />
+						</button>
+					</div>
 
-								<div className="grid grid-cols-12 gap-2">
-									<div className="bg-gray-50 px-4 py-2 col-span-9 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-0.5">
+					{/* Content */}
+					<div className="p-6">
+						<form onSubmit={handleSubmit}>
+							{/* Product Info Section */}
+							<div className="mb-6">
+								<div className="grid grid-cols-12 gap-4 items-start">
+									{/* Product Name */}
+									<div className="col-span-12">
+										<label className="block text-sm font-medium text-gray-700 mb-1">
+											{
+												content[language].salesPage
+													.saleTableName
+											}
+										</label>
+										<input
+											type="text"
+											value={product.name}
+											readOnly
+											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
+										/>
+									</div>
+
+									{/* Warehouse */}
+									<div className="col-span-8">
+										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
 												content[language].salesPage
 													.saleTableWarehouse
@@ -313,11 +330,13 @@ function ProductModal({
 												]
 											}
 											readOnly
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
+											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
 										/>
 									</div>
-									<div className="bg-gray-50 px-4 col-span-3 py-2 rounded-lg">
-										<label className="block text-sm font-medium text-gray-700 mb-0.5">
+
+									{/* Quantity in Stock */}
+									<div className="col-span-4">
+										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
 												content[language].salesPage
 													.saleTableOstatka
@@ -327,140 +346,161 @@ function ProductModal({
 											type="text"
 											value={product.stock[0]?.qty}
 											readOnly
-											className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
+											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
 										/>
 									</div>
 								</div>
+							</div>
 
-								<div className="flex justify-between ">
-									<div className="">
-										<div className="bg-gray-50 px-4 py-2 rounded-lg">
-											<label className="block text-sm font-medium text-gray-700 mb-0.5">
+							{/* Divider */}
+							<div className="border-t border-gray-200 my-5"></div>
+
+							{/* Order Section */}
+							<div className="grid grid-cols-12 gap-6">
+								{/* Left Side - Quantity */}
+								<div className="col-span-5">
+									<label className="block text-sm font-medium text-gray-700 mb-1">
+										{
+											content[language].salesPage
+												.saleModalCount
+										}
+									</label>
+									<input
+										ref={quantityInputRef}
+										type="number"
+										value={quantity}
+										onFocus={handleFocus}
+										onBlur={handleBlur}
+										onKeyDown={(e) =>
+											handleKeyDown(e, "quantity")
+										}
+										onChange={(e) =>
+											setQuantity(e.target.value)
+										}
+										className="w-full px-4 py-3.5 bg-white border border-gray-300 rounded-md text-xl text-gray-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+									/>
+								</div>
+
+								{/* Right Side - Price & Total */}
+								<div className="col-span-7">
+									{/* Unit Price */}
+									<div className="mb-4">
+										<label className="block text-sm font-medium text-gray-700 mb-1">
+											{
+												content[language].salesPage
+													.saleTablePrice
+											}
+										</label>
+										<input
+											ref={priceInputRef}
+											type="text"
+											defaultValue={convertedPrice.toLocaleString(
+												"ru-RU",
 												{
-													content[language].salesPage
-														.saleModalCount
-												}
-											</label>
-											<input
-												ref={quantityInputRef}
-												type="number"
-												value={quantity}
-												onFocus={handleFocus}
-												onBlur={handleBlur}
-												onKeyDown={(e) =>
-													handleKeyDown(e, "quantity")
-												}
-												onChange={(e) =>
-													setQuantity(e.target.value)
-												}
-												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-											/>
-										</div>
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											)}
+											onKeyDown={(e) =>
+												handleKeyDown(e, "price")
+											}
+											onChange={handlePriceChange}
+											readOnly={!changePriceValue}
+											className={`w-full px-4 py-3.5 rounded-md text-xl focus:ring-1 transition-all ${
+												!changePriceValue
+													? "bg-gray-50 border border-gray-200 text-gray-500"
+													: "bg-white border border-gray-300 text-gray-700 focus:border-indigo-500 focus:ring-indigo-500"
+											}`}
+										/>
 									</div>
 
+									{/* Total */}
 									<div>
-										<div className="bg-gray-50 px-4 py-2 rounded-lg">
-											<label className="block text-sm font-medium text-gray-700 mb-0.5">
-												{
-													content[language].salesPage
-														.saleTablePrice
-												}
-											</label>
-											<input
-												ref={priceInputRef}
-												type="text"
-												defaultValue={convertedPrice.toLocaleString(
+										<label className="block text-sm font-medium text-gray-700 mb-1">
+											Total
+										</label>
+										<div className="bg-indigo-50 border border-indigo-100 rounded-md p-3">
+											<div className="text-2xl font-semibold text-indigo-800 text-right">
+												{totalPrice.toLocaleString(
 													"ru-RU",
 													{
 														minimumFractionDigits: 2,
 														maximumFractionDigits: 2,
 													},
 												)}
-												onKeyDown={(e) =>
-													handleKeyDown(e, "price")
-												}
-												onChange={handlePriceChange}
-												readOnly={!changePriceValue}
-												className="w-full px-3 py-4 bg-white text-xl border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-											/>
-										</div>
-										<div className="bg-gray-50 px-4 py-2 mt-3 rounded-lg">
-											<input
-												type="text"
-												value={totalPrice.toLocaleString(
-													"ru-RU",
-													{
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
-													},
-												)}
-												readOnly
-												className="w-full px-3 py-4 bg-white text-2xl font-semibold border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-											/>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div className="flex justify-end pt-4">
-								<button
-									ref={okButtonRef}
-									type="submit"
-									onKeyDown={(e) =>
-										handleKeyDown(e, "okButton")
-									}
-									className="px-12 py-2.5 bg-green-600 text-white text-lg font-medium rounded-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-200"
-								>
-									OK
-								</button>
+							{/* Action Buttons */}
+							<div className="flex justify-end space-x-3 mt-6 pt-5 border-t border-gray-200">
 								<button
 									onClick={handleClose}
-									className="px-6 py-2 ml-5 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+									className="px-5 py-2.5 border border-gray-300 bg-white text-gray-700 font-medium rounded-md hover:bg-gray-50 transition-all"
 								>
 									{
 										content[language].salesPage
 											.headerDiscountCancel
 									}
 								</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-
-			{showErrorModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-xs z-[100]">
-					<div className="bg-white w-[400px] rounded-xl shadow-2xl relative">
-						<div className="p-6">
-							<div className="flex justify-between items-center mb-4">
-								<h2 className="text-xl font-bold text-gray-800">
-									Ошибка
-								</h2>
 								<button
-									onClick={() => setShowErrorModal(false)}
-									className="p-1.5 hover:bg-gray-100 rounded-full transition-colors duration-200"
-								>
-									<MdClear
-										size={24}
-										className="text-gray-500"
-									/>
-								</button>
-							</div>
-							<p className="text-base text-red-500 mb-4">
-								{content[language].salesPage.saleModalNotEnough}
-							</p>
-							<div className="flex justify-end">
-								<button
-									onClick={() => setShowErrorModal(false)}
-									className="px-5 py-2 bg-red-600 text-white text-lg font-medium rounded-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-200"
+									ref={okButtonRef}
+									type="submit"
+									onKeyDown={(e) =>
+										handleKeyDown(e, "okButton")
+									}
+									className="px-8 py-2.5 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 transition-all"
 								>
 									OK
 								</button>
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
-			)}
+
+				{/* Error Modal */}
+				{showErrorModal && (
+					<div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[100]">
+						<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden">
+							<div className="px-4 py-3 bg-red-50 border-b border-red-100 flex items-center">
+								<svg
+									className="w-5 h-5 text-red-500 mr-2"
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+										clipRule="evenodd"
+									/>
+								</svg>
+								<h3 className="text-lg font-medium text-gray-800">
+									Ошибка
+								</h3>
+							</div>
+							<div className="p-4">
+								<p className="text-gray-700">
+									{
+										content[language].salesPage
+											.saleModalNotEnough
+									}
+								</p>
+								<div className="mt-4 flex justify-end">
+									<button
+										onClick={() => setShowErrorModal(false)}
+										className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-all"
+									>
+										OK
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
 		</>
 	);
 }
