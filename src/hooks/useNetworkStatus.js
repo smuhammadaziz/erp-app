@@ -40,7 +40,6 @@ const useNetworkStatus = () => {
 
 		updateNetworkStatus();
 
-		// Cleanup
 		return () => {
 			window.removeEventListener("online", handleOnline);
 			window.removeEventListener("offline", handleOffline);
