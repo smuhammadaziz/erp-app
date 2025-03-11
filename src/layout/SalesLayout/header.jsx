@@ -94,8 +94,6 @@ function SalesPageLayoutHeader() {
 				console.log(err);
 			}
 		};
-		// const intervalId = setInterval(fetchProducts, 400);
-		// return () => clearInterval(intervalId);
 
 		fetchProducts();
 	}, [nodeUrl, ksb_id]);
