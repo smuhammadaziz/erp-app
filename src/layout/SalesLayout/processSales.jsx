@@ -164,12 +164,10 @@ function ProcessSalesComponent({
 					.includes(searchTerm.toLowerCase()) ||
 				sale.summa?.toString().includes(searchTerm);
 
-			// Date filter
 			const dateMatch = selectedDate
 				? moment(sale.date).isSame(moment(selectedDate), "day")
 				: true;
 
-			// Status filters
 			const statusMatch =
 				(!statusFilters.process &&
 					!statusFilters.delivered &&
@@ -238,7 +236,6 @@ function ProcessSalesComponent({
 		});
 	};
 
-	// Close action menu when clicking outside
 	useEffect(() => {
 		const handleClickOutside = () => {
 			setShowActionsMenu(null);
@@ -253,8 +250,6 @@ function ProcessSalesComponent({
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
 	const deleteOneSales = async (salesId) => {
-		// const salesId = localStorage.getItem("sales_id");
-
 		try {
 			const response = await fetch(
 				`${nodeUrl}/api/delete/one/sales/${salesId}`,
