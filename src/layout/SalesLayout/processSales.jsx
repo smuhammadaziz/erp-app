@@ -297,7 +297,7 @@ function ProcessSalesComponent({
 								localStorage.setItem(
 									"viewModeProcess",
 									newViewMode,
-								); // Save to localStorage
+								);
 							}}
 						>
 							{viewMode === "table" ? (
@@ -315,7 +315,6 @@ function ProcessSalesComponent({
 					</div>
 				</div>
 
-				{/* Search and filters */}
 				<div className="p-5 bg-white border-b">
 					<div className="flex flex-wrap items-center gap-3">
 						<div className="relative flex-grow max-w-md">
@@ -415,7 +414,6 @@ function ProcessSalesComponent({
 						</div>
 					</div>
 
-					{/* Status filters */}
 					{showFilters && (
 						<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
 							<h4 className="text-sm font-medium text-gray-700 mb-3">
@@ -486,7 +484,6 @@ function ProcessSalesComponent({
 					)}
 				</div>
 
-				{/* Data display */}
 				<div className="overflow-y-auto flex-grow p-5 bg-gray-50 z-100 relative">
 					{filteredData.length > 0 ? (
 						viewMode === "table" ? (
@@ -861,19 +858,15 @@ function ProcessSalesComponent({
 								onClick={() => {
 									deleteOneSales(selectedRowId);
 									setIsExitModalOpen(false);
-
-									// console.log(selectedRowId);
 								}}
 								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
 							>
-								{/* <ImExit className="mr-2 text-xl" /> */}
 								Ҳа
 							</button>
 							<button
 								onClick={() => setIsExitModalOpen(false)}
 								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
 							>
-								{/* <FaTimes className="mr-2 text-xl" /> */}
 								Йўқ
 							</button>
 						</div>
