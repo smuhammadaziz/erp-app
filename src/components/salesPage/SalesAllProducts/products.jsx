@@ -392,7 +392,6 @@ function SalesMainAllProducts({ socket }) {
 		}
 	};
 
-	// Run once when component mounts to apply initial sort
 	useEffect(() => {
 		if (sortConfig.key && originalData.length > 0 && !initialSortApplied) {
 			const sortedData = applySortConfig(originalData, sortConfig);
