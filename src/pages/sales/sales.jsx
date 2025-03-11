@@ -1,4 +1,3 @@
-// SalesMainPage.jsx
 import React, { useState } from "react";
 import SalesMainAllProducts from "../../components/salesPage/SalesAllProducts/products";
 import SalespageSummaSection from "../../components/salesPage/summa/summa";
