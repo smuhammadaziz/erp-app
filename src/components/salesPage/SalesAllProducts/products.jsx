@@ -32,18 +32,56 @@ function SalesMainAllProducts({ socket }) {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
+	const [initialSortApplied, setInitialSortApplied] = useState(false);
+
+	const sortData = (dataToSort, config) => {
+		if (!config.key) return dataToSort;
+
+		return [...dataToSort].sort((a, b) => {
+			let aValue, bValue;
+
+			if (config.key === "convertedPrice") {
+				aValue = getConvertedPrice(a);
+				bValue = getConvertedPrice(b);
+			} else if (config.key === "actualPrice") {
+				aValue = getActualPrice(a);
+				bValue = getActualPrice(b);
+			} else {
+				aValue = config.key.includes(".")
+					? config.key.split(".").reduce((obj, i) => obj[i], a)
+					: a[config.key];
+				bValue = config.key.includes(".")
+					? config.key.split(".").reduce((obj, i) => obj[i], b)
+					: b[config.key];
+			}
+
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return config.direction === "asc"
+					? aValue - bValue
+					: bValue - aValue;
+			}
+
+			const aString = String(aValue || "").toLowerCase();
+			const bString = String(bValue || "").toLowerCase();
+
+			return config.direction === "asc"
+				? aString.localeCompare(bString)
+				: bString.localeCompare(aString);
+		});
+	};
+
 	useEffect(() => {
 		fetchProductsData();
 
 		const updateHandler = () => fetchProductsData();
-		socket.on("gettingsAllProductsData", updateHandler);
+		socket.on("gettingAllUpdatedProductData", updateHandler);
 
 		return () => {
-			socket.off("gettingsAllProductsData", updateHandler);
+			socket.off("gettingAllUpdatedProductData", updateHandler);
 		};
-	}, [isSearching, displayedData.length, deviceId, ksbId]);
+	}, [deviceId, ksbId]);
 
-	const fetchProductsData = useCallback(async () => {
+	const fetchProductsData = async () => {
 		try {
 			const response = await fetch(
 				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
@@ -60,16 +98,31 @@ function SalesMainAllProducts({ socket }) {
 			if (result.message === "successfully") {
 				const data = result.products || [];
 
+				// Only update if data actually changed
 				if (
 					JSON.stringify(currentData.current) !== JSON.stringify(data)
 				) {
 					currentData.current = data;
 					setOriginalData(data);
 
+					// Don't modify filtered data if searching
 					if (!isSearching) {
-						setFilteredData(data);
-						if (displayedData.length === 0) {
-							setDisplayedData(data.slice(0, itemsPerPage));
+						if (sortConfig.key && initialSortApplied) {
+							// Apply existing sort to new data without changing sort direction
+							const sortedData = applySortConfig(
+								data,
+								sortConfig,
+							);
+							setFilteredData(sortedData);
+							setDisplayedData(
+								sortedData.slice(0, page * itemsPerPage),
+							);
+						} else {
+							// New data, no sort yet
+							setFilteredData(data);
+							if (displayedData.length === 0) {
+								setDisplayedData(data.slice(0, itemsPerPage));
+							}
 						}
 					}
 				}
@@ -88,7 +141,47 @@ function SalesMainAllProducts({ socket }) {
 			}
 			setLoading(false);
 		}
-	}, [isSearching, displayedData.length, deviceId, ksbId]);
+	};
+
+	const applySortConfig = (dataToSort, config) => {
+		if (!config.key) return dataToSort;
+
+		return [...dataToSort].sort((a, b) => {
+			let aValue, bValue;
+
+			if (config.key === "convertedPrice") {
+				aValue = getConvertedPrice(a);
+				bValue = getConvertedPrice(b);
+			} else if (config.key === "actualPrice") {
+				aValue = getActualPrice(a);
+				bValue = getActualPrice(b);
+			} else {
+				aValue = config.key.includes(".")
+					? config.key
+							.split(".")
+							.reduce((obj, i) => (obj || {})[i], a)
+					: a[config.key];
+				bValue = config.key.includes(".")
+					? config.key
+							.split(".")
+							.reduce((obj, i) => (obj || {})[i], b)
+					: b[config.key];
+			}
+
+			if (typeof aValue === "number" && typeof bValue === "number") {
+				return config.direction === "asc"
+					? aValue - bValue
+					: bValue - aValue;
+			}
+
+			const aString = String(aValue || "").toLowerCase();
+			const bString = String(bValue || "").toLowerCase();
+
+			return config.direction === "asc"
+				? aString.localeCompare(bString)
+				: bString.localeCompare(aString);
+		});
+	};
 
 	useEffect(() => {
 		if (searchQuery) {
@@ -102,16 +195,27 @@ function SalesMainAllProducts({ socket }) {
 					),
 			);
 
-			setFilteredData(filtered);
+			// Apply current sort to search results
+			const sortedFiltered = sortConfig.key
+				? applySortConfig(filtered, sortConfig)
+				: filtered;
+
+			setFilteredData(sortedFiltered);
 			setPage(1);
-			setDisplayedData(filtered.slice(0, itemsPerPage));
+			setDisplayedData(sortedFiltered.slice(0, itemsPerPage));
 			setMouseSelectedRow(null);
 			setTableClickedRow(null);
 		} else {
 			setIsSearching(false);
-			setFilteredData(originalData);
+
+			// Apply current sort to original data
+			const sortedOriginal = sortConfig.key
+				? applySortConfig(originalData, sortConfig)
+				: originalData;
+
+			setFilteredData(sortedOriginal);
 			setPage(1);
-			setDisplayedData(originalData.slice(0, itemsPerPage));
+			setDisplayedData(sortedOriginal.slice(0, itemsPerPage));
 			setSelectedRow(null);
 			setMouseSelectedRow(null);
 			setTableClickedRow(null);
@@ -247,39 +351,11 @@ function SalesMainAllProducts({ socket }) {
 		const newSortConfig = { key, direction };
 		setSortConfig(newSortConfig);
 		localStorage.setItem("tableSortConfig", JSON.stringify(newSortConfig));
+		setInitialSortApplied(true);
 
-		const sortedData = [...filteredData].sort((a, b) => {
-			let aValue, bValue;
-
-			if (key === "convertedPrice") {
-				aValue = getConvertedPrice(a);
-				bValue = getConvertedPrice(b);
-			} else if (key === "actualPrice") {
-				aValue = getActualPrice(a);
-				bValue = getActualPrice(b);
-			} else {
-				aValue = key.includes(".")
-					? key.split(".").reduce((obj, i) => obj[i], a)
-					: a[key];
-				bValue = key.includes(".")
-					? key.split(".").reduce((obj, i) => obj[i], b)
-					: b[key];
-			}
-
-			if (typeof aValue === "number" && typeof bValue === "number") {
-				return direction === "asc" ? aValue - bValue : bValue - aValue;
-			}
-
-			const aString = String(aValue || "").toLowerCase();
-			const bString = String(bValue || "").toLowerCase();
-
-			return direction === "asc"
-				? aString.localeCompare(bString)
-				: bString.localeCompare(aString);
-		});
-
+		const sortedData = applySortConfig(filteredData, newSortConfig);
 		setFilteredData(sortedData);
-		setDisplayedData(sortedData.slice(0, itemsPerPage));
+		setDisplayedData(sortedData.slice(0, page * itemsPerPage));
 	};
 
 	const getConvertedPrice = (product) => {
@@ -322,11 +398,15 @@ function SalesMainAllProducts({ socket }) {
 		}
 	};
 
+	// Run once when component mounts to apply initial sort
 	useEffect(() => {
-		if (sortConfig.key) {
-			handleSort(sortConfig.key);
+		if (sortConfig.key && originalData.length > 0 && !initialSortApplied) {
+			const sortedData = applySortConfig(originalData, sortConfig);
+			setFilteredData(sortedData);
+			setDisplayedData(sortedData.slice(0, itemsPerPage));
+			setInitialSortApplied(true);
 		}
-	}, [originalData]);
+	}, [originalData, sortConfig.key, initialSortApplied]);
 
 	if (loading) {
 		return (

@@ -32,18 +32,57 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 20);
 	}, []);
 
-	useEffect(() => {
-		fetchUpdatingSymbolData();
+	const [lastUpdateTime, setLastUpdateTime] = useState(0);
 
-		const updateHandler = () => fetchUpdatingSymbolData();
-		socket.on("gettingsAllProductsData", updateHandler);
+	useEffect(() => {
+		const updateHandler = () => {
+			const now = Date.now();
+			// Only update if at least 5 seconds have passed since last update
+			if (now - lastUpdateTime > 5000) {
+				fetchingProductUpdateData();
+				setLastUpdateTime(now);
+			}
+		};
+
+		socket.on("gettingAllUpdatedProductData", updateHandler);
 
 		return () => {
-			socket.off("gettingsAllProductsData", updateHandler);
+			socket.off("gettingAllUpdatedProductData", updateHandler);
+		};
+	}, [lastUpdateTime]);
+
+	const fetchingProductUpdateData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
+
+	useEffect(() => {
+		fetchingResponseSyncing();
+
+		const updateHandler = () => fetchingResponseSyncing();
+		socket.on("fetchingSyncingData", updateHandler);
+
+		return () => {
+			socket.off("fetchingSyncingData", updateHandler);
 		};
 	}, []);
 
-	const fetchUpdatingSymbolData = async () => {
+	const fetchingResponseSyncing = async () => {
 		try {
 			const responseSyncing = await fetch(
 				`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
@@ -61,19 +100,6 @@ export const Router: FC = () => {
 				},
 			);
 
-			const response = await fetch(
-				`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				},
-			);
-
-			if (!response.ok) {
-				throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
-			}
 			if (!responseSyncing.ok) {
 				throw new Error(`ERROR SYNCING: ${responseSyncing.status}`);
 			}
@@ -81,6 +107,8 @@ export const Router: FC = () => {
 			console.error("Error fetching symbol data:", error);
 		}
 	};
+
+	// =============================
 
 	// useEffect(() => {
 	// 	fetchUpdatingSymbolData();
