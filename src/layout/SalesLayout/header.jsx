@@ -214,7 +214,6 @@ function SalesPageLayoutHeader() {
 		falseDelivered: false,
 	});
 
-	// Filter function that combines all filters
 	const getFilteredData = () => {
 		return productData.filter((sale) => {
 			// Search filter
