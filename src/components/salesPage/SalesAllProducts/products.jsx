@@ -191,7 +191,6 @@ function SalesMainAllProducts({ socket }) {
 					),
 			);
 
-			// Apply current sort to search results
 			const sortedFiltered = sortConfig.key
 				? applySortConfig(filtered, sortConfig)
 				: filtered;
