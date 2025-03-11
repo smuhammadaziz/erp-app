@@ -850,9 +850,7 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 						ref={handleSubmitButton}
 						onClick={() => {
 							setPrintModal(true);
-							// onClose();
 						}}
-						// onClick={handleSaveSales}
 						className="px-10 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 text-sm font-medium shadow-sm"
 					>
 						OK
