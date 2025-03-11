@@ -57,11 +57,9 @@ const useNetworkStatus = () => {
 		isOnline,
 		networkStatus,
 		checkNetworkConnection: async () => {
-			// Quick initial checks
 			if (!navigator.onLine) return false;
 
 			try {
-				// Use Promise.race to implement a very short timeout
 				const timeoutPromise = new Promise((_, reject) =>
 					setTimeout(() => reject(new Error("Timeout")), 2000),
 				);
