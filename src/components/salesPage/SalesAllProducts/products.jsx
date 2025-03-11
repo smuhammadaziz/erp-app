@@ -115,7 +115,6 @@ function SalesMainAllProducts({ socket }) {
 								sortedData.slice(0, page * itemsPerPage),
 							);
 						} else {
-							// New data, no sort yet
 							setFilteredData(data);
 							if (displayedData.length === 0) {
 								setDisplayedData(data.slice(0, itemsPerPage));
