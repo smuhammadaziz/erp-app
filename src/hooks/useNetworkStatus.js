@@ -38,7 +38,6 @@ const useNetworkStatus = () => {
 			);
 		}
 
-		// Initial check and status
 		updateNetworkStatus();
 
 		// Cleanup
