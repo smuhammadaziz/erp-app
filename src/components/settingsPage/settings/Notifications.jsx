@@ -34,7 +34,7 @@ const MessageNotifications = () => {
 		setError("");
 		setLoading(true);
 		setStatus(null);
-		setCurrentModal("loading"); // Show loading modal
+		setCurrentModal("loading");
 
 		const authHeader =
 			"Basic " +
