@@ -153,7 +153,6 @@ function ProcessSalesComponent({
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
-	// Filter function that combines all filters
 	const getFilteredData = () => {
 		return productData.filter((sale) => {
 			const searchMatch =
