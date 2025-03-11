@@ -140,7 +140,6 @@ function ProductModal({
 			return;
 		}
 
-		// Handle regular Enter key navigation
 		if (e.key === "Enter" && !e.ctrlKey) {
 			e.preventDefault();
 			switch (currentField) {
