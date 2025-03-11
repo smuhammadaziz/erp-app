@@ -28,7 +28,6 @@ const useNetworkStatus = () => {
 			}
 		};
 
-		// Add event listeners
 		window.addEventListener("online", handleOnline);
 		window.addEventListener("offline", handleOffline);
 
@@ -65,14 +64,14 @@ const useNetworkStatus = () => {
 
 			try {
 				// Use Promise.race to implement a very short timeout
-				const timeoutPromise = new Promise((_, reject) => 
-					setTimeout(() => reject(new Error('Timeout')), 2000)
+				const timeoutPromise = new Promise((_, reject) =>
+					setTimeout(() => reject(new Error("Timeout")), 2000),
 				);
 
 				const fetchPromise = fetch(window.location.origin, {
-					method: 'HEAD',
-					cache: 'no-store',
-					mode: 'no-cors'
+					method: "HEAD",
+					cache: "no-store",
+					mode: "no-cors",
 				});
 
 				await Promise.race([fetchPromise, timeoutPromise]);
@@ -86,3 +85,4 @@ const useNetworkStatus = () => {
 };
 
 export default useNetworkStatus;
+
