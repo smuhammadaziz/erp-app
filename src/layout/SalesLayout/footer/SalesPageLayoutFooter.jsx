@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiSettings, FiAlertTriangle } from "react-icons/fi";
 import { BsCurrencyDollar } from "react-icons/bs";
+import { FiLoader } from "react-icons/fi";
 import {
 	FaPlus,
 	FaTable,
@@ -29,6 +30,8 @@ const SalesPageLayoutFooter = ({ socket }) => {
 	const [prices, setPrices] = useState([]);
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 	const navigate = useNavigate();
+
+	const [isLoading, setIsLoading] = useState(false);
 
 	const [currencyKey, setCurrencyKey] = useState("");
 	const [priceTypeKeyData, setPriceTypeKeyData] = useState("");
@@ -303,6 +306,9 @@ const SalesPageLayoutFooter = ({ socket }) => {
 	const handleClick = async (e) => {
 		e.preventDefault();
 
+		// Show loader
+		setIsLoading(true);
+
 		const newSalesId = uuidv4();
 		localStorage.setItem("sales_id", newSalesId);
 
@@ -316,12 +322,17 @@ const SalesPageLayoutFooter = ({ socket }) => {
 			const data = await response.json();
 
 			if (response.ok) {
-				window.location.reload();
+				// Set a timeout for 2 seconds before reload
+				setTimeout(() => {
+					window.location.reload();
+				}, 1000);
 			} else {
 				console.log("error");
+				setIsLoading(false); // Hide loader if there's an error
 			}
 		} catch (err) {
 			console.log("error creating empty sales", err);
+			setIsLoading(false); // Hide loader if there's an error
 		}
 	};
 
@@ -501,6 +512,16 @@ const SalesPageLayoutFooter = ({ socket }) => {
 										.headerDiscountCancel
 								}
 							</button>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{isLoading && (
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
+					<div className="flex items-center bg-transparent justify-center h-screen">
+						<div className="text-white text-4xl font-bold animate-spin">
+							<FiLoader />
 						</div>
 					</div>
 				</div>
