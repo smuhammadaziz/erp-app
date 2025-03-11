@@ -134,7 +134,6 @@ function ProductModal({
 	};
 
 	const handleKeyDown = (e, currentField) => {
-		// Handle Ctrl + Enter from quantity input
 		if (e.ctrlKey && e.key === "Enter") {
 			e.preventDefault();
 			handleSubmit(e);
