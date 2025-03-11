@@ -203,7 +203,6 @@ function SalesMainAllProducts({ socket }) {
 		} else {
 			setIsSearching(false);
 
-			// Apply current sort to original data
 			const sortedOriginal = sortConfig.key
 				? applySortConfig(originalData, sortConfig)
 				: originalData;
