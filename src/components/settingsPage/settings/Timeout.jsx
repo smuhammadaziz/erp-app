@@ -19,7 +19,6 @@ function TimeoutSettings() {
 
 	const [language, setLanguage] = useLang("uz");
 
-	// Set default value on first load
 	useEffect(() => {
 		if (!localStorage.getItem(TIMEOUT_STORAGE_KEY)) {
 			localStorage.setItem(
