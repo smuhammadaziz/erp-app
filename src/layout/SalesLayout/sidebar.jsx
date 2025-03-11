@@ -291,7 +291,6 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
-				// setPrintModal={setPrintModal}
 			/>
 
 			<CardPaymentModal
@@ -299,7 +298,6 @@ function SalesPageLayoutSidebar({ socket }) {
 				onClose={() => setIsCardModalOpen(false)}
 				totalAmount={50000}
 				socket={socket}
-				// setPrintModal={setPrintModal}
 			/>
 
 			{isListModalOpen && (
