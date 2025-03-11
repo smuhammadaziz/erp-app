@@ -368,13 +368,6 @@ function HeaderInner({ onRefresh, socket }) {
 						handleSync();
 
 						upsertUpdatedProducts();
-
-						// const updateHandler = () => upsertUpdatedProducts();
-						// socket.on("gettingProducts", updateHandler);
-
-						// return () => {
-						// 	socket.off("gettingProducts", updateHandler);
-						// };
 					}}
 					disabled={isSyncing}
 				>
