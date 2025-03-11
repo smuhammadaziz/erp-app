@@ -106,7 +106,6 @@ function SalesMainAllProducts({ socket }) {
 
 					if (!isSearching) {
 						if (sortConfig.key && initialSortApplied) {
-							// Apply existing sort to new data without changing sort direction
 							const sortedData = applySortConfig(
 								data,
 								sortConfig,
