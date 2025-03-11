@@ -158,7 +158,6 @@ function ProductModal({
 		}
 	};
 
-	// Update price change handler to only work when changePriceValue is true
 	const handlePriceChange = (e) => {
 		if (changePriceValue) {
 			const value = e.target.value.replace(/[^0-9.]/g, "");
