@@ -216,7 +216,6 @@ function SalesPageLayoutHeader() {
 
 	const getFilteredData = () => {
 		return productData.filter((sale) => {
-			// Search filter
 			const searchMatch =
 				sale.client_name
 					.toLowerCase()
@@ -226,12 +225,10 @@ function SalesPageLayoutHeader() {
 					.includes(searchTerm.toLowerCase()) ||
 				sale.total_price.toString().includes(searchTerm);
 
-			// Date filter
 			const dateMatch = selectedDate
 				? moment(sale.date).isSame(moment(selectedDate), "day")
 				: true;
 
-			// Status filters
 			const statusMatch =
 				(!statusFilters.process &&
 					!statusFilters.delivered &&
