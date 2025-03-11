@@ -32,6 +32,56 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 20);
 	}, []);
 
+	useEffect(() => {
+		fetchUpdatingSymbolData();
+
+		const updateHandler = () => fetchUpdatingSymbolData();
+		socket.on("gettingsAllProductsData", updateHandler);
+
+		return () => {
+			socket.off("gettingsAllProductsData", updateHandler);
+		};
+	}, []);
+
+	const fetchUpdatingSymbolData = async () => {
+		try {
+			const responseSyncing = await fetch(
+				`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
+
+			const response = await fetch(
+				`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
+			}
+			if (!responseSyncing.ok) {
+				throw new Error(`ERROR SYNCING: ${responseSyncing.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
+
 	// useEffect(() => {
 	// 	fetchUpdatingSymbolData();
 

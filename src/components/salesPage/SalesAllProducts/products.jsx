@@ -46,31 +46,39 @@ function SalesMainAllProducts({ socket }) {
 	const fetchProductsData = useCallback(async () => {
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
 				{
-					method: "POST",
+					method: "GET",
 				},
 			);
 			if (!response.ok) {
-				throw new Error("Failed to fetch products");
+				throw new Error("Товарлар топилмади.");
 			}
+
 			const result = await response.json();
-			const data = result.products || [];
 
-			if (JSON.stringify(currentData.current) !== JSON.stringify(data)) {
-				currentData.current = data;
-				setOriginalData(data);
+			if (result.message === "successfully") {
+				const data = result.products || [];
 
-				if (!isSearching) {
-					setFilteredData(data);
-					if (displayedData.length === 0) {
-						setDisplayedData(data.slice(0, itemsPerPage));
+				if (
+					JSON.stringify(currentData.current) !== JSON.stringify(data)
+				) {
+					currentData.current = data;
+					setOriginalData(data);
+
+					if (!isSearching) {
+						setFilteredData(data);
+						if (displayedData.length === 0) {
+							setDisplayedData(data.slice(0, itemsPerPage));
+						}
 					}
 				}
-			}
 
-			setLoading(false);
-			setError(null);
+				setLoading(false);
+				setError(null);
+			} else {
+				setLoading(true);
+			}
 		} catch (err) {
 			setError(err.message);
 			setOriginalData([]);
