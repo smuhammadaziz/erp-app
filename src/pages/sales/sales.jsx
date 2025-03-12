@@ -11,6 +11,88 @@ function SalesMainPage({ socket }) {
 		setLastAddedProductId(productId);
 	};
 
+	const ksbId = localStorage.getItem("ksbIdNumber");
+	const deviceId = localStorage.getItem("device_id");
+	const ipaddressPort = localStorage.getItem("ipaddress:port");
+	const mainDatabase = localStorage.getItem("mainDatabase");
+	const userType = localStorage.getItem("userType");
+	const userPassword = localStorage.getItem("userPassword");
+
+	// const [lastUpdateTime, setLastUpdateTime] = useState(0);
+
+	// useEffect(() => {
+	// 	const updateHandler = () => {
+	// 		const now = Date.now();
+	// 		if (now - lastUpdateTime > 5000) {
+	// 			fetchingProductUpdateData();
+	// 			setLastUpdateTime(now);
+	// 		}
+	// 	};
+
+	// 	socket.on("gettingAllUpdatedProductData", updateHandler);
+
+	// 	return () => {
+	// 		socket.off("gettingAllUpdatedProductData", updateHandler);
+	// 	};
+	// }, [lastUpdateTime]);
+
+	// const fetchingProductUpdateData = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 			},
+	// 		);
+
+	// 		if (!response.ok) {
+	// 			throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	fetchingResponseSyncing();
+
+	// 	const updateHandler = () => fetchingResponseSyncing();
+	// 	socket.on("fetchingSyncingData", updateHandler);
+
+	// 	return () => {
+	// 		socket.off("fetchingSyncingData", updateHandler);
+	// 	};
+	// }, []);
+
+	// const fetchingResponseSyncing = async () => {
+	// 	try {
+	// 		const responseSyncing = await fetch(
+	// 			`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					"ipaddress:port": ipaddressPort,
+	// 					database: mainDatabase,
+	// 					userName: userType,
+	// 					userPassword: userPassword,
+	// 				}),
+	// 			},
+	// 		);
+
+	// 		if (!responseSyncing.ok) {
+	// 			throw new Error(`ERROR SYNCING: ${responseSyncing.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
+
 	return (
 		<SalesPageLayoutMain socket={socket}>
 			<div className="">
