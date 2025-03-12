@@ -27,7 +27,7 @@ export const Titlebar: FC = () => {
 	useEffect(() => {
 		const icon = document.getElementById("icon") as HTMLElement;
 		icon.ondragstart = () => false;
-	});
+	}, []);
 
 	const [language] = useLang();
 
