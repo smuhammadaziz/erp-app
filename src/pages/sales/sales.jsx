@@ -24,7 +24,7 @@ function SalesMainPage({ socket }) {
 	useEffect(() => {
 		const updateHandler = () => {
 			const now = Date.now();
-			if (now - lastUpdateTime > 5000) {
+			if (now - lastUpdateTime > 60000) {
 				fetchingProductUpdateData();
 				setLastUpdateTime(now);
 			}
