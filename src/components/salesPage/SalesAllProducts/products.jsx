@@ -34,42 +34,6 @@ function SalesMainAllProducts({ socket }) {
 
 	const [initialSortApplied, setInitialSortApplied] = useState(false);
 
-	const sortData = (dataToSort, config) => {
-		if (!config.key) return dataToSort;
-
-		return [...dataToSort].sort((a, b) => {
-			let aValue, bValue;
-
-			if (config.key === "convertedPrice") {
-				aValue = getConvertedPrice(a);
-				bValue = getConvertedPrice(b);
-			} else if (config.key === "actualPrice") {
-				aValue = getActualPrice(a);
-				bValue = getActualPrice(b);
-			} else {
-				aValue = config.key.includes(".")
-					? config.key.split(".").reduce((obj, i) => obj[i], a)
-					: a[config.key];
-				bValue = config.key.includes(".")
-					? config.key.split(".").reduce((obj, i) => obj[i], b)
-					: b[config.key];
-			}
-
-			if (typeof aValue === "number" && typeof bValue === "number") {
-				return config.direction === "asc"
-					? aValue - bValue
-					: bValue - aValue;
-			}
-
-			const aString = String(aValue || "").toLowerCase();
-			const bString = String(bValue || "").toLowerCase();
-
-			return config.direction === "asc"
-				? aString.localeCompare(bString)
-				: bString.localeCompare(aString);
-		});
-	};
-
 	useEffect(() => {
 		fetchProductsData();
 
