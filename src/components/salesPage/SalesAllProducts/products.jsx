@@ -34,74 +34,10 @@ function SalesMainAllProducts({ socket }) {
 
 	const [initialSortApplied, setInitialSortApplied] = useState(false);
 
-	useEffect(() => {
-		fetchProductsData();
-
-		const updateHandler = () => fetchProductsData();
-		socket.on("gettingAllUpdatedProductData", updateHandler);
-
-		return () => {
-			socket.off("gettingAllUpdatedProductData", updateHandler);
-		};
-	}, [deviceId, ksbId]);
-
-	const fetchProductsData = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
-				{
-					method: "GET",
-				},
-			);
-			if (!response.ok) {
-				throw new Error("Товарлар топилмади.");
-			}
-
-			const result = await response.json();
-
-			if (result.message === "successfully") {
-				const data = result.products || [];
-
-				if (
-					JSON.stringify(currentData.current) !== JSON.stringify(data)
-				) {
-					currentData.current = data;
-					setOriginalData(data);
-
-					if (!isSearching) {
-						if (sortConfig.key && initialSortApplied) {
-							const sortedData = applySortConfig(
-								data,
-								sortConfig,
-							);
-							setFilteredData(sortedData);
-							setDisplayedData(
-								sortedData.slice(0, page * itemsPerPage),
-							);
-						} else {
-							setFilteredData(data);
-							if (displayedData.length === 0) {
-								setDisplayedData(data.slice(0, itemsPerPage));
-							}
-						}
-					}
-				}
-
-				setLoading(false);
-				setError(null);
-			} else {
-				setLoading(true);
-			}
-		} catch (err) {
-			setError(err.message);
-			setOriginalData([]);
-			if (!isSearching) {
-				setFilteredData([]);
-				setDisplayedData([]);
-			}
-			setLoading(false);
-		}
-	};
+	const [sortConfig, setSortConfig] = useState(() => {
+		const saved = localStorage.getItem("tableSortConfig");
+		return saved ? JSON.parse(saved) : { key: null, direction: "asc" };
+	});
 
 	const applySortConfig = (dataToSort, config) => {
 		if (!config.key) return dataToSort;
@@ -144,6 +80,64 @@ function SalesMainAllProducts({ socket }) {
 	};
 
 	useEffect(() => {
+		fetchProductsData();
+
+		const updateHandler = () => fetchProductsData();
+		socket.on("gettingAllUpdatedProductData", updateHandler);
+
+		return () => {
+			socket.off("gettingAllUpdatedProductData", updateHandler);
+		};
+	}, [deviceId, ksbId]);
+
+	const fetchProductsData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
+				{
+					method: "GET",
+				},
+			);
+			if (!response.ok) {
+				throw new Error("Товарлар топилмади.");
+			}
+
+			const result = await response.json();
+
+			if (result.message === "successfully") {
+				const data = result.products || [];
+
+				if (
+					JSON.stringify(currentData.current) !== JSON.stringify(data)
+				) {
+					currentData.current = data;
+					setOriginalData(data);
+
+					// Apply sorting if sortConfig exists
+					let sortedData = data;
+					if (sortConfig.key) {
+						sortedData = applySortConfig(data, sortConfig);
+					}
+
+					setFilteredData(sortedData);
+					setDisplayedData(sortedData.slice(0, page * itemsPerPage));
+				}
+
+				setLoading(false);
+				setError(null);
+			} else {
+				setLoading(true);
+			}
+		} catch (err) {
+			setError(err.message);
+			setOriginalData([]);
+			setFilteredData([]);
+			setDisplayedData([]);
+			setLoading(false);
+		}
+	};
+
+	useEffect(() => {
 		if (searchQuery) {
 			setIsSearching(true);
 			const lowercasedQuery = searchQuery.toLowerCase();
@@ -155,6 +149,7 @@ function SalesMainAllProducts({ socket }) {
 					),
 			);
 
+			// Apply sorting after filtering
 			const sortedFiltered = sortConfig.key
 				? applySortConfig(filtered, sortConfig)
 				: filtered;
@@ -167,6 +162,7 @@ function SalesMainAllProducts({ socket }) {
 		} else {
 			setIsSearching(false);
 
+			// Apply sorting to the original data
 			const sortedOriginal = sortConfig.key
 				? applySortConfig(originalData, sortConfig)
 				: originalData;
@@ -179,7 +175,7 @@ function SalesMainAllProducts({ socket }) {
 			setTableClickedRow(null);
 			setIsSelectionEnabled(false);
 		}
-	}, [searchQuery, originalData]);
+	}, [searchQuery, originalData, sortConfig]);
 
 	const loadMoreItems = useCallback(() => {
 		if (isLoadingMore) return;
@@ -295,11 +291,6 @@ function SalesMainAllProducts({ socket }) {
 		};
 	}, [filteredData, searchQuery]);
 
-	const [sortConfig, setSortConfig] = useState(() => {
-		const saved = localStorage.getItem("tableSortConfig");
-		return saved ? JSON.parse(saved) : { key: null, direction: "asc" };
-	});
-
 	const handleSort = (key) => {
 		let direction = "asc";
 		if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -311,6 +302,7 @@ function SalesMainAllProducts({ socket }) {
 		localStorage.setItem("tableSortConfig", JSON.stringify(newSortConfig));
 		setInitialSortApplied(true);
 
+		// Apply sorting to filteredData
 		const sortedData = applySortConfig(filteredData, newSortConfig);
 		setFilteredData(sortedData);
 		setDisplayedData(sortedData.slice(0, page * itemsPerPage));
@@ -357,13 +349,12 @@ function SalesMainAllProducts({ socket }) {
 	};
 
 	useEffect(() => {
-		if (sortConfig.key && originalData.length > 0 && !initialSortApplied) {
-			const sortedData = applySortConfig(originalData, sortConfig);
+		if (sortConfig.key && filteredData.length > 0) {
+			const sortedData = applySortConfig(filteredData, sortConfig);
 			setFilteredData(sortedData);
-			setDisplayedData(sortedData.slice(0, itemsPerPage));
-			setInitialSortApplied(true);
+			setDisplayedData(sortedData.slice(0, page * itemsPerPage));
 		}
-	}, [originalData, sortConfig.key, initialSortApplied]);
+	}, [sortConfig, filteredData]);
 
 	if (loading) {
 		return (

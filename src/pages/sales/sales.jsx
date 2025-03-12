@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SalesMainAllProducts from "../../components/salesPage/SalesAllProducts/products";
 import SalespageSummaSection from "../../components/salesPage/summa/summa";
 import SalesSoldProducts from "../../components/salesPage/SalesSoldProducts/soldproducts";
 import SalesPageLayoutMain from "../../layout/SalesLayout/saleslayout";
+import nodeUrl from "../../links";
 
 function SalesMainPage({ socket }) {
 	const [lastAddedProductId, setLastAddedProductId] = useState(null);
@@ -18,80 +19,88 @@ function SalesMainPage({ socket }) {
 	const userType = localStorage.getItem("userType");
 	const userPassword = localStorage.getItem("userPassword");
 
-	// const [lastUpdateTime, setLastUpdateTime] = useState(0);
+	const [lastUpdateTime, setLastUpdateTime] = useState(0);
 
-	// useEffect(() => {
-	// 	const updateHandler = () => {
-	// 		const now = Date.now();
-	// 		if (now - lastUpdateTime > 5000) {
-	// 			fetchingProductUpdateData();
-	// 			setLastUpdateTime(now);
-	// 		}
-	// 	};
+	useEffect(() => {
+		const updateHandler = () => {
+			const now = Date.now();
+			if (now - lastUpdateTime > 5000) {
+				fetchingProductUpdateData();
+				setLastUpdateTime(now);
+			}
+		};
 
-	// 	socket.on("gettingAllUpdatedProductData", updateHandler);
+		socket.on("gettingAllUpdatedProductData", updateHandler);
 
-	// 	return () => {
-	// 		socket.off("gettingAllUpdatedProductData", updateHandler);
-	// 	};
-	// }, [lastUpdateTime]);
+		return () => {
+			socket.off("gettingAllUpdatedProductData", updateHandler);
+		};
+	}, [lastUpdateTime]);
 
-	// const fetchingProductUpdateData = async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 			},
-	// 		);
+	const fetchingProductUpdateData = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/update/product_update/data/${deviceId}/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
 
-	// 		if (!response.ok) {
-	// 			throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
+			if (!response.ok) {
+				throw new Error(`ERROR PRODUCT_UPDATE: ${response.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
 
-	// useEffect(() => {
-	// 	fetchingResponseSyncing();
+	useEffect(() => {
+		fetchingResponseSyncing();
 
-	// 	const updateHandler = () => fetchingResponseSyncing();
-	// 	socket.on("fetchingSyncingData", updateHandler);
+		const updateHandler = () => fetchingResponseSyncing();
+		socket.on("fetchUpdatedProductsData", updateHandler);
 
-	// 	return () => {
-	// 		socket.off("fetchingSyncingData", updateHandler);
-	// 	};
-	// }, []);
+		return () => {
+			socket.off("fetchUpdatedProductsData", updateHandler);
+		};
+	}, []);
 
-	// const fetchingResponseSyncing = async () => {
-	// 	try {
-	// 		const responseSyncing = await fetch(
-	// 			`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					"ipaddress:port": ipaddressPort,
-	// 					database: mainDatabase,
-	// 					userName: userType,
-	// 					userPassword: userPassword,
-	// 				}),
-	// 			},
-	// 		);
+	const fetchingResponseSyncing = async () => {
+		try {
+			const responseSyncing = await fetch(
+				`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						"ipaddress:port": ipaddressPort,
+						database: mainDatabase,
+						userName: userType,
+						userPassword: userPassword,
+					}),
+				},
+			);
 
-	// 		if (!responseSyncing.ok) {
-	// 			throw new Error(`ERROR SYNCING: ${responseSyncing.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
+			if (!responseSyncing.ok) {
+				throw new Error(`ERROR SYNCING: ${responseSyncing.status}`);
+			}
+		} catch (error) {
+			console.error("Error fetching symbol data:", error);
+		}
+	};
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			fetchingProductUpdateData();
+		}, 900000);
+
+		return () => clearInterval(interval);
+	}, []);
 
 	return (
 		<SalesPageLayoutMain socket={socket}>
