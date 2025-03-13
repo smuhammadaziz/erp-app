@@ -659,7 +659,13 @@ function ProductsTable({
 													: ""}
 											</td>
 											<td className="py-1.5 px-3 border-b border-r text-right w-[84px]">
-												{product.stock[0].qty}
+												{product.stock[0].qty.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													},
+												)}
 											</td>
 										</>
 									) : (
@@ -680,7 +686,13 @@ function ProductsTable({
 												}
 											}}
 										>
-											{product.stock[0].qty}
+											{product.stock[0].qty.toLocaleString(
+												"ru-RU",
+												{
+													minimumFractionDigits: 2,
+													maximumFractionDigits: 2,
+												},
+											)}
 										</td>
 									)}
 									<td
