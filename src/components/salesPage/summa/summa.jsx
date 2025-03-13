@@ -60,9 +60,9 @@ function SalespageSummaSection({ socket }) {
 					className={`${
 						price.toString().length > 10
 							? "text-xs"
-							: price.toString().length > 7
+							: price.toString().length > 10
 							? "text-xs"
-							: price.toString().length > 5
+							: price.toString().length > 10
 							? "text-md"
 							: "text-lg"
 					}`}
