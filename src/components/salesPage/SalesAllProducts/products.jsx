@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+	useState,
+	useEffect,
+	useRef,
+	useCallback,
+	useMemo,
+} from "react";
 import SearchBar from "./SearchBar";
 import ProductsTable from "./ProductsTable";
 import ProductModal from "./ProductModal";
@@ -88,7 +94,7 @@ function SalesMainAllProducts({ socket }) {
 		return () => {
 			socket.off("gettingAllUpdatedProductData", updateHandler);
 		};
-	}, [deviceId, ksbId]);
+	}, []);
 
 	const fetchProductsData = async () => {
 		try {
@@ -348,13 +354,16 @@ function SalesMainAllProducts({ socket }) {
 		}
 	};
 
-	useEffect(() => {
+	const sortedData = useMemo(() => {
 		if (sortConfig.key && filteredData.length > 0) {
-			const sortedData = applySortConfig(filteredData, sortConfig);
-			setFilteredData(sortedData);
-			setDisplayedData(sortedData.slice(0, page * itemsPerPage));
+			return applySortConfig(filteredData, sortConfig);
 		}
+		return filteredData;
 	}, [sortConfig, filteredData]);
+
+	useEffect(() => {
+		setDisplayedData(sortedData.slice(0, page * itemsPerPage));
+	}, [sortedData, page]);
 
 	if (loading) {
 		return (
