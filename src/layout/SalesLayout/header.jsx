@@ -511,7 +511,7 @@ function SalesPageLayoutHeader() {
 																		onClick={(
 																			e,
 																		) => {
-																			e.stopPropagation(); // Prevent triggering row selection
+																			e.stopPropagation();
 																			setActivePopupId(
 																				activePopupId ===
 																					sale.id
