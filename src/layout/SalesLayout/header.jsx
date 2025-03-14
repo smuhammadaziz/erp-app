@@ -16,6 +16,8 @@ import { LuClockAlert } from "react-icons/lu";
 import { IoInformation } from "react-icons/io5";
 import { FiPrinter } from "react-icons/fi";
 
+import { PiWarningCircleBold } from "react-icons/pi";
+
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import DiscountModal from "./DiscountModal";
@@ -63,6 +65,8 @@ function SalesPageLayoutHeader() {
 
 	const [isModalOpenDis, setIsModalOpenDis] = useState(false);
 
+	const [showPopup, setShowPopup] = useState(false);
+	const [activePopupId, setActivePopupId] = useState(null);
 	const [language] = useLang("uz");
 
 	const handleOpenModal = (modalType) => {
@@ -262,6 +266,18 @@ function SalesPageLayoutHeader() {
 		}
 	}, [selectedDate]);
 
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (!event.target.closest(".popup-container")) {
+				setActivePopupId(null);
+			}
+		};
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -412,7 +428,7 @@ function SalesPageLayoutHeader() {
 							</div>
 						</div>
 
-						<div className="overflow-y-auto max-h-[calc(90vh-8rem)]">
+						<div className="overflow-y-auto h-[calc(90vh-8rem)]">
 							<table className="w-full border-collapse">
 								<thead>
 									<tr className="bg-gray-100">
@@ -482,6 +498,40 @@ function SalesPageLayoutHeader() {
 																			: "text-blue-600"
 																	}`}
 																/>
+															) : sale.status ===
+															  "problem" ? (
+																<div className="relative inline-block popup-container">
+																	<PiWarningCircleBold
+																		className={`text-xl inline cursor-pointer transition-all duration-200 ${
+																			selectedRowId ===
+																			sale.id
+																				? "text-black"
+																				: "text-red-600 hover:text-red-700 hover:scale-110 animate-pulse"
+																		}`}
+																		onClick={(
+																			e,
+																		) => {
+																			e.stopPropagation(); // Prevent triggering row selection
+																			setActivePopupId(
+																				activePopupId ===
+																					sale.id
+																					? null
+																					: sale.id,
+																			);
+																		}}
+																	/>
+
+																	{activePopupId ===
+																		sale.id && (
+																		<div className="absolute left-0 top-1/5 z-10 w-[300px] -translate-y-50 rounded-lg bg-white p-3 text-sm shadow-2xl border border-gray-300">
+																			<p className="text-red-600">
+																				{
+																					sale.errorMessage
+																				}
+																			</p>
+																		</div>
+																	)}
+																</div>
 															) : sale.status ===
 															  "falseDelivered" ? (
 																<HiOutlineDocument
