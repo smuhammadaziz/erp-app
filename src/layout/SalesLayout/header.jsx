@@ -622,6 +622,18 @@ function SalesPageLayoutHeader() {
 																Кутилмоқда
 															</p>
 														) : sale.status ===
+														  "problem" ? (
+															<p
+																className={`${
+																	selectedRowId ===
+																	sale.id
+																		? "bg-red-600"
+																		: "bg-red-500"
+																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+															>
+																Хатолик
+															</p>
+														) : sale.status ===
 																"delivered" ||
 														  sale.status ===
 																"falseDelivered" ? (
