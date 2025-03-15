@@ -16,10 +16,27 @@ import nodeUrl from "./links";
 
 const socket = io("http://localhost:8000");
 
+const fetchSalesInterval = () => {
+	const storedTime = Number(localStorage.getItem("selectedTimeInMs"));
+	return storedTime || 60000;
+};
+
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 
-	const fetchTime = Number(localStorage.getItem("selectedTimeInMs"));
+	const [fetchTime, setFetchTime] = useState(fetchSalesInterval());
+
+	useEffect(() => {
+		const handleStorageChange = () => {
+			setFetchTime(fetchSalesInterval());
+		};
+
+		window.addEventListener("storage", handleStorageChange);
+
+		return () => {
+			window.removeEventListener("storage", handleStorageChange);
+		};
+	}, []);
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
@@ -69,6 +86,9 @@ export const Router: FC = () => {
 	useEffect(() => {
 		const sendSalesToAPI = async () => {
 			try {
+				const updatedFetchTime = fetchSalesInterval();
+				setFetchTime(updatedFetchTime);
+
 				const isOnline = await checkInternetConnection();
 
 				if (isOnline) {
@@ -91,7 +111,7 @@ export const Router: FC = () => {
 
 					const data = await response.json();
 
-					if (data.message == "Sales processing completed") {
+					if (data.message === "Sales processing completed") {
 						console.log("Sales processing completed");
 					} else {
 						console.log(
@@ -113,7 +133,7 @@ export const Router: FC = () => {
 		}, fetchTime);
 
 		return () => clearInterval(interval);
-	}, []);
+	}, [fetchTime]);
 
 	// =============================
 
