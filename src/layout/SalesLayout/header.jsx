@@ -251,7 +251,7 @@ function SalesPageLayoutHeader() {
 				warehouseData[sale.mainWarehouse]
 					?.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				sale.summa?.toString().includes(searchTerm);
+				sale.total_price?.toString().includes(searchTerm);
 
 			const dateMatch = selectedDate
 				? moment(sale.date).isSame(moment(selectedDate), "day")
