@@ -538,7 +538,11 @@ function SalesPageLayoutHeader() {
 											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
 									}`}
 								>
-									<IoIosOptions />
+									{showFilters ? (
+										<MdClose />
+									) : (
+										<IoIosOptions />
+									)}
 									Филтерлар
 									{Object.values(statusFilters).some(
 										Boolean,
