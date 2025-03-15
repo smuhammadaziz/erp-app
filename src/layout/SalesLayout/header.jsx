@@ -6,6 +6,8 @@ import {
 	MdCalendarToday,
 	MdFilterList,
 	MdClose,
+	MdWarehouse,
+	MdDelete,
 } from "react-icons/md";
 import {
 	HiOutlineUserCircle,
@@ -14,11 +16,15 @@ import {
 	HiOutlineDocumentMinus,
 } from "react-icons/hi2";
 import { SlBasket } from "react-icons/sl";
-import { FiPrinter } from "react-icons/fi";
+import { FiPrinter, FiEye } from "react-icons/fi";
 import { PiWarningCircleBold, PiCardsThreeFill } from "react-icons/pi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import { GoAlert } from "react-icons/go";
+import { FaRegEdit } from "react-icons/fa";
+import { BsThreeDots } from "react-icons/bs";
+import { TbBasketExclamation } from "react-icons/tb";
+import { IoBasketOutline } from "react-icons/io5";
 
 import DiscountModal from "./DiscountModal";
 
@@ -299,6 +305,12 @@ function SalesPageLayoutHeader() {
 				return (
 					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
 						<HiOutlineDocumentMinus className="text-sm" />
+					</div>
+				);
+			case "problem":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200">
+						<PiWarningCircleBold className="text-sm" />
 					</div>
 				);
 			default:
@@ -612,246 +624,532 @@ function SalesPageLayoutHeader() {
 							)}
 						</div>
 
-						<div className="overflow-y-auto h-[calc(90vh-8rem)]">
-							<table className="w-full border-collapse">
-								<thead>
-									<tr className="bg-gray-100">
-										<th className="border w-[200px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-											Дата
-										</th>
-										<th className="border w-[500px] border-gray-200 font-medium text-sm">
-											<div className="p-2 border-b border-gray-200 text-left">
-												Склад
-											</div>
-											<div className="p-2 text-left">
-												Клиент
-											</div>
-										</th>
-										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
-											Сумма
-										</th>
-										<th className="border w-[150px] border-gray-200 p-2 text-left font-medium text-sm align-top">
-											Статус
-										</th>
-										<th className="border border-gray-200 p-2 text-left font-medium text-sm align-top">
-											Автор
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									{filteredData.length > 0 ? (
-										[...filteredData]
+						{/* === data === */}
+
+						<div className="overflow-y-auto flex-grow p-5 bg-gray-50 z-100 relative">
+							{filteredData.length > 0 ? (
+								viewMode === "table" ? (
+									<div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+										<table className="min-w-full divide-y divide-gray-200 table-fixed">
+											<thead className="bg-gray-50">
+												<tr>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Дата
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Склад
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Клиент
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Сумма
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Статус
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
+													>
+														Автор
+													</th>
+													<th
+														scope="col"
+														className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]"
+													>
+														Действия
+													</th>
+												</tr>
+											</thead>
+											<tbody className="bg-white divide-y divide-gray-200">
+												{[...filteredData]
+													.reverse()
+													.map((sale) => (
+														<tr
+															key={sale.id}
+															className={`group transition-all ${
+																selectedRowId ===
+																sale.id
+																	? "bg-indigo-50"
+																	: "hover:bg-gray-50"
+															}`}
+															onClick={() =>
+																setSelectedRowId(
+																	sale.id,
+																)
+															}
+															onDoubleClick={() =>
+																openDetailModal &&
+																openDetailModal(
+																	sale,
+																)
+															}
+														>
+															<td className="px-6 py-4">
+																<div className="flex items-center">
+																	{getStatusBadge(
+																		sale.status,
+																	)}
+																	<div className="ml-3 text-sm text-gray-500">
+																		{moment(
+																			sale.date,
+																		).isSame(
+																			moment(),
+																			"day",
+																		)
+																			? moment(
+																					sale.date,
+																			  ).format(
+																					"HH:mm",
+																			  )
+																			: moment(
+																					sale.date,
+																			  ).format(
+																					"DD.MM.YYYY HH:mm",
+																			  )}
+																	</div>
+																</div>
+															</td>
+															<td className="px-6 py-4">
+																<div className="flex items-center">
+																	{/* <div className="flex-shrink-0 h-8 w-8 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-600">
+																									<MdWarehouse />
+																								</div> */}
+																	<div className="">
+																		<div className="text-sm font-medium text-gray-900">
+																			{
+																				warehouseData[
+																					sale
+																						.details[0]
+																						.warehouse
+																				]
+																			}
+																		</div>
+																		<div className="text-xs text-gray-500">
+																			Основной
+																		</div>
+																	</div>
+																</div>
+															</td>
+															<td className="px-6 py-4">
+																<div className="flex items-center">
+																	<div className="">
+																		<div
+																			className={`text-sm font-medium text-gray-900 ${
+																				sale.client_name ===
+																				"<не указан>"
+																					? "text-slate-300"
+																					: ""
+																			}`}
+																		>
+																			{
+																				sale.client_name
+																			}
+																		</div>
+																	</div>
+																</div>
+															</td>
+															<td className="px-6 py-4">
+																<div className="text-sm font-medium text-gray-900">
+																	{parseFloat(
+																		sale.total_price,
+																	).toLocaleString(
+																		"ru-RU",
+																		{
+																			minimumFractionDigits: 2,
+																			maximumFractionDigits: 2,
+																		},
+																	)}{" "}
+																</div>
+																<div className="text-xs text-gray-500">
+																	{
+																		currencyData[
+																			sale
+																				.details[0]
+																				.currency
+																		]
+																	}
+																</div>
+															</td>
+															<td className="px-6 py-4">
+																<div className="flex items-center">
+																	<div className="">
+																		<div className="text-sm font-medium text-gray-900">
+																			{sale.status ===
+																			"process" ? (
+																				<p
+																					className={`${
+																						selectedRowId ===
+																						sale.id
+																							? "bg-orange-600"
+																							: "bg-orange-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				>
+																					Кутилмоқда
+																				</p>
+																			) : sale.status ===
+																			  "problem" ? (
+																				<p
+																					className={`${
+																						selectedRowId ===
+																						sale.id
+																							? "bg-red-600"
+																							: "bg-red-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				>
+																					Хатолик
+																				</p>
+																			) : sale.status ===
+																					"delivered" ||
+																			  sale.status ===
+																					"falseDelivered" ? (
+																				<p
+																					className={`${
+																						selectedRowId ===
+																						sale.id
+																							? "bg-green-600"
+																							: "bg-green-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				>
+																					Юборилди
+																				</p>
+																			) : (
+																				sale.status
+																			)}
+																		</div>
+																	</div>
+																</div>
+															</td>
+
+															<td className="px-6 py-4">
+																<div className="flex items-center">
+																	<div className="">
+																		<div className="text-sm font-medium text-gray-900">
+																			{
+																				sale.seller
+																			}
+																		</div>
+																	</div>
+																</div>
+															</td>
+															<td className="px-6 py-4">
+																<div className="flex items-center justify-center space-x-1">
+																	<button
+																		className="p-1.5 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors"
+																		onClick={(
+																			e,
+																		) => {
+																			handleClick(
+																				sale.id,
+																			);
+																		}}
+																	>
+																		<FaRegEdit />
+																	</button>
+																	<div>
+																		<button
+																			className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
+																			onClick={() =>
+																				setIsExitModalOpen(
+																					true,
+																				)
+																			}
+																		>
+																			<MdDelete />
+																		</button>
+																	</div>
+																	<div className="">
+																		<button
+																			className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+																			onClick={(
+																				e,
+																			) => {
+																				setShowActionsMenu(
+																					showActionsMenu ===
+																						sale.id
+																						? null
+																						: sale.id,
+																				);
+																			}}
+																		>
+																			<BsThreeDots />
+																		</button>
+
+																		{showActionsMenu ===
+																			sale.id && (
+																			<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
+																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<FiEye className="text-gray-500" />
+																					Просмотреть
+																					детали
+																				</button>
+																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<FiPrinter className="text-gray-500" />
+																					Печать
+																				</button>
+																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<FaRegEdit className="text-gray-500" />
+																					Давом
+																					эттириш
+																				</button>
+																				<button
+																					onClick={(
+																						e,
+																					) => {
+																						e.preventDefault(); // Prevent default behavior
+																						e.stopPropagation(); // Stop event propagation
+																						console.log(
+																							"Delete button clicked",
+																						);
+																						setIsExitModalOpen(
+																							true,
+																						);
+																					}}
+																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																				>
+																					<MdDelete className="text-gray-500 text-lg" />
+																					Ўчириш
+																				</button>
+																			</div>
+																		)}
+																	</div>
+																</div>
+															</td>
+														</tr>
+													))}
+											</tbody>
+										</table>
+									</div>
+								) : (
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+										{[...filteredData]
 											.reverse()
 											.map((sale) => (
-												<tr
+												<div
 													key={sale.id}
-													className={`cursor-pointer transition-colors ${
+													className={`bg-white rounded-xl border ${
 														selectedRowId ===
 														sale.id
-															? "bg-blue-200 text-black hover:bg-blue-200"
-															: "hover:bg-gray-50"
-													}`}
+															? "border-indigo-300 ring-2 ring-indigo-100"
+															: "border-gray-200 hover:border-indigo-200"
+													} shadow-sm overflow-hidden transition-all cursor-pointer group`}
 													onClick={() =>
 														setSelectedRowId(
 															sale.id,
 														)
 													}
 													onDoubleClick={() =>
+														openDetailModal &&
 														openDetailModal(sale)
 													}
 												>
-													<td className="border border-gray-200 p-2 text-sm w-[200px]">
-														<span className="mr-4">
-															{sale.status ===
-															"process" ? (
-																<HiOutlineDocument
-																	className={`text-xl inline ${
-																		selectedRowId ===
-																		sale.id
-																			? "text-black"
-																			: "text-blue-600"
-																	}`}
-																/>
-															) : sale.status ===
-															  "delivered" ? (
-																<HiOutlineDocumentCheck
-																	className={`text-xl inline ${
-																		selectedRowId ===
-																		sale.id
-																			? "text-black"
-																			: "text-blue-600"
-																	}`}
-																/>
-															) : sale.status ===
-															  "problem" ? (
-																<div className="relative inline-block popup-container">
-																	<PiWarningCircleBold
-																		className={`text-xl inline cursor-pointer transition-all duration-200 ${
+													<div className="p-4 flex justify-between border-b border-gray-100">
+														<div className="flex items-center gap-2">
+															<div className="flex-shrink-0 h-10 w-10 rounded-md bg-indigo-50 flex items-center justify-center text-indigo-600">
+																<IoBasketOutline />
+															</div>
+															<div>
+																<div className="font-medium text-gray-900">
+																	{
+																		warehouseData[
+																			sale
+																				.details[0]
+																				.warehouse
+																		]
+																	}
+																</div>
+																<div className="text-xs text-gray-500">
+																	Основной
+																</div>
+															</div>
+														</div>
+														<div className="flex items-center">
+															{getStatusBadge(
+																sale.status,
+															)}
+														</div>
+													</div>
+
+													<div className="p-4">
+														<div className="flex justify-between mb-3">
+															<div className="text-xs text-gray-500">
+																Дата:
+															</div>
+															<div className="text-sm">
+																{moment(
+																	sale.date,
+																).isSame(
+																	moment(),
+																	"day",
+																)
+																	? moment(
+																			sale.date,
+																	  ).format(
+																			"HH:mm",
+																	  )
+																	: moment(
+																			sale.date,
+																	  ).format(
+																			"DD.MM.YYYY HH:mm",
+																	  )}
+															</div>
+														</div>
+
+														<div className="flex justify-between mb-3">
+															<div className="text-xs text-gray-500">
+																Клиент:
+															</div>
+															<div
+																className={`text-sm font-medium ${
+																	sale.client_name ===
+																	"<не указан>"
+																		? "text-slate-300"
+																		: ""
+																}`}
+															>
+																{
+																	sale.client_name
+																}
+															</div>
+														</div>
+
+														<div className="flex justify-between mb-3">
+															<div className="text-xs text-gray-500">
+																Сумма:
+															</div>
+															<div className="text-sm font-medium">
+																{parseFloat(
+																	sale.total_price,
+																).toLocaleString(
+																	"ru-RU",
+																	{
+																		minimumFractionDigits: 2,
+																		maximumFractionDigits: 2,
+																	},
+																)}{" "}
+																{
+																	currencyData[
+																		sale
+																			.details[0]
+																			.currency
+																	]
+																}
+															</div>
+														</div>
+														<div className="flex justify-between mb-3">
+															<div className="text-xs text-gray-500">
+																Статус:
+															</div>
+															<div className="text-sm font-medium">
+																{sale.status ===
+																"process" ? (
+																	<p
+																		className={`${
 																			selectedRowId ===
 																			sale.id
-																				? "text-black"
-																				: "text-red-600 hover:text-red-700 hover:scale-110 animate-pulse"
-																		}`}
-																		onClick={(
-																			e,
-																		) => {
-																			e.stopPropagation();
-																			setActivePopupId(
-																				activePopupId ===
-																					sale.id
-																					? null
-																					: sale.id,
-																			);
-																		}}
-																	/>
+																				? "bg-orange-600"
+																				: "bg-orange-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																	>
+																		Кутилмоқда
+																	</p>
+																) : sale.status ===
+																  "problem" ? (
+																	<p
+																		className={`${
+																			selectedRowId ===
+																			sale.id
+																				? "bg-red-600"
+																				: "bg-red-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																	>
+																		Хатолик
+																	</p>
+																) : sale.status ===
+																		"delivered" ||
+																  sale.status ===
+																		"falseDelivered" ? (
+																	<p
+																		className={`${
+																			selectedRowId ===
+																			sale.id
+																				? "bg-green-600"
+																				: "bg-green-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																	>
+																		Юборилди
+																	</p>
+																) : (
+																	sale.status
+																)}
+															</div>
+														</div>
 
-																	{activePopupId ===
-																		sale.id && (
-																		<div className="absolute left-0 top-1/5 z-10 w-[300px] -translate-y-50 rounded-lg bg-white p-3 text-sm shadow-2xl border border-gray-300">
-																			<p className="text-red-600">
-																				{
-																					sale.errorMessage
-																				}
-																			</p>
-																		</div>
-																	)}
-																</div>
-															) : sale.status ===
-															  "falseDelivered" ? (
-																<HiOutlineDocument
-																	className={`text-xl inline ${
-																		selectedRowId ===
-																		sale.id
-																			? "text-black"
-																			: "text-blue-600"
-																	}`}
-																/>
-															) : (
-																sale.status
-															)}
-														</span>
-														{moment(
-															sale.date,
-														).isSame(
-															moment(),
-															"day",
-														)
-															? moment(
-																	sale.date,
-															  ).format("HH:mm")
-															: moment(
-																	sale.date,
-															  ).format(
-																	"DD.MM.YYYY HH:mm",
-															  )}
-													</td>
-													<td className="border border-gray-200 text-sm w-[500px]">
-														<div
-															className="p-1 border-b border-gray-200 truncate"
-															title={
-																sale.details[0]
-																	?.warehouse
-															}
-														>
-															{
-																warehouseData[
-																	sale
-																		.details[0]
-																		.warehouse
-																]
-															}
+														<div className="flex justify-between">
+															<div className="text-xs text-gray-500">
+																Автор:
+															</div>
+															<div className="text-sm">
+																{sale.seller}
+															</div>
 														</div>
-														<div
-															className={`p-1 truncate font-medium ${
-																sale.client_name ===
-																"<не указан>"
-																	? "text-slate-300"
-																	: ""
-															}`}
-															title={
-																sale.client_name
-															}
+													</div>
+
+													<div className="bg-gray-50 p-3 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity border-t border-gray-100">
+														<button
+															onClick={(e) => {
+																handleClick(
+																	sale.id,
+																);
+															}}
+															className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors"
 														>
-															{sale.client_name}
-														</div>
-													</td>
-													<td className="border border-gray-200 font-medium p-2 text-sm">
-														{parseFloat(
-															sale.total_price,
-														).toLocaleString(
-															"ru-RU",
-															{
-																minimumFractionDigits: 2,
-																maximumFractionDigits: 2,
-															},
-														)}{" "}
-														{
-															currencyData[
-																sale.details[0]
-																	.currency
-															]
-														}
-													</td>
-													<td className="border border-gray-200 p-1 w-[150px]">
-														{sale.status ===
-														"process" ? (
-															<p
-																className={`${
-																	selectedRowId ===
-																	sale.id
-																		? "bg-orange-600"
-																		: "bg-orange-500"
-																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
-															>
-																Кутилмоқда
-															</p>
-														) : sale.status ===
-														  "problem" ? (
-															<p
-																className={`${
-																	selectedRowId ===
-																	sale.id
-																		? "bg-red-600"
-																		: "bg-red-500"
-																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
-															>
-																Хатолик
-															</p>
-														) : sale.status ===
-																"delivered" ||
-														  sale.status ===
-																"falseDelivered" ? (
-															<p
-																className={`${
-																	selectedRowId ===
-																	sale.id
-																		? "bg-green-600"
-																		: "bg-green-500"
-																} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
-															>
-																Юборилди
-															</p>
-														) : (
-															sale.status
-														)}
-													</td>
-													<td className="border border-gray-200 p-2 text-sm">
-														{sale.seller}
-													</td>
-												</tr>
-											))
-									) : (
-										<tr>
-											<td
-												colSpan="6"
-												className="text-center py-10 text-gray-500 text-sm border border-gray-200"
-											>
-												Ҳозирча савдолар йўқ
-											</td>
-										</tr>
-									)}
-								</tbody>
-							</table>
+															<FaRegEdit />
+														</button>
+														<button
+															onClick={() =>
+																setIsExitModalOpen(
+																	true,
+																)
+															}
+															className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors"
+														>
+															<MdDelete />
+														</button>
+														<button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
+															<BsThreeDots />
+														</button>
+													</div>
+												</div>
+											))}
+									</div>
+								)
+							) : (
+								<div className="flex flex-col items-center justify-center h-64 rounded-xl border border-gray-200 bg-white shadow-sm">
+									<div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+										<TbBasketExclamation className="text-3xl text-gray-400" />
+									</div>
+									<h3 className="text-lg font-medium text-gray-700 mb-1">
+										Ҳозирча савдолар йўқ
+									</h3>
+								</div>
+							)}
 						</div>
 					</div>
 					{isExitModalOpen && (
