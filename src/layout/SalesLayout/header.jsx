@@ -221,7 +221,7 @@ function SalesPageLayoutHeader() {
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (!event.target.closest(".popup-container")) {
-				setActivePopupId(null);
+				setShowPopup(false);
 			}
 		};
 		document.addEventListener("click", handleClickOutside);
@@ -287,7 +287,9 @@ function SalesPageLayoutHeader() {
 		}
 	}, [selectedDate]);
 
-	const getStatusBadge = (status) => {
+	// const [errorSaleMessage, setErrorSaleMessage] = useState("");
+
+	const getStatusBadge = (status, error) => {
 		switch (status) {
 			case "process":
 				return (
@@ -322,16 +324,12 @@ function SalesPageLayoutHeader() {
 
 						{showPopup &&
 							(viewMode === "table" ? (
-								<div className="absolute left-0 top-100 z-10 w-56 -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
-									<p className="text-gray-800">
-										Table mode error message
-									</p>
+								<div className="absolute left-0 top-100 z-10 w-[300px] -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+									<p className="text-red-600">{error}</p>
 								</div>
 							) : (
-								<div className="absolute right-0 top-100 z-10 w-56 -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
-									<p className="text-gray-800">
-										Other mode error message
-									</p>
+								<div className="absolute right-0 top-100 z-10 w-[300px] -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+									<p className="text-red-600">{error}</p>
 								</div>
 							))}
 					</div>
@@ -726,6 +724,7 @@ function SalesPageLayoutHeader() {
 																<div className="flex items-center">
 																	{getStatusBadge(
 																		sale.status,
+																		sale.errorMessage,
 																	)}
 																	<div className="ml-3 text-sm text-gray-500">
 																		{moment(
@@ -1002,6 +1001,7 @@ function SalesPageLayoutHeader() {
 														<div className="flex items-center">
 															{getStatusBadge(
 																sale.status,
+																sale.errorMessage,
 															)}
 														</div>
 													</div>
