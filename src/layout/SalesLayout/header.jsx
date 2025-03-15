@@ -3,12 +3,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
 	MdOutlineFormatListBulleted,
 	MdOutlineInfo,
+	MdCalendarToday,
+	MdFilterList,
 	MdClose,
 } from "react-icons/md";
 import {
 	HiOutlineUserCircle,
 	HiOutlineDocumentCheck,
 	HiOutlineDocument,
+	HiOutlineDocumentMinus,
 } from "react-icons/hi2";
 import { SlBasket } from "react-icons/sl";
 import { FiPrinter } from "react-icons/fi";
@@ -50,6 +53,18 @@ function SalesPageLayoutHeader() {
 	const [showPopup, setShowPopup] = useState(false);
 	const [activePopupId, setActivePopupId] = useState(null);
 	const [language] = useLang("uz");
+
+	const [searchTerm, setSearchTerm] = useState("");
+	const [showCalendar, setShowCalendar] = useState(false);
+	const [selectedDate, setSelectedDate] = useState(null);
+	const [statusFilters, setStatusFilters] = useState({
+		process: false,
+		delivered: false,
+		falseDelivered: false,
+	});
+	const [showFilters, setShowFilters] = useState(false);
+	const [viewMode, setViewMode] = useState("table");
+	const [showActionsMenu, setShowActionsMenu] = useState(null);
 
 	const handleOpenModal = (modalType) => {
 		setIsModalOpen((prevState) => ({ ...prevState, [modalType]: true }));
@@ -191,25 +206,43 @@ function SalesPageLayoutHeader() {
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
-	const [searchTerm, setSearchTerm] = useState("");
-	const [showCalendar, setShowCalendar] = useState(false);
-	const [selectedDate, setSelectedDate] = useState(null);
-	const [statusFilters, setStatusFilters] = useState({
-		process: false,
-		delivered: false,
-		falseDelivered: false,
-	});
+	useEffect(() => {
+		if (!selectedDate) {
+			setShowCalendar(false);
+		}
+	}, [selectedDate]);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (!event.target.closest(".popup-container")) {
+				setActivePopupId(null);
+			}
+		};
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
+
+	// ==================== new code ====================
+
+	useEffect(() => {
+		const savedViewMode = localStorage.getItem("viewModeProcess");
+		if (savedViewMode) {
+			setViewMode(savedViewMode);
+		}
+	}, []);
 
 	const getFilteredData = () => {
 		return productData.filter((sale) => {
 			const searchMatch =
 				sale.client_name
-					.toLowerCase()
+					?.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				warehouseData[sale.details[0].warehouse]
-					.toLowerCase()
+				warehouseData[sale.mainWarehouse]
+					?.toLowerCase()
 					.includes(searchTerm.toLowerCase()) ||
-				sale.total_price.toString().includes(searchTerm);
+				sale.summa?.toString().includes(searchTerm);
 
 			const dateMatch = selectedDate
 				? moment(sale.date).isSame(moment(selectedDate), "day")
@@ -248,19 +281,52 @@ function SalesPageLayoutHeader() {
 		}
 	}, [selectedDate]);
 
+	const getStatusBadge = (status) => {
+		switch (status) {
+			case "process":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-200">
+						<HiOutlineDocument className="text-sm" />
+					</div>
+				);
+			case "delivered":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+						<HiOutlineDocumentCheck className="text-sm" />
+					</div>
+				);
+			case "falseDelivered":
+				return (
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
+						<HiOutlineDocumentMinus className="text-sm" />
+					</div>
+				);
+			default:
+				return status;
+		}
+	};
+
+	const clearAllFilters = () => {
+		setSearchTerm("");
+		setSelectedDate(null);
+		setStatusFilters({
+			process: false,
+			delivered: false,
+			falseDelivered: false,
+		});
+	};
+
 	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (!event.target.closest(".popup-container")) {
-				setActivePopupId(null);
-			}
+		const handleClickOutside = () => {
+			setShowActionsMenu(null);
 		};
-		document.addEventListener("click", handleClickOutside);
+
+		document.addEventListener("mousedown", handleClickOutside);
 		return () => {
-			document.removeEventListener("click", handleClickOutside);
+			document.removeEventListener("mousedown", handleClickOutside);
 		};
 	}, []);
 
-	const [viewMode, setViewMode] = useState("table");
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
 	const deleteOneSales = async (salesId) => {
@@ -364,26 +430,32 @@ function SalesPageLayoutHeader() {
 							</div>
 						</div>
 
-						<div className="p-3 border-b border-gray-200 bg-gray-50">
-							<div className="flex flex-wrap gap-4 items-center">
-								<div className="relative max-w-md flex-grow">
-									<BiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+						{/* === filters === */}
+						<div className="p-5 bg-white border-b">
+							<div className="flex flex-wrap items-center gap-3">
+								<div className="relative flex-grow max-w-md">
+									<div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+										<BiSearch className="text-gray-400" />
+									</div>
 									<input
 										type="text"
 										value={searchTerm}
 										onChange={(e) =>
 											setSearchTerm(e.target.value)
 										}
-										placeholder="Поиск..."
-										className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+										placeholder="Поиск по имени, складу или сумме..."
+										className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm transition-all"
 									/>
+									{searchTerm && (
+										<button
+											onClick={() => setSearchTerm("")}
+											className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+										>
+											<MdClose />
+										</button>
+									)}
 								</div>
-								<div className="relative">
-									<button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2">
-										<FiPrinter />
-										Печать{" "}
-									</button>
-								</div>
+
 								<div className="relative">
 									<button
 										onClick={() => {
@@ -393,17 +465,20 @@ function SalesPageLayoutHeader() {
 												setShowCalendar(!showCalendar);
 											}
 										}}
-										className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center gap-2"
+										className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+											selectedDate
+												? "bg-indigo-500 text-white hover:bg-indigo-600"
+												: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+										}`}
 									>
-										{selectedDate ? (
-											<>
-												{moment(selectedDate).format(
+										<MdCalendarToday />
+										{selectedDate
+											? `${moment(selectedDate).format(
 													"DD.MM.YYYY",
-												)}
-												<MdClose className="text-sm" />
-											</>
-										) : (
-											"Выберите дату"
+											  )}`
+											: "Выберите дату"}
+										{selectedDate && (
+											<MdClose className="text-sm hover:text-gray-100" />
 										)}
 									</button>
 									{showCalendar && (
@@ -411,58 +486,130 @@ function SalesPageLayoutHeader() {
 											<Calendar
 												onChange={handleDateSelect}
 												value={selectedDate}
-												className="border border-gray-200 rounded-lg shadow-lg"
+												className="border border-gray-200 rounded-lg shadow-xl"
 											/>
 										</div>
 									)}
 								</div>
-								<div className="flex gap-4">
-									<label className="flex items-center gap-2 text-sm">
-										<input
-											type="checkbox"
-											checked={statusFilters.delivered}
-											onChange={() =>
-												handleStatusFilterChange(
-													"delivered",
-												)
+
+								<button
+									onClick={() => setShowFilters(!showFilters)}
+									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+										Object.values(statusFilters).some(
+											Boolean,
+										)
+											? "bg-indigo-50 text-indigo-700 border border-indigo-200"
+											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+									}`}
+								>
+									<MdFilterList />
+									Фильтры
+									{Object.values(statusFilters).some(
+										Boolean,
+									) && (
+										<span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs text-white">
+											{
+												Object.values(
+													statusFilters,
+												).filter(Boolean).length
 											}
-											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-										/>
-										Тасдиқланган
-									</label>
-									<label className="flex items-center gap-2 text-sm">
-										<input
-											type="checkbox"
-											checked={
-												statusFilters.falseDelivered
-											}
-											onChange={() =>
-												handleStatusFilterChange(
-													"falseDelivered",
-												)
-											}
-											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-										/>
-										Тасдиқланмаган
-									</label>
-									<label className="flex items-center gap-2 text-sm">
-										<input
-											type="checkbox"
-											checked={statusFilters.process}
-											onChange={() =>
+										</span>
+									)}
+								</button>
+
+								{(searchTerm ||
+									selectedDate ||
+									Object.values(statusFilters).some(
+										Boolean,
+									)) && (
+									<button
+										onClick={clearAllFilters}
+										className="px-4 py-2.5 rounded-lg text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
+									>
+										Сбросить фильтры
+									</button>
+								)}
+
+								<div className="ml-auto text-sm text-gray-500 font-medium">
+									Найдено:{" "}
+									<span className="text-gray-900 font-semibold">
+										{filteredData.length}
+									</span>
+								</div>
+							</div>
+
+							{showFilters && (
+								<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+									<h4 className="text-sm font-medium text-gray-700 mb-3">
+										Фильтр по статусу:
+									</h4>
+									<div className="flex flex-wrap gap-3">
+										<button
+											onClick={() =>
 												handleStatusFilterChange(
 													"process",
 												)
 											}
-											className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-										/>
-										Кутилмоқда
-									</label>
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.process
+													? "bg-indigo-100 text-indigo-800 border border-indigo-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
+										>
+											<HiOutlineDocument
+												className={
+													statusFilters.process
+														? "text-indigo-600"
+														: "text-gray-500"
+												}
+											/>
+											В процессе
+										</button>
+										<button
+											onClick={() =>
+												handleStatusFilterChange(
+													"delivered",
+												)
+											}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.delivered
+													? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
+										>
+											<HiOutlineDocumentCheck
+												className={
+													statusFilters.delivered
+														? "text-emerald-600"
+														: "text-gray-500"
+												}
+											/>
+											Доставлено
+										</button>
+										<button
+											onClick={() =>
+												handleStatusFilterChange(
+													"falseDelivered",
+												)
+											}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.falseDelivered
+													? "bg-rose-100 text-rose-800 border border-rose-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
+										>
+											<HiOutlineDocumentMinus
+												className={
+													statusFilters.falseDelivered
+														? "text-rose-600"
+														: "text-gray-500"
+												}
+											/>
+											Не доставлено
+										</button>
+									</div>
 								</div>
-								<div className="font-bold ml-10">
-									({filteredData ? filteredData.length : 0})
-								</div>
-							</div>
+							)}
 						</div>
 
 						<div className="overflow-y-auto h-[calc(90vh-8rem)]">
