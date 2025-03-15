@@ -362,13 +362,15 @@ function SalesPageLayoutHeader({ socket }) {
 	};
 
 	useEffect(() => {
-		const handleClickOutside = () => {
-			setShowActionsMenu(null);
+		const handleClickOutside = (event) => {
+			if (!event.target.closest(".active-buttons")) {
+				setShowActionsMenu(null);
+			}
 		};
 
-		document.addEventListener("mousedown", handleClickOutside);
+		document.addEventListener("click", handleClickOutside);
 		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
+			document.removeEventListener("click", handleClickOutside);
 		};
 	}, []);
 
@@ -971,7 +973,7 @@ function SalesPageLayoutHeader({ socket }) {
 																	</div>
 																	<div className="">
 																		<button
-																			className="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+																			className="p-1.5 active-buttons text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
 																			onClick={(
 																				e,
 																			) => {
