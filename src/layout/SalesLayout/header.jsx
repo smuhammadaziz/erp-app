@@ -890,7 +890,6 @@ function SalesPageLayoutHeader() {
 																		>
 																			<BsThreeDots />
 																		</button>
-
 																		{showActionsMenu ===
 																			sale.id && (
 																			<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
