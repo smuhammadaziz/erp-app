@@ -67,6 +67,7 @@ function SalesPageLayoutHeader() {
 		process: false,
 		delivered: false,
 		falseDelivered: false,
+		problem: false,
 	});
 	const [showFilters, setShowFilters] = useState(false);
 	const [viewMode, setViewMode] = useState("table");
@@ -257,11 +258,13 @@ function SalesPageLayoutHeader() {
 			const statusMatch =
 				(!statusFilters.process &&
 					!statusFilters.delivered &&
-					!statusFilters.falseDelivered) ||
+					!statusFilters.falseDelivered &&
+					!statusFilters.problem) ||
 				(statusFilters.process && sale.status === "process") ||
 				(statusFilters.delivered && sale.status === "delivered") ||
 				(statusFilters.falseDelivered &&
-					sale.status === "falseDelivered");
+					sale.status === "falseDelivered") ||
+				(statusFilters.problem && sale.status === "problem");
 
 			return searchMatch && dateMatch && statusMatch;
 		});
@@ -572,7 +575,7 @@ function SalesPageLayoutHeader() {
 							{showFilters && (
 								<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
 									<h4 className="text-sm font-medium text-gray-700 mb-3">
-										Фильтр по статусу:
+										Статус бўйича филтер:
 									</h4>
 									<div className="flex flex-wrap gap-3">
 										<button
@@ -594,7 +597,7 @@ function SalesPageLayoutHeader() {
 														: "text-gray-500"
 												}
 											/>
-											В процессе
+											Жараёнда
 										</button>
 										<button
 											onClick={() =>
@@ -615,7 +618,7 @@ function SalesPageLayoutHeader() {
 														: "text-gray-500"
 												}
 											/>
-											Доставлено
+											Тасдиқланган
 										</button>
 										<button
 											onClick={() =>
@@ -625,18 +628,39 @@ function SalesPageLayoutHeader() {
 											}
 											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
 												statusFilters.falseDelivered
-													? "bg-rose-100 text-rose-800 border border-rose-300"
+													? "bg-rose-100 text-orange-800 border border-orange-300"
 													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
 											}`}
 										>
 											<HiOutlineDocumentMinus
 												className={
 													statusFilters.falseDelivered
+														? "text-orange-600"
+														: "text-gray-500"
+												}
+											/>
+											Тасдиқланмаган
+										</button>
+										<button
+											onClick={() =>
+												handleStatusFilterChange(
+													"problem",
+												)
+											}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.problem
+													? "bg-rose-100 text-rose-800 border border-rose-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
+										>
+											<HiOutlineDocument
+												className={
+													statusFilters.problem
 														? "text-rose-600"
 														: "text-gray-500"
 												}
 											/>
-											Не доставлено
+											Хатолик мавжуд
 										</button>
 									</div>
 								</div>
