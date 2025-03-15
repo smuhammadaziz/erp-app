@@ -9,7 +9,7 @@ function SalesPageLayoutMain({ children, socket }) {
 		<Layout>
 			<div className="flex flex-col z-0">
 				<header>
-					<SalesPageLayoutHeader />
+					<SalesPageLayoutHeader socket={socket} />
 				</header>
 				<div className="flex flex-1 ">
 					<div className="flex-1  px-1 py-0 bg-white overflow-auto">

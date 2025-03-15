@@ -43,7 +43,7 @@ import "moment/locale/ru";
 
 moment.locale("ru");
 
-function SalesPageLayoutHeader() {
+function SalesPageLayoutHeader({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState({
 		klientlar: false,
 		smenaYopish: false,
@@ -90,23 +90,28 @@ function SalesPageLayoutHeader() {
 	const device_id = localStorage.getItem("device_id");
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await fetch(
-					`${nodeUrl}/api/all/sales/${ksb_id}`,
-				);
-				if (!response.ok) {
-					throw new Error("Failed to fetch products");
-				}
-				const data = await response.json();
-				setProductData(data);
-			} catch (err) {
-				console.log(err);
-			}
-		};
-
 		fetchProducts();
-	}, [nodeUrl, ksb_id]);
+
+		const updateHandler = () => fetchProducts();
+		socket.on("gettingAllSavedSales", updateHandler);
+
+		return () => {
+			socket.off("gettingAllSavedSales", updateHandler);
+		};
+	}, []);
+
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch(`${nodeUrl}/api/all/sales/${ksb_id}`);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			setProductData(data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	const [currencyData, setCurrencyData] = useState({});
 
