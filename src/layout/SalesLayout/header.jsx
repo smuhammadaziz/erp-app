@@ -1,47 +1,27 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FaBuilding, FaUserAlt } from "react-icons/fa";
-import { BsClock } from "react-icons/bs";
-import { FaUsersLine } from "react-icons/fa6";
-import { CiDiscount1 } from "react-icons/ci";
-import { MdOutlineFormatListBulleted, MdCalendarToday } from "react-icons/md";
-import { HiOutlineUserCircle } from "react-icons/hi2";
-import { MdPendingActions } from "react-icons/md";
-import { MdOutlineDoneAll } from "react-icons/md";
-import { HiOutlineClipboardDocumentCheck } from "react-icons/hi2";
-import { HiOutlineDocumentMinus } from "react-icons/hi2";
-import { HiOutlineDocumentCheck } from "react-icons/hi2";
-import { HiOutlineDocument } from "react-icons/hi2";
-import { LuClock4 } from "react-icons/lu";
-import { LuClockAlert } from "react-icons/lu";
-import { IoInformation } from "react-icons/io5";
+
+import {
+	MdOutlineFormatListBulleted,
+	MdOutlineInfo,
+	MdClose,
+} from "react-icons/md";
+import {
+	HiOutlineUserCircle,
+	HiOutlineDocumentCheck,
+	HiOutlineDocument,
+} from "react-icons/hi2";
+import { SlBasket } from "react-icons/sl";
 import { FiPrinter } from "react-icons/fi";
-
-import { PiWarningCircleBold } from "react-icons/pi";
-
+import { PiWarningCircleBold, PiCardsThreeFill } from "react-icons/pi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
+import { GoAlert } from "react-icons/go";
+
 import DiscountModal from "./DiscountModal";
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
-import {
-	MdOutlineShoppingCart,
-	MdAccessTime,
-	MdPriceCheck,
-	MdPersonOutline,
-	MdOutlineInfo,
-	MdClose,
-	MdPayment,
-	MdInventory,
-	MdWarehouse,
-	MdSearch,
-	MdFilterList,
-} from "react-icons/md";
-import { TbBasketExclamation } from "react-icons/tb";
-import { PiCardsThreeFill } from "react-icons/pi";
-import { SlBasket } from "react-icons/sl";
-import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import nodeUrl from "../../links";
 
 import content from "../../localization/content";
@@ -49,7 +29,6 @@ import useLang from "../../hooks/useLang";
 
 import moment from "moment";
 import "moment/locale/ru";
-import { ImInfo } from "react-icons/im";
 
 moment.locale("ru");
 
