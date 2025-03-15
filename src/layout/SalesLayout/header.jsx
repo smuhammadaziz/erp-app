@@ -936,13 +936,27 @@ function SalesPageLayoutHeader() {
 																	<div>
 																		<button
 																			className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
-																			onClick={() =>
-																				setIsExitModalOpen(
-																					true,
-																				)
-																			}
+																			onClick={() => {
+																				if (
+																					sale.status ==
+																						"process" ||
+																					sale.status ==
+																						"problem"
+																				) {
+																					setIsExitModalOpen(
+																						true,
+																					);
+																				}
+																			}}
 																		>
-																			<MdDelete />
+																			{sale.status ==
+																				"process" ||
+																			sale.status ==
+																				"problem" ? (
+																				<MdDelete />
+																			) : (
+																				<MdDelete className="disabled text-gray-300 cursor-not-allowed" />
+																			)}
 																		</button>
 																	</div>
 																	<div className="">
