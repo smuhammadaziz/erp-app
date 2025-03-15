@@ -395,6 +395,38 @@ function SalesPageLayoutHeader({ socket }) {
 		}
 	};
 
+	const handlePrintOneSales = async () => {
+		const full_title = localStorage.getItem("enterpriseFullTitle");
+		const short_title = localStorage.getItem("enterpriseName");
+
+		const phone1 = localStorage.getItem("enterprisePhone1");
+		const phone2 = localStorage.getItem("enterprisePhone2");
+		const slogan1 = localStorage.getItem("enterpriseSlogan1");
+		const slogan2 = localStorage.getItem("enterpriseSlogan2");
+
+		const user_type = localStorage.getItem("userType");
+
+		try {
+			await fetch(`${nodeUrl}/api/print/${selectedRowId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					full_title:
+						full_title === "null" ? short_title : full_title,
+					phone1: phone1 === "null" ? "" : phone1,
+					phone2: phone2 === "null" ? "" : phone2,
+					slogan1: slogan1 === "null" ? "" : slogan1,
+					slogan2: slogan2 === "null" ? "" : slogan2,
+					user_type: user_type,
+				}),
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -569,6 +601,7 @@ function SalesPageLayoutHeader({ socket }) {
 								</button>
 
 								<button
+									onClick={handlePrintOneSales}
 									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100`}
 								>
 									<LuPrinter />
