@@ -309,8 +309,31 @@ function SalesPageLayoutHeader() {
 				);
 			case "problem":
 				return (
-					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200">
-						<PiWarningCircleBold className="text-sm" />
+					<div className="relative inline-block popup-container">
+						<div
+							className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200 cursor-pointer"
+							onClick={(e) => {
+								e.stopPropagation();
+								setShowPopup(!showPopup);
+							}}
+						>
+							<PiWarningCircleBold className="text-sm" />
+						</div>
+
+						{showPopup &&
+							(viewMode === "table" ? (
+								<div className="absolute left-0 top-100 z-10 w-56 -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+									<p className="text-gray-800">
+										Table mode error message
+									</p>
+								</div>
+							) : (
+								<div className="absolute right-0 top-100 z-10 w-56 -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+									<p className="text-gray-800">
+										Other mode error message
+									</p>
+								</div>
+							))}
 					</div>
 				);
 			default:
