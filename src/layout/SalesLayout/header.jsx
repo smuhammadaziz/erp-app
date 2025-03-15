@@ -16,7 +16,7 @@ import {
 	HiOutlineDocumentMinus,
 } from "react-icons/hi2";
 import { SlBasket } from "react-icons/sl";
-import { FiPrinter, FiEye } from "react-icons/fi";
+import { FiPrinter, FiEye, FiFilter } from "react-icons/fi";
 import { PiWarningCircleBold, PiCardsThreeFill } from "react-icons/pi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
@@ -25,6 +25,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { TbBasketExclamation } from "react-icons/tb";
 import { IoBasketOutline } from "react-icons/io5";
+import { IoIosOptions } from "react-icons/io";
+import { LuPrinter } from "react-icons/lu";
 
 import DiscountModal from "./DiscountModal";
 
@@ -536,8 +538,8 @@ function SalesPageLayoutHeader() {
 											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
 									}`}
 								>
-									<MdFilterList />
-									Фильтры
+									<IoIosOptions />
+									Филтерлар
 									{Object.values(statusFilters).some(
 										Boolean,
 									) && (
@@ -549,6 +551,13 @@ function SalesPageLayoutHeader() {
 											}
 										</span>
 									)}
+								</button>
+
+								<button
+									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100`}
+								>
+									<LuPrinter />
+									Печать
 								</button>
 
 								{(searchTerm ||
