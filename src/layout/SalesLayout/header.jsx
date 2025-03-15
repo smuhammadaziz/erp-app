@@ -319,7 +319,7 @@ function SalesPageLayoutHeader({ socket }) {
 				);
 			case "problem":
 				return (
-					<div className="relative inline-block popup-container">
+					<div className="relative z-200 inline-block popup-container">
 						<div
 							className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200 cursor-pointer relative animate-pulse hover:scale-110 transition-transform duration-300"
 							onClick={(e) => {
