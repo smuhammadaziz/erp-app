@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoClose, IoPrint } from "react-icons/io5";
 
 import content from "../../localization/content";
@@ -6,12 +6,45 @@ import useLang from "../../hooks/useLang";
 
 const PrintingModal = ({
 	setPrintModal,
-	setSuccessModal,
-	setErrorModal,
 	handleSaveSales,
 	handleSaveSalesWithPrint,
 }) => {
 	const [language] = useLang("uz");
+	const [focusedButton, setFocusedButton] = useState("yes");
+	const yesButtonRef = useRef(null);
+	const noButtonRef = useRef(null);
+
+	useEffect(() => {
+		// Set focus to the "Yes" button when the modal opens
+		if (yesButtonRef.current) {
+			yesButtonRef.current.focus();
+		}
+	}, []);
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "ArrowLeft") {
+				setFocusedButton("no");
+				noButtonRef.current?.focus();
+			} else if (e.key === "ArrowRight") {
+				setFocusedButton("yes");
+				yesButtonRef.current?.focus();
+			} else if (e.key === "Enter") {
+				if (focusedButton === "yes") {
+					setPrintModal(false);
+					handleSaveSalesWithPrint();
+				} else {
+					setPrintModal(false);
+					handleSaveSales();
+				}
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [focusedButton]);
 
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
@@ -28,6 +61,7 @@ const PrintingModal = ({
 				</h2>
 				<div className="flex w-full justify-between">
 					<button
+						ref={noButtonRef}
 						onClick={() => {
 							setPrintModal(false);
 							handleSaveSales();
@@ -37,6 +71,7 @@ const PrintingModal = ({
 						{content[language].paymentModal.no}
 					</button>
 					<button
+						ref={yesButtonRef}
 						onClick={() => {
 							setPrintModal(false);
 							handleSaveSalesWithPrint();
