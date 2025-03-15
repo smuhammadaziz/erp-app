@@ -110,7 +110,7 @@ export const Router: FC = () => {
 
 		const interval = setInterval(() => {
 			sendSalesToAPI();
-		}, 5000);
+		}, fetchTime);
 
 		return () => clearInterval(interval);
 	}, []);
