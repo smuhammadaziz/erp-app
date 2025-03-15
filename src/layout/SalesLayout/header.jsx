@@ -38,6 +38,9 @@ import {
 	MdSearch,
 	MdFilterList,
 } from "react-icons/md";
+import { TbBasketExclamation } from "react-icons/tb";
+import { PiCardsThreeFill } from "react-icons/pi";
+import { SlBasket } from "react-icons/sl";
 import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import nodeUrl from "../../links";
 
@@ -278,6 +281,28 @@ function SalesPageLayoutHeader() {
 		};
 	}, []);
 
+	const [viewMode, setViewMode] = useState("table");
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+	const deleteOneSales = async (salesId) => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/one/sales/${salesId}`,
+				{
+					method: "DELETE",
+				},
+			);
+
+			if (response.ok) {
+				console.log("removed");
+			} else {
+				console.log("no item to remove");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -312,19 +337,52 @@ function SalesPageLayoutHeader() {
 				</p>
 			</div>
 			{isListModalOpen && (
-				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-40">
-					<div className="bg-white rounded-lg w-full max-w-[85vw] h-[90vh] overflow-hidden">
-						<div className="px-4 py-3 border-b border-gray-200 flex text-white justify-between items-center bg-blue-600">
-							<h2 className="text-lg font-semibold flex items-center gap-2 text-white">
-								<BsBasket3 className="text-xl" />
-								{content[language].salesPage.headerList}
-							</h2>
-							<button
-								onClick={() => setIsListModalOpen(false)}
-								className="p-1.5 hover:bg-blue-500 rounded-lg transition-colors"
-							>
-								<MdClose className="text-xl" />
-							</button>
+				<div className="fixed inset-0 bg-black/70 flex items-center text-black justify-center z-40 backdrop-blur-sm">
+					<div className="bg-white rounded-xl w-full max-w-[90vw] h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+						<div className="px-6 py-4 border-b flex justify-between items-center bg-white">
+							<div className="flex items-center gap-3">
+								<div className="bg-indigo-50 p-2 rounded-lg">
+									<SlBasket className="text-2xl text-indigo-600" />
+								</div>
+								<div>
+									<h2 className="text-xl font-semibold text-gray-800">
+										{content[language].salesPage.headerList}
+									</h2>
+									<p className="text-sm text-gray-500">
+										Управление заказами и отслеживание
+										доставки
+									</p>
+								</div>
+							</div>
+
+							<div className="flex items-center gap-3">
+								<button
+									className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+									onClick={() => {
+										const newViewMode =
+											viewMode === "table"
+												? "card"
+												: "table";
+										setViewMode(newViewMode); // Update state
+										localStorage.setItem(
+											"viewModeProcess",
+											newViewMode,
+										);
+									}}
+								>
+									{viewMode === "table" ? (
+										<MdOutlineFormatListBulleted className="text-xl" />
+									) : (
+										<PiCardsThreeFill className="text-xl" />
+									)}
+								</button>
+								<button
+									onClick={() => setIsListModalOpen(false)}
+									className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+								>
+									<MdClose className="text-xl" />
+								</button>
+							</div>
 						</div>
 
 						<div className="p-3 border-b border-gray-200 bg-gray-50">
@@ -670,6 +728,40 @@ function SalesPageLayoutHeader() {
 							</table>
 						</div>
 					</div>
+					{isExitModalOpen && (
+						<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
+							<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+								<div className="text-center">
+									<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
+										<GoAlert className="text-red-600 text-6xl" />
+									</h2>
+									<p className="text-black text-lg mb-6">
+										Танланган савдони ўчирмоқчимисиз?
+									</p>
+								</div>
+
+								<div className="flex space-x-4">
+									<button
+										onClick={() => {
+											deleteOneSales(selectedRowId);
+											setIsExitModalOpen(false);
+										}}
+										className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+									>
+										Ҳа
+									</button>
+									<button
+										onClick={() =>
+											setIsExitModalOpen(false)
+										}
+										className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+									>
+										Йўқ
+									</button>
+								</div>
+							</div>
+						</div>
+					)}
 				</div>
 			)}
 			{/* Detail Modal */}
