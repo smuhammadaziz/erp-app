@@ -624,8 +624,6 @@ function SalesPageLayoutHeader() {
 							)}
 						</div>
 
-						{/* === data === */}
-
 						<div className="overflow-y-auto flex-grow p-5 bg-gray-50 z-100 relative">
 							{filteredData.length > 0 ? (
 								viewMode === "table" ? (
