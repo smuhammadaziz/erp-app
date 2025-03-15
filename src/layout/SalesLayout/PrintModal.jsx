@@ -15,7 +15,6 @@ const PrintingModal = ({
 	const noButtonRef = useRef(null);
 
 	useEffect(() => {
-		// Set focus to the "Yes" button when the modal opens
 		if (yesButtonRef.current) {
 			yesButtonRef.current.focus();
 		}
