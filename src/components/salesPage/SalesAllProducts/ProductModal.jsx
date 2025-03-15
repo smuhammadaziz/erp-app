@@ -44,32 +44,15 @@ function ProductModal({
 			const ksbId = localStorage.getItem("ksbIdNumber");
 
 			try {
-				if (
-					!Array.isArray(settingsWarehouse) ||
-					settingsWarehouse.length === 0
-				) {
-					throw new Error("Invalid settingsWarehouse data");
-				}
-
 				const response = await fetch(
 					`${nodeUrl}/api/get/warehouse/data/${deviceId}/${ksbId}/${product.stock[0].warehouse}`,
 				);
-
 				const apiData = await response.json();
 
-				const warehouseData = settingsWarehouse.reduce(
-					(acc, warehouseId) => {
-						const matchedWarehouse = apiData.find(
-							(item) => item.item_id === warehouseId,
-						);
-
-						acc[warehouseId] = matchedWarehouse
-							? matchedWarehouse.name
-							: "-";
-						return acc;
-					},
-					{},
-				);
+				const warehouseData = apiData.reduce((acc, item) => {
+					acc[item.item_id] = item.name;
+					return acc;
+				}, {});
 
 				setWarehouseData((prev) => ({ ...prev, ...warehouseData }));
 			} catch (error) {
