@@ -998,33 +998,34 @@ function SalesPageLayoutHeader({ socket }) {
 																					<FiEye className="text-gray-500" />
 																					Батафсил
 																				</button>
-																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-																					<LuSend className="text-gray-500" />
-																					Қайта
-																					юбориш
-																				</button>
-																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-																					<IoIosSave className="text-gray-500" />
-																					Сохранить
-																				</button>
-																				<button
-																					onClick={() => {
-																						if (
-																							sale.status ==
-																								"process" ||
-																							sale.status ==
-																								"problem"
-																						) {
-																							setIsExitModalOpen(
-																								true,
-																							);
-																						}
-																					}}
-																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																				>
-																					<MdDelete className="text-gray-500 text-lg" />
-																					Ўчириш
-																				</button>
+
+																				{(sale.status ===
+																					"process" ||
+																					sale.status ===
+																						"problem") && (
+																					<>
+																						<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																							<LuSend className="text-gray-500" />
+																							Қайта
+																							юбориш
+																						</button>
+																						<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																							<IoIosSave className="text-gray-500" />
+																							Сохранить
+																						</button>
+																						<button
+																							onClick={() =>
+																								setIsExitModalOpen(
+																									true,
+																								)
+																							}
+																							className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																						>
+																							<MdDelete className="text-gray-500 text-lg" />
+																							Ўчириш
+																						</button>
+																					</>
+																				)}
 																			</div>
 																		)}
 																	</div>
