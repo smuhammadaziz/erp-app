@@ -368,7 +368,7 @@ function SalesPageLayoutHeader() {
 	const deleteOneSales = async (salesId) => {
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/delete/one/sales/${salesId}`,
+				`${nodeUrl}/api/delete/saved/sales/${salesId}`,
 				{
 					method: "DELETE",
 				},
