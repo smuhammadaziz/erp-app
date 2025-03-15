@@ -18,7 +18,7 @@ const socket = io("http://localhost:8000");
 
 const fetchSalesInterval = () => {
 	const storedTime = Number(localStorage.getItem("selectedTimeInMs"));
-	return storedTime || 60000;
+	return storedTime || 120000;
 };
 
 export const Router: FC = () => {
