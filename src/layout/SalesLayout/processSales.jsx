@@ -374,27 +374,6 @@ function ProcessSalesComponent({
 							)}
 						</div>
 
-						<button
-							onClick={() => setShowFilters(!showFilters)}
-							className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
-								Object.values(statusFilters).some(Boolean)
-									? "bg-indigo-50 text-indigo-700 border border-indigo-200"
-									: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
-							}`}
-						>
-							<MdFilterList />
-							Фильтры
-							{Object.values(statusFilters).some(Boolean) && (
-								<span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs text-white">
-									{
-										Object.values(statusFilters).filter(
-											Boolean,
-										).length
-									}
-								</span>
-							)}
-						</button>
-
 						{(searchTerm ||
 							selectedDate ||
 							Object.values(statusFilters).some(Boolean)) && (
@@ -413,75 +392,6 @@ function ProcessSalesComponent({
 							</span>
 						</div>
 					</div>
-
-					{showFilters && (
-						<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-							<h4 className="text-sm font-medium text-gray-700 mb-3">
-								Фильтр по статусу:
-							</h4>
-							<div className="flex flex-wrap gap-3">
-								<button
-									onClick={() =>
-										handleStatusFilterChange("process")
-									}
-									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
-										statusFilters.process
-											? "bg-indigo-100 text-indigo-800 border border-indigo-300"
-											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-									}`}
-								>
-									<HiOutlineDocument
-										className={
-											statusFilters.process
-												? "text-indigo-600"
-												: "text-gray-500"
-										}
-									/>
-									В процессе
-								</button>
-								<button
-									onClick={() =>
-										handleStatusFilterChange("delivered")
-									}
-									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
-										statusFilters.delivered
-											? "bg-emerald-100 text-emerald-800 border border-emerald-300"
-											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-									}`}
-								>
-									<HiOutlineDocumentCheck
-										className={
-											statusFilters.delivered
-												? "text-emerald-600"
-												: "text-gray-500"
-										}
-									/>
-									Доставлено
-								</button>
-								<button
-									onClick={() =>
-										handleStatusFilterChange(
-											"falseDelivered",
-										)
-									}
-									className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
-										statusFilters.falseDelivered
-											? "bg-rose-100 text-rose-800 border border-rose-300"
-											: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-									}`}
-								>
-									<HiOutlineDocumentMinus
-										className={
-											statusFilters.falseDelivered
-												? "text-rose-600"
-												: "text-gray-500"
-										}
-									/>
-									Не доставлено
-								</button>
-							</div>
-						</div>
-					)}
 				</div>
 
 				<div className="overflow-y-auto flex-grow p-5 bg-gray-50 z-100 relative">
