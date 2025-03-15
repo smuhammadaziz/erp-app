@@ -321,7 +321,7 @@ function SalesPageLayoutHeader({ socket }) {
 				return (
 					<div className="relative inline-block popup-container">
 						<div
-							className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200 cursor-pointer"
+							className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-100 text-rose-800 border border-rose-200 cursor-pointer relative animate-pulse hover:scale-110 transition-transform duration-300"
 							onClick={(e) => {
 								e.stopPropagation();
 								setShowPopup(!showPopup);
@@ -330,7 +330,8 @@ function SalesPageLayoutHeader({ socket }) {
 								);
 							}}
 						>
-							<PiWarningCircleBold className="text-sm" />
+							<span className="absolute inset-0 bg-rose-400 opacity-50 rounded-md blur-md animate-[pulse_1.5s_infinite]"></span>
+							<PiWarningCircleBold className="text-sm relative" />
 						</div>
 
 						{activePopupId === row_id &&
