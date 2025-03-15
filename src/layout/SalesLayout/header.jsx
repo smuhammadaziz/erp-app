@@ -1005,17 +1005,17 @@ function SalesPageLayoutHeader({ socket }) {
 																					эттириш
 																				</button>
 																				<button
-																					onClick={(
-																						e,
-																					) => {
-																						e.preventDefault(); // Prevent default behavior
-																						e.stopPropagation(); // Stop event propagation
-																						console.log(
-																							"Delete button clicked",
-																						);
-																						setIsExitModalOpen(
-																							true,
-																						);
+																					onClick={() => {
+																						if (
+																							sale.status ==
+																								"process" ||
+																							sale.status ==
+																								"problem"
+																						) {
+																							setIsExitModalOpen(
+																								true,
+																							);
+																						}
 																					}}
 																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
 																				>
