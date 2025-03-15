@@ -229,7 +229,7 @@ function SalesPageLayoutHeader({ socket }) {
 	useEffect(() => {
 		const handleClickOutside = (event) => {
 			if (!event.target.closest(".popup-container")) {
-				setShowPopup(false);
+				setActivePopupId(null);
 			}
 		};
 		document.addEventListener("click", handleClickOutside);
@@ -297,7 +297,7 @@ function SalesPageLayoutHeader({ socket }) {
 		}
 	}, [selectedDate]);
 
-	const getStatusBadge = (status, error) => {
+	const getStatusBadge = (status, error, row_id) => {
 		switch (status) {
 			case "process":
 				return (
@@ -325,18 +325,21 @@ function SalesPageLayoutHeader({ socket }) {
 							onClick={(e) => {
 								e.stopPropagation();
 								setShowPopup(!showPopup);
+								setActivePopupId(
+									activePopupId === row_id ? null : row_id,
+								);
 							}}
 						>
 							<PiWarningCircleBold className="text-sm" />
 						</div>
 
-						{showPopup &&
+						{activePopupId === row_id &&
 							(viewMode === "table" ? (
-								<div className="absolute left-0 top-100 z-10 w-[300px] -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+								<div className="absolute left-[100%] top-[70%] z-[200] w-[300px] -translate-y-2/2 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
 									<p className="text-red-600">{error}</p>
 								</div>
 							) : (
-								<div className="absolute right-0 top-100 z-10 w-[300px] -translate-y-5/50 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
+								<div className="absolute right-[100%] top-[250%] w-[300px] -translate-y-1/2 rounded-lg bg-white p-3 text-sm shadow-lg border border-gray-300">
 									<p className="text-red-600">{error}</p>
 								</div>
 							))}
@@ -765,6 +768,7 @@ function SalesPageLayoutHeader({ socket }) {
 																	{getStatusBadge(
 																		sale.status,
 																		sale.errorMessage,
+																		sale.id,
 																	)}
 																	<div className="ml-3 text-sm text-gray-500">
 																		{moment(
@@ -1072,6 +1076,7 @@ function SalesPageLayoutHeader({ socket }) {
 															{getStatusBadge(
 																sale.status,
 																sale.errorMessage,
+																sale.id,
 															)}
 														</div>
 													</div>
