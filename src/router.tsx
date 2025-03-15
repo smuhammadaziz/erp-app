@@ -32,6 +32,89 @@ export const Router: FC = () => {
 		setTimeout(() => setLoading(false), 20);
 	}, []);
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+
+			if (!online) {
+				console.log(
+					"No internet connection detected via navigator.onLine.",
+				);
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const credentials = Buffer.from(
+				`${userType}:${userPassword}`,
+			).toString("base64");
+
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+
+			return response.status === 200;
+		} catch (error) {
+			return false;
+		}
+	};
+
+	useEffect(() => {
+		const sendSalesToAPI = async () => {
+			try {
+				const isOnline = await checkInternetConnection();
+
+				if (isOnline) {
+					const response = await fetch(
+						`${nodeUrl}/api/send/sales/${ksbId}`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								ip: ipaddressPort,
+								project: mainDatabase,
+								username: userType,
+								password: userPassword,
+								device_id: deviceId,
+							}),
+						},
+					);
+
+					const data = await response.json();
+
+					if (data.message == "Sales processing completed") {
+						console.log("Sales processing completed");
+					} else {
+						console.log(
+							"Failed to send sales data to API in background",
+						);
+					}
+				} else {
+					console.log(
+						"No internet connection detected. Sales data not sent to API.",
+					);
+				}
+			} catch (err) {
+				console.log(err);
+			}
+		};
+
+		const interval = setInterval(() => {
+			sendSalesToAPI();
+		}, 5000);
+
+		return () => clearInterval(interval);
+	}, []);
+
 	// =============================
 
 	// useEffect(() => {
