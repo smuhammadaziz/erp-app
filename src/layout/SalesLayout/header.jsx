@@ -926,8 +926,8 @@ function SalesPageLayoutHeader() {
 																		onClick={(
 																			e,
 																		) => {
-																			handleClick(
-																				sale.id,
+																			openDetailModal(
+																				sale,
 																			);
 																		}}
 																	>
