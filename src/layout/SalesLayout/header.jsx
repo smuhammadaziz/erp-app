@@ -287,8 +287,6 @@ function SalesPageLayoutHeader() {
 		}
 	}, [selectedDate]);
 
-	// const [errorSaleMessage, setErrorSaleMessage] = useState("");
-
 	const getStatusBadge = (status, error) => {
 		switch (status) {
 			case "process":
