@@ -767,7 +767,7 @@ function SalesPageLayoutHeader() {
 															</td>
 															<td className="px-6 py-4">
 																<div className="flex items-center">
-																	<div className="">
+																	<div>
 																		<div
 																			className={`text-sm font-medium text-gray-900 ${
 																				sale.client_name ===
@@ -776,13 +776,29 @@ function SalesPageLayoutHeader() {
 																					: ""
 																			}`}
 																		>
-																			{
-																				sale.client_name
-																			}
+																			{(() => {
+																				const words =
+																					sale.client_name.split(
+																						" ",
+																					);
+																				return words.length >
+																					5
+																					? words
+																							.slice(
+																								0,
+																								3,
+																							)
+																							.join(
+																								" ",
+																							) +
+																							"..."
+																					: sale.client_name;
+																			})()}
 																		</div>
 																	</div>
 																</div>
 															</td>
+
 															<td className="px-6 py-4">
 																<div className="text-sm font-medium text-gray-900">
 																	{parseFloat(
@@ -1041,9 +1057,22 @@ function SalesPageLayoutHeader() {
 																		: ""
 																}`}
 															>
-																{
-																	sale.client_name
-																}
+																{sale.client_name.split(
+																	" ",
+																).length > 5
+																	? sale.client_name
+																			.split(
+																				" ",
+																			)
+																			.slice(
+																				0,
+																				4,
+																			)
+																			.join(
+																				" ",
+																			) +
+																	  " ..."
+																	: sale.client_name}
 															</div>
 														</div>
 
