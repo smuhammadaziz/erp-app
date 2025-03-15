@@ -16,7 +16,7 @@ import {
 	HiOutlineDocumentMinus,
 } from "react-icons/hi2";
 import { SlBasket } from "react-icons/sl";
-import { FiPrinter, FiEye, FiFilter } from "react-icons/fi";
+import { FiPrinter, FiEye } from "react-icons/fi";
 import { PiWarningCircleBold, PiCardsThreeFill } from "react-icons/pi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
@@ -25,8 +25,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { TbBasketExclamation } from "react-icons/tb";
 import { IoBasketOutline } from "react-icons/io5";
-import { IoIosOptions } from "react-icons/io";
-import { LuPrinter } from "react-icons/lu";
+import { IoIosOptions, IoIosSave } from "react-icons/io";
+import { LuPrinter, LuSend } from "react-icons/lu";
 
 import DiscountModal from "./DiscountModal";
 
@@ -759,12 +759,12 @@ function SalesPageLayoutHeader({ socket }) {
 																	sale.id,
 																)
 															}
-															onDoubleClick={() =>
-																openDetailModal &&
-																openDetailModal(
-																	sale,
-																)
-															}
+															// onDoubleClick={() =>
+															// 	openDetailModal &&
+															// 	openDetailModal(
+															// 		sale,
+															// 	)
+															// }
 														>
 															<td className="px-6 py-4">
 																<div className="flex items-center">
@@ -990,19 +990,22 @@ function SalesPageLayoutHeader({ socket }) {
 																		{showActionsMenu ===
 																			sale.id && (
 																			<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
-																				{/* <button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-																					<FiEye className="text-gray-500" />
-																					Просмотреть
-																					детали
-																				</button> */}
 																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																					<FiPrinter className="text-gray-500" />
 																					Печать
 																				</button>
 																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
-																					<FaRegEdit className="text-gray-500" />
-																					Давом
-																					эттириш
+																					<FiEye className="text-gray-500" />
+																					Батафсил
+																				</button>
+																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<LuSend className="text-gray-500" />
+																					Қайта
+																					юбориш
+																				</button>
+																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<IoIosSave className="text-gray-500" />
+																					Сохранить
 																				</button>
 																				<button
 																					onClick={() => {
