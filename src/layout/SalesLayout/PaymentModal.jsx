@@ -713,7 +713,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 						</div>
 
 						{/* Total Price (Final) */}
-						<div className="bg-green-50 rounded-lg border border-green-100 p-3 shadow-sm mt-auto">
+						{/* <div className="bg-green-50 rounded-lg border border-green-100 p-3 shadow-sm mt-auto">
 							<label className="text-xs font-medium text-green-700 block mb-1">
 								{
 									content[language].salesPage
@@ -726,7 +726,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									maximumFractionDigits: 2,
 								})}
 							</div>
-						</div>
+						</div> */}
 					</div>
 
 					{/* Right Side - Input Fields */}
