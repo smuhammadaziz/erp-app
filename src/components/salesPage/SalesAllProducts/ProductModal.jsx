@@ -291,7 +291,7 @@ function ProductModal({
 										</label>
 										<input
 											type="text"
-											value={product.name}
+											value={product.name ?? ""}
 											readOnly
 											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
 										/>
@@ -310,7 +310,7 @@ function ProductModal({
 											value={
 												warehouseData[
 													product.stock[0].warehouse
-												]
+												] ?? ""
 											}
 											readOnly
 											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
@@ -327,7 +327,7 @@ function ProductModal({
 										</label>
 										<input
 											type="text"
-											value={product.stock[0]?.qty}
+											value={product.stock[0]?.qty ?? ""}
 											readOnly
 											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
 										/>
@@ -351,7 +351,7 @@ function ProductModal({
 									<input
 										ref={quantityInputRef}
 										type="number"
-										value={quantity}
+										value={quantity ?? ""}
 										onFocus={handleFocus}
 										onBlur={handleBlur}
 										onKeyDown={(e) =>
@@ -377,13 +377,15 @@ function ProductModal({
 										<input
 											ref={priceInputRef}
 											type="text"
-											defaultValue={convertedPrice.toLocaleString(
-												"ru-RU",
-												{
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												},
-											)}
+											defaultValue={
+												convertedPrice.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													},
+												) ?? ""
+											}
 											onKeyDown={(e) =>
 												handleKeyDown(e, "price")
 											}
