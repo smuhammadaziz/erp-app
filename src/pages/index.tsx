@@ -157,19 +157,19 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 		fetchProductsData();
 
 		const updateHandler = () => fetchProductsData();
-		socket.on("gettingProducts", updateHandler);
+		socket.on("gettingAllUpdatedProductData", updateHandler);
 
 		return () => {
-			socket.off("gettingProducts", updateHandler);
+			socket.off("gettingAllUpdatedProductData", updateHandler);
 		};
 	}, []);
 
 	const fetchProductsData = async () => {
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+				`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
 				{
-					method: "POST",
+					method: "GET",
 				},
 			);
 			const data = await response.json();
