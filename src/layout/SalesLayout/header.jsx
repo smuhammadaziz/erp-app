@@ -1343,274 +1343,332 @@ function SalesPageLayoutHeader({ socket }) {
 			)}
 			{/* Detail Modal */}
 			{isDetailModalOpen && selectedSale && (
-				<div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-					<div className="bg-white rounded-lg w-full max-w-[95vw] min-h-[80vh] overflow-hidden">
-						<div className="px-4 py-3 border-b border-gray-200 flex justify-between items-center bg-white">
-							<h2 className="text-lg font-semibold flex items-center gap-2 text-gray-900">
-								<MdOutlineInfo className="text-xl" />
-								Подробности продажи
-							</h2>
-							<button
-								onClick={() => setIsDetailModalOpen(false)}
-								className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
-							>
-								<MdClose className="text-xl" />
-							</button>
+				<div className="fixed inset-0 bg-gray-700/80 flex items-center justify-center z-50 backdrop-blur-sm p-4">
+					<div className="bg-white rounded-2xl w-full max-w-7xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-[85vh]">
+						{/* Sidebar with summary */}
+						<div className="w-full md:w-80 bg-blue-700 text-white p-6 flex flex-col">
+							<div className="flex justify-between items-center mb-8">
+								<h2 className="text-xl font-bold">Продажа</h2>
+							</div>
+
+							{/* Summary Info */}
+							<div className="space-y-6 flex-1">
+								<div>
+									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
+										Клиент
+									</span>
+									<h3
+										className={`text-lg font-semibold ${
+											selectedSale.client_name ===
+											"<не указан>"
+												? "text-blue-300 italic"
+												: "text-white"
+										}`}
+									>
+										{selectedSale.client_name}
+									</h3>
+								</div>
+
+								<div>
+									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
+										Дата
+									</span>
+									<h3 className="text-lg font-semibold text-white flex items-center gap-2">
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											className="h-5 w-5"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth={2}
+												d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+											/>
+										</svg>
+										{moment(selectedSale.date).isSame(
+											moment(),
+											"day",
+										)
+											? moment(selectedSale.date).format(
+													"HH:mm",
+											  )
+											: moment(selectedSale.date).format(
+													"DD.MM.YYYY HH:mm",
+											  )}
+									</h3>
+								</div>
+
+								<div>
+									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
+										Статус
+									</span>
+									{selectedSale.status === "process" ? (
+										<span className="bg-amber-500 text-white px-3 py-1 rounded-md text-sm font-medium inline-flex items-center gap-1.5">
+											<span className="w-2 h-2 bg-white rounded-full inline-block animate-pulse"></span>
+											Кутилмоқда
+										</span>
+									) : selectedSale.status === "delivered" ||
+									  selectedSale.status ===
+											"falseDelivered" ? (
+										<span className="bg-emerald-500 text-white px-3 py-1 rounded-md text-sm font-medium inline-flex items-center gap-1.5">
+											<span className="w-2 h-2 bg-white rounded-full inline-block"></span>
+											Юборилди
+										</span>
+									) : (
+										selectedSale.status
+									)}
+								</div>
+
+								<div>
+									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
+										Общая сумма
+									</span>
+									<h3 className="text-2xl font-bold text-white">
+										{parseFloat(
+											selectedSale.total_price,
+										).toLocaleString("ru-RU", {
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										})}{" "}
+										<span className="text-blue-200 text-lg">
+											{
+												currencyData[
+													selectedSale.details[0]
+														.currency
+												]
+											}
+										</span>
+									</h3>
+								</div>
+
+								<div>
+									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
+										Skidka
+									</span>
+									<h3 className="text-lg font-semibold text-white">
+										{parseFloat(
+											selectedSale.details[0].discount,
+										).toLocaleString("ru-RU", {
+											minimumFractionDigits: 2,
+											maximumFractionDigits: 2,
+										})}{" "}
+										<span className="text-blue-200">
+											{
+												currencyData[
+													selectedSale.details[0]
+														.currency
+												]
+											}
+										</span>
+									</h3>
+								</div>
+							</div>
+
+							{/* Action Buttons */}
+							<div className="pt-4 mt-auto border-t border-blue-600">
+								<button className="bg-white text-blue-700 hover:bg-blue-50 w-full py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										className="h-5 w-5"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth={2}
+											d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+										/>
+									</svg>
+									Распечатать детали
+								</button>
+							</div>
 						</div>
 
-						<div className="overflow-y-auto max-h-[calc(90vh-4rem)]">
-							{/* Basic Info Header */}
-							<div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
-								<div className="grid grid-cols-3 gap-4 text-sm">
-									<div>
-										<span className="text-gray-500 block">
-											Клиент
-										</span>
-										<span
-											className={`font-medium ${
-												selectedSale.client_name ===
-												"<не указан>"
-													? "text-slate-300"
-													: "text-gray-900"
-											}`}
-										>
-											{selectedSale.client_name}
-										</span>
-									</div>
-
-									<div>
-										<span className="text-gray-500 block">
-											Дата
-										</span>
-										<span className="font-medium text-gray-900">
-											{moment(selectedSale.date).isSame(
-												moment(),
-												"day",
-											)
-												? moment(
-														selectedSale.date,
-												  ).format("HH:mm")
-												: moment(
-														selectedSale.date,
-												  ).format("DD.MM.YYYY HH:mm")}
-										</span>
-									</div>
-									<div>
-										<span className="text-gray-500 block">
-											Статус
-										</span>
-										<span className="flex items-center">
-											<span className="mr-3">
-												{selectedSale.status ===
-												"process" ? (
-													<p
-														className={`${
-															selectedRowId ===
-															selectedSale.id
-																? "bg-orange-600"
-																: "bg-orange-500"
-														} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
-													>
-														Кутилмоқда
-													</p>
-												) : selectedSale.status ===
-														"delivered" ||
-												  selectedSale.status ===
-														"falseDelivered" ? (
-													<p
-														className={`${
-															selectedRowId ===
-															selectedSale.id
-																? "bg-green-600"
-																: "bg-green-500"
-														} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
-													>
-														Юборилди
-													</p>
-												) : (
-													selectedSale.status
-												)}
-											</span>
-											{selectedSale.status ===
-											"process" ? (
-												<HiOutlineDocument
-													className={`text-xl inline ${
-														selectedRowId ===
-														selectedSale.id
-															? "text-blue-600"
-															: "text-blue-600"
-													}`}
-												/>
-											) : selectedSale.status ===
-											  "delivered" ? (
-												<HiOutlineDocumentCheck
-													className={`text-xl inline ${
-														selectedRowId ===
-														selectedSale.id
-															? "text-blue-600"
-															: "text-blue-600"
-													}`}
-												/>
-											) : selectedSale.status ===
-											  "falseDelivered" ? (
-												<HiOutlineDocument
-													className={`text-xl inline ${
-														selectedRowId ===
-														selectedSale.id
-															? "text-blue-600"
-															: "text-blue-600"
-													}`}
-												/>
-											) : (
-												selectedSale.status
-											)}
-										</span>
-									</div>
+						{/* Main content area */}
+						<div className="flex-1 overflow-y-auto flex flex-col">
+							{/* Tabs */}
+							<div className="bg-white flex items-center justify-between border-b border-gray-200 px-6 py-3 sticky top-0 z-10">
+								<div className="flex space-x-6">
+									<button className="text-blue-700 border-b-2 border-blue-700 pb-3 px-1 font-medium">
+										Продукты
+									</button>
+									{/* <button className="text-gray-500 hover:text-gray-700 pb-3 px-1">
+										Платежи
+									</button> */}
 								</div>
+								<button
+									onClick={() => setIsDetailModalOpen(false)}
+									className="p-2 hover:bg-blue-800/50 rounded-full transition-colors"
+								>
+									<MdClose className="text-xl" />
+								</button>
 							</div>
 
-							{/* Products Table */}
-							<div className="px-4 py-3">
-								<h3 className="text-base font-semibold mb-3">
-									Продукты
-								</h3>
-								<div className="border border-gray-200 rounded-lg overflow-hidden">
-									<div className="grid grid-cols-4 gap-4 bg-gray-50 px-4 py-2 border-b border-gray-200 text-sm font-medium text-gray-500">
-										<div>Продукт</div>
-										<div>Количество</div>
-										<div>Цена</div>
-										<div>Сумма</div>
-									</div>
-									<div className="divide-y divide-gray-200">
-										{selectedSale.products.map(
-											(product, index) => (
-												<div
-													key={index}
-													className="grid grid-cols-4 gap-4 px-4 py-2 text-sm"
-												>
-													<div
-														className="truncate"
-														title={
-															product.product_name
-														}
-													>
-														{product.product_name}
-													</div>
-													<div>
-														{product.quantity}
-													</div>
-													<div>
-														{parseFloat(
-															product.price,
-														).toLocaleString(
-															"ru-RU",
+							{/* Products List */}
+							<div className="flex-1 overflow-y-auto p-6">
+								<div className="mb-4 flex items-center justify-between">
+									<h3 className="text-lg font-semibold text-gray-800">
+										Список продуктов
+									</h3>
+									<span className="text-sm text-gray-500">
+										{selectedSale.products.length} позиций
+									</span>
+								</div>
+
+								{/* Products Cards */}
+								<div className="space-y-3">
+									{selectedSale.products.map(
+										(product, index) => (
+											<div
+												key={index}
+												className="bg-white border border-gray-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all duration-200"
+											>
+												<div className="flex justify-between">
+													<div className="flex-1">
+														<h4
+															className="font-medium text-gray-900 mb-1"
+															title={
+																product.product_name
+															}
+														>
 															{
-																minimumFractionDigits: 2,
-																maximumFractionDigits: 2,
-															},
-														)}{" "}
-														{
-															currencyData[
-																selectedSale
-																	.details[0]
-																	.currency
-															]
-														}
+																product.product_name
+															}
+														</h4>
+														<span className="text-sm text-gray-500">
+															Количество:{" "}
+															{product.quantity}
+														</span>
 													</div>
-													<div>
-														{parseFloat(
-															product.sum,
-														).toLocaleString(
-															"ru-RU",
+													<div className="text-right">
+														<div className="text-sm text-gray-500 mb-1">
+															{parseFloat(
+																product.price,
+															).toLocaleString(
+																"ru-RU",
+																{
+																	minimumFractionDigits: 2,
+																	maximumFractionDigits: 2,
+																},
+															)}{" "}
 															{
-																minimumFractionDigits: 2,
-																maximumFractionDigits: 2,
-															},
-														)}{" "}
-														{
-															currencyData[
-																selectedSale
-																	.details[0]
-																	.currency
-															]
-														}
+																currencyData[
+																	selectedSale
+																		.details[0]
+																		.currency
+																]
+															}{" "}
+															/ шт
+														</div>
+														<div className="font-semibold text-gray-900">
+															{parseFloat(
+																product.sum,
+															).toLocaleString(
+																"ru-RU",
+																{
+																	minimumFractionDigits: 2,
+																	maximumFractionDigits: 2,
+																},
+															)}{" "}
+															{
+																currencyData[
+																	selectedSale
+																		.details[0]
+																		.currency
+																]
+															}
+														</div>
 													</div>
 												</div>
-											),
-										)}
-									</div>
+											</div>
+										),
+									)}
 								</div>
 							</div>
 
-							{/* Payment Details */}
-							<div className="px-4 py-3 border-t border-gray-200">
-								<h3 className="text-base font-semibold mb-3">
-									Реквизиты платежа
+							{/* Payment Info Footer */}
+							<div className="border-t border-gray-200 bg-gray-50 p-6">
+								<h3 className="text-base font-semibold mb-4 text-gray-800">
+									Способы оплаты
 								</h3>
-								<div className="border border-gray-200 rounded-lg overflow-hidden">
-									<div className="divide-y divide-gray-200">
-										<div className="grid grid-cols-2 px-4 py-2 bg-gray-50">
-											<span className="font-medium text-gray-900">
-												Общая сумма
-											</span>
-											<span className="text-right">
-												{parseFloat(
-													selectedSale.total_price,
-												).toLocaleString("ru-RU", {
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												})}{" "}
-												{
-													currencyData[
-														selectedSale.details[0]
-															.currency
-													]
-												}
-											</span>
-										</div>
-										<div className="grid grid-cols-2 px-4 py-2">
-											<span className="font-medium text-gray-900">
-												Skidka
-											</span>
-											<span className="text-right">
-												{parseFloat(
-													selectedSale.details[0]
-														.discount,
-												).toLocaleString("ru-RU", {
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
-												})}{" "}
-												{
-													currencyData[
-														selectedSale.details[0]
-															.currency
-													]
-												}
-											</span>
-										</div>
-										{selectedSale.payments.map(
-											(payment, index) => (
-												<div
-													key={index}
-													className="grid grid-cols-2 px-4 py-2"
-												>
-													<span className="text-gray-600">
-														{
-															findObjectById(
-																payment.cash,
-															)?.name
-														}
-													</span>
-													<span className="text-right">
-														{parseFloat(
-															payment.sum,
-														).toLocaleString(
-															"ru-RU",
+
+								<div className="space-y-3">
+									{selectedSale.payments.map(
+										(payment, index) => (
+											<div
+												key={index}
+												className="flex justify-between items-center bg-white p-3 rounded-lg border border-gray-100"
+											>
+												<div className="flex items-center gap-3">
+													{payment.cash === "cash" ? (
+														<div className="bg-green-100 p-2 rounded-lg">
+															<svg
+																xmlns="http://www.w3.org/2000/svg"
+																className="h-5 w-5 text-green-600"
+																fill="none"
+																viewBox="0 0 24 24"
+																stroke="currentColor"
+															>
+																<path
+																	strokeLinecap="round"
+																	strokeLinejoin="round"
+																	strokeWidth={
+																		2
+																	}
+																	d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2z"
+																/>
+															</svg>
+														</div>
+													) : (
+														<div className="bg-blue-100 p-2 rounded-lg">
+															<svg
+																xmlns="http://www.w3.org/2000/svg"
+																className="h-5 w-5 text-blue-600"
+																fill="none"
+																viewBox="0 0 24 24"
+																stroke="currentColor"
+															>
+																<path
+																	strokeLinecap="round"
+																	strokeLinejoin="round"
+																	strokeWidth={
+																		2
+																	}
+																	d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+																/>
+															</svg>
+														</div>
+													)}
+													<div>
+														<div className="font-medium text-gray-900">
 															{
-																minimumFractionDigits: 2,
-																maximumFractionDigits: 2,
-															},
-														)}{" "}
+																findObjectById(
+																	payment.cash,
+																)?.name
+															}
+														</div>
+														<div className="text-xs text-gray-500">
+															{moment(
+																selectedSale.date,
+															).format(
+																"DD MMM YYYY",
+															)}
+														</div>
+													</div>
+												</div>
+												<div className="font-medium text-gray-900">
+													{parseFloat(
+														payment.sum,
+													).toLocaleString("ru-RU", {
+														minimumFractionDigits: 2,
+														maximumFractionDigits: 2,
+													})}{" "}
+													<span className="text-gray-500">
 														{
 															currencyData[
 																payment.currency
@@ -1618,9 +1676,9 @@ function SalesPageLayoutHeader({ socket }) {
 														}
 													</span>
 												</div>
-											),
-										)}
-									</div>
+											</div>
+										),
+									)}
 								</div>
 							</div>
 						</div>

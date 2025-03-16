@@ -101,23 +101,23 @@ function SalesMainPage({ socket }) {
 		}
 	};
 
-	useEffect(() => {
-		const updatedProductData = async () => {
-			const isOnline = await checkInternetConnection();
+	// useEffect(() => {
+	// 	const updatedProductData = async () => {
+	// 		const isOnline = await checkInternetConnection();
 
-			if (isOnline) {
-				fetchingResponseSyncing();
-				fetchingProductUpdateData();
-			} else {
-				console.log("no network");
-			}
-		};
-		const interval = setInterval(() => {
-			updatedProductData();
-		}, 900000);
+	// 		if (isOnline) {
+	// 			fetchingResponseSyncing();
+	// 			fetchingProductUpdateData();
+	// 		} else {
+	// 			console.log("no network");
+	// 		}
+	// 	};
+	// 	const interval = setInterval(() => {
+	// 		updatedProductData();
+	// 	}, 900000);
 
-		return () => clearInterval(interval);
-	}, []);
+	// 	return () => clearInterval(interval);
+	// }, []);
 
 	return (
 		<SalesPageLayoutMain socket={socket}>
