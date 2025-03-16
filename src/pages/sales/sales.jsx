@@ -21,6 +21,40 @@ function SalesMainPage({ socket }) {
 
 	const [lastUpdateTime, setLastUpdateTime] = useState(0);
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+
+			if (!online) {
+				console.log(
+					"No internet connection detected via navigator.onLine.",
+				);
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const credentials = Buffer.from(
+				`${userType}:${userPassword}`,
+			).toString("base64");
+
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+
+			return response.status === 200;
+		} catch (error) {
+			return false;
+		}
+	};
+
 	const fetchingProductUpdateData = async () => {
 		try {
 			const response = await fetch(
@@ -68,9 +102,18 @@ function SalesMainPage({ socket }) {
 	};
 
 	useEffect(() => {
+		const updatedProductData = async () => {
+			const isOnline = await checkInternetConnection();
+
+			if (isOnline) {
+				fetchingResponseSyncing();
+				fetchingProductUpdateData();
+			} else {
+				console.log("no network");
+			}
+		};
 		const interval = setInterval(() => {
-			fetchingResponseSyncing();
-			fetchingProductUpdateData();
+			updatedProductData();
 		}, 900000);
 
 		return () => clearInterval(interval);
