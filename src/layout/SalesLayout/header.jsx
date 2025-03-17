@@ -1051,11 +1051,11 @@ function SalesPageLayoutHeader({ socket }) {
 																					sale.status ===
 																						"problem") && (
 																					<>
-																						<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																						{/* <button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																							<LuSend className="text-gray-500" />
 																							Қайта
 																							юбориш
-																						</button>
+																						</button> */}
 																						<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																							<IoIosSave className="text-gray-500" />
 																							Сохранить
