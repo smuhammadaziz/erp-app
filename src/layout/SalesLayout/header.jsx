@@ -587,18 +587,18 @@ function SalesPageLayoutHeader({ socket }) {
 						{content[language].salesPage.headerList}
 					</span>
 					<div className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-sm font-bold rounded-full shadow-lg">
-						{/* {
+						{
 							filteredData?.filter(
 								(item) =>
 									item.status === "process" ||
 									item.status === "problem",
 							).length
-						} */}
-						{
+						}
+						{/* {
 							filteredData?.filter(
 								(item) => item.status === "process",
 							).length
-						}
+						} */}
 					</div>
 				</button>
 				<p className="flex items-center w-[180px] justify-center bg-slate-100 border-2 border-black  text-black px-7 py-1.5 text-lg rounded-lg transition duration-300 ease-in-out ">
