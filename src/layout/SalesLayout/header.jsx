@@ -427,6 +427,38 @@ function SalesPageLayoutHeader({ socket }) {
 		}
 	};
 
+	const handlePrintOneSalesToDetails = async (sales_id) => {
+		const full_title = localStorage.getItem("enterpriseFullTitle");
+		const short_title = localStorage.getItem("enterpriseName");
+
+		const phone1 = localStorage.getItem("enterprisePhone1");
+		const phone2 = localStorage.getItem("enterprisePhone2");
+		const slogan1 = localStorage.getItem("enterpriseSlogan1");
+		const slogan2 = localStorage.getItem("enterpriseSlogan2");
+
+		const user_type = localStorage.getItem("userType");
+
+		try {
+			await fetch(`${nodeUrl}/api/print/${sales_id}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					full_title:
+						full_title === "null" ? short_title : full_title,
+					phone1: phone1 === "null" ? "" : phone1,
+					phone2: phone2 === "null" ? "" : phone2,
+					slogan1: slogan1 === "null" ? "" : slogan1,
+					slogan2: slogan2 === "null" ? "" : slogan2,
+					user_type: user_type,
+				}),
+			});
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const checkInternetConnection = async () => {
 		try {
 			const online = window.navigator.onLine;
@@ -1690,7 +1722,16 @@ function SalesPageLayoutHeader({ socket }) {
 
 							{/* Action Buttons */}
 							<div className="pt-4 mt-auto border-t border-blue-600">
-								<button className="bg-white text-blue-700 hover:bg-blue-50 w-full py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+								<button
+									onClick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										handlePrintOneSalesToDetails(
+											selectedSale.id,
+										);
+									}}
+									className="bg-white text-blue-700 hover:bg-blue-50 w-full py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										className="h-5 w-5"
