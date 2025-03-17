@@ -1084,26 +1084,22 @@ function SalesPageLayoutHeader({ socket }) {
 										</table>
 									</div>
 								) : (
-									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+									<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative">
 										{[...filteredData]
 											.reverse()
 											.map((sale) => (
 												<div
 													key={sale.id}
-													className={`bg-white rounded-xl border ${
+													className={`bg-white rounded-xl border relative ${
 														selectedRowId ===
 														sale.id
 															? "border-indigo-300 ring-2 ring-indigo-100"
 															: "border-gray-200 hover:border-indigo-200"
-													} shadow-sm overflow-hidden transition-all cursor-pointer group`}
+													} shadow-sm transition-all cursor-pointer group`}
 													onClick={() =>
 														setSelectedRowId(
 															sale.id,
 														)
-													}
-													onDoubleClick={() =>
-														openDetailModal &&
-														openDetailModal(sale)
 													}
 												>
 													<div className="p-4 flex justify-between border-b border-gray-100">
@@ -1282,21 +1278,106 @@ function SalesPageLayoutHeader({ socket }) {
 															}}
 															className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors"
 														>
-															<FaRegEdit />
+															<FiEye />
 														</button>
 														<button
-															onClick={() =>
-																setIsExitModalOpen(
-																	true,
-																)
-															}
+															onClick={() => {
+																if (
+																	sale.status ==
+																		"process" ||
+																	sale.status ==
+																		"problem"
+																) {
+																	setIsExitModalOpen(
+																		true,
+																	);
+																}
+															}}
 															className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors"
 														>
-															<MdDelete />
+															{sale.status ==
+																"process" ||
+															sale.status ==
+																"problem" ? (
+																<MdDelete />
+															) : (
+																<MdDelete className="disabled text-gray-300 cursor-not-allowed" />
+															)}
 														</button>
-														<button className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors">
-															<BsThreeDots />
-														</button>
+														<div className="relative">
+															<button
+																onClick={(
+																	e,
+																) => {
+																	e.stopPropagation();
+																	setShowActionsMenu(
+																		showActionsMenu ===
+																			sale.id
+																			? null
+																			: sale.id,
+																	);
+																}}
+																className="p-1.5 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors"
+															>
+																<BsThreeDots />
+															</button>
+
+															{showActionsMenu ===
+																sale.id && (
+																<div
+																	className="absolute right-0 mt-1 w-48 bg-white z-[999] rounded-lg shadow-lg border border-gray-200 py-1"
+																	onClick={(
+																		e,
+																	) =>
+																		e.stopPropagation()
+																	}
+																>
+																	<button
+																		onClick={
+																			handlePrintOneSales
+																		}
+																		className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																	>
+																		<FiPrinter className="text-gray-500" />
+																		Печать
+																	</button>
+																	<button
+																		onClick={() =>
+																			openDetailModal(
+																				sale,
+																			)
+																		}
+																		className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																	>
+																		<FiEye className="text-gray-500" />
+																		Батафсил
+																	</button>
+
+																	{(sale.status ===
+																		"process" ||
+																		sale.status ===
+																			"problem") && (
+																		<>
+																			<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																				<IoIosSave className="text-gray-500" />
+																				Сохранить
+																			</button>
+																			<button
+																				onClick={() =>
+																					setShowActionsMenu(
+																						null,
+																					)
+																				}
+																				className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																			>
+																				<MdDelete className="text-gray-500 text-lg" />
+																				Ўчириш
+																			</button>
+																		</>
+																	)}
+																</div>
+															)}
+														</div>
 													</div>
 												</div>
 											))}
