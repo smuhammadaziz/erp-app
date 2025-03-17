@@ -427,6 +427,113 @@ function SalesPageLayoutHeader({ socket }) {
 		}
 	};
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+			console.log("Navigator online status:", online);
+
+			if (!online) {
+				console.log(
+					"No internet connection detected via navigator.onLine.",
+				);
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const credentials = Buffer.from(
+				`${userType}:${userPassword}`,
+			).toString("base64");
+
+			const response = await fetch(
+				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				{
+					headers: { Authorization: `Basic ${credentials}` },
+				},
+			);
+
+			console.log("Response status:", response.status);
+
+			return response.status === 200;
+		} catch (error) {
+			console.error("Error during internet connection check:", error);
+			return false;
+		}
+	};
+
+	const handleSaveSalesToAPI = async (sales_id) => {
+		const isOnline = await checkInternetConnection();
+
+		const ksbId = localStorage.getItem("ksbIdNumber");
+		const ipaddressPort = localStorage.getItem("ipaddress:port");
+		const mainDatabase = localStorage.getItem("mainDatabase");
+		const userType = localStorage.getItem("userType");
+		const userPassword = localStorage.getItem("userPassword");
+
+		if (isOnline) {
+			const product = filteredData.find((item) => item.id === sales_id);
+
+			console.log(product);
+
+			const oneSale = {
+				sales: [
+					{
+						details: [
+							{
+								document: product.id,
+								client: product.client_id,
+								warehouse: product.details[0]?.warehouse,
+								price_type: product.details[0]?.price_type,
+								rate: Number(product.details[0]?.rate),
+								currency: product.details[0]?.currency,
+								discount: Number(product.details[0]?.discount),
+								comment: product.details[0]?.comment,
+								below_cost:
+									product.details[0]?.below_cost === 1
+										? true
+										: false,
+								save: true,
+							},
+						],
+						products: product.products,
+						payments: product.payments,
+					},
+				],
+			};
+
+			const salesBody = {
+				ksb_id: ksbId,
+				device_id: device_id,
+				host: ipaddressPort,
+				authUser: userType,
+				authPass: userPassword,
+				database: mainDatabase,
+				salesData: oneSale,
+				id: sales_id,
+			};
+
+			try {
+				const response = await fetch(`${nodeUrl}/api/send/one/sale`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(salesBody),
+				});
+
+				const data = await response.json();
+				return data;
+			} catch (error) {
+				console.error("Error sending sales data:", error);
+				throw error;
+			}
+		}
+	};
+
 	return (
 		<div className="salesfooter px-4 py-1 bg-slate-100 shadow-lg border-t border-gray-300 flex items-center justify-between">
 			<div className="flex items-center justify-start">
@@ -1056,7 +1163,18 @@ function SalesPageLayoutHeader({ socket }) {
 																							Қайта
 																							юбориш
 																						</button> */}
-																						<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																						<button
+																							onClick={(
+																								e,
+																							) => {
+																								e.preventDefault();
+																								e.stopPropagation();
+																								handleSaveSalesToAPI(
+																									sale.id,
+																								);
+																							}}
+																							className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																						>
 																							<IoIosSave className="text-gray-500" />
 																							Сохранить
 																						</button>
@@ -1358,7 +1476,18 @@ function SalesPageLayoutHeader({ socket }) {
 																		sale.status ===
 																			"problem") && (
 																		<>
-																			<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																			<button
+																				onClick={(
+																					e,
+																				) => {
+																					e.preventDefault();
+																					e.stopPropagation();
+																					handleSaveSalesToAPI(
+																						sale.id,
+																					);
+																				}}
+																				className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																			>
 																				<IoIosSave className="text-gray-500" />
 																				Сохранить
 																			</button>
