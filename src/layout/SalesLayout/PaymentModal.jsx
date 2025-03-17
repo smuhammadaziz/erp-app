@@ -260,7 +260,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 				product: product.product_id,
 				product_name: product.product_name,
 				warehouse: product.product_warehouse,
-				currency: product.product_currency,
+				currency: data.mainCurrency,
 				quantity: product.soni,
 				price: product.narxi,
 				sum: product.summa,
@@ -408,7 +408,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 					(product) => ({
 						product: product.product_id,
 						warehouse: product.product_warehouse,
-						currency: product.product_currency,
+						currency: data.mainCurrency,
 						quantity: Number(product.soni),
 						price: Number(product.narxi),
 						sum: Number(product.summa),
