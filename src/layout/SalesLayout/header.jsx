@@ -1559,7 +1559,7 @@ function SalesPageLayoutHeader({ socket }) {
 						{/* Sidebar with summary */}
 						<div className="w-full md:w-80 bg-blue-700 text-white p-6 flex flex-col">
 							<div className="flex justify-between items-center mb-8">
-								<h2 className="text-xl font-bold">Продажа</h2>
+								<h2 className="text-xl font-bold">Сотув</h2>
 							</div>
 
 							{/* Summary Info */}
@@ -1582,7 +1582,7 @@ function SalesPageLayoutHeader({ socket }) {
 
 								<div>
 									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
-										Дата
+										Сана
 									</span>
 									<h3 className="text-lg font-semibold text-white flex items-center gap-2">
 										<svg
@@ -1716,7 +1716,7 @@ function SalesPageLayoutHeader({ socket }) {
 							<div className="bg-white flex items-center justify-between border-b border-gray-200 px-6 py-3 sticky top-0 z-10">
 								<div className="flex space-x-6">
 									<button className="text-blue-700 border-b-2 border-blue-700 pb-3 px-1 font-medium">
-										Продукты
+										Товарлар
 									</button>
 									{/* <button className="text-gray-500 hover:text-gray-700 pb-3 px-1">
 										Платежи
@@ -1734,11 +1734,11 @@ function SalesPageLayoutHeader({ socket }) {
 							<div className="flex-1 overflow-y-auto p-6">
 								<div className="mb-4 flex items-center justify-between">
 									<h3 className="text-lg font-semibold text-gray-800">
-										Список продуктов
+										Товарлар рўйҳати
 									</h3>
-									<span className="text-sm text-gray-500">
-										{selectedSale.products.length} позиций
-									</span>
+									{/* <span className="text-sm text-gray-500">
+										{selectedSale.products.length} хил
+									</span> */}
 								</div>
 
 								{/* Products Cards */}
@@ -1762,30 +1762,11 @@ function SalesPageLayoutHeader({ socket }) {
 															}
 														</h4>
 														<span className="text-sm text-gray-500">
-															Количество:{" "}
+															Сони:{" "}
 															{product.quantity}
 														</span>
 													</div>
 													<div className="text-right">
-														<div className="text-sm text-gray-500 mb-1">
-															{parseFloat(
-																product.price,
-															).toLocaleString(
-																"ru-RU",
-																{
-																	minimumFractionDigits: 2,
-																	maximumFractionDigits: 2,
-																},
-															)}{" "}
-															{
-																currencyData[
-																	selectedSale
-																		.details[0]
-																		.currency
-																]
-															}{" "}
-															/ шт
-														</div>
 														<div className="font-semibold text-gray-900">
 															{parseFloat(
 																product.sum,
@@ -1815,7 +1796,7 @@ function SalesPageLayoutHeader({ socket }) {
 							{/* Payment Info Footer */}
 							<div className="border-t border-gray-200 bg-gray-50 p-6">
 								<h3 className="text-base font-semibold mb-4 text-gray-800">
-									Способы оплаты
+									Тўловлар
 								</h3>
 
 								<div className="space-y-3">
