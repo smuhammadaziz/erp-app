@@ -313,7 +313,7 @@ function SalesPageLayoutHeader({ socket }) {
 				);
 			case "falseDelivered":
 				return (
-					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
+					<div className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-indigo-50 text-indigo-700 border border-ingido-200">
 						<HiOutlineDocumentMinus className="text-sm" />
 					</div>
 				);
