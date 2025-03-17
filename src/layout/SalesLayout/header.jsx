@@ -580,12 +580,26 @@ function SalesPageLayoutHeader({ socket }) {
 				</button>
 				<button
 					onClick={() => setIsListModalOpen(true)}
-					className="flex w-[200px] items-center mr-4 justify-center bg-green-600 hover:bg-green-500 text-slate-100 px-6 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
+					className="flex relative w-[240px] items-center mr-4 justify-center bg-green-600 hover:bg-green-500 text-slate-100 px-6 py-2 text-md rounded-lg shadow-lg transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-600"
 				>
 					<MdOutlineFormatListBulleted className="mr-3 text-xl" />
 					<span className="font-500">
 						{content[language].salesPage.headerList}
 					</span>
+					<div className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 bg-red-500 text-white text-sm font-bold rounded-full shadow-lg">
+						{/* {
+							filteredData?.filter(
+								(item) =>
+									item.status === "process" ||
+									item.status === "problem",
+							).length
+						} */}
+						{
+							filteredData?.filter(
+								(item) => item.status === "process",
+							).length
+						}
+					</div>
 				</button>
 				<p className="flex items-center w-[180px] justify-center bg-slate-100 border-2 border-black  text-black px-7 py-1.5 text-lg rounded-lg transition duration-300 ease-in-out ">
 					<span className="font-semibold">{today}</span>
