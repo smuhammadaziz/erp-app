@@ -454,6 +454,8 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			};
 
 			const salesBody = {
+				ksb_id: ksbIdNumber,
+				device_id: device_id,
 				host: ipaddress,
 				authUser: username,
 				authPass: password,
@@ -548,7 +550,7 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 			setTimeout(() => {
 				window.location.reload();
-			}, 2000);
+			}, 100);
 		} catch (error) {
 			console.error("Error in save sales process:", error);
 			setLoadingModal(false);
@@ -596,7 +598,7 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 
 			setTimeout(() => {
 				window.location.reload();
-			}, 2000);
+			}, 100);
 		} catch (error) {
 			console.error("Error in save sales process:", error);
 			setLoadingModal(false);
