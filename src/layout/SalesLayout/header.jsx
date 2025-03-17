@@ -1032,7 +1032,16 @@ function SalesPageLayoutHeader({ socket }) {
 																					<FiPrinter className="text-gray-500" />
 																					Печать
 																				</button>
-																				<button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																				<button
+																					onClick={(
+																						e,
+																					) => {
+																						openDetailModal(
+																							sale,
+																						);
+																					}}
+																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																				>
 																					<FiEye className="text-gray-500" />
 																					Батафсил
 																				</button>
