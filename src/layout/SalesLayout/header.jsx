@@ -430,12 +430,8 @@ function SalesPageLayoutHeader({ socket }) {
 	const checkInternetConnection = async () => {
 		try {
 			const online = window.navigator.onLine;
-			console.log("Navigator online status:", online);
 
 			if (!online) {
-				console.log(
-					"No internet connection detected via navigator.onLine.",
-				);
 				return false;
 			}
 
@@ -456,8 +452,6 @@ function SalesPageLayoutHeader({ socket }) {
 				},
 			);
 
-			console.log("Response status:", response.status);
-
 			return response.status === 200;
 		} catch (error) {
 			console.error("Error during internet connection check:", error);
@@ -476,8 +470,6 @@ function SalesPageLayoutHeader({ socket }) {
 
 		if (isOnline) {
 			const product = filteredData.find((item) => item.id === sales_id);
-
-			console.log(product);
 
 			const oneSale = {
 				sales: [
