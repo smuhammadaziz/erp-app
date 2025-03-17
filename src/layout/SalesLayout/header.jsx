@@ -1621,6 +1621,16 @@ function SalesPageLayoutHeader({ socket }) {
 											<span className="w-2 h-2 bg-white rounded-full inline-block animate-pulse"></span>
 											Кутилмоқда
 										</span>
+									) : selectedSale.status === "problem" ? (
+										<div className="flex flex-col">
+											<span className="bg-rose-500 w-[100px] inline-block text-white px-3 py-1 rounded-md text-sm font-medium inline-flex items-center gap-1.5">
+												<span className="w-2 h-2 bg-white rounded-full inline-block animate-pulse"></span>
+												Хатолик
+											</span>
+											<span className="bg-slate-300 text-black px-3 py-1 rounded-md mt-4  text-xs">
+												{selectedSale.errorMessage}
+											</span>
+										</div>
 									) : selectedSale.status === "delivered" ||
 									  selectedSale.status ===
 											"falseDelivered" ? (
@@ -1635,7 +1645,7 @@ function SalesPageLayoutHeader({ socket }) {
 
 								<div>
 									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
-										Общая сумма
+										Сумма
 									</span>
 									<h3 className="text-2xl font-bold text-white">
 										{parseFloat(
@@ -1657,7 +1667,7 @@ function SalesPageLayoutHeader({ socket }) {
 
 								<div>
 									<span className="text-blue-200 text-xs uppercase tracking-wider font-medium block mb-1">
-										Skidka
+										Скидка
 									</span>
 									<h3 className="text-lg font-semibold text-white">
 										{parseFloat(
@@ -1695,7 +1705,7 @@ function SalesPageLayoutHeader({ socket }) {
 											d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
 										/>
 									</svg>
-									Распечатать детали
+									Печать
 								</button>
 							</div>
 						</div>
