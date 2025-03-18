@@ -3,15 +3,17 @@ const { join } = require("path");
 const { autoUpdater } = require("electron-updater");
 const remote = require("@electron/remote/main");
 const config = require("./config");
+const path = require("path");
 
 exports.createMainWindow = async () => {
 	const window = new BrowserWindow({
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: false,
-			devTools: config.isDev,
+			devTools: true,
 			contextIsolation: false,
 			spellcheck: false,
+			webSecurity: false,
 		},
 		frame: false,
 		icon: config.icon,
@@ -19,6 +21,7 @@ exports.createMainWindow = async () => {
 		show: false,
 		minWidth: 1000,
 		minHeight: 700,
+		icon: path.join(__dirname, "../../assets/ksb.ico"),
 	});
 
 	window.maximize();
@@ -27,14 +30,39 @@ exports.createMainWindow = async () => {
 	remote.enable(window.webContents);
 
 	const startUrl = config.isDev
-		? "http://localhost:3000/#/login"
-		: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+		? "http://localhost:3000"
+		: `file://${join(__dirname, "../build/index.html")}`;
+
+	// const startUrl = config.isDev
+	// 	? "http://localhost:3000/#/login"
+	// 	: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
 
 	// const startUrl = config.isDev
 	// 	? "http://localhost:3000/#"
 	// 	: `file://${join(__dirname, "..", "../build/index.html")}#`;
 
-	await window.loadURL(startUrl);
+	window.loadURL(startUrl).catch((error) => {
+		console.error("Failed to load URL:", error);
+		if (!isDev) {
+			const fallbackPath = path.join(__dirname, "../build/index.html");
+			console.log("Trying fallback path:", fallbackPath);
+			mainWindow
+				.loadFile(fallbackPath)
+				.catch((err) => console.error("Fallback load failed:", err));
+		}
+	});
+
+	// window.webContents.on("will-navigate", (event, url) => {
+	// 	event.preventDefault();
+	// 	window.loadURL(url);
+	// });
+
+	// window.webContents.on(
+	// 	"did-fail-load",
+	// 	(event, errorCode, errorDescription) => {
+	// 		console.error("Failed to load:", errorCode, errorDescription);
+	// 	},
+	// );
 
 	window.webContents.on("did-finish-load", () => {
 		if (!window.webContents.getURL().includes("/")) {

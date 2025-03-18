@@ -14,7 +14,7 @@ import PasswordModal from "./components/PasswordModal";
 
 import nodeUrl from "../../links";
 
-function LoginPageKSB({ socket }) {
+function LoginPageKSB({ socket, verified }) {
 	const { login } = useAuth();
 	const [userType, setUserType] = useState("");
 	const [password, setPassword] = useState("");
@@ -335,7 +335,7 @@ function LoginPageKSB({ socket }) {
 						style: { backgroundColor: "#22c55e" },
 					},
 				);
-				navigate("/");
+				navigate("/crm");
 			} else {
 				toast.error(
 					<div className="flex items-center text-white">
@@ -420,7 +420,7 @@ function LoginPageKSB({ socket }) {
 				setIsFirstTimePassword(false);
 				setShowPasswordModal(false);
 				toast.success(content[language].login.passwordSetSuccessfully);
-				navigate("/");
+				navigate("/crm");
 			} else {
 				toast.error(content[language].login.failedToSetPassword);
 			}

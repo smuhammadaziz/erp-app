@@ -20,7 +20,7 @@ import { MdOutlinePortableWifiOff } from "react-icons/md";
 
 import nodeUrl from "../../links";
 
-function IntroPageKSB() {
+function IntroPageKSB({ setVerified }) {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -111,6 +111,7 @@ function IntroPageKSB() {
 
 				if (matchedDevice) {
 					localStorage.setItem("isVerified", "true");
+					setVerified("true");
 					localStorage.setItem(
 						"ksbIdNumber",
 						apiResponse.response.ksb_id,

@@ -41,7 +41,7 @@ function SidebarInner({ onToggle }) {
 			</div>
 			<nav className="flex flex-col gap-6 w-full px-2 mt-4">
 				<NavLink
-					to="/"
+					to="/crm"
 					className={({ isActive }) =>
 						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
 							isActive ? "bg-gray-700" : ""

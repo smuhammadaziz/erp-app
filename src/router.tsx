@@ -23,8 +23,16 @@ const fetchSalesInterval = () => {
 
 export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
-
 	const [fetchTime, setFetchTime] = useState(fetchSalesInterval());
+	const [verified, setVerified] = useState("");
+
+	useEffect(() => {
+		// Check if userId exists in localStorage
+		const isVerified = localStorage.getItem("isVerified");
+		if (isVerified) {
+			setVerified(isVerified);
+		}
+	}, []);
 
 	useEffect(() => {
 		const handleStorageChange = () => {
@@ -294,18 +302,49 @@ export const Router: FC = () => {
 					<Route path="/">
 						<Route
 							index
+							// element={
+							// 	<ProtectedRoute>
+							// 		<IndexPage socket={socket} />
+							// 	</ProtectedRoute>
+							// }
 							element={
-								<ProtectedRoute>
-									<IndexPage socket={socket} />
-								</ProtectedRoute>
+								verified ? (
+									<Navigate to="/login" />
+								) : (
+									<IntroPageKSB setVerified={setVerified} />
+								)
 							}
 						/>
 					</Route>
 					<Route
 						path="/login"
-						element={<LoginPageKSB socket={socket} />}
+						// element={<LoginPageKSB socket={socket} />}
+						element={
+							verified ? (
+								<LoginPageKSB
+									verified={verified}
+									socket={socket}
+								/>
+							) : (
+								<Navigate to="/intro" />
+							)
+						}
 					/>
-					<Route path="/intro" element={<IntroPageKSB />} />
+					<Route
+						path="/crm"
+						// element={<IndexPage socket={socket} />}
+						element={
+							verified ? (
+								<IndexPage socket={socket} />
+							) : (
+								<Navigate to="/intro" />
+							)
+						}
+					/>
+					<Route
+						path="/intro"
+						element={<IntroPageKSB setVerified={setVerified} />}
+					/>
 					<Route
 						path="/sales"
 						element={
