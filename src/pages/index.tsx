@@ -33,6 +33,8 @@ import DeadlineModal from "./itsModal";
 
 import { Socket } from "socket.io-client";
 
+import nodeUrl from "../links";
+
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
@@ -46,8 +48,6 @@ ChartJS.register(
 interface IndexPageProps {
 	socket: Socket;
 }
-
-import nodeUrl from "../links";
 
 const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 	const [language, setLanguage] = useLang();

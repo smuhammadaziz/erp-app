@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { MdClear } from "react-icons/md";
 import nodeUrl from "../../../links";
 
@@ -78,10 +78,6 @@ function ProductModal({
 	const matchingPrice = product.price.find(
 		(price) => price.type === priceTypeKeyData,
 	);
-
-	if (!matchingPrice) {
-		return "-";
-	}
 
 	const convertPrice = (originalPrice) => {
 		if (currencyKeyData == product.currency) {
@@ -254,6 +250,10 @@ function ProductModal({
 	useEffect(() => {
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
+
+	if (!matchingPrice) {
+		return "-";
+	}
 
 	return (
 		<>

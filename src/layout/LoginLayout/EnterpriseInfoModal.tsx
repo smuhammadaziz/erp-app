@@ -12,15 +12,15 @@ import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
 import { TbVersionsFilled } from "react-icons/tb";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 moment.locale("ru");
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
-
-import content from "../../localization/content";
-import useLang from "../../hooks/useLang";
 
 export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	isOpen,
@@ -30,7 +30,6 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	const mainDatabase = localStorage.getItem("mainDatabase");
 	const itsDeadline = localStorage.getItem("its_deadline");
 
-	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
 	const modalRef = useRef<HTMLDivElement>(null);
@@ -69,6 +68,8 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			value: `1.0.0`,
 		},
 	];
+
+	if (!isOpen) return null;
 
 	return (
 		<>

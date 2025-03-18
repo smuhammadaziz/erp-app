@@ -1,21 +1,21 @@
 import { FC, useEffect, useState } from "react";
 import { IoCloseOutline, IoRemove } from "react-icons/io5";
-import logo from "../../assets/icon.png";
 import { TbArrowsDiagonalMinimize2, TbMaximize } from "react-icons/tb";
 import { RiInformation2Fill } from "react-icons/ri";
-import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
-
-const { getCurrentWindow, app } = window.require("@electron/remote");
-
 import { ImExit } from "react-icons/im";
 import { FaTimes } from "react-icons/fa";
+import { FaWifi } from "react-icons/fa6";
+import { MdWifiOff } from "react-icons/md";
+import { IoExitOutline } from "react-icons/io5";
+import { MdSignalWifiStatusbarConnectedNoInternet4 } from "react-icons/md";
 
+import logo from "../../assets/icon.png";
+import { EnterpriseInfoModal } from "./EnterpriseInfoModal";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
-
-import { IoExitOutline } from "react-icons/io5";
-
 import nodeUrl from "../../links";
+
+const { getCurrentWindow, app } = window.require("@electron/remote");
 
 interface EnterpriseData {
 	uid: string;

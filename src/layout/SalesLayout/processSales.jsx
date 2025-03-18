@@ -632,10 +632,6 @@ function ProcessSalesComponent({
 										onClick={() =>
 											setSelectedRowId(sale.id)
 										}
-										onDoubleClick={() =>
-											openDetailModal &&
-											openDetailModal(sale)
-										}
 									>
 										<div className="p-4 flex justify-between border-b border-gray-100">
 											<div className="flex items-center gap-2">

@@ -3,8 +3,6 @@ import { toast, Toaster } from "sonner";
 import { BiTime } from "react-icons/bi";
 import SectionContainer from "./SectionContainer";
 
-const STORAGE_KEY = "selectedTimeInMs";
-
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
@@ -18,6 +16,8 @@ const timeOptions = [
 ];
 
 function SendSales() {
+	const STORAGE_KEY = "selectedTimeInMs";
+
 	const [selectedTime, setSelectedTime] = useState(() => {
 		const saved = localStorage.getItem(STORAGE_KEY);
 		return saved ? parseInt(saved) : 60000;

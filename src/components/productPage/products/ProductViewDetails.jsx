@@ -38,8 +38,6 @@ const ProductViewDetails = ({ product }) => {
 	const [names, setNames] = useState({});
 	const [warehouseNames, setWarehouseNames] = useState({});
 
-	if (!product) return null;
-
 	const fetchData = useCallback(
 		async (type, id, setter, errorSetter) => {
 			try {
@@ -57,6 +55,8 @@ const ProductViewDetails = ({ product }) => {
 		[deviceId, ksbIdNumber],
 	);
 
+	// ✅ Move this below hooks
+
 	const fetchPriceName = async (item_id) => {
 		try {
 			const response = await fetch(
@@ -73,12 +73,14 @@ const ProductViewDetails = ({ product }) => {
 	useEffect(() => {
 		const fetchAllNames = async () => {
 			const nameMap = {};
-			for (const item of product.price) {
-				const name = await fetchPriceName(item.type);
-				if (name) {
-					nameMap[item.type] = name;
-				}
-			}
+			await Promise.all(
+				product.price.map(async (item) => {
+					const name = await fetchPriceName(item.type);
+					if (name) {
+						nameMap[item.type] = name;
+					}
+				}),
+			);
 			setNames(nameMap);
 		};
 		fetchAllNames();
@@ -98,6 +100,8 @@ const ProductViewDetails = ({ product }) => {
 	};
 
 	useEffect(() => {
+		if (!product?.stock) return;
+
 		const fetchAllNames = async () => {
 			const nameMap = {};
 			for (const item of product.stock) {
@@ -106,27 +110,25 @@ const ProductViewDetails = ({ product }) => {
 					nameMap[item.warehouse] = name;
 				}
 			}
-
 			setWarehouseNames(nameMap);
 		};
+
 		fetchAllNames();
-	}, [product.warehouse]);
+	}, [product?.stock]);
 
 	useEffect(() => {
-		if (product.currency) {
-			fetchData(
-				"currency",
-				product.currency,
-				setCurrencyName,
-				setCurrencyName,
-			);
-		}
+		if (!product.currency) return;
+		fetchData(
+			"currency",
+			product.currency,
+			setCurrencyName,
+			setCurrencyName,
+		);
 	}, [product.currency, fetchData]);
 
 	useEffect(() => {
-		if (product.symbol) {
-			fetchData("symbol", product.symbol, setSymbolName, setSymbolName);
-		}
+		if (!product.symbol) return;
+		fetchData("symbol", product.symbol, setSymbolName, setSymbolName);
 	}, [product.symbol, fetchData]);
 
 	const handleCopy = useCallback((value, key) => {
@@ -277,6 +279,8 @@ const ProductViewDetails = ({ product }) => {
 			)}
 		</div>
 	);
+
+	if (!product) return null;
 
 	return (
 		<div className="bg-white">

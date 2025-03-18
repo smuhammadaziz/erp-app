@@ -40,14 +40,14 @@ import { BsBasket3, BsCreditCard2Back, BsBarChart } from "react-icons/bs";
 import moment from "moment";
 import "moment/locale/ru";
 
-moment.locale("ru");
-
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 import SuccessModal from "./SuccessModal";
 import CardPaymentModal from "./CardPaymentModal";
 import ProcessSalesComponent from "./processSales";
 import ErrorModal from "./ErrorModal";
+
+moment.locale("ru");
 
 function SalesPageLayoutSidebar({ socket }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);

@@ -13,15 +13,15 @@ import { NavLink } from "react-router-dom";
 import { UpdateCheckModal } from "./UpdateCheckModal";
 import { TbVersionsFilled } from "react-icons/tb";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 moment.locale("ru");
 
 interface EnterpriseInfoModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 }
-
-import content from "../../localization/content";
-import useLang from "../../hooks/useLang";
 
 export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	isOpen,
@@ -33,7 +33,6 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 
 	const device_id = localStorage.getItem("device_id");
 
-	if (!isOpen) return null;
 	const [language, setLanguage] = useLang();
 
 	const modalRef = useRef<HTMLDivElement>(null);
@@ -80,6 +79,8 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 			textOnly: true,
 		},
 	];
+
+	if (!isOpen) return null;
 
 	return (
 		<>
