@@ -1,12 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
-import {
-	FaServer,
-	FaNetworkWired,
-	FaDatabase,
-	FaShieldAlt,
-	FaExclamationTriangle,
-} from "react-icons/fa";
+import { FaServer, FaDatabase, FaShieldAlt } from "react-icons/fa";
 import moment from "moment";
 import "moment/locale/ru";
 import { NavLink } from "react-router-dom";
@@ -33,7 +27,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 
 	const device_id = localStorage.getItem("device_id");
 
-	const [language, setLanguage] = useLang();
+	const [language] = useLang();
 
 	const modalRef = useRef<HTMLDivElement>(null);
 
