@@ -2,11 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import {
 	MdOutlineFormatListBulleted,
-	MdOutlineInfo,
 	MdCalendarToday,
-	MdFilterList,
 	MdClose,
-	MdWarehouse,
 	MdDelete,
 } from "react-icons/md";
 import {
@@ -21,12 +18,11 @@ import { PiWarningCircleBold, PiCardsThreeFill } from "react-icons/pi";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { BiSearch } from "react-icons/bi";
 import { GoAlert } from "react-icons/go";
-import { FaRegEdit } from "react-icons/fa";
 import { BsThreeDots } from "react-icons/bs";
 import { TbBasketExclamation } from "react-icons/tb";
 import { IoBasketOutline } from "react-icons/io5";
 import { IoIosOptions, IoIosSave } from "react-icons/io";
-import { LuPrinter, LuSend } from "react-icons/lu";
+import { LuPrinter } from "react-icons/lu";
 
 import DiscountModal from "./DiscountModal";
 
@@ -44,12 +40,6 @@ import "moment/locale/ru";
 moment.locale("ru");
 
 function SalesPageLayoutHeader({ socket }) {
-	const [isModalOpen, setIsModalOpen] = useState({
-		klientlar: false,
-		smenaYopish: false,
-		skidka: false,
-	});
-
 	const [isListModalOpen, setIsListModalOpen] = useState(false);
 	const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 	const [selectedSale, setSelectedSale] = useState(null);
@@ -74,10 +64,6 @@ function SalesPageLayoutHeader({ socket }) {
 	const [showFilters, setShowFilters] = useState(false);
 	const [viewMode, setViewMode] = useState("table");
 	const [showActionsMenu, setShowActionsMenu] = useState(null);
-
-	const handleOpenModal = (modalType) => {
-		setIsModalOpen((prevState) => ({ ...prevState, [modalType]: true }));
-	};
 
 	const openDetailModal = (sale) => {
 		setSelectedSale(sale);
@@ -142,8 +128,6 @@ function SalesPageLayoutHeader({ socket }) {
 	useEffect(() => {
 		fetchCurrencyData();
 	}, [fetchCurrencyData]);
-
-	const [cashData, setCashData] = useState("");
 
 	const cashDataAll = JSON.parse(localStorage.getItem("settingsCashData"));
 
@@ -1128,9 +1112,9 @@ function SalesPageLayoutHeader({ socket }) {
 																			className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
 																			onClick={() => {
 																				if (
-																					sale.status ==
+																					sale.status ===
 																						"process" ||
-																					sale.status ==
+																					sale.status ===
 																						"problem"
 																				) {
 																					setIsExitModalOpen(
@@ -1139,9 +1123,9 @@ function SalesPageLayoutHeader({ socket }) {
 																				}
 																			}}
 																		>
-																			{sale.status ==
+																			{sale.status ===
 																				"process" ||
-																			sale.status ==
+																			sale.status ===
 																				"problem" ? (
 																				<MdDelete />
 																			) : (
@@ -1439,9 +1423,9 @@ function SalesPageLayoutHeader({ socket }) {
 														<button
 															onClick={() => {
 																if (
-																	sale.status ==
+																	sale.status ===
 																		"process" ||
-																	sale.status ==
+																	sale.status ===
 																		"problem"
 																) {
 																	setIsExitModalOpen(
@@ -1451,9 +1435,9 @@ function SalesPageLayoutHeader({ socket }) {
 															}}
 															className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors"
 														>
-															{sale.status ==
+															{sale.status ===
 																"process" ||
-															sale.status ==
+															sale.status ===
 																"problem" ? (
 																<MdDelete />
 															) : (
