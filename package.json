@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"main": "public/electron.js",
-	"homepage": "/",
+	"homepage": "./",
 	"devDependencies": {
 		"@types/node": "^18.11.10",
 		"@types/react": "^18.0.26",

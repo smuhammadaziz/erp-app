@@ -1,10 +1,11 @@
-appId: com.example.ElectronTailwindReactTemplate
+appId: com.ksb.app
 
 publish:
     provider: github
     token: YOUR_GITHUB_TOKEN
 
 files:
+    - build/**/*
     [
         "dist/**/*",
         "build/**/*",

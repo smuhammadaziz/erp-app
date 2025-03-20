@@ -29,13 +29,13 @@ exports.createMainWindow = async () => {
 
 	remote.enable(window.webContents);
 
-	const startUrl = config.isDev
-		? "http://localhost:3000"
-		: `file://${join(__dirname, "../build/index.html")}`;
-
 	// const startUrl = config.isDev
-	// 	? "http://localhost:3000/#/login"
-	// 	: `file://${join(__dirname, "..", "../build/index.html")}#/login`;
+	// 	? "http://localhost:3000"
+	// 	: `file://${path.resolve(__dirname, "..", "build", "index.html")}`;
+
+	const startUrl = config.isDev
+		? "http://localhost:3000/#/"
+		: `file://${path.join(__dirname, "../../build/index.html")}#/`;
 
 	// const startUrl = config.isDev
 	// 	? "http://localhost:3000/#"
@@ -43,10 +43,10 @@ exports.createMainWindow = async () => {
 
 	window.loadURL(startUrl).catch((error) => {
 		console.error("Failed to load URL:", error);
-		if (!isDev) {
-			const fallbackPath = path.join(__dirname, "../build/index.html");
+		if (!config.isDev) {
+			const fallbackPath = path.join(__dirname, "../../build/index.html");
 			console.log("Trying fallback path:", fallbackPath);
-			mainWindow
+			window
 				.loadFile(fallbackPath)
 				.catch((err) => console.error("Fallback load failed:", err));
 		}
