@@ -7,7 +7,6 @@ import {
 	FaKey,
 	FaWifi,
 	FaTimesCircle,
-	FaNetworkWired,
 } from "react-icons/fa";
 
 import logo from "../../assets/logo.png";
@@ -15,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 import Loader from "../../common/loader";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
-import base64 from "base-64";
 import { MdOutlinePortableWifiOff } from "react-icons/md";
 
 import nodeUrl from "../../links";
@@ -24,7 +22,6 @@ function IntroPageKSB({ setVerified }) {
 	const [ksbId, setKsbId] = useState("");
 	const [loading, setLoading] = useState(true);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [data, setData] = useState();
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 	const [showNetworkModal, setShowNetworkModal] = useState(false);
 	const navigate = useNavigate();
@@ -155,7 +152,6 @@ function IntroPageKSB({ setVerified }) {
 						style: { backgroundColor: "#22c55e", color: "white" },
 					});
 
-					setData(apiResponse);
 					navigate("/login");
 				} else {
 					toast.error("Device information not found!", {

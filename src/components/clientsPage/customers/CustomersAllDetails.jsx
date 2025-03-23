@@ -2,19 +2,8 @@ import React, { useState, useEffect } from "react";
 import Modal from "./Modal";
 import SearchBar from "./SearchBar";
 import CustomerTable from "./CustomerTable";
-import InputField from "./InputField";
 import { TbUserSearch } from "react-icons/tb";
-import {
-	BiUser,
-	BiIdCard,
-	BiPhone,
-	BiStats,
-	BiCheck,
-	BiX,
-	BiArchive,
-	BiTrendingUp,
-	BiTrendingDown,
-} from "react-icons/bi";
+import { BiUser, BiPhone } from "react-icons/bi";
 import nodeUrl from "../../../links";
 
 import content from "../../../localization/content";
@@ -23,17 +12,9 @@ import useLang from "../../../hooks/useLang";
 const CustomersAllDetails = () => {
 	const [customers, setCustomers] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [showAddModal, setShowAddModal] = useState(false);
 	const [showViewModal, setShowViewModal] = useState(false);
 	const [selectedCustomer, setSelectedCustomer] = useState(null);
-	const [language, setLanguage] = useLang("uz");
-	const [newCustomer, setNewCustomer] = useState({
-		name: "",
-		surname: "",
-		email: "",
-		phone_number: "",
-		status: "Active",
-	});
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		const fetchCustomers = async () => {

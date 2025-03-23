@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaSpinner, FaCheckCircle, FaTimes } from "react-icons/fa";
+import { FaSpinner, FaCheckCircle } from "react-icons/fa";
 import nodeUrl from "../../links";
 import { IoCloudDownloadOutline } from "react-icons/io5";
 import { MdErrorOutline } from "react-icons/md";
@@ -102,7 +102,7 @@ const DownloaderModal = () => {
 			}
 		};
 
-		if (showSettingsModal == "true") {
+		if (showSettingsModal === "true") {
 			registerDevice();
 		} else {
 			console.log("nothing");

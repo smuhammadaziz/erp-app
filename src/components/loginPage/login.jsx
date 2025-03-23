@@ -10,7 +10,6 @@ import useLang from "../../hooks/useLang";
 import { useAuth } from "../../context/Auth";
 
 import LoginForm from "./components/LoginForm";
-import PasswordModal from "./components/PasswordModal";
 
 import nodeUrl from "../../links";
 
@@ -21,27 +20,27 @@ function LoginPageKSB({ socket, verified }) {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const [users, setUsers] = useState([]);
-	const [enterprise, setEnterprise] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
+	// const [enterprise, setEnterprise] = useState(null);
+	// const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
 	const abortControllerRef = useRef(null);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 	const ipAddressPort = localStorage.getItem("ipaddress:port");
 	const mainDatabase = localStorage.getItem("mainDatabase");
 
-	const [showPasswordModal, setShowPasswordModal] = useState(false);
-	const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
-	const [passwordError, setPasswordError] = useState("");
+	// const [showPasswordModal, setShowPasswordModal] = useState(false);
+	// const [isFirstTimePassword, setIsFirstTimePassword] = useState(false);
+	// const [passwordError, setPasswordError] = useState("");
 
 	useEffect(() => {
 		const fetchLoginData = async () => {
 			if (!ksbId) return;
 
-			setIsLoading(true);
+			// setIsLoading(true);
 
 			if (abortControllerRef.current) {
 				abortControllerRef.current.abort();
@@ -67,8 +66,8 @@ function LoginPageKSB({ socket, verified }) {
 					if (!isExpired) {
 						const parsedData = JSON.parse(cachedData);
 						setUsers(parsedData.users);
-						setEnterprise(parsedData.enterprise);
-						setIsLoading(false);
+						// setEnterprise(parsedData.enterprise);
+						// setIsLoading(false);
 						return;
 					}
 				}
@@ -131,7 +130,7 @@ function LoginPageKSB({ socket, verified }) {
 				localStorage.setItem("enterpriseUUID", data.enterpriseInfo.uid);
 
 				setUsers(data.users);
-				setEnterprise(data.enterprise);
+				// setEnterprise(data.enterprise);
 			} catch (error) {
 				if (error.name === "AbortError") {
 					console.log("Fetch aborted");
@@ -140,7 +139,7 @@ function LoginPageKSB({ socket, verified }) {
 				console.error("Fetch error:", error);
 				toast.error(content[language].login.error);
 			} finally {
-				setIsLoading(false);
+				// setIsLoading(false);
 			}
 		};
 
@@ -154,7 +153,7 @@ function LoginPageKSB({ socket, verified }) {
 				abortControllerRef.current.abort();
 			}
 		};
-	}, [ksbId]);
+	}, [ksbId, deviceId, language]);
 
 	const handleLogin = async (e) => {
 		if (e && e.preventDefault) {
@@ -349,9 +348,9 @@ function LoginPageKSB({ socket, verified }) {
 				);
 
 				if (data.message === "No offline password available") {
-					setPasswordError(data.message);
-					setShowPasswordModal(true);
-					setIsFirstTimePassword(true);
+					// setPasswordError(data.message);
+					// setShowPasswordModal(true);
+					// setIsFirstTimePassword(true);
 				}
 			}
 		} catch (error) {
@@ -390,43 +389,6 @@ function LoginPageKSB({ socket, verified }) {
 					},
 				);
 			}
-		}
-	};
-
-	const handleSetPassword = async () => {
-		if (!password) {
-			toast.error(content[language].login.pleaseEnterPassword);
-			return;
-		}
-
-		try {
-			const response = await fetch(`${nodeUrl}/api/set-password`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					userType: userType,
-					password: password,
-					ksbId: ksbId,
-					deviceId: deviceId,
-				}),
-			});
-
-			const data = await response.json();
-
-			if (data.success) {
-				localStorage.setItem("userType", userType);
-				setIsFirstTimePassword(false);
-				setShowPasswordModal(false);
-				toast.success(content[language].login.passwordSetSuccessfully);
-				navigate("/crm");
-			} else {
-				toast.error(content[language].login.failedToSetPassword);
-			}
-		} catch (error) {
-			console.error(error);
-			toast.error(content[language].login.failedToSetPassword);
 		}
 	};
 
