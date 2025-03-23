@@ -1,5 +1,4 @@
 import React from "react";
-import { FaCashRegister } from "react-icons/fa";
 import { HiOutlineCreditCard } from "react-icons/hi";
 import { HiOutlineCash } from "react-icons/hi";
 
