@@ -16,7 +16,7 @@ function ProductModal({
 	const [quantity, setQuantity] = useState(0);
 	const [customPrice, setCustomPrice] = useState(null);
 	const [showErrorModal, setShowErrorModal] = useState(false);
-	// const [showEmpty, setShowEmpty] = useState(false);
+	const [showEmpty, setShowEmpty] = useState(false);
 	const [warehouseData, setWarehouseData] = useState({});
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
@@ -34,9 +34,9 @@ function ProductModal({
 		quantityInputRef.current?.focus();
 	}, []);
 
-	// const settingsWarehouse = JSON.parse(
-	// 	localStorage.getItem("settingsWarehouse"),
-	// );
+	const settingsWarehouse = JSON.parse(
+		localStorage.getItem("settingsWarehouse"),
+	);
 
 	const fetchWarehouseData = useCallback(async () => {
 		if (product.stock[0].warehouse) {
@@ -62,7 +62,7 @@ function ProductModal({
 				);
 			}
 		}
-	}, [warehouseData, product.stock]);
+	}, [warehouseData]);
 
 	useEffect(() => {
 		fetchWarehouseData();
@@ -80,13 +80,13 @@ function ProductModal({
 	);
 
 	const convertPrice = (originalPrice) => {
-		if (currencyKeyData === product.currency) {
+		if (currencyKeyData == product.currency) {
 			return originalPrice;
 		} else {
-			if (currencyKeyData === "e51e4ee5-d689-11e7-b79f-00ac1948df3a") {
+			if (currencyKeyData == "e51e4ee5-d689-11e7-b79f-00ac1948df3a") {
 				return originalPrice / currencyRateDataKey.usd;
 			} else if (
-				currencyKeyData === "e51e4ee6-d689-11e7-b79f-00ac1948df3a"
+				currencyKeyData == "e51e4ee6-d689-11e7-b79f-00ac1948df3a"
 			) {
 				return originalPrice * currencyRateDataKey.usd;
 			} else {
@@ -108,9 +108,9 @@ function ProductModal({
 		onClose();
 	};
 
-	// const handlePriceFocus = (e) => {
-	// 	e.target.select();
-	// };
+	const handlePriceFocus = (e) => {
+		e.target.select();
+	};
 
 	const handleKeyDown = (e, currentField) => {
 		if (e.ctrlKey && e.key === "Enter") {
@@ -157,7 +157,7 @@ function ProductModal({
 		}
 
 		if (totalPrice === 0) {
-			// setShowEmpty(true);
+			setShowEmpty(true);
 			return;
 		}
 
@@ -175,7 +175,7 @@ function ProductModal({
 
 		const mainWarehouseData = "e51e4ee3-d689-11e7-b79f-00ac1948df3a";
 
-		// const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
+		const mainCashData = "411c77fa-3d75-11e8-86d1-2089849ccd5a";
 
 		const data = {
 			device_id: device_id,
@@ -242,7 +242,7 @@ function ProductModal({
 		}
 	};
 
-	const [changePriceValue] = useState(() => {
+	const [changePriceValue, setChangePriceValue] = useState(() => {
 		const savedValue = localStorage.getItem("changePriceValue");
 		return savedValue === "true";
 	});

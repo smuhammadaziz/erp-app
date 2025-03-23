@@ -72,7 +72,7 @@ const ProductViewDetails = ({ product }) => {
 			setNames(nameMap);
 		};
 		fetchAllNames();
-	}, [product.price, fetchPriceName]);
+	}, []);
 
 	const fetchStockData = async (item_id) => {
 		try {
@@ -102,7 +102,7 @@ const ProductViewDetails = ({ product }) => {
 		};
 
 		fetchAllNames();
-	}, [product?.stock, fetchStockData]);
+	}, []);
 
 	useEffect(() => {
 		if (!product.currency) return;

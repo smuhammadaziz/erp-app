@@ -9,15 +9,15 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	// const [selectedProduct, setSelectedProduct] = useState(null);
-	// const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedProduct, setSelectedProduct] = useState(null);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [selectedRowId, setSelectedRowId] = useState(null);
-	// const [manualSelection, setManualSelection] = useState(false);
-	// const [selectedIndex, setSelectedIndex] = useState(-1);
+	const [manualSelection, setManualSelection] = useState(false);
+	const [selectedIndex, setSelectedIndex] = useState(-1);
 	const tableRef = React.useRef(null);
 	const selectedRowRef = useRef(null);
 	const sales_id = localStorage.getItem("sales_id");
-	// const prevProductsRef = useRef([]);
+	const prevProductsRef = useRef([]);
 
 	const [language] = useLang("uz");
 
@@ -43,7 +43,7 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 		return () => {
 			socket.off("gettingSoldProducts", updateHandler);
 		};
-	}, [sales_id, lastAddedProductId, fetchSoldProducts, socket]);
+	}, [sales_id, lastAddedProductId]);
 
 	const fetchSoldProducts = async () => {
 		try {
@@ -70,10 +70,10 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 		}
 	};
 
-	// const handleRowClick = (productId) => {
-	// 	setSelectedRowId(productId);
-	// 	scrollToSelectedRow(productId);
-	// };
+	const handleRowClick = (productId) => {
+		setSelectedRowId(productId);
+		scrollToSelectedRow(productId);
+	};
 
 	const deleteAllProducts = async (product_id) => {
 		const salesId = localStorage.getItem("sales_id");
@@ -101,10 +101,10 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 		}
 	};
 
-	// const handleCloseModal = () => {
-	// 	// setIsModalOpen(false);
-	// 	// setSelectedProduct(null);
-	// };
+	const handleCloseModal = () => {
+		setIsModalOpen(false);
+		setSelectedProduct(null);
+	};
 
 	const [warehouseData, setWarehouseData] = useState({});
 
@@ -165,7 +165,7 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 
 	useEffect(() => {
 		fetchWarehouseData();
-	}, [products, warehouseData, fetchWarehouseData]);
+	}, [products, warehouseData]);
 
 	useEffect(() => {
 		if (selectedRowId) {
@@ -238,8 +238,8 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 												scrollToSelectedRow(product.id);
 											}}
 											onDoubleClick={() => {
-												// setSelectedProduct(product);
-												// setIsModalOpen(true);
+												setSelectedProduct(product);
+												setIsModalOpen(true);
 											}}
 										>
 											<td

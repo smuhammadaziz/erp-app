@@ -20,7 +20,7 @@ function SalespageSummaSection({ socket }) {
 		return () => {
 			socket.off("gettingSoldProducts", updateHandler);
 		};
-	}, [nodeUrl, sales_id, fetchSoldProducts, socket]);
+	}, [nodeUrl, sales_id]);
 
 	const fetchSoldProducts = async () => {
 		try {
