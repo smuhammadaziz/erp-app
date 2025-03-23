@@ -1,12 +1,5 @@
 import React from "react";
-import {
-	FaUser,
-	FaLock,
-	FaBell,
-	FaCog,
-	FaQuestionCircle,
-	FaSignOutAlt,
-} from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 
 import { LiaCloudUploadAltSolid } from "react-icons/lia";
 
@@ -17,7 +10,7 @@ import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
 function Sidebar({ activeSection, setActiveSection }) {
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 	const settingsItems = [
 		{
 			icon: <MdDevices className="w-5 h-5 text-blue-500" />,

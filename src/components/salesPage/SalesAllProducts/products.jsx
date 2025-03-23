@@ -21,24 +21,24 @@ function SalesMainAllProducts({ socket }) {
 	const [isSelectionEnabled, setIsSelectionEnabled] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [isSearching, setIsSearching] = useState(false);
+	// const [isSearching, setIsSearching] = useState(false);
 	const [page, setPage] = useState(1);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 	const [mouseSelectedRow, setMouseSelectedRow] = useState(null);
 	const [tableClickedRow, setTableClickedRow] = useState(null);
-	const [clickedRow, setClickedRow] = useState(null);
+	// const [clickedRow, setClickedRow] = useState(null);
 	const itemsPerPage = 50;
 
 	const tableRef = useRef(null);
 	const selectedRowRef = useRef(null);
 	const searchInputRef = useRef(null);
-	const fetchIntervalRef = useRef(null);
-	const lastFetchTime = useRef(0);
+	// const fetchIntervalRef = useRef(null);
+	// const lastFetchTime = useRef(0);
 	const currentData = useRef([]);
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	const [initialSortApplied, setInitialSortApplied] = useState(false);
+	// const [initialSortApplied, setInitialSortApplied] = useState(false);
 
 	const [sortConfig, setSortConfig] = useState(() => {
 		const saved = localStorage.getItem("tableSortConfig");
@@ -145,7 +145,7 @@ function SalesMainAllProducts({ socket }) {
 
 	useEffect(() => {
 		if (searchQuery) {
-			setIsSearching(true);
+			// setIsSearching(true);
 			const lowercasedQuery = searchQuery.toLowerCase();
 			const filtered = originalData.filter(
 				(product) =>
@@ -166,7 +166,7 @@ function SalesMainAllProducts({ socket }) {
 			setMouseSelectedRow(null);
 			setTableClickedRow(null);
 		} else {
-			setIsSearching(false);
+			// setIsSearching(false);
 
 			// Apply sorting to the original data
 			const sortedOriginal = sortConfig.key
@@ -181,7 +181,7 @@ function SalesMainAllProducts({ socket }) {
 			setTableClickedRow(null);
 			setIsSelectionEnabled(false);
 		}
-	}, [searchQuery, originalData, sortConfig]);
+	}, [searchQuery, originalData, sortConfig, applySortConfig]);
 
 	const loadMoreItems = useCallback(() => {
 		if (isLoadingMore) return;
@@ -217,7 +217,7 @@ function SalesMainAllProducts({ socket }) {
 		if (e.key === "ArrowDown") {
 			e.preventDefault();
 			setMouseSelectedRow(null);
-			setClickedRow(null);
+			// setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null
 					? 0
@@ -226,7 +226,7 @@ function SalesMainAllProducts({ socket }) {
 		} else if (e.key === "ArrowUp") {
 			e.preventDefault();
 			setMouseSelectedRow(null);
-			setClickedRow(null);
+			// setClickedRow(null);
 			setSelectedRow((prev) =>
 				prev === null ? null : Math.max(prev - 1, 0),
 			);
@@ -236,7 +236,7 @@ function SalesMainAllProducts({ socket }) {
 			setIsSelectionEnabled(false);
 			setSelectedRow(null);
 			setMouseSelectedRow(null);
-			setClickedRow(null);
+			// setClickedRow(null);
 			setSearchQuery("");
 			searchInputRef.current?.focus();
 		}
@@ -306,7 +306,7 @@ function SalesMainAllProducts({ socket }) {
 		const newSortConfig = { key, direction };
 		setSortConfig(newSortConfig);
 		localStorage.setItem("tableSortConfig", JSON.stringify(newSortConfig));
-		setInitialSortApplied(true);
+		// setInitialSortApplied(true);
 
 		// Apply sorting to filteredData
 		const sortedData = applySortConfig(filteredData, newSortConfig);
@@ -359,7 +359,7 @@ function SalesMainAllProducts({ socket }) {
 			return applySortConfig(filteredData, sortConfig);
 		}
 		return filteredData;
-	}, [sortConfig, filteredData]);
+	}, [sortConfig, filteredData, applySortConfig]);
 
 	useEffect(() => {
 		setDisplayedData(sortedData.slice(0, page * itemsPerPage));

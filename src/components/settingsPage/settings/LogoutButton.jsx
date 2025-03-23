@@ -1,13 +1,12 @@
 import React from "react";
 import { FaSignOutAlt } from "react-icons/fa";
-import { MdOutlineChangeCircle } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 
 function LogoutButton() {
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 	return (
 		<div className="">
 			<NavLink

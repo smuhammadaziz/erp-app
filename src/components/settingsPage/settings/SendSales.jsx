@@ -29,7 +29,7 @@ function SendSales() {
 		}
 	}, []);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	const handleTimeSelect = (minutes) => {
 		const milliseconds = minutes * 60 * 1000;

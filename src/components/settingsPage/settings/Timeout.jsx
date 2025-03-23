@@ -17,7 +17,7 @@ function TimeoutSettings() {
 
 	const [inputValue, setInputValue] = useState(savedTimeout);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		if (!localStorage.getItem(TIMEOUT_STORAGE_KEY)) {

@@ -12,11 +12,11 @@ import TimeoutSettings from "./Timeout";
 const MessageNotifications = () => {
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const [loading, setLoading] = useState(false);
+	// const [loading, setLoading] = useState(false);
 	const [status, setStatus] = useState(null);
 	const [currentModal, setCurrentModal] = useState(null);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	const userPassword = localStorage.getItem("userPassword");
 	const ksbId = localStorage.getItem("ksbIdNumber");
@@ -32,7 +32,7 @@ const MessageNotifications = () => {
 		}
 
 		setError("");
-		setLoading(true);
+		// setLoading(true);
 		setStatus(null);
 		setCurrentModal("loading");
 
@@ -59,7 +59,7 @@ const MessageNotifications = () => {
 			);
 
 			const result = await response.json();
-			setLoading(false);
+			// setLoading(false);
 			setStatus(
 				result.status === "successfully"
 					? content[language].settingsUsers.recoveryDataSuccess
@@ -67,7 +67,7 @@ const MessageNotifications = () => {
 			);
 			setCurrentModal("result");
 		} catch (err) {
-			setLoading(false);
+			// setLoading(false);
 			setStatus("An error occurred while processing your request.");
 			setCurrentModal("result");
 		}

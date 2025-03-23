@@ -129,7 +129,7 @@ const DeviceIcon = ({ type }) => {
 };
 
 const ActiveSessions = () => {
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 	const [users, setUsers] = useState([]);
 	const device_id = localStorage.getItem("device_id");
 	const ksb_id = localStorage.getItem("ksbIdNumber");
@@ -162,7 +162,7 @@ const ActiveSessions = () => {
 			}
 		};
 		fetchProducts();
-	}, []);
+	}, [device_id, ksb_id]);
 
 	const sortedUsers = [...users].sort(
 		(a, b) => new Date(b.last_entered_time) - new Date(a.last_entered_time),

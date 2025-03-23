@@ -2,16 +2,11 @@ import React, { useRef, useEffect, useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { MdClear } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
-import { GrClearOption } from "react-icons/gr";
 import nodeUrl from "../../../links";
 
 import { FaTimes } from "react-icons/fa";
 import { ImExit } from "react-icons/im";
 
-import { MdDelete } from "react-icons/md";
-import { MdOutlineRemoveCircleOutline } from "react-icons/md";
-
-import { PiEmptyLight } from "react-icons/pi";
 import { GoAlert } from "react-icons/go";
 
 import content from "../../../localization/content";
@@ -26,7 +21,7 @@ function SearchBar({
 }) {
 	const searchInputRef = useRef(null);
 	const [lastChangeTime, setLastChangeTime] = useState(0);
-	const [isQrInput, setIsQrInput] = useState(false);
+	// const [isQrInput, setIsQrInput] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const [isFirstKeyPress, setIsFirstKeyPress] = useState(true);
 
@@ -117,7 +112,7 @@ function SearchBar({
 		if (!isQrScan || newValue.length > 8) {
 			setSearchQuery(newValue);
 		}
-		setIsQrInput(isQrScan);
+		// setIsQrInput(isQrScan);
 		setLastChangeTime(currentTime);
 		if (isQrScan) {
 			setTimeout(() => {
@@ -133,7 +128,7 @@ function SearchBar({
 		setIsSelectionEnabled(false);
 		setSelectedRow(null);
 		setLastChangeTime(0);
-		setIsQrInput(false);
+		// setIsQrInput(false);
 		searchInputRef.current?.focus();
 	};
 
@@ -145,7 +140,7 @@ function SearchBar({
 	};
 
 	const handlePaste = () => {
-		setIsQrInput(true);
+		// setIsQrInput(true);
 		setTimeout(() => {
 			searchInputRef.current?.select();
 		}, 50);

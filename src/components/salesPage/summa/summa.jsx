@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaPercentage } from "react-icons/fa";
-import { HiOutlineCash } from "react-icons/hi";
-import { HiOutlineCreditCard } from "react-icons/hi";
 import { BiBasket } from "react-icons/bi";
 import { RiDiscountPercentLine } from "react-icons/ri";
-import { CiMoneyCheck1 } from "react-icons/ci";
-import { IoCash } from "react-icons/io5";
-import { FaCashRegister } from "react-icons/fa6";
 import { PiCashRegisterFill } from "react-icons/pi";
 import nodeUrl from "../../../links";
 
@@ -26,7 +20,7 @@ function SalespageSummaSection({ socket }) {
 		return () => {
 			socket.off("gettingSoldProducts", updateHandler);
 		};
-	}, [nodeUrl, sales_id]);
+	}, [nodeUrl, sales_id, fetchSoldProducts, socket]);
 
 	const fetchSoldProducts = async () => {
 		try {

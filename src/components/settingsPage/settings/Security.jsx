@@ -44,7 +44,7 @@ const PasswordInput = ({
 );
 
 const OfflineOverlay = () => {
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 	return (
 		<div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl">
 			<div className="text-center space-y-4">
@@ -71,7 +71,7 @@ function Security() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	const currentPasswordRef = useRef(null);
 	const newPasswordRef = useRef(null);

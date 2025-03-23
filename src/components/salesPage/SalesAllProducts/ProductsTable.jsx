@@ -25,21 +25,21 @@ function ProductsTable({
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
-	const [clickedRow, setClickedRow] = useState(null);
+	// const [clickedRow, setClickedRow] = useState(null);
 	const [selectedCell, setSelectedCell] = useState({ row: null, col: null });
-	const [currencyKey, setCurrencyKey] = useState(
-		localStorage.getItem("currencyKey"),
-	);
-	const [priceTypeKey, setPriceKeyKey] = useState(
-		localStorage.getItem("priceTypeKey"),
-	);
+	// const [currencyKey, setCurrencyKey] = useState(
+	// 	localStorage.getItem("currencyKey"),
+	// );
+	// const [priceTypeKey, setPriceKeyKey] = useState(
+	// 	localStorage.getItem("priceTypeKey"),
+	// );
 	const loadingRef = useRef(null);
 
-	const [currencyRateData, setCurrencyRateData] = useState("");
+	// const [currencyRateData, setCurrencyRateData] = useState("");
 
-	const settingsWarehouse = JSON.parse(
-		localStorage.getItem("settingsWarehouse"),
-	);
+	// const settingsWarehouse = JSON.parse(
+	// 	localStorage.getItem("settingsWarehouse"),
+	// );
 
 	const settingsDeviceData = JSON.parse(
 		localStorage.getItem("settingsDevice") || "{}",
@@ -64,7 +64,7 @@ function ProductsTable({
 						});
 
 						setSelectedCell({ row: null, col: null });
-						setClickedRow(null);
+						// setClickedRow(null);
 						setSelectedRow(null);
 					}
 				},
@@ -98,7 +98,7 @@ function ProductsTable({
 					}));
 
 					if (data[0]?.key) {
-						setCurrencyRateData(data[0].key);
+						// setCurrencyRateData(data[0].key);
 					}
 				} catch (error) {
 					console.error("Failed to fetch currency data", error);
@@ -109,7 +109,7 @@ function ProductsTable({
 				}
 			}
 		}
-	}, [filteredData]);
+	}, [filteredData, currencyData]);
 
 	useEffect(() => {
 		fetchCurrencyData();
@@ -150,7 +150,7 @@ function ProductsTable({
 		fetchWarehouseData();
 	}, [fetchWarehouseData]);
 
-	const [names, setNames] = useState({});
+	// const [names, setNames] = useState({});
 
 	useEffect(() => {
 		const fetchAllNames = async () => {
@@ -163,7 +163,7 @@ function ProductsTable({
 					}
 				}
 			}
-			setNames(nameMap);
+			// setNames(nameMap);
 		};
 		fetchAllNames();
 	}, [filteredData]);
@@ -259,7 +259,7 @@ function ProductsTable({
 	useEffect(() => {
 		if (isSelectionEnabled) {
 			setSelectedCell({ row: null, col: null });
-			setClickedRow(null);
+			// setClickedRow(null);
 		}
 	}, [isSelectionEnabled]);
 
@@ -292,7 +292,7 @@ function ProductsTable({
 	useEffect(() => {
 		const handleCurrencyChange = () => {
 			const newCurrencyKey = localStorage.getItem("currencyKey");
-			setCurrencyKey(newCurrencyKey);
+			// setCurrencyKey(newCurrencyKey);
 		};
 
 		window.addEventListener("currencyChanged", handleCurrencyChange);
@@ -305,7 +305,7 @@ function ProductsTable({
 	useEffect(() => {
 		const handlePriceTypeChange = () => {
 			const newPriceTypeKey = localStorage.getItem("priceTypeKey");
-			setPriceKeyKey(newPriceTypeKey);
+			// setPriceKeyKey(newPriceTypeKey);
 		};
 
 		window.addEventListener("priceTypeChanged", handlePriceTypeChange);
@@ -776,13 +776,13 @@ function ProductsTable({
 												originalPrice,
 											) => {
 												if (
-													currencyKeyData ==
+													currencyKeyData ===
 													product.currency
 												) {
 													return originalPrice;
 												} else {
 													if (
-														currencyKeyData ==
+														currencyKeyData ===
 														"e51e4ee5-d689-11e7-b79f-00ac1948df3a"
 													) {
 														return (
@@ -790,7 +790,7 @@ function ProductsTable({
 															currencyRateDataKey.usd
 														);
 													} else if (
-														currencyKeyData ==
+														currencyKeyData ===
 														"e51e4ee6-d689-11e7-b79f-00ac1948df3a"
 													) {
 														return (
