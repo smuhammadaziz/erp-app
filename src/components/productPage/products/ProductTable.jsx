@@ -52,7 +52,7 @@ const ProductTable = React.memo(
 				{ key: "currency", label: content[language].product.currency },
 				{ key: "article", label: content[language].product.article },
 			],
-			[],
+			[language],
 		);
 
 		useEffect(() => {

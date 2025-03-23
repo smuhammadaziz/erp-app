@@ -1,16 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-	BiPackage,
-	BiStore,
-	BiTag,
-	BiMoney,
-	BiBookmark,
-	BiBuilding,
-	BiCoinStack,
-	BiBarcode,
-	BiCopy,
-	BiCheck,
-} from "react-icons/bi";
+import { BiBarcode } from "react-icons/bi";
 
 import nodeUrl from "../../../links";
 
@@ -30,7 +19,6 @@ const ProductViewDetails = ({ product }) => {
 	const [activeMenu, setActiveMenu] = useState(menuItems[0].key);
 	const [currencyName, setCurrencyName] = useState("");
 	const [symbolName, setSymbolName] = useState("");
-	const [copiedField, setCopiedField] = useState(null);
 
 	const deviceId = localStorage.getItem("device_id");
 	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
@@ -84,7 +72,7 @@ const ProductViewDetails = ({ product }) => {
 			setNames(nameMap);
 		};
 		fetchAllNames();
-	}, [product.price]);
+	}, [product.price, fetchPriceName]);
 
 	const fetchStockData = async (item_id) => {
 		try {
@@ -114,7 +102,7 @@ const ProductViewDetails = ({ product }) => {
 		};
 
 		fetchAllNames();
-	}, [product?.stock]);
+	}, [product?.stock, fetchStockData]);
 
 	useEffect(() => {
 		if (!product.currency) return;
@@ -130,12 +118,6 @@ const ProductViewDetails = ({ product }) => {
 		if (!product.symbol) return;
 		fetchData("symbol", product.symbol, setSymbolName, setSymbolName);
 	}, [product.symbol, fetchData]);
-
-	const handleCopy = useCallback((value, key) => {
-		navigator.clipboard.writeText(String(value));
-		setCopiedField(key);
-		setTimeout(() => setCopiedField(null), 2000);
-	}, []);
 
 	const fields = [
 		{ key: "name", label: content[language].product.name },

@@ -103,7 +103,7 @@ function PermissionComponent({ onComplete }) {
 						</h2>
 
 						<div className="flex items-center space-x-4">
-							{status == "empty" ? (
+							{status === "empty" ? (
 								<>
 									<button
 										onClick={onQuit}

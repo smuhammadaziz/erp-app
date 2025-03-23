@@ -6,7 +6,7 @@ import React, {
 	useRef,
 } from "react";
 import { SlBasket } from "react-icons/sl";
-import { FaUserPlus, FaSearch } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import ProductTable from "./ProductTable";
 import ProductModal from "./ProductModal";
 import ProductAddForm from "./ProductAddForm";
@@ -26,7 +26,7 @@ const ProductsPageComponent = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasMore, setHasMore] = useState(true);
 
-	const [language, setLanguage] = useLang("uz");
+	const [language] = useLang("uz");
 
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
@@ -39,9 +39,9 @@ const ProductsPageComponent = () => {
 		};
 	};
 
-	const debouncedSearch = useCallback(
-		debounce((term) => setSearchTerm(term)),
-		[],
+	const debouncedSearch = useMemo(
+		() => debounce((term) => setSearchTerm(term), 300),
+		[setSearchTerm],
 	);
 
 	useEffect(() => {
@@ -63,7 +63,7 @@ const ProductsPageComponent = () => {
 			}
 		};
 		fetchProducts();
-	}, []);
+	}, [deviceId, ksbId]);
 
 	const filteredProducts = useMemo(() => {
 		try {
