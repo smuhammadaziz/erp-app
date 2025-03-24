@@ -24,7 +24,7 @@ function UserTypeDropdown({
 		} else {
 			setSelectedUserType(userType || "");
 		}
-	}, [userType, handleSelect]);
+	}, []);
 
 	useEffect(() => {
 		if (isDropdownOpen) {
