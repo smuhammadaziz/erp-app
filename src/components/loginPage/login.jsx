@@ -137,7 +137,6 @@ function LoginPageKSB({ socket, verified }) {
 					return;
 				}
 				console.error("Fetch error:", error);
-				toast.error(content[language].login.error);
 			} finally {
 				// setIsLoading(false);
 			}
