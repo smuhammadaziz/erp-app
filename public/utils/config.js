@@ -2,7 +2,7 @@ const { join } = require("path");
 const isDev = require("electron-is-dev");
 
 let config = {
-	appName: "KSB-MERP",
+	appName: "KSB-POS",
 	icon: join(__dirname, "..", "/favicon.ico"),
 	tray: null,
 	isQuiting: false,

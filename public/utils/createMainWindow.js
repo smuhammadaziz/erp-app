@@ -14,6 +14,7 @@ exports.createMainWindow = async () => {
 			contextIsolation: false,
 			spellcheck: false,
 			webSecurity: false,
+			partition: 'persist:main',
 		},
 		frame: false,
 		icon: config.icon,

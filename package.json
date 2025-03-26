@@ -1,5 +1,5 @@
 {
-	"name": "ksb-merp",
+	"name": "ksb-pos",
 	"version": "1.0.0",
 	"private": true,
 	"main": "public/electron.js",
@@ -62,12 +62,6 @@
 		"eject": "react-scripts eject",
 		"electron-dev": "wait-on http://localhost:3000 && electron ."
 	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
 	"browserslist": {
 		"production": [
 			">0.2%",
@@ -82,7 +76,7 @@
 	},
 	"build": {
 		"appId": "com.ksb.app",
-		"productName": "ksb-merp",
+		"productName": "KSB-POS",
 		"copyright": "Copyright © 2025",
 		"files": [
 			"build/**/*",
@@ -111,7 +105,7 @@
 			"perMachine": false,
 			"createDesktopShortcut": true,
 			"createStartMenuShortcut": true,
-			"shortcutName": "ksb-merp",
+			"shortcutName": "KSB-POS",
 			"license": "LICENSE.txt",
 			"allowElevation": true,
 			"installerIcon": "assets/ksb.ico",
@@ -133,4 +127,3 @@
 		]
 	}
 }
-
