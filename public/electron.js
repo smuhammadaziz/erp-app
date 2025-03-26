@@ -8,6 +8,7 @@ const AutoLaunch = require("auto-launch");
 const remote = require("@electron/remote/main");
 const config = require("./utils/config");
 const path = require("path");
+const { exec } = require("child_process");
 
 if (config.isDev) require("electron-reloader")(module);
 
@@ -20,7 +21,36 @@ if (!config.isDev) {
 	autoStart.enable();
 }
 
+function startBackend() {
+	const isProduction = !config.isDev;
+	const backendPath = isProduction
+		? path.join(process.resourcesPath, "back-app")
+		: path.join(__dirname, "../back-app");
+
+	// First install dependencies
+	exec("npm install", { cwd: backendPath }, (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Error installing dependencies: ${error.message}`);
+			return;
+		}
+
+		// Then start the server
+		exec("npm start", { cwd: backendPath }, (error, stdout, stderr) => {
+			if (error) {
+				console.error(`Error starting backend: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.error(`Backend stderr: ${stderr}`);
+			}
+			console.log(`Backend stdout: ${stdout}`);
+		});
+	});
+}
+
 app.on("ready", async () => {
+	startBackend();
+
 	config.mainWindow = await createMainWindow();
 	config.tray = await createTray();
 
@@ -54,3 +84,4 @@ autoUpdater.on("update-downloaded", () => {
 ipcMain.on("restart_app", () => {
 	autoUpdater.quitAndInstall();
 });
+

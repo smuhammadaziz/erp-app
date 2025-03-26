@@ -119,7 +119,18 @@
 			"installerHeaderIcon": "assets/ksb.ico",
 			"runAfterFinish": true,
 			"include": "installer.nsh"
-		}
+		},
+		"extraResources": [
+			{
+				"from": "../back-app",
+				"to": "back-app",
+				"filter": [
+					"src/**/*",
+					"package.json",
+					"package-lock.json"
+				]
+			}
+		]
 	}
 }
 
