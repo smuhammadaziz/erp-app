@@ -198,12 +198,7 @@ function SalesMainAllProducts({ socket }) {
 	}, [filteredData, page, isLoadingMore]);
 
 	const handleKeyDown = (e) => {
-		if (
-			e.key === "Enter" &&
-			searchQuery &&
-			filteredData.length > 0 &&
-			!isSelectionEnabled
-		) {
+		if (e.key === "Enter" && searchQuery && filteredData.length > 0 && !isSelectionEnabled) {
 			e.preventDefault();
 			setIsSelectionEnabled(true);
 			setSelectedRow(0);
@@ -219,19 +214,22 @@ function SalesMainAllProducts({ socket }) {
 			setMouseSelectedRow(null);
 			setClickedRow(null);
 			setSelectedRow((prev) =>
-				prev === null
-					? 0
-					: Math.min(prev + 1, displayedData.length - 1),
+				prev === null ? 0 : Math.min(prev + 1, displayedData.length - 1)
 			);
 		} else if (e.key === "ArrowUp") {
 			e.preventDefault();
 			setMouseSelectedRow(null);
 			setClickedRow(null);
 			setSelectedRow((prev) =>
-				prev === null ? null : Math.max(prev - 1, 0),
+				prev === null ? null : Math.max(prev - 1, 0)
 			);
 		} else if (e.key === "Enter" && selectedRow !== null) {
-			handleAddProduct(displayedData[selectedRow]);
+			e.preventDefault();
+			const selectedProduct = displayedData[selectedRow];
+			if (selectedProduct) {
+				setSelectedProduct(selectedProduct);
+				setIsModalOpen(true);
+			}
 		} else if (e.key === "Escape") {
 			setIsSelectionEnabled(false);
 			setSelectedRow(null);

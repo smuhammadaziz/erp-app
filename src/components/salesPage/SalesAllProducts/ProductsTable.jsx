@@ -22,6 +22,8 @@ function ProductsTable({
 	setTableClickedRow,
 	sortConfig,
 	onSort,
+	setSelectedProduct,
+	setIsModalOpen,
 }) {
 	const [currencyData, setCurrencyData] = useState({});
 	const [warehouseData, setWarehouseData] = useState({});
@@ -332,6 +334,13 @@ function ProductsTable({
 		return sortConfig.direction === "asc" ? "↑" : "↓";
 	};
 
+	const handleRowClick = (index) => {
+		setSelectedRow(index);
+		setMouseSelectedRow(index);
+		setTableClickedRow(index);
+	};
+
+
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"
@@ -462,24 +471,7 @@ function ProductsTable({
 											? selectedRowRef
 											: null
 									}
-									onClick={() => {
-										if (!isSelectionEnabled) {
-											setTableClickedRow(index);
-											setSelectedCell({
-												row: null,
-												col: null,
-											});
-											setSelectedRow(null);
-										} else {
-											setSelectedRow(null);
-											setTableClickedRow(null);
-											setSelectedCell({
-												row: null,
-												col: null,
-											});
-											setMouseSelectedRow(index);
-										}
-									}}
+									onClick={() => handleRowClick(index)}
 									className={`text-gray-800 font-semibold cursor-pointer text-xs transition-all duration-150 focus:outline-none ${
 										selectedRow === index &&
 										isSelectionEnabled &&
