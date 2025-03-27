@@ -112,40 +112,6 @@ function ProductModal({
 		e.target.select();
 	};
 
-	const handleKeyDown = (e, currentField) => {
-		if (e.ctrlKey && e.key === "Enter") {
-			e.preventDefault();
-			handleSubmit(e);
-			return;
-		}
-
-		if (e.key === "Enter" && !e.ctrlKey) {
-			e.preventDefault();
-			switch (currentField) {
-				case "quantity":
-					priceInputRef.current?.focus();
-					break;
-				case "price":
-					okButtonRef.current?.focus();
-					break;
-				case "okButton":
-					handleSubmit(e);
-					break;
-				default:
-					break;
-			}
-		}
-	};
-
-	const handlePriceChange = (e) => {
-		if (changePriceValue) {
-			const value = e.target.value.replace(/[^0-9.]/g, "");
-			if (!isNaN(value) && value !== "") {
-				setCustomPrice(Number(value));
-			}
-		}
-	};
-
 	const handleSubmit = async (e) => {
 		if (e) {
 			e.preventDefault();
@@ -230,6 +196,40 @@ function ProductModal({
 		}
 	};
 
+	const handleKeyDown = (e, currentField) => {
+		if (e.ctrlKey && e.key === "Enter") {
+			e.preventDefault();
+			handleSubmit(e);
+			return;
+		}
+
+		if (e.key === "Enter" && !e.ctrlKey) {
+			e.preventDefault();
+			switch (currentField) {
+				case "quantity":
+					priceInputRef.current?.focus();
+					break;
+				case "price":
+					okButtonRef.current?.focus();
+					break;
+				case "okButton":
+					handleSubmit(e);
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
+	const handlePriceChange = (e) => {
+		if (changePriceValue) {
+			const value = e.target.value.replace(/[^0-9.]/g, "");
+			if (!isNaN(value) && value !== "") {
+				setCustomPrice(Number(value));
+			}
+		}
+	};
+	
 	const handleFocus = (e) => {
 		if (e.target.value === "0") {
 			setQuantity("");
