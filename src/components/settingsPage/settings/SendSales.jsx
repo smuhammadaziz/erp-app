@@ -17,15 +17,16 @@ const timeOptions = [
 
 function SendSales() {
 	const STORAGE_KEY = "selectedTimeInMs";
+	const DEFAULT_TIME = 900000; // 15 minutes in milliseconds
 
 	const [selectedTime, setSelectedTime] = useState(() => {
 		const saved = localStorage.getItem(STORAGE_KEY);
-		return saved ? parseInt(saved) : 60000;
+		return saved ? parseInt(saved) : DEFAULT_TIME;
 	});
 
 	useEffect(() => {
 		if (!localStorage.getItem(STORAGE_KEY)) {
-			localStorage.setItem(STORAGE_KEY, "60000");
+			localStorage.setItem(STORAGE_KEY, DEFAULT_TIME.toString());
 		}
 	}, []);
 
