@@ -144,153 +144,153 @@ export const Router: FC = () => {
 
 	// =============================
 
-	useEffect(() => {
-		fetchUpdatingSymbolData();
+	// useEffect(() => {
+	// 	fetchUpdatingSymbolData();
 
-		const updateHandler = () => fetchUpdatingSymbolData();
-		socket.on("updatingSymbols", updateHandler);
+	// 	const updateHandler = () => fetchUpdatingSymbolData();
+	// 	socket.on("updatingSymbols", updateHandler);
 
-		return () => {
-			socket.off("updatingSymbols", updateHandler);
-		};
-	}, []);
+	// 	return () => {
+	// 		socket.off("updatingSymbols", updateHandler);
+	// 	};
+	// }, []);
 
-	const fetchUpdatingSymbolData = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/update/symbol/data/${deviceId}/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						"ipaddress:port": ipaddressPort,
-						database: mainDatabase,
-						userName: userType,
-						userPassword: userPassword,
-					}),
-				},
-			);
+	// const fetchUpdatingSymbolData = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/update/symbol/data/${deviceId}/${ksbId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					"ipaddress:port": ipaddressPort,
+	// 					database: mainDatabase,
+	// 					userName: userType,
+	// 					userPassword: userPassword,
+	// 				}),
+	// 			},
+	// 		);
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		} catch (error) {
-			console.error("Error fetching symbol data:", error);
-		}
-	};
+	// 		if (!response.ok) {
+	// 			throw new Error(`HTTP error! Status: ${response.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		fetchUpdatingCurrencyData();
+	// useEffect(() => {
+	// 	fetchUpdatingCurrencyData();
 
-		const updateHandler = () => fetchUpdatingCurrencyData();
-		socket.on("updatingCurrencies", updateHandler);
+	// 	const updateHandler = () => fetchUpdatingCurrencyData();
+	// 	socket.on("updatingCurrencies", updateHandler);
 
-		return () => {
-			socket.off("updatingCurrencies", updateHandler);
-		};
-	}, []);
+	// 	return () => {
+	// 		socket.off("updatingCurrencies", updateHandler);
+	// 	};
+	// }, []);
 
-	const fetchUpdatingCurrencyData = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/update/currency/data/${deviceId}/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						"ipaddress:port": ipaddressPort,
-						database: mainDatabase,
-						userName: userType,
-						userPassword: userPassword,
-					}),
-				},
-			);
+	// const fetchUpdatingCurrencyData = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/update/currency/data/${deviceId}/${ksbId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					"ipaddress:port": ipaddressPort,
+	// 					database: mainDatabase,
+	// 					userName: userType,
+	// 					userPassword: userPassword,
+	// 				}),
+	// 			},
+	// 		);
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		} catch (error) {
-			console.error("Error fetching symbol data:", error);
-		}
-	};
+	// 		if (!response.ok) {
+	// 			throw new Error(`HTTP error! Status: ${response.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		fetchUpdatingPriceTypeData();
+	// useEffect(() => {
+	// 	fetchUpdatingPriceTypeData();
 
-		const updateHandler = () => fetchUpdatingPriceTypeData();
-		socket.on("updatingPriceType", updateHandler);
+	// 	const updateHandler = () => fetchUpdatingPriceTypeData();
+	// 	socket.on("updatingPriceType", updateHandler);
 
-		return () => {
-			socket.off("updatingPriceType", updateHandler);
-		};
-	}, []);
+	// 	return () => {
+	// 		socket.off("updatingPriceType", updateHandler);
+	// 	};
+	// }, []);
 
-	const fetchUpdatingPriceTypeData = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/update/price_type/data/${deviceId}/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						"ipaddress:port": ipaddressPort,
-						database: mainDatabase,
-						userName: userType,
-						userPassword: userPassword,
-					}),
-				},
-			);
+	// const fetchUpdatingPriceTypeData = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/update/price_type/data/${deviceId}/${ksbId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					"ipaddress:port": ipaddressPort,
+	// 					database: mainDatabase,
+	// 					userName: userType,
+	// 					userPassword: userPassword,
+	// 				}),
+	// 			},
+	// 		);
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		} catch (error) {
-			console.error("Error fetching symbol data:", error);
-		}
-	};
+	// 		if (!response.ok) {
+	// 			throw new Error(`HTTP error! Status: ${response.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
 
-	useEffect(() => {
-		fetchWarehouseData();
+	// useEffect(() => {
+	// 	fetchWarehouseData();
 
-		const updateHandler = () => fetchWarehouseData();
-		socket.on("updatingWarehouse", updateHandler);
+	// 	const updateHandler = () => fetchWarehouseData();
+	// 	socket.on("updatingWarehouse", updateHandler);
 
-		return () => {
-			socket.off("updatingWarehouse", updateHandler);
-		};
-	}, []);
+	// 	return () => {
+	// 		socket.off("updatingWarehouse", updateHandler);
+	// 	};
+	// }, []);
 
-	const fetchWarehouseData = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/update/warehouse/data/${deviceId}/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						"ipaddress:port": ipaddressPort,
-						database: mainDatabase,
-						userName: userType,
-						userPassword: userPassword,
-					}),
-				},
-			);
+	// const fetchWarehouseData = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/update/warehouse/data/${deviceId}/${ksbId}`,
+	// 			{
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					"ipaddress:port": ipaddressPort,
+	// 					database: mainDatabase,
+	// 					userName: userType,
+	// 					userPassword: userPassword,
+	// 				}),
+	// 			},
+	// 		);
 
-			if (!response.ok) {
-				throw new Error(`HTTP error! Status: ${response.status}`);
-			}
-		} catch (error) {
-			console.error("Error fetching symbol data:", error);
-		}
-	};
+	// 		if (!response.ok) {
+	// 			throw new Error(`HTTP error! Status: ${response.status}`);
+	// 		}
+	// 	} catch (error) {
+	// 		console.error("Error fetching symbol data:", error);
+	// 	}
+	// };
 
 	return loading ? (
 		<Loader />
