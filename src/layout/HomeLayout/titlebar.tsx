@@ -59,7 +59,7 @@ export const Titlebar: FC = () => {
 			};
 
 			const response = await fetch(
-				`http://${nodeUrl}/check/ping${ksbId}`,
+				`${nodeUrl}/api/check/ping/${ksbId}`,
 				{
 					method: "POST",
 					headers: {
