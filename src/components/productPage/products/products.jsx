@@ -31,18 +31,21 @@ const ProductsPageComponent = () => {
 	const ksbId = localStorage.getItem("ksbIdNumber");
 	const deviceId = localStorage.getItem("device_id");
 
-	const debounce = (func, delay) => {
-		let timeout;
-		return (...args) => {
-			clearTimeout(timeout);
-			timeout = setTimeout(() => func(...args), delay);
-		};
+	const handleSearch = (e) => {
+		const searchValue = e.target.value;
+		setSearchTerm(searchValue);
+		
+		const filtered = products.filter((product) =>
+			Object.values(product)
+				.filter(value => value !== null && value !== undefined)
+				.join(" ")
+				.toLowerCase()
+				.includes(searchValue.toLowerCase())
+		);
+		
+		setDisplayedProducts(filtered.slice(0, 50));
+		setHasMore(filtered.length > 50);
 	};
-
-	const debouncedSearch = useMemo(
-		() => debounce((term) => setSearchTerm(term), 300),
-		[setSearchTerm],
-	);
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -65,46 +68,30 @@ const ProductsPageComponent = () => {
 		fetchProducts();
 	}, [deviceId, ksbId]);
 
-	const filteredProducts = useMemo(() => {
-		try {
-			return products.filter((product) =>
-				Object.values(product)
-					.join(" ")
-					.toLowerCase()
-					.includes(searchTerm.toLowerCase()),
-			);
-		} catch (error) {
-			console.error("Error filtering products:", error);
-			return [];
-		}
-	}, [products, searchTerm]);
-
-	useEffect(() => {
-		try {
-			setDisplayedProducts(filteredProducts.slice(0, 50));
-			setHasMore(filteredProducts.length > 50);
-		} catch (error) {
-			console.error("Error updating displayed products:", error);
-		}
-	}, [filteredProducts]);
-
 	const loadMore = useCallback(() => {
 		try {
-			const currentLength = displayedProducts.length;
-			const nextBatch = filteredProducts.slice(
-				currentLength,
-				currentLength + 50,
+			const searchValue = searchTerm.toLowerCase();
+			const filtered = products.filter((product) =>
+				Object.values(product)
+					.filter(value => value !== null && value !== undefined)
+					.join(" ")
+					.toLowerCase()
+					.includes(searchValue)
 			);
+			
+			const currentLength = displayedProducts.length;
+			const nextBatch = filtered.slice(currentLength, currentLength + 50);
+			
 			if (nextBatch.length > 0) {
 				setDisplayedProducts((prev) => [...prev, ...nextBatch]);
-				setHasMore(currentLength + 50 < filteredProducts.length);
+				setHasMore(currentLength + 50 < filtered.length);
 			} else {
 				setHasMore(false);
 			}
 		} catch (error) {
 			console.error("Error loading more products:", error);
 		}
-	}, [displayedProducts, filteredProducts]);
+	}, [displayedProducts.length, products, searchTerm]);
 
 	const handleAddProduct = useCallback(
 		(newProduct) => {
@@ -179,9 +166,7 @@ const ProductsPageComponent = () => {
 										content[language].product.search
 									}
 									value={searchTerm}
-									onChange={(e) =>
-										debouncedSearch(e.target.value)
-									}
+									onChange={handleSearch}
 									className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
 								<FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
