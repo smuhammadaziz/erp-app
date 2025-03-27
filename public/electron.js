@@ -14,12 +14,6 @@ if (config.isDev) require("electron-reloader")(module);
 
 remote.initialize();
 
-if (!config.isDev) {
-	const autoStart = new AutoLaunch({
-		name: config.appName,
-	});
-	autoStart.enable();
-}
 
 // Add this variable to store the backend process
 let backendProcess = null;
