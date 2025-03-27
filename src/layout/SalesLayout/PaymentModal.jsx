@@ -207,14 +207,21 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			const userType = localStorage.getItem("userType");
 			const userPassword = localStorage.getItem("userPassword");
 
-			const credentials = Buffer.from(
-				`${userType}:${userPassword}`,
-			).toString("base64");
+			const currentBody = {
+				"ipaddress:port": ipaddressPort,
+				database: mainDatabase,
+				username: userType,
+				password: userPassword,
+			};
 
 			const response = await fetch(
-				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/ping/ksb?text=pos&ksb_id=${ksbId}`,
+				`${nodeUrl}/api/check/ping/${ksbId}`,
 				{
-					headers: { Authorization: `Basic ${credentials}` },
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(currentBody),
 				},
 			);
 
