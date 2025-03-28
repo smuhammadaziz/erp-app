@@ -48,8 +48,53 @@ function HeaderInner({ onRefresh, socket }) {
 		setLanguage(e.target.value);
 	};
 
+	const checkInternetConnection = async () => {
+		try {
+			const online = window.navigator.onLine;
+			console.log("Navigator online status:", online);
+
+			if (!online) {
+				console.log(
+					"No internet connection detected via navigator.onLine.",
+				);
+				return false;
+			}
+
+			const ksbId = localStorage.getItem("ksbIdNumber");
+			const ipaddressPort = localStorage.getItem("ipaddress:port");
+			const mainDatabase = localStorage.getItem("mainDatabase");
+			const userType = localStorage.getItem("userType");
+			const userPassword = localStorage.getItem("userPassword");
+
+			const currentBody = {
+				"ipaddress:port": ipaddressPort,
+				database: mainDatabase,
+				username: userType,
+				password: userPassword,
+			};
+
+			const response = await fetch(
+				`${nodeUrl}/api/check/ping/${ksbId}`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(currentBody),
+				},
+			);
+
+			console.log("Response status:", response.status);
+
+			return response.status === 200;
+		} catch (error) {
+			console.error("Error during internet connection check:", error);
+			return false;
+		}
+	};
+
 	const handleSync = async () => {
-		const hasInternet = await checkNetworkConnection();
+		const hasInternet = await checkInternetConnection();
 
 		if (!hasInternet) {
 			setIsNoInternetModalOpen(true);

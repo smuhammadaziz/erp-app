@@ -26,6 +26,8 @@ function IntroPageKSB({ setVerified }) {
 	const [showNetworkModal, setShowNetworkModal] = useState(false);
 	const navigate = useNavigate();
 	const [language] = useLang("uz");
+	const [countdown, setCountdown] = useState(10);
+	const [canInteract, setCanInteract] = useState(false);
 
 	const inputRef = useRef(null);
 
@@ -54,6 +56,10 @@ function IntroPageKSB({ setVerified }) {
 
 	const handleSignIn = async (e) => {
 		e.preventDefault();
+
+		if (!canInteract) {
+			return;
+		}
 
 		if (!navigator.onLine) {
 			setShowNetworkModal(true);
@@ -189,8 +195,20 @@ function IntroPageKSB({ setVerified }) {
 		}
 	}, [loading, isOnline]);
 
+	useEffect(() => {
+		if (countdown > 0) {
+			const timer = setTimeout(() => {
+				setCountdown(countdown - 1);
+			}, 1000);
+
+			return () => clearTimeout(timer);
+		} else {
+			setCanInteract(true);
+		}
+	}, [countdown]);
+
 	const handleKeyDown = (e) => {
-		if (e.key === "Enter" && isOnline) {
+		if (e.key === "Enter" && isOnline && canInteract) {
 			handleSignIn(e);
 		}
 	};
@@ -285,9 +303,9 @@ function IntroPageKSB({ setVerified }) {
 								}
 								onKeyDown={handleKeyDown}
 								maxLength={8}
-								disabled={!isOnline}
+								disabled={!isOnline || !canInteract}
 								className={`w-full px-5 py-3 pl-10 border border-gray-300 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm transition duration-200 ${
-									!isOnline
+									!isOnline || !canInteract
 										? "bg-gray-200 cursor-not-allowed"
 										: ""
 								}`}
@@ -297,12 +315,18 @@ function IntroPageKSB({ setVerified }) {
 								size={20}
 							/>
 						</div>
+						{!canInteract && (
+							<div className="text-center text-gray-600 animate-pulse">
+								{/* Please wait {countdown} seconds... */}
+								Илтимос {countdown} секунд кутинг...
+							</div>
+						)}
 						<div>
 							<button
 								onClick={handleSignIn}
-								disabled={!isOnline || isSubmitting}
+								disabled={!isOnline || isSubmitting || !canInteract}
 								className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition duration-300 text-lg ${
-									isOnline && !isSubmitting
+									isOnline && !isSubmitting && canInteract
 										? "bg-blue-600 hover:bg-blue-700"
 										: "bg-gray-400 cursor-not-allowed"
 								}`}
