@@ -15,6 +15,7 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import { MdPendingActions } from "react-icons/md";
 import { MdOutlineDoneAll } from "react-icons/md";
 import { IoBasketOutline } from "react-icons/io5";
+import { MdOutlineRestore } from "react-icons/md";
 import {
 	HiOutlineClipboardDocumentCheck,
 	HiOutlineDocumentMinus,
@@ -248,6 +249,7 @@ function ProcessSalesComponent({
 	}, []);
 
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+	const [isContinueModalOpen, setIsContinueModalOpen] = useState(false);
 
 	const deleteOneSales = async (salesId) => {
 		try {
@@ -535,13 +537,18 @@ function ProcessSalesComponent({
 														<div className="flex items-center justify-center space-x-1">
 															<button
 																className="p-1.5 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors"
-																onClick={(
-																	e,
-																) => {
-																	handleClick(
-																		sale.id,
-																	);
-																}}
+																// onClick={(
+																// 	e,
+																// ) => {
+																// 	handleClick(
+																// 		sale.id,
+																// 	);
+																// }}
+																onClick={() =>
+																	setIsContinueModalOpen(
+																		true,
+																	)
+																}
 															>
 																<FaRegEdit />
 															</button>
@@ -746,6 +753,39 @@ function ProcessSalesComponent({
 					)}
 				</div>
 			</div>
+
+			{isContinueModalOpen && (
+				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
+					<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
+								<MdOutlineRestore className="text-blue-600 text-6xl" />
+							</h2>
+							<p className="text-black text-lg mb-6">
+								Танланган савдони давом эттирмоқчимисиз?
+							</p>
+						</div>
+
+						<div className="flex space-x-4">
+							<button
+								onClick={() => {
+									handleClick(selectedRowId);
+									setIsContinueModalOpen(false);
+								}}
+								className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								Ҳа
+							</button>
+							<button
+								onClick={() => setIsContinueModalOpen(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								Йўқ
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 
 			{isExitModalOpen && (
 				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
