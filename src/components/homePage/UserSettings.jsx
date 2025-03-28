@@ -117,23 +117,20 @@ const DownloaderModal = () => {
 	const basicPassword = getStorageItem("userPassword");
 
 	const handleRecovery = async () => {
-		const authHeader =
-			"Basic " +
-			Buffer.from(`${basicUsername}:${basicPassword}`).toString("base64");
-
 		const apiBody = {
-			ksb_id: ksb_id,
-			device_id: device_id,
+			"ipaddress:port": ipaddressPort,
+			database: mainDatabase,
+			username: basicUsername,
+			password: basicPassword,
 		};
 
 		try {
 			const response = await fetch(
-				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/recovery/ksb?text=pos`,
+				`${nodeUrl}/api/recovery/data/${ksb_id}/${device_id}`,
 				{
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: authHeader,
 					},
 					body: JSON.stringify(apiBody),
 				},

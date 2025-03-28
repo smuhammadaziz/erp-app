@@ -8,6 +8,7 @@ import content from "../../../localization/content";
 import useLang from "../../../hooks/useLang";
 import SendSales from "./SendSales";
 import TimeoutSettings from "./Timeout";
+import nodeUrl from "../../../links";
 
 const MessageNotifications = () => {
 	const [password, setPassword] = useState("");
@@ -41,25 +42,25 @@ const MessageNotifications = () => {
 			Buffer.from(`${userType}:${userPassword}`).toString("base64");
 
 		const apiBody = {
-			ksb_id: ksbId,
-			device_id: deviceId,
-		};
+			"ipaddress:port": ipaddressPort,
+			"database": mainDatabase,
+			"username": userType,
+			"password": userPassword
+		}
 
 		try {
 			const response = await fetch(
-				`http://${ipaddressPort}/${mainDatabase}/hs/ksbmerp_pos/recovery/ksb?text=pos`,
+				`${nodeUrl}/api/recovery/data/${ksbId}/${deviceId}`,
 				{
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json",
-						Authorization: authHeader,
 					},
 					body: JSON.stringify(apiBody),
 				},
 			);
 
 			const result = await response.json();
-			// setLoading(false);
 			setStatus(
 				result.status === "successfully"
 					? content[language].settingsUsers.recoveryDataSuccess
