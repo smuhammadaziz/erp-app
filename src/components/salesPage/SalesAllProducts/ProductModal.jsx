@@ -265,7 +265,7 @@ function ProductModal({
 					{/* Header */}
 					<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
 						<h2 className="text-xl font-semibold text-gray-800">
-							Add Item
+						Маҳсулот қўшиш
 						</h2>
 						<button
 							onClick={handleClose}
