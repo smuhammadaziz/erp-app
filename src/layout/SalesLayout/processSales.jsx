@@ -719,9 +719,7 @@ function ProcessSalesComponent({
 										<div className="bg-gray-50 p-3 flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity border-t border-gray-100">
 											<button
 												onClick={() =>
-													setIsContinueModalOpen(
-														true,
-													)
+													setIsContinueModalOpen(true)
 												}
 												className="p-1.5 bg-indigo-100 text-indigo-600 hover:bg-indigo-200 rounded-lg transition-colors"
 											>
@@ -757,7 +755,7 @@ function ProcessSalesComponent({
 			</div>
 
 			{isContinueModalOpen && (
-				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
+				<div className="fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-xs flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
@@ -774,7 +772,7 @@ function ProcessSalesComponent({
 									handleClick(selectedRowId);
 									setIsContinueModalOpen(false);
 								}}
-								className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+								className="flex-1 bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
 							>
 								Ҳа
 							</button>
@@ -790,7 +788,7 @@ function ProcessSalesComponent({
 			)}
 
 			{isExitModalOpen && (
-				<div className="fixed inset-0 z-10 bg-opacity-90   flex items-center justify-center p-4">
+				<div className="fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-xs flex items-center justify-center p-4">
 					<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
 						<div className="text-center">
 							<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
