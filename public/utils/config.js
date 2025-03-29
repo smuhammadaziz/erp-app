@@ -3,7 +3,7 @@ const isDev = require("electron-is-dev");
 
 let config = {
 	appName: "KSB-POS",
-	icon: join(__dirname, "..", "/favicon.ico"),
+	icon: join(__dirname, "..", "/ksb.ico"),
 	tray: null,
 	isQuiting: false,
 	mainWindow: null,

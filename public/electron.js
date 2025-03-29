@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const { autoUpdater } = require("electron-updater");
-const { createTray } = require("./utils/createTray");
 const { createMainWindow } = require("./utils/createMainWindow");
 const { createPopupWindow } = require("./utils/createPopupWindow");
 const { showNotification } = require("./utils/showNotification");
@@ -88,7 +87,6 @@ app.on("ready", async () => {
 	startBackend();
 
 	config.mainWindow = await createMainWindow();
-	config.tray = await createTray();
 
 	// Add this handler for the close event
 	config.mainWindow.on('close', (e) => {
