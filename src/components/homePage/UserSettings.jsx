@@ -17,6 +17,11 @@ const DownloaderModal = () => {
 	const [error, setError] = useState(null);
 	const [isNoInternetModalOpen, setIsNoInternetModalOpen] = useState(false);
 	const [showPermission, setShowPermission] = useState(false);
+	const [syncProgress, setSyncProgress] = useState({
+		recovery: 0,
+		deviceData: 0,
+		products: 0
+	});
 
 	const [language] = useLang("uz");
 
@@ -69,7 +74,7 @@ const DownloaderModal = () => {
 					username: getStorageItem("userType"),
 					password:
 						localStorage.getItem("userPassword") ===
-						"EMPTY_PASSWORD_ALLOWED"
+							"EMPTY_PASSWORD_ALLOWED"
 							? ""
 							: getStorageItem("userPassword"),
 				};
@@ -85,8 +90,7 @@ const DownloaderModal = () => {
 				if (!response.ok) {
 					const errorData = await response.json().catch(() => null);
 					throw new Error(
-						`Device registration failed: ${response.status} ${
-							errorData?.message || response.statusText
+						`Device registration failed: ${response.status} ${errorData?.message || response.statusText
 						}`,
 					);
 				}
@@ -138,6 +142,8 @@ const DownloaderModal = () => {
 
 			const data = await response.json();
 
+			console.log(data)
+
 			return data;
 		} catch (err) {
 			console.log(err);
@@ -165,8 +171,7 @@ const DownloaderModal = () => {
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => null);
 				throw new Error(
-					`Data sync failed: ${response.status} ${
-						errorData?.message || response.statusText
+					`Data sync failed: ${response.status} ${errorData?.message || response.statusText
 					}`,
 				);
 			}
@@ -200,8 +205,7 @@ const DownloaderModal = () => {
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => null);
 				throw new Error(
-					`Data sync failed: ${response.status} ${
-						errorData?.message || response.statusText
+					`Data sync failed: ${response.status} ${errorData?.message || response.statusText
 					}`,
 				);
 			}
@@ -223,6 +227,26 @@ const DownloaderModal = () => {
 		}
 	};
 
+	const animateProgress = (key, targetValue, duration = 3000) => {
+		let start = 0;
+		const steps = 100;
+		const increment = targetValue / steps;
+		const stepDuration = duration / steps;
+
+		const animate = () => {
+			if (start < targetValue) {
+				start += increment;
+				setSyncProgress(prev => ({
+					...prev,
+					[key]: Math.min(Math.round(start), targetValue)
+				}));
+				setTimeout(animate, stepDuration);
+			}
+		};
+
+		animate();
+	};
+
 	const startDownload = async () => {
 		const isInternetAvailable = await checkInternetConnection();
 
@@ -233,15 +257,18 @@ const DownloaderModal = () => {
 
 		setDownloadStatus("downloading");
 		setError(null);
+		setSyncProgress({ recovery: 0, deviceData: 0, products: 0 });
 
 		try {
+			animateProgress('recovery', 100, 10000);
 			const responseRecovery = await handleRecovery();
-			const responseDeviceData = await fetchDeviceData();
 
 			if (responseRecovery.status === "successfully") {
-				if (
-					responseDeviceData.message === "Data processed successfully"
-				) {
+				animateProgress('deviceData', 100, 15000);
+				const responseDeviceData = await fetchDeviceData();
+
+				if (responseDeviceData.message === "Data processed successfully") {
+					animateProgress('products', 100, 7000);
 					await upsertUpdatedProducts();
 
 					setDownloadStatus("completed");
@@ -388,43 +415,114 @@ const DownloaderModal = () => {
 		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[444]">
 			<div className="bg-white w-100 rounded-lg shadow-xl p-8 relative">
 				{downloadStatus === "idle" && (
-					<div className="w-[500px]">
-						<IoCloudDownloadOutline className="text-6xl text-center text-blue-900 flex justify-center mx-auto mb-5" />
-						<h2 className="text-2xl font-semibold text-black mb-4 text-center">
+					<div className="w-[500px] p-2 bg-white rounded-xl">
+						<div className="bg-blue-50 rounded-full w-20 h-20 flex items-center justify-center mb-6">
+							<IoCloudDownloadOutline className="text-5xl text-blue-600" />
+						</div>
+
+						<h2 className="text-3xl font-bold text-gray-800 mb-4">
 							{content[language].firstSync.downloadSettings}
 						</h2>
-						<p className="text-black text-center mb-6">
-							{content[language].firstSync.clickToBelow}
+
+						<p className="text-gray-600 text-lg mb-8 leading-relaxed">
+							{content[language].firstSync.clickToBelow}. {" "}
+							<span className="">Бу бироз вақт талаб қилади.</span>
 						</p>
+
 						<button
 							onClick={startDownload}
-							className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+							className="w-full bg-blue-600 text-white px-8 py-4 rounded-xl hover:bg-blue-700 
+									 transition-all duration-300 transform hover:scale-[1.02] 
+									 flex items-center justify-center space-x-3 font-semibold text-lg
+									 shadow-lg hover:shadow-xl"
 						>
-							{content[language].firstSync.startSync}
+							<IoCloudDownloadOutline className="text-2xl" />
+							<span>{content[language].firstSync.startSync}</span>
 						</button>
 					</div>
 				)}
 
 				{downloadStatus === "downloading" && (
-					<div className="text-center w-[500px] h-[180px] items-center justify-center flex flex-col">
-						<div className="flex justify-center items-center space-x-4 mb-4">
+					<div className="text-center w-[500px] p-8 bg-white rounded-lg">
+						<div className="flex justify-center items-center mb-8">
 							<FaSpinner className="animate-spin text-blue-600 text-5xl" />
 						</div>
-						<p className="text-gray-600 text-2xl">
+
+						<div className="space-y-6">
+							{/* Recovery Status */}
+							<div className="relative">
+								<div className="flex justify-between mb-2">
+									<span className="text-sm font-medium text-gray-700">Recovering device information</span>
+									<span className="text-sm font-medium text-blue-600">{syncProgress.recovery}%</span>
+								</div>
+								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
+									<div
+										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
+										style={{
+											width: `${syncProgress.recovery}%`,
+											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+										}}
+									></div>
+								</div>
+							</div>
+
+							{/* Fetch Device Data Status */}
+							<div className="relative">
+								<div className="flex justify-between mb-2">
+									<span className="text-sm font-medium text-gray-700">Fetching device data</span>
+									<span className="text-sm font-medium text-blue-600">{syncProgress.deviceData}%</span>
+								</div>
+								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
+									<div
+										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
+										style={{
+											width: `${syncProgress.deviceData}%`,
+											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+										}}
+									></div>
+								</div>
+							</div>
+
+							{/* Upsert Products Status */}
+							<div className="relative">
+								<div className="flex justify-between mb-2">
+									<span className="text-sm font-medium text-gray-700">Updating product information</span>
+									<span className="text-sm font-medium text-blue-600">{syncProgress.products}%</span>
+								</div>
+								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
+									<div
+										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
+										style={{
+											width: `${syncProgress.products}%`,
+											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+										}}
+									></div>
+								</div>
+							</div>
+						</div>
+
+						<p className="text-gray-600 text-lg mt-8 font-medium">
 							{content[language].firstSync.pleaseWait}
 						</p>
 					</div>
 				)}
 
 				{downloadStatus === "completed" && (
-					<div className="text-center w-[500px]">
-						<FaCheckCircle className="text-6xl text-center text-green-600 flex justify-center mx-auto mb-5" />
-						<h2 className="text-2xl font-semibold text-black mb-4">
+					<div className="w-[500px] p-2 bg-white rounded-xl">
+						<div className="bg-green-50 rounded-full text-center mx-auto w-16 h-16 flex items-center justify-center mb-6">
+							<FaCheckCircle className="text-5xl text-green-500" />
+						</div>
+
+						<h2 className="text-3xl font-bold text-gray-800 text-center mb-4">
 							{content[language].firstSync.syncComplete}
 						</h2>
-						<p className="text-black mb-6 text-lg">
-							{content[language].firstSync.dataSuccessfullySynced}
-						</p>
+
+						<div className="bg-green-50 border border-green-100 rounded-lg p-4 mb-8">
+							<p className="text-gray-700 text-lg">
+								{content[language].firstSync.dataSuccessfullySynced}
+							</p>
+						</div>
+
 						<button
 							onClick={() => {
 								closeModal();
@@ -432,9 +530,13 @@ const DownloaderModal = () => {
 								handleSetCurrency();
 								handleDeleteItems();
 							}}
-							className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
+							className="w-full bg-green-500 text-white px-8 py-4 rounded-xl 
+									 hover:bg-green-600 transition-all duration-300 
+									 transform hover:scale-[1.02] font-semibold text-lg
+									 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
 						>
-							OK
+							<FaCheckCircle className="text-xl" />
+							<span>OK</span>
 						</button>
 					</div>
 				)}
