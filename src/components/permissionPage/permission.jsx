@@ -10,7 +10,9 @@ const { app } = window.require("@electron/remote");
 function PermissionComponent({ onComplete }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [toastMessage, setToastMessage] = useState("");
-	const [statusText, setStatusText] = useState("Қурилмада чеклов мавжуд.");
+	const [statusText, setStatusText] = useState(
+		"Қурилмангиз 1C маълумотлар базасига уланмаган. Уланиш учун 1C тизими администраторига мурожаат қилинг.",
+	);
 	const [status, setStatus] = useState();
 	const [language] = useLang("uz");
 
@@ -65,10 +67,10 @@ function PermissionComponent({ onComplete }) {
 				setStatus("successfully");
 			} else if (data.status === "error") {
 				setStatusText(
-					`${content[language].permissionModal.haliBeriTasdiqlanmadi}`,
+					`Қурилмага ҳали бери рухсат берилмади.`,
 				);
 				setToastMessage(
-					`${content[language].permissionModal.haliBeriTasdiqlanmadi}`,
+					`Қурилмага ҳали бери рухсат берилмади.`,
 				);
 				setStatus("error");
 			} else if (data.status === "empty") {
@@ -97,10 +99,14 @@ function PermissionComponent({ onComplete }) {
 			<div className="fixed inset-0 flex backdrop-blur-lg bg-black/80 items-center justify-center bg-opacity-50 z-[444]">
 				<div className="bg-white w-100 rounded-lg shadow-xl p-8 relative">
 					<div className="w-[500px]">
-						<TbAlertSquareRounded className="text-5xl text-center text-red-600 flex justify-center mx-auto mb-7" />
-						<h2 className="text-2xl font-semibold font-sans text-black mb-7 text-center">
+						<TbAlertSquareRounded className="text-5xl text-left text-red-600 flex justify-left  mb-7" />
+						<h2 className="text-xl font-semibold font-sans text-black mb-3 text-left">
 							{statusText}
 						</h2>
+						<p className="text-left text-base w-[400px] text-gray-600 mb-7">
+							Қурилмага рухсат берилгандан сўнг, "Рухсат олинди"
+							тугмасини босинг.
+						</p>
 
 						<div className="flex items-center space-x-4">
 							{status === "empty" ? (
@@ -130,10 +136,7 @@ function PermissionComponent({ onComplete }) {
 										onClick={handleFetchData}
 										className="w-full bg-black border border-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
 									>
-										{
-											content[language].permissionModal
-												.qaytaUrinish
-										}
+										Рухсат олинди
 									</button>
 									<button
 										onClick={onQuit}
