@@ -29,7 +29,7 @@ function SidebarInner({ onToggle }) {
 		onToggle(!isExpanded);
 	};
 
-	let notificationCount = 10;
+	let notificationCount = 7;
 
 	return (
 		<div
