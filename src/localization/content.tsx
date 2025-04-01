@@ -127,6 +127,7 @@ type Content = {
 			headerClients: string;
 			headerDiscount: string;
 			headerList: string;
+			headerListSubText: string;
 			headerDiscountSumma: string;
 			headerDiscountToPay: string;
 			headerDiscountCancel: string;
@@ -370,6 +371,7 @@ const content: Content = {
 			headerClients: "Клиентлар",
 			headerDiscount: "Чегирма",
 			headerList: "Савдо рўйҳати",
+			headerListSubText: "Савдоларни бошқариш учун",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
 			headerDiscountCancel: "Бекор қилиш",
@@ -614,6 +616,7 @@ const content: Content = {
 			headerClients: "Клиенты",
 			headerDiscount: "Скидка",
 			headerList: "Список продаж",
+			headerListSubText: "Для управления продажами",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",

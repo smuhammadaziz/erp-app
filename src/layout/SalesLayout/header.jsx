@@ -606,8 +606,10 @@ function SalesPageLayoutHeader({ socket }) {
 										{content[language].salesPage.headerList}
 									</h2>
 									<p className="text-sm text-gray-500">
-										Управление заказами и отслеживание
-										доставки
+										{
+											content[language].salesPage
+												.headerListSubText
+										}
 									</p>
 								</div>
 							</div>
