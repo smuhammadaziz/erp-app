@@ -13,24 +13,23 @@ if (config.isDev) require("electron-reloader")(module);
 
 remote.initialize();
 
-
 // Add this variable to store the backend process
 let backendProcess = null;
 
 function clearProductionDatabase() {
-    // Only clear database if we're building for production
-    if (process.env.NODE_ENV === 'production') {
-        const backendPath = path.join(process.resourcesPath, "back-app");
-        const dbPath = path.join(backendPath, "src", "storage.db");
-        
-        try {
-            // Clear the database by writing an empty file
-            fs.writeFileSync(dbPath, '');
-            console.log('Production database cleared successfully');
-        } catch (error) {
-            console.error('Error clearing production database:', error);
-        }
-    }
+	// Only clear database if we're building for production
+	if (process.env.NODE_ENV === "production") {
+		const backendPath = path.join(process.resourcesPath, "back-app");
+		const dbPath = path.join(backendPath, "src", "storage.db");
+
+		try {
+			// Clear the database by writing an empty file
+			fs.writeFileSync(dbPath, "");
+			console.log("Production database cleared successfully");
+		} catch (error) {
+			console.error("Error clearing production database:", error);
+		}
+	}
 }
 
 function startBackend() {
@@ -47,20 +46,20 @@ function startBackend() {
 		}
 
 		// Then start the server using spawn instead of exec to keep reference
-		backendProcess = spawn('npm', ['start'], { 
+		backendProcess = spawn("npm", ["start"], {
 			cwd: backendPath,
-			shell: true 
+			shell: true,
 		});
 
-		backendProcess.stdout.on('data', (data) => {
+		backendProcess.stdout.on("data", (data) => {
 			console.log(`Backend stdout: ${data}`);
 		});
 
-		backendProcess.stderr.on('data', (data) => {
+		backendProcess.stderr.on("data", (data) => {
 			console.error(`Backend stderr: ${data}`);
 		});
 
-		backendProcess.on('error', (error) => {
+		backendProcess.on("error", (error) => {
 			console.error(`Error starting backend: ${error.message}`);
 		});
 	});
@@ -68,18 +67,19 @@ function startBackend() {
 
 // Update the terminateBackend function
 function terminateBackend() {
-    if (backendProcess && !config.isDev) {  // Only terminate in production mode
-        // On Windows, we need to kill the entire process tree
-        if (process.platform === 'win32') {
-            exec(`taskkill /pid ${backendProcess.pid} /T /F`, (error) => {
-                if (error) {
-                    console.error('Error killing backend process:', error);
-                }
-            });
-        } else {
-            backendProcess.kill('SIGTERM');
-        }
-    }
+	if (backendProcess && !config.isDev) {
+		// Only terminate in production mode
+		// On Windows, we need to kill the entire process tree
+		if (process.platform === "win32") {
+			exec(`taskkill /pid ${backendProcess.pid} /T /F`, (error) => {
+				if (error) {
+					console.error("Error killing backend process:", error);
+				}
+			});
+		} else {
+			backendProcess.kill("SIGTERM");
+		}
+	}
 }
 
 app.on("ready", async () => {
@@ -89,10 +89,10 @@ app.on("ready", async () => {
 	config.mainWindow = await createMainWindow();
 
 	// Add this handler for the close event
-	config.mainWindow.on('close', (e) => {
+	config.mainWindow.on("close", (e) => {
 		if (!config.isQuiting) {
 			e.preventDefault();
-			config.mainWindow.hide();  // Hide instead of close
+			config.mainWindow.hide(); // Hide instead of close
 		} else {
 			// Save any pending localStorage data
 			config.mainWindow.webContents.executeJavaScript(`
@@ -133,7 +133,7 @@ ipcMain.on("restart_app", () => {
 });
 
 // Add this to handle the quit event properly
-app.on('before-quit', () => {
+app.on("before-quit", () => {
 	config.isQuiting = true;
 	terminateBackend();
 });
