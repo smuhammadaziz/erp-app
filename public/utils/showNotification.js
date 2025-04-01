@@ -12,3 +12,4 @@ exports.showNotification = (title, body) => {
 
 	return notification;
 };
+
