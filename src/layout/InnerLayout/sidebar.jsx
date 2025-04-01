@@ -114,7 +114,7 @@ function SidebarInner({ onToggle }) {
 					<div className="relative">
 						<IoTrashBinOutline size={isExpanded ? 24 : 28} />
 						{notificationCount > 0 && (
-							<span className="absolute -top-3 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
+							<span className="absolute -top-4 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
 								{notificationCount}
 							</span>
 						)}

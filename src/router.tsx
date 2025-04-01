@@ -377,7 +377,7 @@ export const Router: FC = () => {
 						path="/trash"
 						element={
 							<ProtectedRoute>
-								<TrashPage />
+								<TrashPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>

@@ -34,15 +34,15 @@ const ProductsPageComponent = () => {
 	const handleSearch = (e) => {
 		const searchValue = e.target.value;
 		setSearchTerm(searchValue);
-		
+
 		const filtered = products.filter((product) =>
 			Object.values(product)
-				.filter(value => value !== null && value !== undefined)
+				.filter((value) => value !== null && value !== undefined)
 				.join(" ")
 				.toLowerCase()
-				.includes(searchValue.toLowerCase())
+				.includes(searchValue.toLowerCase()),
 		);
-		
+
 		setDisplayedProducts(filtered.slice(0, 50));
 		setHasMore(filtered.length > 50);
 	};
@@ -73,15 +73,15 @@ const ProductsPageComponent = () => {
 			const searchValue = searchTerm.toLowerCase();
 			const filtered = products.filter((product) =>
 				Object.values(product)
-					.filter(value => value !== null && value !== undefined)
+					.filter((value) => value !== null && value !== undefined)
 					.join(" ")
 					.toLowerCase()
-					.includes(searchValue)
+					.includes(searchValue),
 			);
-			
+
 			const currentLength = displayedProducts.length;
 			const nextBatch = filtered.slice(currentLength, currentLength + 50);
-			
+
 			if (nextBatch.length > 0) {
 				setDisplayedProducts((prev) => [...prev, ...nextBatch]);
 				setHasMore(currentLength + 50 < filtered.length);
@@ -145,7 +145,7 @@ const ProductsPageComponent = () => {
 	}, []);
 
 	return (
-		<div className=" h-[80vh]">
+		<div className="h-[80vh]">
 			<div className="bg-white rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
 				<div className="p-6 border-b border-gray-200">
 					<div className="flex flex-col space-y-4">
