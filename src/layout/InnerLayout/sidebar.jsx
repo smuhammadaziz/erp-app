@@ -29,6 +29,8 @@ function SidebarInner({ onToggle }) {
 		onToggle(!isExpanded);
 	};
 
+	let notificationCount = 10;
+
 	return (
 		<div
 			className={`h-full bg-gray-900 text-white fixed z-[150] flex flex-col items-center py-6 transition-all duration-300 shadow-lg ${
@@ -102,14 +104,21 @@ function SidebarInner({ onToggle }) {
 					)}
 				</NavLink>
 				<NavLink
-					to="/products"
+					to="/trash"
 					className={({ isActive }) =>
 						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
 							isActive ? "bg-gray-700" : ""
 						}`
 					}
 				>
-					<IoTrashBinOutline size={isExpanded ? 24 : 28} />
+					<div className="relative">
+						<IoTrashBinOutline size={isExpanded ? 24 : 28} />
+						{notificationCount > 0 && (
+							<span className="absolute -top-3 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
+								{notificationCount}
+							</span>
+						)}
+					</div>
 
 					{isExpanded && (
 						<span className="text-lg">
@@ -122,6 +131,7 @@ function SidebarInner({ onToggle }) {
 						</span>
 					)}
 				</NavLink>
+
 				<NavLink
 					to="/settings"
 					className={({ isActive }) =>
