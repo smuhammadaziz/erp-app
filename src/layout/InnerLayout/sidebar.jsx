@@ -8,6 +8,7 @@ import {
 	AiOutlineClose,
 	AiFillProduct,
 } from "react-icons/ai";
+import { IoTrashBinOutline } from "react-icons/io5";
 
 import { SlBasket } from "react-icons/sl";
 
@@ -89,6 +90,27 @@ function SidebarInner({ onToggle }) {
 					}
 				>
 					<SlBasket size={isExpanded ? 24 : 28} />
+					{isExpanded && (
+						<span className="text-lg">
+							{content[language].innerLayout.products}
+						</span>
+					)}
+					{!isExpanded && (
+						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+							{content[language].innerLayout.products}
+						</span>
+					)}
+				</NavLink>
+				<NavLink
+					to="/products"
+					className={({ isActive }) =>
+						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+							isActive ? "bg-gray-700" : ""
+						}`
+					}
+				>
+					<IoTrashBinOutline size={isExpanded ? 24 : 28} />
+
 					{isExpanded && (
 						<span className="text-lg">
 							{content[language].innerLayout.products}
