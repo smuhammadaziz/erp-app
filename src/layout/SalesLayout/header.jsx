@@ -725,7 +725,10 @@ function SalesPageLayoutHeader({ socket }) {
 									) : (
 										<IoIosOptions />
 									)}
-									Филтерлар
+									{
+										content[language].salesPage
+											.headerListFilter
+									}
 									{Object.values(statusFilters).some(
 										Boolean,
 									) && (
@@ -756,12 +759,18 @@ function SalesPageLayoutHeader({ socket }) {
 										onClick={clearAllFilters}
 										className="px-4 py-2.5 rounded-lg text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
 									>
-										Сбросить фильтры
+										{
+											content[language].salesPage
+												.headerListFilterClear
+										}
 									</button>
 								)}
 
 								<div className="ml-auto text-sm text-gray-500 font-medium">
-									Найдено:{" "}
+									{
+										content[language].salesPage
+											.headerListFound
+									}{" "}
 									<span className="text-gray-900 font-semibold">
 										{filteredData.length}
 									</span>

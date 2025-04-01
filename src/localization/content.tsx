@@ -130,6 +130,9 @@ type Content = {
 			headerListSubText: string;
 			headerListSearch: string;
 			headerListDateSelect: string;
+			headerListFilter: string;
+			headerListFilterClear: string;
+			headerListFound: string;
 			headerDiscountSumma: string;
 			headerDiscountToPay: string;
 			headerDiscountCancel: string;
@@ -376,6 +379,9 @@ const content: Content = {
 			headerListSubText: "Савдоларни бошқариш учун",
 			headerListSearch: "Номи, омбори ёки миқдори бўйича қидиринг...",
 			headerListDateSelect: "Санани танланг",
+			headerListFilter: "Филтерлар",
+			headerListFilterClear: "Филтерларни тозалаш",
+			headerListFound: "Топилди:",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
 			headerDiscountCancel: "Бекор қилиш",
@@ -623,6 +629,9 @@ const content: Content = {
 			headerListSubText: "Для управления продажами",
 			headerListSearch: "Поиск по имени, складу или сумме...",
 			headerListDateSelect: "Выберите дату",
+			headerListFilter: "Фильтры",
+			headerListFilterClear: "Очистка фильтров",
+			headerListFound: "Найдено:",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",
