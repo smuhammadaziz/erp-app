@@ -120,14 +120,10 @@ function SidebarInner({ onToggle }) {
 						)}
 					</div>
 
-					{isExpanded && (
-						<span className="text-lg">
-							{content[language].innerLayout.products}
-						</span>
-					)}
+					{isExpanded && <span className="text-lg">Корзина</span>}
 					{!isExpanded && (
 						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							{content[language].innerLayout.products}
+							Корзина
 						</span>
 					)}
 				</NavLink>
