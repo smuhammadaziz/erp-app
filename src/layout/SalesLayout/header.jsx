@@ -693,7 +693,8 @@ function SalesPageLayoutHeader({ socket }) {
 											? `${moment(selectedDate).format(
 													"DD.MM.YYYY",
 											  )}`
-											: "Выберите дату"}
+											: content[language].salesPage
+													.headerListDateSelect}
 										{selectedDate && (
 											<MdClose className="text-sm hover:text-gray-100" />
 										)}
