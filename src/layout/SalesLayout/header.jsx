@@ -657,7 +657,10 @@ function SalesPageLayoutHeader({ socket }) {
 										onChange={(e) =>
 											setSearchTerm(e.target.value)
 										}
-										placeholder="Поиск по имени, складу или сумме..."
+										placeholder={
+											content[language].salesPage
+												.headerListSearch
+										}
 										className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm transition-all"
 									/>
 									{searchTerm && (
