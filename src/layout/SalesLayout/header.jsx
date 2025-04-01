@@ -780,7 +780,10 @@ function SalesPageLayoutHeader({ socket }) {
 							{showFilters && (
 								<div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
 									<h4 className="text-sm font-medium text-gray-700 mb-3">
-										Статус бўйича филтер:
+										{
+											content[language].salesPage
+												.headerListFilterStatus
+										}
 									</h4>
 									<div className="flex flex-wrap gap-3">
 										<button
@@ -802,7 +805,10 @@ function SalesPageLayoutHeader({ socket }) {
 														: "text-gray-500"
 												}
 											/>
-											Жараёнда
+											{
+												content[language].salesPage
+													.headerListFilterStatusPending
+											}
 										</button>
 										<button
 											onClick={() =>
@@ -823,7 +829,10 @@ function SalesPageLayoutHeader({ socket }) {
 														: "text-gray-500"
 												}
 											/>
-											Тасдиқланган
+											{
+												content[language].salesPage
+													.headerListFilterStatusSucess
+											}
 										</button>
 										<button
 											onClick={() =>
@@ -844,7 +853,10 @@ function SalesPageLayoutHeader({ socket }) {
 														: "text-gray-500"
 												}
 											/>
-											Тасдиқланмаган
+											{
+												content[language].salesPage
+													.headerListFilterStatusNotSuccess
+											}
 										</button>
 										<button
 											onClick={() =>
@@ -865,7 +877,10 @@ function SalesPageLayoutHeader({ socket }) {
 														: "text-gray-500"
 												}
 											/>
-											Хатолик мавжуд
+											{
+												content[language].salesPage
+													.headerListFilterStatusError
+											}
 										</button>
 									</div>
 								</div>

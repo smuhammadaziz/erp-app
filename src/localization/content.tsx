@@ -133,6 +133,11 @@ type Content = {
 			headerListFilter: string;
 			headerListFilterClear: string;
 			headerListFound: string;
+			headerListFilterStatus: string;
+			headerListFilterStatusPending: string;
+			headerListFilterStatusSucess: string;
+			headerListFilterStatusNotSuccess: string;
+			headerListFilterStatusError: string;
 			headerDiscountSumma: string;
 			headerDiscountToPay: string;
 			headerDiscountCancel: string;
@@ -382,6 +387,11 @@ const content: Content = {
 			headerListFilter: "Филтерлар",
 			headerListFilterClear: "Филтерларни тозалаш",
 			headerListFound: "Топилди:",
+			headerListFilterStatus: "Статус бўйича филтер:",
+			headerListFilterStatusPending: "Жараёнда",
+			headerListFilterStatusSucess: "Тасдиқланган",
+			headerListFilterStatusNotSuccess: "Тасдиқланмаган",
+			headerListFilterStatusError: "Хатолик мавжуд",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
 			headerDiscountCancel: "Бекор қилиш",
@@ -632,6 +642,11 @@ const content: Content = {
 			headerListFilter: "Фильтры",
 			headerListFilterClear: "Очистка фильтров",
 			headerListFound: "Найдено:",
+			headerListFilterStatus: "Фильтр по статусу",
+			headerListFilterStatusPending: "В процессе",
+			headerListFilterStatusSucess: "Подтвержденный",
+			headerListFilterStatusNotSuccess: "Неподтвержденный",
+			headerListFilterStatusError: "Произошла ошибка.",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",
