@@ -898,43 +898,71 @@ function SalesPageLayoutHeader({ socket }) {
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Дата
+														{
+															content[language]
+																.salesPage
+																.headerListTableDate
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Склад
+														{
+															content[language]
+																.salesPage
+																.headerListTableWarehouse
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Клиент
+														{
+															content[language]
+																.salesPage
+																.headerListTableClient
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Сумма
+														{
+															content[language]
+																.salesPage
+																.headerListTableSumma
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Статус
+														{
+															content[language]
+																.salesPage
+																.headerListTableStatus
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-[200px]"
 													>
-														Автор
+														{
+															content[language]
+																.salesPage
+																.headerListTableAvtor
+														}
 													</th>
 													<th
 														scope="col"
 														className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]"
 													>
-														Действия
+														{
+															content[language]
+																.salesPage
+																.headerListTableActions
+														}
 													</th>
 												</tr>
 											</thead>

@@ -138,6 +138,13 @@ type Content = {
 			headerListFilterStatusSucess: string;
 			headerListFilterStatusNotSuccess: string;
 			headerListFilterStatusError: string;
+			headerListTableDate: string;
+			headerListTableDWarehouse: string;
+			headerListTableClient: string;
+			headerListTableSumma: string;
+			headerListTableStatus: string;
+			headerListTableAvtor: string;
+			headerListTableActions: string;
 			headerDiscountSumma: string;
 			headerDiscountToPay: string;
 			headerDiscountCancel: string;
@@ -392,6 +399,13 @@ const content: Content = {
 			headerListFilterStatusSucess: "Тасдиқланган",
 			headerListFilterStatusNotSuccess: "Тасдиқланмаган",
 			headerListFilterStatusError: "Хатолик мавжуд",
+			headerListTableDate: "Сана",
+			headerListTableDWarehouse: "Склад",
+			headerListTableClient: "Клиент",
+			headerListTableSumma: "Сумма",
+			headerListTableStatus: "Статус",
+			headerListTableAvtor: "Автор",
+			headerListTableActions: "Кўпроқ",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
 			headerDiscountCancel: "Бекор қилиш",
@@ -647,6 +661,13 @@ const content: Content = {
 			headerListFilterStatusSucess: "Подтвержденный",
 			headerListFilterStatusNotSuccess: "Неподтвержденный",
 			headerListFilterStatusError: "Произошла ошибка.",
+			headerListTableDate: "Дата",
+			headerListTableDWarehouse: "Склад",
+			headerListTableClient: "Клиент",
+			headerListTableSumma: "Сумма",
+			headerListTableStatus: "Статус",
+			headerListTableAvtor: "Автор",
+			headerListTableActions: "Более",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",
