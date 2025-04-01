@@ -113,7 +113,14 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const handleSubmitButton = useRef();
 
 	const formatRussianNumber = (num) => {
-		return num.toLocaleString("ru-RU", {
+		// Handle empty or zero values
+		if (!num && num !== 0) return "";
+
+		// Convert to number if it's a string
+		const numValue = typeof num === "string" ? parseFloat(num) : num;
+
+		// Format with spaces for thousands and 2 decimal places
+		return numValue.toLocaleString("ru-RU", {
 			minimumFractionDigits: 2,
 			maximumFractionDigits: 2,
 		});
@@ -127,6 +134,16 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 			cardInputRef.current.select();
 		}
 	}, [isOpen]);
+
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			setIsTyping(false);
+
+			if (cardInputRef.current) {
+				cardInputRef.current.focus();
+			}
+		}
+	};
 
 	const handleFocus = () => {
 		if (cardInputRef.current) {
@@ -201,16 +218,13 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 				password: userPassword,
 			};
 
-			const response = await fetch(
-				`${nodeUrl}/api/check/ping/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(currentBody),
+			const response = await fetch(`${nodeUrl}/api/check/ping/${ksbId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify(currentBody),
+			});
 
 			console.log("Response status:", response.status);
 
@@ -749,13 +763,26 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 							<input
 								ref={searchInputRef}
 								type="text"
-								value={cashAmount === 0 ? "" : cashAmount}
+								value={
+									cashAmount === 0
+										? ""
+										: formatRussianNumber(cashAmount)
+								}
 								onChange={(e) => {
+									// Extract just digits from input
 									const numericInput = e.target.value.replace(
 										/[^0-9]/g,
 										"",
 									);
-									setCashAmount(Number(numericInput) || 0);
+
+									// Convert to number value with decimal point in the right place
+									const numericValue =
+										numericInput === ""
+											? 0
+											: parseFloat(numericInput) / 100;
+
+									// Update state
+									setCashAmount(numericValue);
 								}}
 								className="w-full px-3 py-2 text-right text-lg font-medium border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 							/>
@@ -785,27 +812,28 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								ref={cardInputRef}
 								type="text"
 								value={
-									isTyping
-										? cardAmount
+									cardAmount === 0 && isTyping
+										? ""
+										: isTyping
+										? formatRussianNumber(cardAmount)
 										: formatRussianNumber(cardAmount)
 								}
 								onChange={(e) => {
-									if (!isTyping) {
-										setIsTyping(true);
-										setCardAmount(
-											e.target.value.replace(
-												/[^0-9]/g,
-												"",
-											),
-										);
-									} else {
-										const numericInput =
-											e.target.value.replace(
-												/[^0-9]/g,
-												"",
-											);
-										setCardAmount(numericInput);
-									}
+									// Extract just digits from input
+									const numericInput = e.target.value.replace(
+										/[^0-9]/g,
+										"",
+									);
+
+									// Convert to number value with decimal point in the right place
+									const numericValue =
+										numericInput === ""
+											? 0
+											: parseFloat(numericInput) / 100;
+
+									// Update state
+									setCardAmount(numericValue);
+									setIsTyping(true);
 								}}
 								onBlur={() => {
 									if (isTyping) {
