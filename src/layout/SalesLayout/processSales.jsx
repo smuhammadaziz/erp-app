@@ -284,7 +284,7 @@ function ProcessSalesComponent({
 								{content[language].salesPage.sidebarProcess}
 							</h2>
 							<p className="text-sm text-gray-500">
-								Управление заказами и отслеживание доставки
+								{content[language].salesPage.headerListSubText}
 							</p>
 						</div>
 					</div>
@@ -327,7 +327,9 @@ function ProcessSalesComponent({
 								type="text"
 								value={searchTerm}
 								onChange={(e) => setSearchTerm(e.target.value)}
-								placeholder="Поиск по имени, складу или сумме..."
+								placeholder={
+									content[language].salesPage.headerListSearch
+								}
 								className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-sm transition-all"
 							/>
 							{searchTerm && (
@@ -360,7 +362,8 @@ function ProcessSalesComponent({
 									? `${moment(selectedDate).format(
 											"DD.MM.YYYY",
 									  )}`
-									: "Выберите дату"}
+									: content[language].salesPage
+											.headerListDateSelect}
 								{selectedDate && (
 									<MdClose className="text-sm hover:text-gray-100" />
 								)}
@@ -388,7 +391,7 @@ function ProcessSalesComponent({
 						)}
 
 						<div className="ml-auto text-sm text-gray-500 font-medium">
-							Найдено:{" "}
+							{content[language].salesPage.headerListFound}{" "}
 							<span className="text-gray-900 font-semibold">
 								{filteredData.length}
 							</span>
