@@ -271,7 +271,7 @@ const content: Content = {
 		},
 		login: {
 			login: "Базага кириш",
-			loginButton: "кириш",
+			loginButton: "Кириш",
 			select: "Фойдаланувчи",
 			password: "Парол",
 			enterPass: "Паролни киритинг",
@@ -534,7 +534,7 @@ const content: Content = {
 		},
 		login: {
 			login: "Доступ к базе",
-			loginButton: "войти",
+			loginButton: "Войти",
 			select: "Пользователь",
 			password: "Пароль",
 			enterPass: "Введите пароль",
