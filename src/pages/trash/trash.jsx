@@ -1,0 +1,17 @@
+import React from "react";
+import { Layout } from "../../layout/HomeLayout/layout";
+import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
+import ProductsPageComponent from "../../components/productPage/products/products";
+
+function TrashPage() {
+	return (
+		<Layout>
+			<InnerLayoutSection>
+				<div>{/* <ProductsPageComponent /> */}</div>
+			</InnerLayoutSection>
+		</Layout>
+	);
+}
+
+export default TrashPage;
+

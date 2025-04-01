@@ -13,6 +13,7 @@ import ProductsPage from "./pages/products/products";
 import SettingsPage from "./pages/settings/settings";
 import { AuthProvider, ProtectedRoute } from "./context/Auth";
 import nodeUrl from "./links";
+import TrashPage from "./pages/trash/trash";
 
 const socket = io("http://localhost:8000");
 
@@ -80,16 +81,13 @@ export const Router: FC = () => {
 				password: userPassword,
 			};
 
-			const response = await fetch(
-				`${nodeUrl}/api/check/ping/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(currentBody),
+			const response = await fetch(`${nodeUrl}/api/check/ping/${ksbId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify(currentBody),
+			});
 
 			return response.status === 200;
 		} catch (error) {
@@ -372,6 +370,14 @@ export const Router: FC = () => {
 						element={
 							<ProtectedRoute>
 								<ProductsPage />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						path="/trash"
+						element={
+							<ProtectedRoute>
+								<TrashPage />
 							</ProtectedRoute>
 						}
 					/>
