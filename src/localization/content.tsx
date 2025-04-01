@@ -228,6 +228,9 @@ type Content = {
 			success: string;
 			problemToSendSales: string;
 		};
+		innerFooter: {
+			its: string;
+		};
 	};
 };
 
@@ -472,6 +475,9 @@ const content: Content = {
 			success: "",
 			problemToSendSales: "Савдо юборилмади",
 		},
+		innerFooter: {
+			its: "Техник қўллаб қувватлаш (ITS) муддати тугашига ${timeLeft} қолди. Қўшимча маълумот учун: +998 78 298 09 99",
+		},
 	},
 	ru: {
 		intro: {
@@ -713,6 +719,9 @@ const content: Content = {
 			processSales: "",
 			success: "",
 			problemToSendSales: "Продажа не отправлена",
+		},
+		innerFooter: {
+			its: "До окончания технической поддержки (ITS) осталось ${timeLeft}. Для дополнительной информации: +998 78 298 09 99",
 		},
 	},
 };

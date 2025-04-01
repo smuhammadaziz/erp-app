@@ -1,7 +1,25 @@
 import React, { useEffect, useState } from "react";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function InnerFooter() {
 	const [timeLeft, setTimeLeft] = useState(null);
+	const [daysRemaining, setDaysRemaining] = useState(null);
+	const [language] = useLang("uz");
+
+	const timeUnits = {
+		uz: {
+			days: "кун",
+			hours: "соат",
+			minutes: "минут"
+		},
+		ru: {
+			days: "дней",
+			hours: "часов",
+			minutes: "минут"
+		}
+	};
 
 	useEffect(() => {
 		const deadline = localStorage.getItem("its_deadline");
@@ -20,39 +38,37 @@ function InnerFooter() {
 				(differenceMs % (1000 * 60 * 60)) / (1000 * 60),
 			);
 
-			if (days < 1) {
-				setTimeLeft(`${hours} соат ${minutes} минут`);
+			setDaysRemaining(days);
+
+			if (days < 3) {
+				setTimeLeft(`${hours} ${timeUnits[language].hours} ${minutes} ${timeUnits[language].minutes}`);
 			} else {
-				setTimeLeft(`${days} кун`);
+				setTimeLeft(`${days} ${timeUnits[language].days}`);
 			}
 		}
-	}, []);
+	}, [language]);
 
 	if (timeLeft === null) {
 		return null;
 	}
 
-	const isLessThanOneDay = timeLeft.includes("соат", "кун", "минут");
+	const showAlert = daysRemaining < 3;
 
 	return (
 		<div className="fixed bottom-0 left-0 w-full bg-white text-black p-2 overflow-hidden border-t border-gray-200">
 			<div
-				className={`flex space-x-40 w-max animate-marquee ${
-					isLessThanOneDay ? "bg-red-50" : "bg-white"
-				}`}
+				className={`flex space-x-40 w-max animate-marquee ${showAlert ? "bg-red-50" : "bg-white"
+					}`}
 			>
 				{[...Array(40)].map((_, index) => (
 					<p
 						key={index}
-						className={`whitespace-nowrap text-base ${
-							isLessThanOneDay
-								? "text-red-600 font-semibold animate-pulse"
-								: "text-gray-900"
-						}`}
+						className={`whitespace-nowrap text-base ${showAlert
+							? "text-red-600 font-semibold animate-pulse"
+							: "text-gray-900"
+							}`}
 					>
-						Техник қўллаб қувватлаш (ITS) муддати тугашига{" "}
-						<span className="font-bold">{timeLeft}</span> қолди.
-						Қўшимча маълумот учун: +998 78 298 09 99
+						{content[language].innerFooter.its.replace("${timeLeft}", timeLeft)}
 					</p>
 				))}
 			</div>
