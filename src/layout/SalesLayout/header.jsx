@@ -1033,7 +1033,13 @@ function SalesPageLayoutHeader({ socket }) {
 																			}
 																		</div>
 																		<div className="text-xs text-gray-500">
-																			Основной
+																			{
+																				content[
+																					language
+																				]
+																					.salesPage
+																					.headerListTableMain
+																			}
 																		</div>
 																	</div>
 																</div>

@@ -145,6 +145,7 @@ type Content = {
 			headerListTableStatus: string;
 			headerListTableAvtor: string;
 			headerListTableActions: string;
+			headerListTableMain: string;
 			headerDiscountSumma: string;
 			headerDiscountToPay: string;
 			headerDiscountCancel: string;
@@ -406,6 +407,7 @@ const content: Content = {
 			headerListTableStatus: "Статус",
 			headerListTableAvtor: "Автор",
 			headerListTableActions: "Кўпроқ",
+			headerListTableMain: "Асосий",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "Тўлов учун",
 			headerDiscountCancel: "Бекор қилиш",
@@ -668,6 +670,7 @@ const content: Content = {
 			headerListTableStatus: "Статус",
 			headerListTableAvtor: "Автор",
 			headerListTableActions: "Более",
+			headerListTableMain: "Основной",
 			headerDiscountSumma: "Сумма",
 			headerDiscountToPay: "К оплате",
 			headerDiscountCancel: "Отмена",
