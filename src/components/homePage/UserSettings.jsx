@@ -263,17 +263,17 @@ const DownloaderModal = () => {
 		setSyncProgress({ recovery: 0, deviceData: 0, products: 0 });
 
 		try {
-			animateProgress("recovery", 100, 10000);
+			animateProgress("recovery", 100, 20000);
 			const responseRecovery = await handleRecovery();
 
 			if (responseRecovery.status === "successfully") {
-				animateProgress("deviceData", 100, 15000);
+				animateProgress("deviceData", 100, 40000);
 				const responseDeviceData = await fetchDeviceData();
 
 				if (
 					responseDeviceData.message === "Data processed successfully"
 				) {
-					animateProgress("products", 100, 7000);
+					animateProgress("products", 100, 20000);
 					await upsertUpdatedProducts();
 
 					setDownloadStatus("completed");
