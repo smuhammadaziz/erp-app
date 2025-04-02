@@ -54,7 +54,7 @@ export const EnterpriseInfoModal: FC<EnterpriseInfoModalProps> = ({
 	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
 	const infoItems = [
-		{ icon: FaServer, label: "Сервер", value: ipaddressPort },
+		// { icon: FaServer, label: "Сервер", value: ipaddressPort },
 		{
 			icon: FaDatabase,
 			label: "Датабаза",
