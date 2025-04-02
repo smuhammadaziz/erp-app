@@ -1007,7 +1007,7 @@ function SalesPageLayoutHeader({ socket }) {
 																			? moment(
 																					sale.date,
 																			  ).format(
-																					"HH:mm",
+																					"DD.MM.YYYY HH:mm",
 																			  )
 																			: moment(
 																					sale.date,
