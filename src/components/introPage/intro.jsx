@@ -324,7 +324,9 @@ function IntroPageKSB({ setVerified }) {
 						<div>
 							<button
 								onClick={handleSignIn}
-								disabled={!isOnline || isSubmitting || !canInteract}
+								disabled={
+									!isOnline || isSubmitting || !canInteract
+								}
 								className={`w-full py-3 text-white font-semibold rounded-lg shadow-lg transition duration-300 text-lg ${
 									isOnline && !isSubmitting && canInteract
 										? "bg-blue-600 hover:bg-blue-700"

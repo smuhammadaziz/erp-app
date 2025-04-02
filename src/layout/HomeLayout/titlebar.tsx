@@ -58,16 +58,13 @@ export const Titlebar: FC = () => {
 				password: userPassword,
 			};
 
-			const response = await fetch(
-				`${nodeUrl}/api/check/ping/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(currentBody),
+			const response = await fetch(`${nodeUrl}/api/check/ping/${ksbId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify(currentBody),
+			});
 			setApiStatus(response.ok ? "ok" : "error");
 		} catch (err) {
 			setApiStatus("error");

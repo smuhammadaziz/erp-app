@@ -12,13 +12,13 @@ function InnerFooter() {
 		uz: {
 			days: "кун",
 			hours: "соат",
-			minutes: "минут"
+			minutes: "минут",
 		},
 		ru: {
 			days: "дней",
 			hours: "часов",
-			minutes: "минут"
-		}
+			minutes: "минут",
+		},
 	};
 
 	useEffect(() => {
@@ -41,7 +41,9 @@ function InnerFooter() {
 			setDaysRemaining(days);
 
 			if (days < 3) {
-				setTimeLeft(`${hours} ${timeUnits[language].hours} ${minutes} ${timeUnits[language].minutes}`);
+				setTimeLeft(
+					`${hours} ${timeUnits[language].hours} ${minutes} ${timeUnits[language].minutes}`,
+				);
 			} else {
 				setTimeLeft(`${days} ${timeUnits[language].days}`);
 			}
@@ -57,18 +59,23 @@ function InnerFooter() {
 	return (
 		<div className="fixed bottom-0 left-0 w-full bg-white text-black p-2 overflow-hidden border-t border-gray-200">
 			<div
-				className={`flex space-x-40 w-max animate-marquee ${showAlert ? "bg-red-50" : "bg-white"
-					}`}
+				className={`flex space-x-40 w-max animate-marquee ${
+					showAlert ? "bg-red-50" : "bg-white"
+				}`}
 			>
 				{[...Array(40)].map((_, index) => (
 					<p
 						key={index}
-						className={`whitespace-nowrap text-base ${showAlert
-							? "text-red-600 font-semibold animate-pulse"
-							: "text-gray-900"
-							}`}
+						className={`whitespace-nowrap text-base ${
+							showAlert
+								? "text-red-600 font-semibold animate-pulse"
+								: "text-gray-900"
+						}`}
 					>
-						{content[language].innerFooter.its.replace("${timeLeft}", timeLeft)}
+						{content[language].innerFooter.its.replace(
+							"${timeLeft}",
+							timeLeft,
+						)}
 					</p>
 				))}
 			</div>

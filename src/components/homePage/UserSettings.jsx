@@ -20,7 +20,7 @@ const DownloaderModal = () => {
 	const [syncProgress, setSyncProgress] = useState({
 		recovery: 0,
 		deviceData: 0,
-		products: 0
+		products: 0,
 	});
 
 	const [language] = useLang("uz");
@@ -74,7 +74,7 @@ const DownloaderModal = () => {
 					username: getStorageItem("userType"),
 					password:
 						localStorage.getItem("userPassword") ===
-							"EMPTY_PASSWORD_ALLOWED"
+						"EMPTY_PASSWORD_ALLOWED"
 							? ""
 							: getStorageItem("userPassword"),
 				};
@@ -90,7 +90,8 @@ const DownloaderModal = () => {
 				if (!response.ok) {
 					const errorData = await response.json().catch(() => null);
 					throw new Error(
-						`Device registration failed: ${response.status} ${errorData?.message || response.statusText
+						`Device registration failed: ${response.status} ${
+							errorData?.message || response.statusText
 						}`,
 					);
 				}
@@ -142,7 +143,7 @@ const DownloaderModal = () => {
 
 			const data = await response.json();
 
-			console.log(data)
+			console.log(data);
 
 			return data;
 		} catch (err) {
@@ -171,7 +172,8 @@ const DownloaderModal = () => {
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => null);
 				throw new Error(
-					`Data sync failed: ${response.status} ${errorData?.message || response.statusText
+					`Data sync failed: ${response.status} ${
+						errorData?.message || response.statusText
 					}`,
 				);
 			}
@@ -205,7 +207,8 @@ const DownloaderModal = () => {
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => null);
 				throw new Error(
-					`Data sync failed: ${response.status} ${errorData?.message || response.statusText
+					`Data sync failed: ${response.status} ${
+						errorData?.message || response.statusText
 					}`,
 				);
 			}
@@ -236,9 +239,9 @@ const DownloaderModal = () => {
 		const animate = () => {
 			if (start < targetValue) {
 				start += increment;
-				setSyncProgress(prev => ({
+				setSyncProgress((prev) => ({
 					...prev,
-					[key]: Math.min(Math.round(start), targetValue)
+					[key]: Math.min(Math.round(start), targetValue),
 				}));
 				setTimeout(animate, stepDuration);
 			}
@@ -260,15 +263,17 @@ const DownloaderModal = () => {
 		setSyncProgress({ recovery: 0, deviceData: 0, products: 0 });
 
 		try {
-			animateProgress('recovery', 100, 10000);
+			animateProgress("recovery", 100, 10000);
 			const responseRecovery = await handleRecovery();
 
 			if (responseRecovery.status === "successfully") {
-				animateProgress('deviceData', 100, 15000);
+				animateProgress("deviceData", 100, 15000);
 				const responseDeviceData = await fetchDeviceData();
 
-				if (responseDeviceData.message === "Data processed successfully") {
-					animateProgress('products', 100, 7000);
+				if (
+					responseDeviceData.message === "Data processed successfully"
+				) {
+					animateProgress("products", 100, 7000);
 					await upsertUpdatedProducts();
 
 					setDownloadStatus("completed");
@@ -425,8 +430,10 @@ const DownloaderModal = () => {
 						</h2>
 
 						<p className="text-gray-600 text-lg mb-8 leading-relaxed">
-							{content[language].firstSync.clickToBelow}. {" "}
-							<span className="">Бу бироз вақт талаб қилади.</span>
+							{content[language].firstSync.clickToBelow}.{" "}
+							<span className="">
+								Бу бироз вақт талаб қилади.
+							</span>
 						</p>
 
 						<button
@@ -452,15 +459,20 @@ const DownloaderModal = () => {
 							{/* Recovery Status */}
 							<div className="relative">
 								<div className="flex justify-between mb-2">
-									<span className="text-sm font-medium text-gray-700">Recovering device information</span>
-									<span className="text-sm font-medium text-blue-600">{syncProgress.recovery}%</span>
+									<span className="text-sm font-medium text-gray-700">
+										Recovering device information
+									</span>
+									<span className="text-sm font-medium text-blue-600">
+										{syncProgress.recovery}%
+									</span>
 								</div>
 								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
 									<div
 										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
 										style={{
 											width: `${syncProgress.recovery}%`,
-											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+											boxShadow:
+												"0 0 10px rgba(37, 99, 235, 0.5)",
 										}}
 									></div>
 								</div>
@@ -469,15 +481,20 @@ const DownloaderModal = () => {
 							{/* Fetch Device Data Status */}
 							<div className="relative">
 								<div className="flex justify-between mb-2">
-									<span className="text-sm font-medium text-gray-700">Fetching device data</span>
-									<span className="text-sm font-medium text-blue-600">{syncProgress.deviceData}%</span>
+									<span className="text-sm font-medium text-gray-700">
+										Fetching device data
+									</span>
+									<span className="text-sm font-medium text-blue-600">
+										{syncProgress.deviceData}%
+									</span>
 								</div>
 								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
 									<div
 										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
 										style={{
 											width: `${syncProgress.deviceData}%`,
-											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+											boxShadow:
+												"0 0 10px rgba(37, 99, 235, 0.5)",
 										}}
 									></div>
 								</div>
@@ -486,15 +503,20 @@ const DownloaderModal = () => {
 							{/* Upsert Products Status */}
 							<div className="relative">
 								<div className="flex justify-between mb-2">
-									<span className="text-sm font-medium text-gray-700">Updating product information</span>
-									<span className="text-sm font-medium text-blue-600">{syncProgress.products}%</span>
+									<span className="text-sm font-medium text-gray-700">
+										Updating product information
+									</span>
+									<span className="text-sm font-medium text-blue-600">
+										{syncProgress.products}%
+									</span>
 								</div>
 								<div className="w-full bg-gray-100 rounded-full h-3 shadow-inner">
 									<div
 										className="bg-blue-600 h-3 rounded-full transition-all duration-300 ease-out"
 										style={{
 											width: `${syncProgress.products}%`,
-											boxShadow: '0 0 10px rgba(37, 99, 235, 0.5)'
+											boxShadow:
+												"0 0 10px rgba(37, 99, 235, 0.5)",
 										}}
 									></div>
 								</div>
@@ -519,7 +541,10 @@ const DownloaderModal = () => {
 
 						<div className="bg-green-50 border border-green-100 rounded-lg p-4 mb-8">
 							<p className="text-gray-700 text-lg">
-								{content[language].firstSync.dataSuccessfullySynced}
+								{
+									content[language].firstSync
+										.dataSuccessfullySynced
+								}
 							</p>
 						</div>
 

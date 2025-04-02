@@ -43,10 +43,10 @@ const MessageNotifications = () => {
 
 		const apiBody = {
 			"ipaddress:port": ipaddressPort,
-			"database": mainDatabase,
-			"username": userType,
-			"password": userPassword
-		}
+			database: mainDatabase,
+			username: userType,
+			password: userPassword,
+		};
 
 		try {
 			const response = await fetch(

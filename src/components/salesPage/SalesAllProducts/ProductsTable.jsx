@@ -340,7 +340,6 @@ function ProductsTable({
 		setTableClickedRow(index);
 	};
 
-
 	return (
 		<CustomScroll
 			className="flex-1 focus:outline-none"

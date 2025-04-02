@@ -66,12 +66,8 @@ function PermissionComponent({ onComplete }) {
 				onComplete();
 				setStatus("successfully");
 			} else if (data.status === "error") {
-				setStatusText(
-					`Қурилмага ҳали бери рухсат берилмади.`,
-				);
-				setToastMessage(
-					`Қурилмага ҳали бери рухсат берилмади.`,
-				);
+				setStatusText(`Қурилмага ҳали бери рухсат берилмади.`);
+				setToastMessage(`Қурилмага ҳали бери рухсат берилмади.`);
 				setStatus("error");
 			} else if (data.status === "empty") {
 				setToastMessage("Empty");

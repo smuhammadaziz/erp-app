@@ -229,7 +229,7 @@ function ProductModal({
 			}
 		}
 	};
-	
+
 	const handleFocus = (e) => {
 		if (e.target.value === "0") {
 			setQuantity("");
@@ -265,7 +265,7 @@ function ProductModal({
 					{/* Header */}
 					<div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
 						<h2 className="text-xl font-semibold text-gray-800">
-						Маҳсулот қўшиш
+							Маҳсулот қўшиш
 						</h2>
 						<button
 							onClick={handleClose}
