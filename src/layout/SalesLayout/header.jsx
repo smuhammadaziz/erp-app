@@ -1179,26 +1179,12 @@ function SalesPageLayoutHeader({ socket }) {
 																		<button
 																			className="p-1.5 text-gray-500 hover:bg-rose-50 hover:text-rose-600 rounded-lg transition-colors"
 																			onClick={() => {
-																				if (
-																					sale.status ===
-																						"process" ||
-																					sale.status ===
-																						"problem"
-																				) {
-																					setIsExitModalOpen(
-																						true,
-																					);
-																				}
+																				handlePrintOneSalesToDetails(
+																					sale.id,
+																				);
 																			}}
 																		>
-																			{sale.status ===
-																				"process" ||
-																			sale.status ===
-																				"problem" ? (
-																				<MdDelete />
-																			) : (
-																				<MdDelete className="disabled text-gray-300 cursor-not-allowed" />
-																			)}
+																			<FiPrinter />
 																		</button>
 																	</div>
 																	<div className="">
