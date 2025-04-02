@@ -685,8 +685,8 @@ function SalesPageLayoutHeader({ socket }) {
 											}
 										}}
 										className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${selectedDate
-												? "bg-indigo-500 text-white hover:bg-indigo-600"
-												: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+											? "bg-indigo-500 text-white hover:bg-indigo-600"
+											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
 											}`}
 									>
 										<MdCalendarToday />
@@ -715,8 +715,8 @@ function SalesPageLayoutHeader({ socket }) {
 									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${Object.values(statusFilters).some(
 										Boolean,
 									)
-											? "bg-indigo-50 text-indigo-700 border border-indigo-200"
-											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+										? "bg-indigo-50 text-indigo-700 border border-indigo-200"
+										: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
 										}`}
 								>
 									{showFilters ? (
@@ -792,8 +792,8 @@ function SalesPageLayoutHeader({ socket }) {
 												)
 											}
 											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.process
-													? "bg-indigo-100 text-indigo-800 border border-indigo-300"
-													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+												? "bg-indigo-100 text-indigo-800 border border-indigo-300"
+												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
 												}`}
 										>
 											<HiOutlineDocument
@@ -815,8 +815,8 @@ function SalesPageLayoutHeader({ socket }) {
 												)
 											}
 											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.delivered
-													? "bg-emerald-100 text-emerald-800 border border-emerald-300"
-													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+												? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
 												}`}
 										>
 											<HiOutlineDocumentCheck
@@ -838,8 +838,8 @@ function SalesPageLayoutHeader({ socket }) {
 												)
 											}
 											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.falseDelivered
-													? "bg-rose-100 text-orange-800 border border-orange-300"
-													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+												? "bg-rose-100 text-orange-800 border border-orange-300"
+												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
 												}`}
 										>
 											<HiOutlineDocumentMinus
@@ -861,8 +861,8 @@ function SalesPageLayoutHeader({ socket }) {
 												)
 											}
 											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.problem
-													? "bg-rose-100 text-rose-800 border border-rose-300"
-													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+												? "bg-rose-100 text-rose-800 border border-rose-300"
+												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
 												}`}
 										>
 											<HiOutlineDocument
@@ -968,9 +968,9 @@ function SalesPageLayoutHeader({ socket }) {
 														<tr
 															key={sale.id}
 															className={`group transition-all ${selectedRowId ===
-																	sale.id
-																	? "bg-indigo-50"
-																	: "hover:bg-gray-50"
+																sale.id
+																? "bg-indigo-50"
+																: "hover:bg-gray-50"
 																}`}
 															onClick={() =>
 																setSelectedRowId(
@@ -1043,9 +1043,9 @@ function SalesPageLayoutHeader({ socket }) {
 																	<div>
 																		<div
 																			className={`text-sm font-medium text-gray-900 ${sale.client_name ===
-																					"<не указан>"
-																					? "text-slate-300"
-																					: ""
+																				"<не указан>"
+																				? "text-slate-300"
+																				: ""
 																				}`}
 																		>
 																			{(() => {
@@ -1101,9 +1101,9 @@ function SalesPageLayoutHeader({ socket }) {
 																				"process" ? (
 																				<p
 																					className={`${selectedRowId ===
-																							sale.id
-																							? "bg-orange-600"
-																							: "bg-orange-500"
+																						sale.id
+																						? "bg-orange-600"
+																						: "bg-orange-500"
 																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Кутилмоқда
@@ -1112,9 +1112,9 @@ function SalesPageLayoutHeader({ socket }) {
 																				"problem" ? (
 																				<p
 																					className={`${selectedRowId ===
-																							sale.id
-																							? "bg-red-600"
-																							: "bg-red-500"
+																						sale.id
+																						? "bg-red-600"
+																						: "bg-red-500"
 																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Хатолик
@@ -1125,9 +1125,9 @@ function SalesPageLayoutHeader({ socket }) {
 																				"falseDelivered" ? (
 																				<p
 																					className={`${selectedRowId ===
-																							sale.id
-																							? "bg-green-600"
-																							: "bg-green-500"
+																						sale.id
+																						? "bg-green-600"
+																						: "bg-green-500"
 																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Юборилди
@@ -1275,9 +1275,9 @@ function SalesPageLayoutHeader({ socket }) {
 												<div
 													key={sale.id}
 													className={`bg-white rounded-xl border relative ${selectedRowId ===
-															sale.id
-															? "border-indigo-300 ring-2 ring-indigo-100"
-															: "border-gray-200 hover:border-indigo-200"
+														sale.id
+														? "border-indigo-300 ring-2 ring-indigo-100"
+														: "border-gray-200 hover:border-indigo-200"
 														} shadow-sm transition-all cursor-pointer group`}
 													onClick={() =>
 														setSelectedRowId(
@@ -1345,9 +1345,9 @@ function SalesPageLayoutHeader({ socket }) {
 															</div>
 															<div
 																className={`text-sm font-medium ${sale.client_name ===
-																		"<не указан>"
-																		? "text-slate-300"
-																		: ""
+																	"<не указан>"
+																	? "text-slate-300"
+																	: ""
 																	}`}
 															>
 																{sale.client_name.split(
@@ -1401,9 +1401,9 @@ function SalesPageLayoutHeader({ socket }) {
 																	"process" ? (
 																	<p
 																		className={`${selectedRowId ===
-																				sale.id
-																				? "bg-orange-600"
-																				: "bg-orange-500"
+																			sale.id
+																			? "bg-orange-600"
+																			: "bg-orange-500"
 																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Кутилмоқда
@@ -1412,9 +1412,9 @@ function SalesPageLayoutHeader({ socket }) {
 																	"problem" ? (
 																	<p
 																		className={`${selectedRowId ===
-																				sale.id
-																				? "bg-red-600"
-																				: "bg-red-500"
+																			sale.id
+																			? "bg-red-600"
+																			: "bg-red-500"
 																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Хатолик
@@ -1425,9 +1425,9 @@ function SalesPageLayoutHeader({ socket }) {
 																	"falseDelivered" ? (
 																	<p
 																		className={`${selectedRowId ===
-																				sale.id
-																				? "bg-green-600"
-																				: "bg-green-500"
+																			sale.id
+																			? "bg-green-600"
+																			: "bg-green-500"
 																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Юборилди
@@ -1639,9 +1639,9 @@ function SalesPageLayoutHeader({ socket }) {
 									</span>
 									<h3
 										className={`text-lg font-semibold ${selectedSale.client_name ===
-												"<не указан>"
-												? "text-blue-300 italic"
-												: "text-white"
+											"<не указан>"
+											? "text-blue-300 italic"
+											: "text-white"
 											}`}
 									>
 										{selectedSale.client_name}
