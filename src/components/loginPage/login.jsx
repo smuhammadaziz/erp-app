@@ -135,7 +135,6 @@ function LoginPageKSB({ socket, verified }) {
 				}
 
 				setUsers(data.users);
-				// setEnterprise(data.enterprise);
 			} catch (error) {
 				if (error.name === "AbortError") {
 					console.log("Fetch aborted");
