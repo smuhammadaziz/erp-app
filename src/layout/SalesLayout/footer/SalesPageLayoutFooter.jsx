@@ -373,15 +373,15 @@ const SalesPageLayoutFooter = ({ socket }) => {
 			<div className="salesfooter z-0  bg-slate-100 px-4 py-1 shadow-lg border-t border-gray-300 flex items-center justify-between relative ">
 				<div className="flex items-center justify-start">
 					<div className="flex items-center gap-4">
-						<button
+						{/* <button
 							onClick={toggleSettings}
 							disabled
 							className="text-white bg-slate-700 cursor-not-allowed p-2 rounded-md text-lg flex items-center gap-2  transition-colors duration-200"
 						>
 							<FiSettings className="text-xl" />
-						</button>
+						</button> */}
 						<div className="flex items-center bg-slate-200 px-2 py-1 rounded-md text-gray-800 font-semibold">
-							<BsCurrencyDollar className="text-lg text-green-500" />
+							{/* <BsCurrencyDollar className="text-lg text-green-500" /> */}
 							{displayMessage}
 						</div>
 					</div>
