@@ -93,41 +93,46 @@ function LoginPageKSB({ socket, verified }) {
 
 				const data = await response.json();
 
-				localStorage.setItem(
-					"enterpriseFullTitle",
-					data.enterpriseInfo.full_title
-						? data.enterpriseInfo.full_title
-						: null,
-				);
-				localStorage.setItem(
-					"enterprisePhone1",
-					data.enterpriseInfo.phone1
-						? data.enterpriseInfo.phone1
-						: null,
-				);
-				localStorage.setItem(
-					"enterprisePhone2",
-					data.enterpriseInfo.phone2
-						? data.enterpriseInfo.phone2
-						: null,
-				);
-				localStorage.setItem(
-					"enterpriseSlogan1",
-					data.enterpriseInfo.slogan1
-						? data.enterpriseInfo.slogan1
-						: null,
-				);
-				localStorage.setItem(
-					"enterpriseSlogan2",
-					data.enterpriseInfo.slogan2
-						? data.enterpriseInfo.slogan2
-						: null,
-				);
-				localStorage.setItem(
-					"enterpriseName",
-					data.enterpriseInfo.title,
-				);
-				localStorage.setItem("enterpriseUUID", data.enterpriseInfo.uid);
+				if (
+					data.enterpriseInfo &&
+					Object.keys(data.enterpriseInfo).length > 0
+				) {
+					localStorage.setItem(
+						"enterpriseFullTitle",
+						data.enterpriseInfo.full_title ||
+							localStorage.getItem("enterpriseFullTitle"),
+					);
+					localStorage.setItem(
+						"enterprisePhone1",
+						data.enterpriseInfo.phone1 ||
+							localStorage.getItem("enterprisePhone1"),
+					);
+					localStorage.setItem(
+						"enterprisePhone2",
+						data.enterpriseInfo.phone2 ||
+							localStorage.getItem("enterprisePhone2"),
+					);
+					localStorage.setItem(
+						"enterpriseSlogan1",
+						data.enterpriseInfo.slogan1 ||
+							localStorage.getItem("enterpriseSlogan1"),
+					);
+					localStorage.setItem(
+						"enterpriseSlogan2",
+						data.enterpriseInfo.slogan2 ||
+							localStorage.getItem("enterpriseSlogan2"),
+					);
+					localStorage.setItem(
+						"enterpriseName",
+						data.enterpriseInfo.title ||
+							localStorage.getItem("enterpriseName"),
+					);
+					localStorage.setItem(
+						"enterpriseUUID",
+						data.enterpriseInfo.uid ||
+							localStorage.getItem("enterpriseUUID"),
+					);
+				}
 
 				setUsers(data.users);
 				// setEnterprise(data.enterprise);
