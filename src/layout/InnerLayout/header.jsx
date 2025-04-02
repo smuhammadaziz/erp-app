@@ -73,16 +73,13 @@ function HeaderInner({ onRefresh, socket }) {
 				password: userPassword,
 			};
 
-			const response = await fetch(
-				`${nodeUrl}/api/check/ping/${ksbId}`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(currentBody),
+			const response = await fetch(`${nodeUrl}/api/check/ping/${ksbId}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+				body: JSON.stringify(currentBody),
+			});
 
 			console.log("Response status:", response.status);
 
@@ -460,7 +457,7 @@ function HeaderInner({ onRefresh, socket }) {
 					</div>
 
 					<div className="text-white text-lg font-medium flex items-center gap-2 bg-gray-800/40 px-4 py-2 rounded-lg hover:bg-gray-700/40 transition-colors duration-300">
-						<MdOutlineCurrencyExchange className="text-xl text-green-400" />
+						{/* <MdOutlineCurrencyExchange className="text-xl text-green-400" /> */}
 						{displayMessage}
 					</div>
 					<div
