@@ -399,6 +399,7 @@ function SalesMainAllProducts({ socket }) {
 					setIsSelectionEnabled={setIsSelectionEnabled}
 					setSelectedRow={setSelectedRow}
 					isModalOpen={isModalOpen}
+					socket={socket}
 				/>
 				<ProductsTable
 					filteredData={displayedData}

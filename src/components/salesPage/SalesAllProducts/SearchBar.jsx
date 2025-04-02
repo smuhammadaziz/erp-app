@@ -23,6 +23,7 @@ function SearchBar({
 	setIsSelectionEnabled,
 	setSelectedRow,
 	isModalOpen,
+	socket,
 }) {
 	const searchInputRef = useRef(null);
 	const [lastChangeTime, setLastChangeTime] = useState(0);
@@ -180,6 +181,40 @@ function SearchBar({
 		}
 	};
 
+	const [disabled, setDisabled] = useState();
+	const [productCount, setProductCount] = useState(0);
+
+	const sales_id = localStorage.getItem("sales_id");
+
+	useEffect(() => {
+		fetchSoldProducts();
+
+		const updateHandler = () => fetchSoldProducts();
+		socket.on("gettingSoldProducts", updateHandler);
+
+		return () => {
+			socket.off("gettingSoldProducts", updateHandler);
+		};
+	}, [nodeUrl, sales_id]);
+
+	const fetchSoldProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/get/sales/${sales_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			const isDisabled = data[sales_id].products.length < 1;
+			setDisabled(isDisabled);
+			setProductCount(data[sales_id].products.length);
+		} catch (err) {
+			console.log(err);
+			setDisabled(true);
+		}
+	};
+
 	return (
 		<div className="flex items-center py-1 bg-gray-100 border-b border-gray-200">
 			<div className="relative w-[50vw] mr-5">
@@ -209,12 +244,23 @@ function SearchBar({
 						isDeleting
 							? "bg-gray-400 cursor-not-allowed"
 							: "bg-red-600 hover:bg-red-700"
+					} ${
+						disabled
+							? "cursor-not-allowed opacity-50"
+							: "text-white"
 					} text-white p-2 rounded-lg transition duration-300`}
-					disabled={isDeleting}
-					onClick={() => setIsExitModalOpen(true)}
+					disabled={disabled || isDeleting}
+					onClick={() => {
+						if (!disabled && !isDeleting) {
+							setIsExitModalOpen(true);
+						}
+					}}
 				>
 					<FaTrash size={15} />
 				</button>
+			</div>
+			<div className="ml-10">
+				<span className="font-bold text-lg">( {productCount} )</span>
 			</div>
 
 			{isExitModalOpen && (
