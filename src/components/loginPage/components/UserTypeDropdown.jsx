@@ -22,7 +22,12 @@ function UserTypeDropdown({
 			setSelectedUserType(storedUserType);
 			handleSelect(storedUserType);
 		} else {
-			setSelectedUserType(userType || "");
+			setSelectedUserType("");
+			setTimeout(() => {
+				inputRef.current?.focus();
+				inputRef.current?.select();
+			}, 0);
+			// toggleDropdown(false);
 		}
 	}, []);
 
@@ -50,7 +55,9 @@ function UserTypeDropdown({
 
 	const handleInputFocus = (e) => {
 		e.target.select();
-		toggleDropdown(true);
+		if (!isDropdownOpen) {
+			toggleDropdown(true);
+		}
 	};
 
 	const handleInputChange = (e) => {
@@ -83,7 +90,6 @@ function UserTypeDropdown({
 	};
 
 	const handleChevronClick = () => {
-		setSelectedUserType("");
 		setFilteredUsers(users);
 		toggleDropdown(!isDropdownOpen);
 	};
