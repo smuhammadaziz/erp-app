@@ -14,6 +14,11 @@ import SettingsPage from "./pages/settings/settings";
 import { AuthProvider, ProtectedRoute } from "./context/Auth";
 import nodeUrl from "./links";
 import TrashPage from "./pages/trash/trash";
+import { IoExitOutline } from "react-icons/io5";
+import { ImExit } from "react-icons/im";
+import { FaTimes } from "react-icons/fa";
+import content from "./localization/content";
+import useLang from "./hooks/useLang";
 
 const socket = io("http://localhost:8000");
 
@@ -26,6 +31,8 @@ export const Router: FC = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [fetchTime, setFetchTime] = useState(fetchSalesInterval());
 	const [verified, setVerified] = useState("");
+	const [showExitModal, setShowExitModal] = useState(false);
+	const [language] = useLang();
 
 	useEffect(() => {
 		const isVerified = localStorage.getItem("isVerified");
@@ -43,6 +50,21 @@ export const Router: FC = () => {
 
 		return () => {
 			window.removeEventListener("storage", handleStorageChange);
+		};
+	}, []);
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.altKey && e.key === "F4") {
+				e.preventDefault();
+				setShowExitModal(true);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
 		};
 	}, []);
 
@@ -147,155 +169,10 @@ export const Router: FC = () => {
 		return () => clearInterval(interval);
 	}, [fetchTime]);
 
-	// =============================
-
-	// useEffect(() => {
-	// 	fetchUpdatingSymbolData();
-
-	// 	const updateHandler = () => fetchUpdatingSymbolData();
-	// 	socket.on("updatingSymbols", updateHandler);
-
-	// 	return () => {
-	// 		socket.off("updatingSymbols", updateHandler);
-	// 	};
-	// }, []);
-
-	// const fetchUpdatingSymbolData = async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${nodeUrl}/api/update/symbol/data/${deviceId}/${ksbId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					"ipaddress:port": ipaddressPort,
-	// 					database: mainDatabase,
-	// 					userName: userType,
-	// 					userPassword: userPassword,
-	// 				}),
-	// 			},
-	// 		);
-
-	// 		if (!response.ok) {
-	// 			throw new Error(`HTTP error! Status: ${response.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	fetchUpdatingCurrencyData();
-
-	// 	const updateHandler = () => fetchUpdatingCurrencyData();
-	// 	socket.on("updatingCurrencies", updateHandler);
-
-	// 	return () => {
-	// 		socket.off("updatingCurrencies", updateHandler);
-	// 	};
-	// }, []);
-
-	// const fetchUpdatingCurrencyData = async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${nodeUrl}/api/update/currency/data/${deviceId}/${ksbId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					"ipaddress:port": ipaddressPort,
-	// 					database: mainDatabase,
-	// 					userName: userType,
-	// 					userPassword: userPassword,
-	// 				}),
-	// 			},
-	// 		);
-
-	// 		if (!response.ok) {
-	// 			throw new Error(`HTTP error! Status: ${response.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	fetchUpdatingPriceTypeData();
-
-	// 	const updateHandler = () => fetchUpdatingPriceTypeData();
-	// 	socket.on("updatingPriceType", updateHandler);
-
-	// 	return () => {
-	// 		socket.off("updatingPriceType", updateHandler);
-	// 	};
-	// }, []);
-
-	// const fetchUpdatingPriceTypeData = async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${nodeUrl}/api/update/price_type/data/${deviceId}/${ksbId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					"ipaddress:port": ipaddressPort,
-	// 					database: mainDatabase,
-	// 					userName: userType,
-	// 					userPassword: userPassword,
-	// 				}),
-	// 			},
-	// 		);
-
-	// 		if (!response.ok) {
-	// 			throw new Error(`HTTP error! Status: ${response.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	fetchWarehouseData();
-
-	// 	const updateHandler = () => fetchWarehouseData();
-	// 	socket.on("updatingWarehouse", updateHandler);
-
-	// 	return () => {
-	// 		socket.off("updatingWarehouse", updateHandler);
-	// 	};
-	// }, []);
-
-	// const fetchWarehouseData = async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			`${nodeUrl}/api/update/warehouse/data/${deviceId}/${ksbId}`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					"ipaddress:port": ipaddressPort,
-	// 					database: mainDatabase,
-	// 					userName: userType,
-	// 					userPassword: userPassword,
-	// 				}),
-	// 			},
-	// 		);
-
-	// 		if (!response.ok) {
-	// 			throw new Error(`HTTP error! Status: ${response.status}`);
-	// 		}
-	// 	} catch (error) {
-	// 		console.error("Error fetching symbol data:", error);
-	// 	}
-	// };
+	const handleQuit = () => {
+		const { app } = window.require("@electron/remote");
+		app.quit();
+	};
 
 	return loading ? (
 		<Loader />
@@ -306,11 +183,6 @@ export const Router: FC = () => {
 					<Route path="/">
 						<Route
 							index
-							// element={
-							// 	<ProtectedRoute>
-							// 		<IndexPage socket={socket} />
-							// 	</ProtectedRoute>
-							// }
 							element={
 								verified ? (
 									<Navigate to="/login" />
@@ -322,7 +194,6 @@ export const Router: FC = () => {
 					</Route>
 					<Route
 						path="/login"
-						// element={<LoginPageKSB socket={socket} />}
 						element={
 							verified ? (
 								<LoginPageKSB
@@ -336,7 +207,6 @@ export const Router: FC = () => {
 					/>
 					<Route
 						path="/crm"
-						// element={<IndexPage socket={socket} />}
 						element={
 							verified ? (
 								<IndexPage socket={socket} />
@@ -391,6 +261,41 @@ export const Router: FC = () => {
 					/>
 				</Routes>
 			</AuthProvider>
+
+			{showExitModal && (
+				<div className="fixed inset-0 z-[9999] bg-black bg-opacity-80 flex items-center justify-center p-8">
+					<div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-200 p-10 space-y-6 transform transition-all duration-300 ease-in-out">
+						<div className="text-center">
+							<IoExitOutline className="text-5xl font-bold mb-4 flex justify-center mx-auto text-center" />
+							<h2 className="text-2xl font-bold text-gray-800 mb-2">
+								{content[language as string].exit.exit}
+							</h2>
+							<p className="text-black text-lg mb-6">
+								{content[language as string].exit.exitTest}
+							</p>
+						</div>
+						<div className="flex space-x-4">
+							<button
+								onClick={handleQuit}
+								className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+							>
+								<ImExit className="mr-2 text-xl" />
+								OK
+							</button>
+							<button
+								onClick={() => setShowExitModal(false)}
+								className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+							>
+								<FaTimes className="mr-2 text-xl" />
+								{
+									content[language as string].salesPage
+										.headerDiscountCancel
+								}
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 		</HashRouter>
 	);
 };
