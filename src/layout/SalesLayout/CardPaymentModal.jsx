@@ -772,7 +772,12 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									}
 									onChange={(e) => {
 										setClientSearchTerm(e.target.value);
-										setShowSmallSearchModal(true);
+										// Only show the modal if there's at least one character
+										if (e.target.value.length > 0) {
+											setShowSmallSearchModal(true);
+										} else {
+											setShowSmallSearchModal(false);
+										}
 										if (
 											e.target.value !==
 											selectedClient?.name
@@ -781,8 +786,11 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 										}
 									}}
 									onFocus={() => {
-										setShowSmallSearchModal(true);
-										setClientSearchTerm("");
+										// Don't automatically show the modal on focus
+										// Only show it if there's already text
+										if (clientSearchTerm.length > 0) {
+											setShowSmallSearchModal(true);
+										}
 									}}
 									onKeyDown={handleClientKeyDown}
 									ref={clientSearchRef}
