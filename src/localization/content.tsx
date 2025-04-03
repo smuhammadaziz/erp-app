@@ -14,6 +14,10 @@ type Content = {
 			requestTimeOut: string;
 			checking: string;
 			error: string;
+			needTime: string;
+			recoveryYourInformation: string;
+			fetchingDevice: string;
+			upsertingProducts: string;
 		};
 		login: {
 			login: string;
@@ -273,6 +277,11 @@ const content: Content = {
 				"Сўровни кутиш вақти тугаши. Илтимос, қайта уриниб коʻринг.",
 			checking: "Текширилмоқда...",
 			error: "Номаълум хатолик",
+			needTime: "Бу бироз вақт талаб қилади.",
+			recoveryYourInformation:
+				"Маълумотларингизни тайёрлаш давом этмоқда...",
+			fetchingDevice: "Клиентга оид маълумотлар юклаб олинмоқда...",
+			upsertingProducts: "Маҳсулотлар, валюталар, ўлчов бирлик...",
 		},
 		login: {
 			login: "Базага кириш",
@@ -541,6 +550,10 @@ const content: Content = {
 				"Запросить тайм-аут. Пожалуйста, попробуйте еще раз.",
 			checking: "Проверка...",
 			error: "Неизвестная ошибка",
+			needTime: "Это займет некоторое время.",
+			recoveryYourInformation: "Подготовка ваших данных продолжается...",
+			fetchingDevice: "Загрузка информации о клиенте...",
+			upsertingProducts: "Продукты, валюты, единицы измерения...",
 		},
 		login: {
 			login: "Доступ к базе",

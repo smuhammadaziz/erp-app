@@ -432,7 +432,7 @@ const DownloaderModal = () => {
 						<p className="text-gray-600 text-lg mb-8 leading-relaxed">
 							{content[language].firstSync.clickToBelow}.{" "}
 							<span className="">
-								Бу бироз вақт талаб қилади.
+								{content[language].intro.needTime}
 							</span>
 						</p>
 
@@ -460,7 +460,10 @@ const DownloaderModal = () => {
 							<div className="relative">
 								<div className="flex justify-between mb-2">
 									<span className="text-sm font-medium text-gray-700">
-										Recovering device information
+										{
+											content[language].intro
+												.recoveryYourInformation
+										}
 									</span>
 									<span className="text-sm font-medium text-blue-600">
 										{syncProgress.recovery}%
@@ -482,7 +485,7 @@ const DownloaderModal = () => {
 							<div className="relative">
 								<div className="flex justify-between mb-2">
 									<span className="text-sm font-medium text-gray-700">
-										Fetching device data
+										{content[language].intro.fetchingDevice}
 									</span>
 									<span className="text-sm font-medium text-blue-600">
 										{syncProgress.deviceData}%
@@ -504,7 +507,10 @@ const DownloaderModal = () => {
 							<div className="relative">
 								<div className="flex justify-between mb-2">
 									<span className="text-sm font-medium text-gray-700">
-										Updating product information
+										{
+											content[language].intro
+												.upsertingProducts
+										}
 									</span>
 									<span className="text-sm font-medium text-blue-600">
 										{syncProgress.products}%
