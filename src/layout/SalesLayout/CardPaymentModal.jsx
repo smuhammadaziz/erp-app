@@ -22,6 +22,11 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 	const [discount, setDiscount] = useState(0);
 	const [totalPrice, setTotalPrice] = useState(0);
 	const [comment, setComment] = useState("");
+	const [clientSearchTerm, setClientSearchTerm] = useState("");
+	const [selectedClientIndex, setSelectedClientIndex] = useState(0);
+	const [showSmallSearchModal, setShowSmallSearchModal] = useState(false);
+	const clientSearchRef = useRef(null);
+	const clientListRef = useRef(null);
 
 	const [language] = useLang("uz");
 
@@ -630,6 +635,75 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		}
 	};
 
+	// Filter clients based on search term
+	const filteredClients =
+		clientSearchTerm.trim() === ""
+			? customers
+			: customers.filter(
+					(client) =>
+						client?.name
+							?.toLowerCase()
+							.includes(clientSearchTerm.toLowerCase().trim()) ||
+						client?.phone_number
+							?.toLowerCase()
+							.includes(clientSearchTerm.toLowerCase().trim()),
+			  );
+
+	// Handle keyboard navigation in client search
+	const handleClientKeyDown = (e) => {
+		if (!showSmallSearchModal) return;
+
+		switch (e.key) {
+			case "ArrowDown":
+				e.preventDefault();
+				setSelectedClientIndex((prev) =>
+					prev < filteredClients.length - 1 ? prev + 1 : prev,
+				);
+				break;
+			case "ArrowUp":
+				e.preventDefault();
+				setSelectedClientIndex((prev) => (prev > 0 ? prev - 1 : prev));
+				break;
+			case "Enter":
+				e.preventDefault();
+				if (filteredClients.length > 0) {
+					setSelectedClient(filteredClients[selectedClientIndex]);
+					setShowSmallSearchModal(false);
+					setClientSearchTerm("");
+				}
+				break;
+			case "Escape":
+				e.preventDefault();
+				setShowSmallSearchModal(false);
+				break;
+			default:
+				break;
+		}
+	};
+
+	// Reset selected index when search term changes
+	useEffect(() => {
+		setSelectedClientIndex(0);
+	}, [clientSearchTerm]);
+
+	// Focus the client search input when modal opens
+	useEffect(() => {
+		if (showSmallSearchModal && clientSearchRef.current) {
+			clientSearchRef.current.focus();
+		}
+	}, [showSmallSearchModal]);
+
+	// Scroll selected item into view
+	useEffect(() => {
+		if (clientListRef.current && filteredClients.length > 0) {
+			const selectedElement =
+				clientListRef.current.children[selectedClientIndex];
+			if (selectedElement) {
+				selectedElement.scrollIntoView({ block: "nearest" });
+			}
+		}
+	}, [selectedClientIndex, filteredClients.length]);
+
 	if (!isOpen) return null;
 
 	return (
@@ -691,11 +765,27 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								<input
 									type="text"
 									value={
-										selectedClient
+										clientSearchTerm ||
+										(selectedClient
 											? selectedClient.name
-											: null
+											: "")
 									}
-									readOnly
+									onChange={(e) => {
+										setClientSearchTerm(e.target.value);
+										setShowSmallSearchModal(true);
+										if (
+											e.target.value !==
+											selectedClient?.name
+										) {
+											setSelectedClient(null);
+										}
+									}}
+									onFocus={() => {
+										setShowSmallSearchModal(true);
+										setClientSearchTerm("");
+									}}
+									onKeyDown={handleClientKeyDown}
+									ref={clientSearchRef}
 									placeholder="Клиент танланг"
 									className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
 								/>
@@ -706,6 +796,49 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									<IoSearchOutline className="w-4 h-4" />
 								</button>
 							</div>
+
+							{/* Small Client Search Modal */}
+							{showSmallSearchModal && (
+								<div
+									className="absolute z-50 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto"
+									style={{ width: "250px" }}
+								>
+									{filteredClients.length === 0 ? (
+										<div className="flex items-center justify-center h-20 text-gray-500">
+											No clients found
+										</div>
+									) : (
+										<div ref={clientListRef}>
+											{filteredClients.map(
+												(client, index) => (
+													<div
+														key={client.client_id}
+														onClick={() => {
+															setSelectedClient(
+																client,
+															);
+															setShowSmallSearchModal(
+																false,
+															);
+															setClientSearchTerm(
+																"",
+															);
+														}}
+														className={`px-3 py-2 cursor-pointer ${
+															index ===
+															selectedClientIndex
+																? "bg-blue-50 text-blue-700"
+																: "hover:bg-gray-50"
+														}`}
+													>
+														{client.name}
+													</div>
+												),
+											)}
+										</div>
+									)}
+								</div>
+							)}
 						</div>
 
 						{/* Total to Pay */}
