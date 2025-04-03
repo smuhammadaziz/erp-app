@@ -801,7 +801,7 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 							{showSmallSearchModal && (
 								<div
 									className="absolute z-50 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto"
-									style={{ width: "250px" }}
+									style={{ width: "380px" }}
 								>
 									{filteredClients.length === 0 ? (
 										<div className="flex items-center justify-center h-20 text-gray-500">
