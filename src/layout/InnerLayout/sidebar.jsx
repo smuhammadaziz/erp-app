@@ -103,7 +103,7 @@ function SidebarInner({ onToggle }) {
 						</span>
 					)}
 				</NavLink>
-				{/* <NavLink
+				<NavLink
 					to="/trash"
 					className={({ isActive }) =>
 						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
@@ -126,7 +126,7 @@ function SidebarInner({ onToggle }) {
 							Корзина
 						</span>
 					)}
-				</NavLink> */}
+				</NavLink>
 
 				<NavLink
 					to="/settings"
