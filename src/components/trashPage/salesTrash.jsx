@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import nodeUrl from "../../links";
+import moment from "moment";
 
 function SalesTrashComponent() {
 	// Sample data for demonstration
+	const [sales, setSales] = useState([]);
 	const [trashData, setTrashData] = useState([
 		{
 			id: "tr-001",
@@ -23,6 +26,40 @@ function SalesTrashComponent() {
 			errorMessage: "",
 		},
 	]);
+
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+
+	// useEffect(() => {
+	// 	fetchProducts();
+
+	// 	const updateHandler = () => fetchProducts();
+	// 	socket.on("gettingAllSavedSales", updateHandler);
+
+	// 	return () => {
+	// 		socket.off("gettingAllSavedSales", updateHandler);
+	// 	};
+	// }, []);
+
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/trash/sales/${ksb_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+			setSales(data);
+
+			console.log(data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchProducts();
+	}, []);
 
 	// Function to handle deletion
 	const handleDelete = (id) => {
@@ -78,7 +115,7 @@ function SalesTrashComponent() {
 							</tr>
 						</thead>
 						<tbody className="bg-white divide-y divide-gray-200">
-							{trashData.map((item) => (
+							{sales.map((item) => (
 								<tr key={item.id} className="hover:bg-gray-50">
 									<td className="px-3 py-4 whitespace-nowrap">
 										<span
@@ -106,7 +143,7 @@ function SalesTrashComponent() {
 											className="text-sm font-medium text-gray-900 truncate"
 											title={`$${item.total_price}`}
 										>
-											${item.total_price}
+											{item.total_price}
 										</div>
 									</td>
 									<td className="px-3 py-4">
@@ -122,7 +159,9 @@ function SalesTrashComponent() {
 											className="text-sm text-gray-500 truncate"
 											title={formatDate(item.deleted_at)}
 										>
-											{formatDate(item.deleted_at)}
+											{moment(item.deleted_at).format(
+												"DD.MM.YYYY HH:mm",
+											)}
 										</div>
 									</td>
 									<td className="px-3 py-4">
@@ -209,3 +248,4 @@ function SalesTrashComponent() {
 }
 
 export default SalesTrashComponent;
+
