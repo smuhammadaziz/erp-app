@@ -654,16 +654,16 @@ const CardPaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		if (!showSmallSearchModal) return;
 
 		switch (e.key) {
-			case "ArrowDown":
-				e.preventDefault();
-				setSelectedClientIndex((prev) =>
-					prev < filteredClients.length - 1 ? prev + 1 : prev,
-				);
-				break;
-			case "ArrowUp":
-				e.preventDefault();
-				setSelectedClientIndex((prev) => (prev > 0 ? prev - 1 : prev));
-				break;
+			// case "ArrowDown":
+			// 	e.preventDefault();
+			// 	setSelectedClientIndex((prev) =>
+			// 		prev < filteredClients.length - 1 ? prev + 1 : prev,
+			// 	);
+			// 	break;
+			// case "ArrowUp":
+			// 	e.preventDefault();
+			// 	setSelectedClientIndex((prev) => (prev > 0 ? prev - 1 : prev));
+			// 	break;
 			case "Enter":
 				e.preventDefault();
 				if (filteredClients.length > 0) {
