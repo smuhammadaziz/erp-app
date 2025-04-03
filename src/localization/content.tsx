@@ -250,6 +250,11 @@ type Content = {
 		innerFooter: {
 			its: string;
 		};
+		summaSection: {
+			summa: string;
+			discount: string;
+			toPay: string;
+		};
 	};
 };
 
@@ -516,6 +521,11 @@ const content: Content = {
 		innerFooter: {
 			its: "Техник қўллаб қувватлаш (ITS) муддати тугашига ${timeLeft} қолди. Қўшимча маълумот учун: +998 78 298 09 99",
 		},
+		summaSection: {
+			summa: "Савдо",
+			discount: "Чегирма",
+			toPay: "Тўлов учун",
+		},
 	},
 	ru: {
 		intro: {
@@ -779,6 +789,11 @@ const content: Content = {
 		},
 		innerFooter: {
 			its: "До окончания технической поддержки (ITS) осталось ${timeLeft}. Для дополнительной информации: +998 78 298 09 99",
+		},
+		summaSection: {
+			summa: "Продажа",
+			discount: "Скидка",
+			toPay: "К оплате",
 		},
 	},
 };

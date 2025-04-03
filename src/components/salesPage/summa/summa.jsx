@@ -4,12 +4,16 @@ import { RiDiscountPercentLine } from "react-icons/ri";
 import { PiCashRegisterFill } from "react-icons/pi";
 import nodeUrl from "../../../links";
 
+import content from "../../../localization/content";
+import useLang from "../../../hooks/useLang";
+
 function SalespageSummaSection({ socket }) {
 	const [price, setPrice] = useState(0);
 	const [discount, setDiscount] = useState(null);
 	const [finalPrice, setFinalPrice] = useState(0);
 
 	const sales_id = localStorage.getItem("sales_id");
+	const [language] = useLang("uz");
 
 	useEffect(() => {
 		fetchSoldProducts();
@@ -47,7 +51,7 @@ function SalespageSummaSection({ socket }) {
 				className={`flex relative items-center w-[200px] text-green-800 bg-gray-100 font-bold px-3 py-3 rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4`}
 			>
 				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
-					Продажа
+					{content[language].summaSection.summa}
 				</span>
 				<BiBasket className="mr-2 text-2xl" />
 				<span
@@ -70,7 +74,7 @@ function SalespageSummaSection({ socket }) {
 
 			<p className="flex items-center w-[200px] relative text-red-500 bg-gray-100 font-bold px-3 py-3 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition mb-4">
 				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
-					Скидка
+					{content[language].summaSection.discount}
 				</span>
 				<RiDiscountPercentLine className="mr-2 text-red-500 text-2xl" />{" "}
 				{discount?.toLocaleString("ru-RU", {
@@ -81,7 +85,7 @@ function SalespageSummaSection({ socket }) {
 
 			<p className="flex items-center font-bold relative bg-gray-100 w-[200px] px-3 py-3 text-lg rounded-md border-0 border-gray-300  focus:outline-none focus:ring-2 focus:ring-blue-300 transition">
 				<span className="absolute text-xs  -top-2 font-normal text-[#4d4d4d]">
-					К оплате
+					{content[language].summaSection.toPay}
 				</span>
 				<PiCashRegisterFill className="mr-2 text-2xl" />{" "}
 				{finalPrice?.toLocaleString("ru-RU", {
