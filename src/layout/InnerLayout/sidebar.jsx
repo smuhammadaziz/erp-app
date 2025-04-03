@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	AiOutlineHome,
 	AiOutlineUser,
@@ -9,6 +9,7 @@ import {
 	AiFillProduct,
 } from "react-icons/ai";
 import { IoTrashBinOutline } from "react-icons/io5";
+import nodeUrl from "../../links";
 
 import { SlBasket } from "react-icons/sl";
 
@@ -21,6 +22,7 @@ import useLang from "../../hooks/useLang";
 
 function SidebarInner({ onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
+	const [count, setCount] = useState(false);
 
 	const [language, setLanguage] = useLang();
 
@@ -29,7 +31,27 @@ function SidebarInner({ onToggle }) {
 		onToggle(!isExpanded);
 	};
 
-	let notificationCount = 7;
+	const ksb_id = localStorage.getItem("ksbIdNumber");
+
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/trash/sales/${ksb_id}`,
+			);
+			if (!response.ok) {
+				throw new Error("Failed to fetch products");
+			}
+			const data = await response.json();
+
+			setCount(data.length);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	useEffect(() => {
+		fetchProducts();
+	}, []);
 
 	return (
 		<div
@@ -113,9 +135,9 @@ function SidebarInner({ onToggle }) {
 				>
 					<div className="relative">
 						<IoTrashBinOutline size={isExpanded ? 24 : 28} />
-						{notificationCount > 0 && (
+						{count > 0 && (
 							<span className="absolute -top-4 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
-								{notificationCount}
+								{count}
 							</span>
 						)}
 					</div>
