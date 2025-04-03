@@ -37,7 +37,7 @@ import useLang from "../../hooks/useLang";
 import moment from "moment";
 import "moment/locale/ru";
 
-import CustomCalendar from '../../components/CustomCalendar';
+import CustomCalendar from "../../components/CustomCalendar";
 
 moment.locale("ru");
 
@@ -684,18 +684,19 @@ function SalesPageLayoutHeader({ socket }) {
 												setShowCalendar(!showCalendar);
 											}
 										}}
-										className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${selectedDate
-											? "bg-indigo-500 text-white hover:bg-indigo-600"
-											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
-											}`}
+										className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+											selectedDate
+												? "bg-indigo-500 text-white hover:bg-indigo-600"
+												: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+										}`}
 									>
 										<MdCalendarToday />
 										{selectedDate
 											? `${moment(selectedDate).format(
-												"DD.MM.YYYY",
-											)}`
+													"DD.MM.YYYY",
+											  )}`
 											: content[language].salesPage
-												.headerListDateSelect}
+													.headerListDateSelect}
 										{selectedDate && (
 											<MdClose className="text-sm hover:text-gray-100" />
 										)}
@@ -712,12 +713,13 @@ function SalesPageLayoutHeader({ socket }) {
 
 								<button
 									onClick={() => setShowFilters(!showFilters)}
-									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${Object.values(statusFilters).some(
-										Boolean,
-									)
-										? "bg-indigo-50 text-indigo-700 border border-indigo-200"
-										: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
-										}`}
+									className={`px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 transition-all ${
+										Object.values(statusFilters).some(
+											Boolean,
+										)
+											? "bg-indigo-50 text-indigo-700 border border-indigo-200"
+											: "bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100"
+									}`}
 								>
 									{showFilters ? (
 										<MdClose />
@@ -731,14 +733,14 @@ function SalesPageLayoutHeader({ socket }) {
 									{Object.values(statusFilters).some(
 										Boolean,
 									) && (
-											<span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs text-white">
-												{
-													Object.values(
-														statusFilters,
-													).filter(Boolean).length
-												}
-											</span>
-										)}
+										<span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs text-white">
+											{
+												Object.values(
+													statusFilters,
+												).filter(Boolean).length
+											}
+										</span>
+									)}
 								</button>
 
 								<button
@@ -754,16 +756,16 @@ function SalesPageLayoutHeader({ socket }) {
 									Object.values(statusFilters).some(
 										Boolean,
 									)) && (
-										<button
-											onClick={clearAllFilters}
-											className="px-4 py-2.5 rounded-lg text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
-										>
-											{
-												content[language].salesPage
-													.headerListFilterClear
-											}
-										</button>
-									)}
+									<button
+										onClick={clearAllFilters}
+										className="px-4 py-2.5 rounded-lg text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 transition-all"
+									>
+										{
+											content[language].salesPage
+												.headerListFilterClear
+										}
+									</button>
+								)}
 
 								<div className="ml-auto text-sm text-gray-500 font-medium">
 									{
@@ -791,10 +793,11 @@ function SalesPageLayoutHeader({ socket }) {
 													"process",
 												)
 											}
-											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.process
-												? "bg-indigo-100 text-indigo-800 border border-indigo-300"
-												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-												}`}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.process
+													? "bg-indigo-100 text-indigo-800 border border-indigo-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
 										>
 											<HiOutlineDocument
 												className={
@@ -814,10 +817,11 @@ function SalesPageLayoutHeader({ socket }) {
 													"delivered",
 												)
 											}
-											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.delivered
-												? "bg-emerald-100 text-emerald-800 border border-emerald-300"
-												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-												}`}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.delivered
+													? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
 										>
 											<HiOutlineDocumentCheck
 												className={
@@ -837,10 +841,11 @@ function SalesPageLayoutHeader({ socket }) {
 													"falseDelivered",
 												)
 											}
-											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.falseDelivered
-												? "bg-rose-100 text-orange-800 border border-orange-300"
-												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-												}`}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.falseDelivered
+													? "bg-rose-100 text-orange-800 border border-orange-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
 										>
 											<HiOutlineDocumentMinus
 												className={
@@ -860,10 +865,11 @@ function SalesPageLayoutHeader({ socket }) {
 													"problem",
 												)
 											}
-											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${statusFilters.problem
-												? "bg-rose-100 text-rose-800 border border-rose-300"
-												: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-												}`}
+											className={`px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-all ${
+												statusFilters.problem
+													? "bg-rose-100 text-rose-800 border border-rose-300"
+													: "bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
+											}`}
 										>
 											<HiOutlineDocument
 												className={
@@ -967,22 +973,23 @@ function SalesPageLayoutHeader({ socket }) {
 													.map((sale) => (
 														<tr
 															key={sale.id}
-															className={`group transition-all ${selectedRowId ===
+															className={`group transition-all ${
+																selectedRowId ===
 																sale.id
-																? "bg-indigo-50"
-																: "hover:bg-gray-50"
-																}`}
+																	? "bg-indigo-50"
+																	: "hover:bg-gray-50"
+															}`}
 															onClick={() =>
 																setSelectedRowId(
 																	sale.id,
 																)
 															}
-														// onDoubleClick={() =>
-														// 	openDetailModal &&
-														// 	openDetailModal(
-														// 		sale,
-														// 	)
-														// }
+															// onDoubleClick={() =>
+															// 	openDetailModal &&
+															// 	openDetailModal(
+															// 		sale,
+															// 	)
+															// }
 														>
 															<td className="px-6 py-4">
 																<div className="flex items-center">
@@ -999,15 +1006,15 @@ function SalesPageLayoutHeader({ socket }) {
 																			"day",
 																		)
 																			? moment(
-																				sale.date,
-																			).format(
-																				"DD.MM.YYYY HH:mm",
-																			)
+																					sale.date,
+																			  ).format(
+																					"DD.MM.YYYY HH:mm",
+																			  )
 																			: moment(
-																				sale.date,
-																			).format(
-																				"DD.MM.YYYY HH:mm",
-																			)}
+																					sale.date,
+																			  ).format(
+																					"DD.MM.YYYY HH:mm",
+																			  )}
 																	</div>
 																</div>
 															</td>
@@ -1020,9 +1027,9 @@ function SalesPageLayoutHeader({ socket }) {
 																		<div className="text-sm font-medium text-gray-900">
 																			{
 																				warehouseData[
-																				sale
-																					.details[0]
-																					.warehouse
+																					sale
+																						.details[0]
+																						.warehouse
 																				]
 																			}
 																		</div>
@@ -1042,11 +1049,12 @@ function SalesPageLayoutHeader({ socket }) {
 																<div className="flex items-center">
 																	<div>
 																		<div
-																			className={`text-sm font-medium text-gray-900 ${sale.client_name ===
+																			className={`text-sm font-medium text-gray-900 ${
+																				sale.client_name ===
 																				"<не указан>"
-																				? "text-slate-300"
-																				: ""
-																				}`}
+																					? "text-slate-300"
+																					: ""
+																			}`}
 																		>
 																			{(() => {
 																				const words =
@@ -1056,14 +1064,14 @@ function SalesPageLayoutHeader({ socket }) {
 																				return words.length >
 																					5
 																					? words
-																						.slice(
-																							0,
-																							3,
-																						)
-																						.join(
-																							" ",
-																						) +
-																					"..."
+																							.slice(
+																								0,
+																								3,
+																							)
+																							.join(
+																								" ",
+																							) +
+																							"..."
 																					: sale.client_name;
 																			})()}
 																		</div>
@@ -1086,9 +1094,9 @@ function SalesPageLayoutHeader({ socket }) {
 																<div className="text-xs text-gray-500">
 																	{
 																		currencyData[
-																		sale
-																			.details[0]
-																			.currency
+																			sale
+																				.details[0]
+																				.currency
 																		]
 																	}
 																</div>
@@ -1098,37 +1106,40 @@ function SalesPageLayoutHeader({ socket }) {
 																	<div className="">
 																		<div className="text-sm font-medium text-gray-900">
 																			{sale.status ===
-																				"process" ? (
+																			"process" ? (
 																				<p
-																					className={`${selectedRowId ===
+																					className={`${
+																						selectedRowId ===
 																						sale.id
-																						? "bg-orange-600"
-																						: "bg-orange-500"
-																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																							? "bg-orange-600"
+																							: "bg-orange-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Кутилмоқда
 																				</p>
 																			) : sale.status ===
-																				"problem" ? (
+																			  "problem" ? (
 																				<p
-																					className={`${selectedRowId ===
+																					className={`${
+																						selectedRowId ===
 																						sale.id
-																						? "bg-red-600"
-																						: "bg-red-500"
-																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																							? "bg-red-600"
+																							: "bg-red-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Хатолик
 																				</p>
 																			) : sale.status ===
-																				"delivered" ||
-																				sale.status ===
-																				"falseDelivered" ? (
+																					"delivered" ||
+																			  sale.status ===
+																					"falseDelivered" ? (
 																				<p
-																					className={`${selectedRowId ===
+																					className={`${
+																						selectedRowId ===
 																						sale.id
-																						? "bg-green-600"
-																						: "bg-green-500"
-																						} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																							? "bg-green-600"
+																							: "bg-green-500"
+																					} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																				>
 																					Юборилди
 																				</p>
@@ -1195,70 +1206,70 @@ function SalesPageLayoutHeader({ socket }) {
 																		</button>
 																		{showActionsMenu ===
 																			sale.id && (
-																				<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
-																					<button
-																						onClick={
-																							handlePrintOneSales
-																						}
-																						className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																					>
-																						<FiPrinter className="text-gray-500" />
-																						Печать
-																					</button>
-																					<button
-																						onClick={(
-																							e,
-																						) => {
-																							openDetailModal(
-																								sale,
-																							);
-																						}}
-																						className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																					>
-																						<FiEye className="text-gray-500" />
-																						Батафсил
-																					</button>
+																			<div className="absolute right-10 mt-1 w-48 bg-white z-60 rounded-lg shadow-lg border border-gray-200 py-1">
+																				<button
+																					onClick={
+																						handlePrintOneSales
+																					}
+																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																				>
+																					<FiPrinter className="text-gray-500" />
+																					Печать
+																				</button>
+																				<button
+																					onClick={(
+																						e,
+																					) => {
+																						openDetailModal(
+																							sale,
+																						);
+																					}}
+																					className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																				>
+																					<FiEye className="text-gray-500" />
+																					Батафсил
+																				</button>
 
-																					{(sale.status ===
-																						"process" ||
-																						sale.status ===
+																				{(sale.status ===
+																					"process" ||
+																					sale.status ===
 																						"problem") && (
-																							<>
-																								{/* <button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+																					<>
+																						{/* <button className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2">
 																							<LuSend className="text-gray-500" />
 																							Қайта
 																							юбориш
 																						</button> */}
-																								<button
-																									onClick={(
-																										e,
-																									) => {
-																										e.preventDefault();
-																										e.stopPropagation();
-																										handleSaveSalesToAPI(
-																											sale.id,
-																										);
-																									}}
-																									className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																								>
-																									<IoIosSave className="text-gray-500" />
-																									Сохранить
-																								</button>
-																								<button
-																									onClick={() =>
-																										setIsExitModalOpen(
-																											true,
-																										)
-																									}
-																									className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																								>
-																									<MdDelete className="text-gray-500 text-lg" />
-																									Ўчириш
-																								</button>
-																							</>
-																						)}
-																				</div>
-																			)}
+																						<button
+																							onClick={(
+																								e,
+																							) => {
+																								e.preventDefault();
+																								e.stopPropagation();
+																								handleSaveSalesToAPI(
+																									sale.id,
+																								);
+																							}}
+																							className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																						>
+																							<IoIosSave className="text-gray-500" />
+																							Сохранить
+																						</button>
+																						<button
+																							onClick={() =>
+																								setIsExitModalOpen(
+																									true,
+																								)
+																							}
+																							className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																						>
+																							<MdDelete className="text-gray-500 text-lg" />
+																							Ўчириш
+																						</button>
+																					</>
+																				)}
+																			</div>
+																		)}
 																	</div>
 																</div>
 															</td>
@@ -1274,11 +1285,12 @@ function SalesPageLayoutHeader({ socket }) {
 											.map((sale) => (
 												<div
 													key={sale.id}
-													className={`bg-white rounded-xl border relative ${selectedRowId ===
+													className={`bg-white rounded-xl border relative ${
+														selectedRowId ===
 														sale.id
-														? "border-indigo-300 ring-2 ring-indigo-100"
-														: "border-gray-200 hover:border-indigo-200"
-														} shadow-sm transition-all cursor-pointer group`}
+															? "border-indigo-300 ring-2 ring-indigo-100"
+															: "border-gray-200 hover:border-indigo-200"
+													} shadow-sm transition-all cursor-pointer group`}
 													onClick={() =>
 														setSelectedRowId(
 															sale.id,
@@ -1294,9 +1306,9 @@ function SalesPageLayoutHeader({ socket }) {
 																<div className="font-medium text-gray-900">
 																	{
 																		warehouseData[
-																		sale
-																			.details[0]
-																			.warehouse
+																			sale
+																				.details[0]
+																				.warehouse
 																		]
 																	}
 																</div>
@@ -1327,15 +1339,15 @@ function SalesPageLayoutHeader({ socket }) {
 																	"day",
 																)
 																	? moment(
-																		sale.date,
-																	).format(
-																		"HH:mm",
-																	)
+																			sale.date,
+																	  ).format(
+																			"HH:mm",
+																	  )
 																	: moment(
-																		sale.date,
-																	).format(
-																		"DD.MM.YYYY HH:mm",
-																	)}
+																			sale.date,
+																	  ).format(
+																			"DD.MM.YYYY HH:mm",
+																	  )}
 															</div>
 														</div>
 
@@ -1344,27 +1356,28 @@ function SalesPageLayoutHeader({ socket }) {
 																Клиент:
 															</div>
 															<div
-																className={`text-sm font-medium ${sale.client_name ===
+																className={`text-sm font-medium ${
+																	sale.client_name ===
 																	"<не указан>"
-																	? "text-slate-300"
-																	: ""
-																	}`}
+																		? "text-slate-300"
+																		: ""
+																}`}
 															>
 																{sale.client_name.split(
 																	" ",
 																).length > 5
 																	? sale.client_name
-																		.split(
-																			" ",
-																		)
-																		.slice(
-																			0,
-																			4,
-																		)
-																		.join(
-																			" ",
-																		) +
-																	" ..."
+																			.split(
+																				" ",
+																			)
+																			.slice(
+																				0,
+																				4,
+																			)
+																			.join(
+																				" ",
+																			) +
+																	  " ..."
 																	: sale.client_name}
 															</div>
 														</div>
@@ -1385,9 +1398,9 @@ function SalesPageLayoutHeader({ socket }) {
 																)}{" "}
 																{
 																	currencyData[
-																	sale
-																		.details[0]
-																		.currency
+																		sale
+																			.details[0]
+																			.currency
 																	]
 																}
 															</div>
@@ -1398,37 +1411,40 @@ function SalesPageLayoutHeader({ socket }) {
 															</div>
 															<div className="text-sm font-medium">
 																{sale.status ===
-																	"process" ? (
+																"process" ? (
 																	<p
-																		className={`${selectedRowId ===
+																		className={`${
+																			selectedRowId ===
 																			sale.id
-																			? "bg-orange-600"
-																			: "bg-orange-500"
-																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				? "bg-orange-600"
+																				: "bg-orange-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Кутилмоқда
 																	</p>
 																) : sale.status ===
-																	"problem" ? (
+																  "problem" ? (
 																	<p
-																		className={`${selectedRowId ===
+																		className={`${
+																			selectedRowId ===
 																			sale.id
-																			? "bg-red-600"
-																			: "bg-red-500"
-																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				? "bg-red-600"
+																				: "bg-red-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Хатолик
 																	</p>
 																) : sale.status ===
-																	"delivered" ||
-																	sale.status ===
-																	"falseDelivered" ? (
+																		"delivered" ||
+																  sale.status ===
+																		"falseDelivered" ? (
 																	<p
-																		className={`${selectedRowId ===
+																		className={`${
+																			selectedRowId ===
 																			sale.id
-																			? "bg-green-600"
-																			: "bg-green-500"
-																			} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+																				? "bg-green-600"
+																				: "bg-green-500"
+																		} px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
 																	>
 																		Юборилди
 																	</p>
@@ -1461,27 +1477,13 @@ function SalesPageLayoutHeader({ socket }) {
 														</button>
 														<button
 															onClick={() => {
-																if (
-																	sale.status ===
-																	"process" ||
-																	sale.status ===
-																	"problem"
-																) {
-																	setIsExitModalOpen(
-																		true,
-																	);
-																}
+																handlePrintOneSalesToDetails(
+																	sale.id,
+																);
 															}}
 															className="p-1.5 bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-lg transition-colors"
 														>
-															{sale.status ===
-																"process" ||
-																sale.status ===
-																"problem" ? (
-																<MdDelete />
-															) : (
-																<MdDelete className="disabled text-gray-300 cursor-not-allowed" />
-															)}
+															<FiPrinter />
 														</button>
 														<div className="relative">
 															<button
@@ -1503,70 +1505,70 @@ function SalesPageLayoutHeader({ socket }) {
 
 															{showActionsMenu ===
 																sale.id && (
-																	<div
-																		className="absolute right-0 mt-1 w-48 bg-white z-[999] rounded-lg shadow-lg border border-gray-200 py-1"
-																		onClick={(
-																			e,
-																		) =>
-																			e.stopPropagation()
+																<div
+																	className="absolute right-0 mt-1 w-48 bg-white z-[999] rounded-lg shadow-lg border border-gray-200 py-1"
+																	onClick={(
+																		e,
+																	) =>
+																		e.stopPropagation()
+																	}
+																>
+																	<button
+																		onClick={
+																			handlePrintOneSales
 																		}
+																		className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
 																	>
-																		<button
-																			onClick={
-																				handlePrintOneSales
-																			}
-																			className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																		>
-																			<FiPrinter className="text-gray-500" />
-																			Печать
-																		</button>
-																		<button
-																			onClick={() =>
-																				openDetailModal(
-																					sale,
-																				)
-																			}
-																			className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																		>
-																			<FiEye className="text-gray-500" />
-																			Батафсил
-																		</button>
+																		<FiPrinter className="text-gray-500" />
+																		Печать
+																	</button>
+																	<button
+																		onClick={() =>
+																			openDetailModal(
+																				sale,
+																			)
+																		}
+																		className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																	>
+																		<FiEye className="text-gray-500" />
+																		Батафсил
+																	</button>
 
-																		{(sale.status ===
-																			"process" ||
-																			sale.status ===
+																	{(sale.status ===
+																		"process" ||
+																		sale.status ===
 																			"problem") && (
-																				<>
-																					<button
-																						onClick={(
-																							e,
-																						) => {
-																							e.preventDefault();
-																							e.stopPropagation();
-																							handleSaveSalesToAPI(
-																								sale.id,
-																							);
-																						}}
-																						className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																					>
-																						<IoIosSave className="text-gray-500" />
-																						Сохранить
-																					</button>
-																					<button
-																						onClick={() =>
-																							setShowActionsMenu(
-																								null,
-																							)
-																						}
-																						className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-																					>
-																						<MdDelete className="text-gray-500 text-lg" />
-																						Ўчириш
-																					</button>
-																				</>
-																			)}
-																	</div>
-																)}
+																		<>
+																			<button
+																				onClick={(
+																					e,
+																				) => {
+																					e.preventDefault();
+																					e.stopPropagation();
+																					handleSaveSalesToAPI(
+																						sale.id,
+																					);
+																				}}
+																				className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																			>
+																				<IoIosSave className="text-gray-500" />
+																				Сохранить
+																			</button>
+																			<button
+																				onClick={() =>
+																					setShowActionsMenu(
+																						null,
+																					)
+																				}
+																				className="w-full px-4 py-2 text-sm text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+																			>
+																				<MdDelete className="text-gray-500 text-lg" />
+																				Ўчириш
+																			</button>
+																		</>
+																	)}
+																</div>
+															)}
 														</div>
 													</div>
 												</div>
@@ -1638,11 +1640,12 @@ function SalesPageLayoutHeader({ socket }) {
 										Клиент
 									</span>
 									<h3
-										className={`text-lg font-semibold ${selectedSale.client_name ===
+										className={`text-lg font-semibold ${
+											selectedSale.client_name ===
 											"<не указан>"
-											? "text-blue-300 italic"
-											: "text-white"
-											}`}
+												? "text-blue-300 italic"
+												: "text-white"
+										}`}
 									>
 										{selectedSale.client_name}
 									</h3>
@@ -1672,11 +1675,11 @@ function SalesPageLayoutHeader({ socket }) {
 											"day",
 										)
 											? moment(selectedSale.date).format(
-												"HH:mm",
-											)
+													"HH:mm",
+											  )
 											: moment(selectedSale.date).format(
-												"DD.MM.YYYY HH:mm",
-											)}
+													"DD.MM.YYYY HH:mm",
+											  )}
 									</h3>
 								</div>
 
@@ -1700,8 +1703,8 @@ function SalesPageLayoutHeader({ socket }) {
 											</span>
 										</div>
 									) : selectedSale.status === "delivered" ||
-										selectedSale.status ===
-										"falseDelivered" ? (
+									  selectedSale.status ===
+											"falseDelivered" ? (
 										<span className="bg-emerald-500 text-white px-3 py-1 rounded-md text-sm font-medium inline-flex items-center gap-1.5">
 											<span className="w-2 h-2 bg-white rounded-full inline-block"></span>
 											Юборилди
@@ -1725,8 +1728,8 @@ function SalesPageLayoutHeader({ socket }) {
 										<span className="text-blue-200 text-lg">
 											{
 												currencyData[
-												selectedSale.details[0]
-													.currency
+													selectedSale.details[0]
+														.currency
 												]
 											}
 										</span>
@@ -1747,8 +1750,8 @@ function SalesPageLayoutHeader({ socket }) {
 										<span className="text-blue-200">
 											{
 												currencyData[
-												selectedSale.details[0]
-													.currency
+													selectedSale.details[0]
+														.currency
 												]
 											}
 										</span>
@@ -1856,9 +1859,9 @@ function SalesPageLayoutHeader({ socket }) {
 															)}{" "}
 															{
 																currencyData[
-																selectedSale
-																	.details[0]
-																	.currency
+																	selectedSale
+																		.details[0]
+																		.currency
 																]
 															}
 														</div>
@@ -1950,7 +1953,7 @@ function SalesPageLayoutHeader({ socket }) {
 													<span className="text-gray-500">
 														{
 															currencyData[
-															payment.currency
+																payment.currency
 															]
 														}
 													</span>
