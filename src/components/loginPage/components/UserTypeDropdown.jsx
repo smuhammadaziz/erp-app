@@ -33,13 +33,6 @@ function UserTypeDropdown({
 
 	useEffect(() => {
 		if (isDropdownOpen) {
-			setFilteredUsers(
-				users.filter((user) =>
-					user.usertype
-						.toLowerCase()
-						.includes(selectedUserType.toLowerCase()),
-				),
-			);
 			if (highlightedIndex === -1) {
 				setHighlightedIndex(0);
 			}
@@ -92,6 +85,7 @@ function UserTypeDropdown({
 	const handleChevronClick = () => {
 		setFilteredUsers(users);
 		toggleDropdown(!isDropdownOpen);
+		setHighlightedIndex(0);
 	};
 
 	return (
@@ -105,7 +99,18 @@ function UserTypeDropdown({
 					type="text"
 					value={selectedUserType}
 					onFocus={handleInputFocus}
-					onChange={handleInputChange}
+					onChange={(e) => {
+						const value = e.target.value;
+						setSelectedUserType(value);
+						setHighlightedIndex(-1);
+						setFilteredUsers(
+							users.filter((user) =>
+								user.usertype
+									.toLowerCase()
+									.includes(value.toLowerCase()),
+							),
+						);
+					}}
 					onKeyDown={handleKeyDown}
 					className="w-full px-4 py-4 bg-white border font-semibold text-xl  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
 					placeholder=""
