@@ -253,7 +253,9 @@ function ProductModal({
 	}, [changePriceValue]);
 
 	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
-	const userSettingsInfo = JSON.parse(localStorage.getItem(""));
+	const userSettingsInfo = JSON.parse(
+		localStorage.getItem("userChangePrice"),
+	);
 
 	if (!matchingPrice) {
 		return "-";
