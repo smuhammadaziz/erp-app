@@ -278,13 +278,10 @@ function ProductModal({
 						</button>
 					</div>
 
-					{/* Content */}
 					<div className="p-6">
 						<form onSubmit={handleSubmit}>
-							{/* Product Info Section */}
 							<div className="mb-6">
 								<div className="grid grid-cols-12 gap-4 items-start">
-									{/* Product Name */}
 									<div className="col-span-12">
 										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
@@ -300,7 +297,6 @@ function ProductModal({
 										/>
 									</div>
 
-									{/* Warehouse */}
 									<div className="col-span-8">
 										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
@@ -320,7 +316,6 @@ function ProductModal({
 										/>
 									</div>
 
-									{/* Quantity in Stock */}
 									<div className="col-span-4">
 										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
@@ -352,12 +347,9 @@ function ProductModal({
 								</div>
 							</div>
 
-							{/* Divider */}
 							<div className="border-t border-gray-200 my-5"></div>
 
-							{/* Order Section */}
 							<div className="grid grid-cols-12 gap-6">
-								{/* Left Side - Quantity */}
 								<div className="col-span-5">
 									<label className="block text-sm font-medium text-gray-700 mb-1">
 										{
