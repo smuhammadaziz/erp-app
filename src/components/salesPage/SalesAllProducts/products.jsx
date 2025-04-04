@@ -111,7 +111,10 @@ function SalesMainAllProducts({ socket }) {
 			const result = await response.json();
 
 			if (result.message === "successfully") {
-				const data = result.products || [];
+				// Filter out products where stock[0].qty === 0
+				const data = (result.products || []).filter(
+					(item) => item?.stock?.[0]?.qty !== 0,
+				);
 
 				if (
 					JSON.stringify(currentData.current) !== JSON.stringify(data)
