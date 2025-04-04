@@ -359,22 +359,19 @@ function ProductModal({
 									</label>
 									<input
 										ref={quantityInputRef}
-										type="text" // Changed to text to allow comma input
+										type="text"
 										value={quantity ?? ""}
 										onFocus={handleFocus}
 										onBlur={(e) => {
-											// Format on blur to ensure proper display
 											const value =
 												e.target.value.replace(
 													",",
 													".",
-												); // Convert comma to dot for calculations
+												);
 											if (value) {
-												// Convert to number with the configured decimal places
 												const numValue =
 													parseFloat(value);
 												if (!isNaN(numValue)) {
-													// Use the device's preferred decimal separator for display
 													const formattedValue =
 														numValue.toFixed(
 															deviceSettings
@@ -388,13 +385,11 @@ function ProductModal({
 										}}
 										onKeyDown={(e) => {
 											const value = e.target.value;
-											// Check for both comma and dot as decimal separators
 											const decimalIndex = Math.max(
 												value.indexOf("."),
 												value.indexOf(","),
 											);
 
-											// Allow both comma and dot as decimal separators, but only one
 											if (
 												(e.key === "." ||
 													e.key === ",") &&
@@ -404,9 +399,7 @@ function ProductModal({
 												return;
 											}
 
-											// Check if we're exceeding limits based on device settings
 											if (
-												// Prevent more than the configured whole digits
 												(decimalIndex === -1 &&
 													value.length >=
 														deviceSettings.format
@@ -420,7 +413,6 @@ function ProductModal({
 														".",
 														",",
 													].includes(e.key)) ||
-												// Prevent more than the configured decimal digits
 												(decimalIndex !== -1 &&
 													value.length -
 														decimalIndex >
@@ -436,7 +428,6 @@ function ProductModal({
 												e.preventDefault();
 											}
 
-											// Only allow numbers, navigation keys, backspace, delete, and decimal separators
 											if (
 												!/^\d$/.test(e.key) &&
 												![
@@ -456,22 +447,18 @@ function ProductModal({
 										onChange={(e) => {
 											let val = e.target.value;
 
-											// Handle the decimal portion for both comma and dot
 											const dotIndex = val.indexOf(".");
 											const commaIndex = val.indexOf(",");
 
-											// Determine which decimal separator is being used
 											let decimalIndex = -1;
 											if (
 												dotIndex !== -1 &&
 												commaIndex !== -1
 											) {
-												// If both are present, use the first one
 												decimalIndex = Math.min(
 													dotIndex,
 													commaIndex,
 												);
-												// Remove any additional separators
 												val =
 													val.substring(
 														0,
@@ -506,7 +493,6 @@ function ProductModal({
 															.format_qty.max,
 													);
 
-												// Keep the original decimal separator (dot or comma)
 												const separator =
 													val.charAt(decimalIndex);
 												val =
@@ -521,12 +507,11 @@ function ProductModal({
 												);
 											}
 
-											// Filter out any non-numeric characters except comma and dot
 											val = val.replace(/[^\d.,]/g, "");
 
 											setQuantity(val);
 										}}
-										inputMode="decimal" // Better for mobile devices
+										inputMode="decimal"
 										placeholder={`0.${"0".repeat(
 											deviceSettings.format.format_qty
 												.max,
@@ -535,9 +520,7 @@ function ProductModal({
 									/>
 								</div>
 
-								{/* Right Side - Price & Total */}
 								<div className="col-span-7">
-									{/* Unit Price */}
 									<div className="mb-4">
 										<label className="block text-sm font-medium text-gray-700 mb-1">
 											{
