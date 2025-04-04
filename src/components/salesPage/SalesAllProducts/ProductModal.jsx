@@ -560,8 +560,14 @@ function ProductModal({
 												convertedPrice.toLocaleString(
 													"ru-RU",
 													{
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
+														minimumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
+														maximumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
 													},
 												) ?? ""
 											}
@@ -585,8 +591,14 @@ function ProductModal({
 												{totalPrice.toLocaleString(
 													"ru-RU",
 													{
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
+														minimumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
+														maximumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
 													},
 												)}
 											</div>
