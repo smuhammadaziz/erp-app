@@ -10,7 +10,10 @@ const PrintingModal = ({
 	handleSaveSalesWithPrint,
 }) => {
 	const [language] = useLang("uz");
+	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
+
 	const [focusedButton, setFocusedButton] = useState("yes");
+	const [timerCount, setTimerCount] = useState(deviceSettings.time_print);
 	const yesButtonRef = useRef(null);
 	const noButtonRef = useRef(null);
 
@@ -45,6 +48,21 @@ const PrintingModal = ({
 		};
 	}, [focusedButton]);
 
+	// Countdown timer effect
+	useEffect(() => {
+		if (timerCount <= 0) {
+			setPrintModal(false);
+			handleSaveSalesWithPrint();
+			return;
+		}
+
+		const interval = setInterval(() => {
+			setTimerCount((prev) => prev - 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+	}, [timerCount]);
+
 	return (
 		<div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-[100]">
 			<div className="bg-white w-[450px] py-8 px-6 rounded-lg shadow-2xl flex flex-col items-center relative">
@@ -77,7 +95,7 @@ const PrintingModal = ({
 						}}
 						className="w-1/2 py-3 bg-blue-600 text-white text-md font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 ml-2"
 					>
-						{content[language].paymentModal.yes}
+						{`${content[language].paymentModal.yes} (${timerCount})`}
 					</button>
 				</div>
 			</div>
