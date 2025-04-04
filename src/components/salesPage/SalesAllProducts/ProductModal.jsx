@@ -98,7 +98,8 @@ function ProductModal({
 	const convertedPrice =
 		customPrice !== null ? customPrice : convertPrice(matchingPrice.sale);
 
-	const totalPrice = Number(quantity) * Number(convertedPrice);
+	const totalPrice =
+		Number(String(quantity).replace(",", ".")) * Number(convertedPrice);
 
 	const handleClose = () => {
 		if (searchInputRef.current) {
@@ -366,32 +367,50 @@ function ProductModal({
 									</label>
 									<input
 										ref={quantityInputRef}
-										type="number"
+										type="text" // Changed to text to allow comma input
 										value={quantity ?? ""}
 										onFocus={handleFocus}
 										onBlur={(e) => {
 											// Format on blur to ensure proper display
-											const value = e.target.value;
+											const value =
+												e.target.value.replace(
+													",",
+													".",
+												); // Convert comma to dot for calculations
 											if (value) {
 												// Convert to number with the configured decimal places
 												const numValue =
 													parseFloat(value);
 												if (!isNaN(numValue)) {
-													setQuantity(
+													// Use the device's preferred decimal separator for display
+													const formattedValue =
 														numValue.toFixed(
 															deviceSettings
 																.format
 																.format_qty.max,
-														),
-													);
+														);
+													setQuantity(formattedValue);
 												}
 											}
 											handleBlur(e);
 										}}
 										onKeyDown={(e) => {
 											const value = e.target.value;
-											const decimalIndex =
-												value.indexOf(".");
+											// Check for both comma and dot as decimal separators
+											const decimalIndex = Math.max(
+												value.indexOf("."),
+												value.indexOf(","),
+											);
+
+											// Allow both comma and dot as decimal separators, but only one
+											if (
+												(e.key === "." ||
+													e.key === ",") &&
+												decimalIndex !== -1
+											) {
+												e.preventDefault();
+												return;
+											}
 
 											// Check if we're exceeding limits based on device settings
 											if (
@@ -407,6 +426,7 @@ function ProductModal({
 														"ArrowLeft",
 														"ArrowRight",
 														".",
+														",",
 													].includes(e.key)) ||
 												// Prevent more than the configured decimal digits
 												(decimalIndex !== -1 &&
@@ -424,14 +444,60 @@ function ProductModal({
 												e.preventDefault();
 											}
 
+											// Only allow numbers, navigation keys, backspace, delete, and decimal separators
+											if (
+												!/^\d$/.test(e.key) &&
+												![
+													"Backspace",
+													"Delete",
+													"ArrowLeft",
+													"ArrowRight",
+													".",
+													",",
+												].includes(e.key)
+											) {
+												e.preventDefault();
+											}
+
 											handleKeyDown(e, "quantity");
 										}}
 										onChange={(e) => {
 											let val = e.target.value;
 
-											// Handle the decimal portion
-											const decimalIndex =
-												val.indexOf(".");
+											// Handle the decimal portion for both comma and dot
+											const dotIndex = val.indexOf(".");
+											const commaIndex = val.indexOf(",");
+
+											// Determine which decimal separator is being used
+											let decimalIndex = -1;
+											if (
+												dotIndex !== -1 &&
+												commaIndex !== -1
+											) {
+												// If both are present, use the first one
+												decimalIndex = Math.min(
+													dotIndex,
+													commaIndex,
+												);
+												// Remove any additional separators
+												val =
+													val.substring(
+														0,
+														decimalIndex,
+													) +
+													val.charAt(decimalIndex) +
+													val
+														.substring(
+															decimalIndex + 1,
+														)
+														.replace(/[.,]/g, "");
+											} else {
+												decimalIndex = Math.max(
+													dotIndex,
+													commaIndex,
+												);
+											}
+
 											if (decimalIndex !== -1) {
 												const wholePart = val
 													.substring(0, decimalIndex)
@@ -448,9 +514,12 @@ function ProductModal({
 															.format_qty.max,
 													);
 
+												// Keep the original decimal separator (dot or comma)
+												const separator =
+													val.charAt(decimalIndex);
 												val =
 													wholePart +
-													"." +
+													separator +
 													decimalPart;
 											} else {
 												val = val.slice(
@@ -460,13 +529,12 @@ function ProductModal({
 												);
 											}
 
+											// Filter out any non-numeric characters except comma and dot
+											val = val.replace(/[^\d.,]/g, "");
+
 											setQuantity(val);
 										}}
-										step={`0.${"0".repeat(
-											deviceSettings.format.format_qty
-												.max - 1,
-										)}1`}
-										min="0"
+										inputMode="decimal" // Better for mobile devices
 										placeholder={`0.${"0".repeat(
 											deviceSettings.format.format_qty
 												.max,
