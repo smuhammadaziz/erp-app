@@ -100,17 +100,33 @@ function SalesTrashComponent({ socket }) {
 						<tbody className="bg-white divide-y divide-gray-200">
 							{sales.map((item) => (
 								<tr key={item.id} className="hover:bg-gray-50">
-									<td className="px-3 py-4 whitespace-nowrap">
+									<td className="px-1 py-4 whitespace-nowrap">
 										<span
-											className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-												item.status === "Cancelled"
-													? "bg-yellow-100 text-yellow-800"
-													: item.status === "Deleted"
-													? "bg-red-100 text-red-800"
-													: "bg-gray-100 text-gray-800"
-											}`}
+											className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full`}
 										>
-											{item.status}
+											{item.status === "process" ? (
+												<p
+													className={` bg-orange-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+												>
+													Кутилмоқда
+												</p>
+											) : item.status === "problem" ? (
+												<p
+													className={`bg-red-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+												>
+													Хатолик
+												</p>
+											) : item.status === "delivered" ||
+											  item.status ===
+													"falseDelivered" ? (
+												<p
+													className={`bg-green-500 px-3 py-1 w-[100px] rounded-full text-xs font-medium text-white text-center`}
+												>
+													Юборилди
+												</p>
+											) : (
+												item.status
+											)}
 										</span>
 									</td>
 									<td className="px-3 py-4">
