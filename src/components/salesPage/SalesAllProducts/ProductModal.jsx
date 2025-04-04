@@ -373,12 +373,16 @@ function ProductModal({
 											// Format on blur to ensure proper display
 											const value = e.target.value;
 											if (value) {
-												// Convert to number with 2 decimal places
+												// Convert to number with the configured decimal places
 												const numValue =
 													parseFloat(value);
 												if (!isNaN(numValue)) {
 													setQuantity(
-														numValue.toFixed(2),
+														numValue.toFixed(
+															deviceSettings
+																.format
+																.format_qty.max,
+														),
 													);
 												}
 											}
@@ -389,11 +393,14 @@ function ProductModal({
 											const decimalIndex =
 												value.indexOf(".");
 
-											// Check if we're exceeding limits
+											// Check if we're exceeding limits based on device settings
 											if (
-												// Prevent more than 13 digits before decimal
+												// Prevent more than the configured whole digits
 												(decimalIndex === -1 &&
-													value.length >= 13 &&
+													value.length >=
+														deviceSettings.format
+															.format_qty
+															.symbol &&
 													![
 														"Backspace",
 														"Delete",
@@ -401,11 +408,12 @@ function ProductModal({
 														"ArrowRight",
 														".",
 													].includes(e.key)) ||
-												// Prevent more than 2 digits after decimal
+												// Prevent more than the configured decimal digits
 												(decimalIndex !== -1 &&
 													value.length -
 														decimalIndex >
-														2 &&
+														deviceSettings.format
+															.format_qty.max &&
 													![
 														"Backspace",
 														"Delete",
@@ -427,24 +435,42 @@ function ProductModal({
 											if (decimalIndex !== -1) {
 												const wholePart = val
 													.substring(0, decimalIndex)
-													.slice(0, 13);
+													.slice(
+														0,
+														deviceSettings.format
+															.format_qty.symbol,
+													);
 												let decimalPart = val
 													.substring(decimalIndex + 1)
-													.slice(0, 2);
+													.slice(
+														0,
+														deviceSettings.format
+															.format_qty.max,
+													);
 
 												val =
 													wholePart +
 													"." +
 													decimalPart;
 											} else {
-												val = val.slice(0, 13);
+												val = val.slice(
+													0,
+													deviceSettings.format
+														.format_qty.symbol,
+												);
 											}
 
 											setQuantity(val);
 										}}
-										step="0.01"
+										step={`0.${"0".repeat(
+											deviceSettings.format.format_qty
+												.max - 1,
+										)}1`}
 										min="0"
-										placeholder="0.00"
+										placeholder={`0.${"0".repeat(
+											deviceSettings.format.format_qty
+												.max,
+										)}`}
 										className="w-full px-4 py-3.5 bg-white border border-gray-300 rounded-md text-xl text-gray-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
 									/>
 								</div>
