@@ -42,8 +42,6 @@ function SidebarInner({ socket, onToggle }) {
 	);
 	const isAdmin = currentUserData ? currentUserData.admin : false;
 
-	console.log(usersPermissionInfo);
-
 	// useEffect(() => {
 	// 	fetchProducts();
 
