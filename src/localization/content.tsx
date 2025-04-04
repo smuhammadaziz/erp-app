@@ -259,6 +259,18 @@ type Content = {
 			discount: string;
 			toPay: string;
 		};
+		trashSales: {
+			deletedSales: string;
+			deletedSalesText: string;
+			status: string;
+			client: string;
+			totalPrice: string;
+			seller: string;
+			deletedAt: string;
+			error: string;
+			actions: string;
+			noTrashSalesFound: string;
+		};
 	};
 };
 
@@ -535,6 +547,18 @@ const content: Content = {
 			discount: "Чегирма",
 			toPay: "Тўлов учун",
 		},
+		trashSales: {
+			deletedSales: "Ўчирилган савдолар",
+			deletedSalesText: "Ўчириган савдоларни бошқариш ойнаси",
+			status: "Статус",
+			client: "Клиент",
+			totalPrice: "Сумма",
+			seller: "Сотувчи",
+			deletedAt: "Ўчирилган вақт",
+			error: "Хатолик",
+			actions: "Қўшимча",
+			noTrashSalesFound: "Ўчирилган савдолар ҳозирча мавжуд эмас.",
+		},
 	},
 	ru: {
 		intro: {
@@ -807,6 +831,19 @@ const content: Content = {
 			summa: "Продажа",
 			discount: "Скидка",
 			toPay: "К оплате",
+		},
+		trashSales: {
+			deletedSales: "Удаленные продажи",
+			deletedSalesText: "Окно управления удаленными продажами",
+			status: "Статус",
+			client: "Клиент",
+			totalPrice: "Сумма",
+			seller: "Продавец",
+			deletedAt: "Удаленное время",
+			error: "Ошибка",
+			actions: "Действия",
+			noTrashSalesFound:
+				"Удаленные продажи в настоящее время недоступны.",
 		},
 	},
 };

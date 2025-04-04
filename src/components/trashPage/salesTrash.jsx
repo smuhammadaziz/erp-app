@@ -2,30 +2,12 @@ import React, { useState, useEffect } from "react";
 import nodeUrl from "../../links";
 import moment from "moment";
 
+import content from "../../localization/content";
+import useLang from "../../hooks/useLang";
+
 function SalesTrashComponent({ socket }) {
-	// Sample data for demonstration
 	const [sales, setSales] = useState([]);
-	const [trashData, setTrashData] = useState([
-		{
-			id: "tr-001",
-			status: "Cancelled",
-			client_name: "John Doe",
-			total_price: "1,250.00",
-			seller: "Alex Martinez",
-			deleted_at: "2025-04-02 15:32:45",
-			errorMessage: "Payment verification failed",
-		},
-		{
-			id: "tr-002",
-			status: "Deleted",
-			client_name:
-				"Sarah Johnson with a very long name that should be truncated",
-			total_price: "875.50",
-			seller: "Maria Garcia",
-			deleted_at: "2025-04-03 09:17:22",
-			errorMessage: "",
-		},
-	]);
+	const [language] = useLang("uz");
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 
@@ -81,10 +63,10 @@ function SalesTrashComponent({ socket }) {
 			<div className="bg-white rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
 				<div className="p-6 border-b">
 					<h2 className="text-2xl font-semibold text-gray-800">
-						Sales Trash
+						{content[language].trashSales.deletedSales}
 					</h2>
 					<p className="text-gray-500 mt-1">
-						Deleted or cancelled sales records
+						{content[language].trashSales.deletedSalesText}
 					</p>
 				</div>
 
@@ -93,25 +75,25 @@ function SalesTrashComponent({ socket }) {
 						<thead className="bg-gray-50 sticky top-0">
 							<tr>
 								<th className="w-24 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Status
+									{content[language].trashSales.status}
 								</th>
 								<th className="w-48 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Client
+									{content[language].trashSales.client}
 								</th>
 								<th className="w-32 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Total Price
+									{content[language].trashSales.totalPrice}
 								</th>
 								<th className="w-40 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Seller
+									{content[language].trashSales.seller}
 								</th>
 								<th className="w-44 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Deleted At
+									{content[language].trashSales.deletedAt}
 								</th>
 								<th className="w-64 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Error
+									{content[language].trashSales.error}
 								</th>
 								<th className="w-20 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-									Actions
+									{content[language].trashSales.actions}
 								</th>
 							</tr>
 						</thead>
@@ -230,11 +212,11 @@ function SalesTrashComponent({ socket }) {
 								></path>
 							</svg>
 							<h3 className="mt-2 text-sm font-medium text-gray-900">
-								No deleted sales
+								{content[language].trashSales.noTrashSalesFound}
 							</h3>
-							<p className="mt-1 text-sm text-gray-500">
+							{/* <p className="mt-1 text-sm text-gray-500">
 								No items in the trash at the moment
-							</p>
+							</p> */}
 						</div>
 					</div>
 				)}
