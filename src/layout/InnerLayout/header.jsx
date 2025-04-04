@@ -107,7 +107,7 @@ function HeaderInner({ onRefresh, socket }) {
 
 		try {
 			const syncResponse = await fetch(
-				`${nodeUrl}/api/first/sync/${ksbId}/${deviceId}`,
+				`${nodeUrl}/api/syncing/${ksbId}/${deviceId}`,
 				{
 					method: "POST",
 					headers: {

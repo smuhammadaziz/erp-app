@@ -51,9 +51,9 @@ const ProductsPageComponent = () => {
 		const fetchProducts = async () => {
 			try {
 				const response = await fetch(
-					`${nodeUrl}/api/get/sync/${deviceId}/${ksbId}`,
+					`${nodeUrl}/api/get/product_update/data/${deviceId}/${ksbId}`,
 					{
-						method: "POST",
+						method: "GET",
 					},
 				);
 				const data = await response.json();
