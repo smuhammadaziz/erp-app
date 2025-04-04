@@ -173,6 +173,8 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 		}
 	}, [selectedRowId]);
 
+	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
+
 	return (
 		<>
 			<div className="py-1 h-[34vh] relative z-0">
@@ -267,7 +269,19 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[10%]"
 												title={product.soni}
 											>
-												{product.soni}
+												{product.soni.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits:
+															deviceSettings
+																.format
+																.format_qty.max,
+														maximumFractionDigits:
+															deviceSettings
+																.format
+																.format_qty.max,
+													},
+												)}
 											</td>
 											<td
 												className="py-1 px-5 border-b border-r border-gray-200 text-center w-[120px]"
@@ -276,8 +290,14 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 												{product.narxi.toLocaleString(
 													"ru-RU",
 													{
-														minimumFractionDigits: 2,
-														maximumFractionDigits: 2,
+														minimumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
+														maximumFractionDigits:
+															deviceSettings
+																.format
+																.format_sum.max,
 													},
 												)}
 											</td>
@@ -289,8 +309,16 @@ function SalesSoldProducts({ lastAddedProductId, socket }) {
 													{product.summa.toLocaleString(
 														"ru-RU",
 														{
-															minimumFractionDigits: 2,
-															maximumFractionDigits: 2,
+															minimumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
+															maximumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
 														},
 													)}
 												</span>
