@@ -5,9 +5,13 @@ import moment from "moment";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
+import { GoAlert } from "react-icons/go";
+
 function SalesTrashComponent({ socket }) {
 	const [sales, setSales] = useState([]);
 	const [language] = useLang("uz");
+	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+	const [selectedRowId, setSelectedRowId] = useState(null);
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 
@@ -181,9 +185,10 @@ function SalesTrashComponent({ socket }) {
 									</td>
 									<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 										<button
-											onClick={() =>
-												deleteOneSales(item.id)
-											}
+											onClick={() => {
+												setIsExitModalOpen(true);
+												setSelectedRowId(item.id);
+											}}
 											className="text-red-600 hover:text-red-900 p-1 rounded-full hover:bg-red-50 transition-colors"
 											aria-label="Delete item"
 										>
@@ -205,6 +210,43 @@ function SalesTrashComponent({ socket }) {
 									</td>
 								</tr>
 							))}
+							{isExitModalOpen && (
+								<div className="fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-xs flex items-center justify-center p-4">
+									<div className="bg-white w-full max-w-md rounded-2xl border border-gray-200 p-6 space-y-6 transform transition-all duration-300 ease-in-out">
+										<div className="text-center">
+											<h2 className="text-2xl font-bold text-gray-800 mb-5 flex justify-center">
+												<GoAlert className="text-red-600 text-6xl" />
+											</h2>
+											<p className="text-black text-lg mb-6">
+												Танланган савдони
+												ўчирмоқчимисиз?
+											</p>
+										</div>
+
+										<div className="flex space-x-4">
+											<button
+												onClick={() => {
+													deleteOneSales(
+														selectedRowId,
+													);
+													setIsExitModalOpen(false);
+												}}
+												className="flex-1 bg-red-600 hover:bg-red-700 text-white flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-red-400"
+											>
+												Ҳа
+											</button>
+											<button
+												onClick={() =>
+													setIsExitModalOpen(false)
+												}
+												className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 flex items-center justify-center py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gray-400"
+											>
+												Йўқ
+											</button>
+										</div>
+									</div>
+								</div>
+							)}
 						</tbody>
 					</table>
 				</div>
@@ -236,13 +278,6 @@ function SalesTrashComponent({ socket }) {
 						</div>
 					</div>
 				)}
-
-				{/* Footer with stats */}
-				{/* <div className="border-t px-6 py-4 bg-gray-50">
-					<div className="text-sm text-gray-500">
-						Showing {trashData.length} deleted items
-					</div>
-				</div> */}
 			</div>
 		</div>
 	);
