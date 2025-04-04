@@ -132,6 +132,11 @@ function LoginPageKSB({ socket, verified }) {
 						data.enterpriseInfo.uid ||
 							localStorage.getItem("enterpriseUUID"),
 					);
+					localStorage.setItem(
+						"usersPermissionInfo",
+						JSON.stringify(data.usersInfo) ||
+							localStorage.getItem("usersPermissionInfo"),
+					);
 				}
 
 				setUsers(data.users);

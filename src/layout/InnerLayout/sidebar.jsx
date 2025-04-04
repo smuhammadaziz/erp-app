@@ -33,6 +33,17 @@ function SidebarInner({ socket, onToggle }) {
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 
+	const currentUser = localStorage.getItem("userType");
+	const usersPermissionInfo =
+		JSON.parse(localStorage.getItem("usersPermissionInfo")) || [];
+
+	const currentUserData = usersPermissionInfo.find(
+		(user) => user.login === currentUser,
+	);
+	const isAdmin = currentUserData ? currentUserData.admin : false;
+
+	console.log(usersPermissionInfo);
+
 	// useEffect(() => {
 	// 	fetchProducts();
 
@@ -136,30 +147,32 @@ function SidebarInner({ socket, onToggle }) {
 						</span>
 					)}
 				</NavLink>
-				<NavLink
-					to="/trash"
-					className={({ isActive }) =>
-						`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
-							isActive ? "bg-gray-700" : ""
-						}`
-					}
-				>
-					<div className="relative">
-						<IoTrashBinOutline size={isExpanded ? 24 : 28} />
-						{count > 0 && (
-							<span className="absolute -top-4 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
-								{count}
+				{isAdmin && (
+					<NavLink
+						to="/trash"
+						className={({ isActive }) =>
+							`group flex items-center gap-4 px-4 py-3 hover:bg-gray-700 rounded transition-all duration-300 relative ${
+								isActive ? "bg-gray-700" : ""
+							}`
+						}
+					>
+						<div className="relative">
+							<IoTrashBinOutline size={isExpanded ? 24 : 28} />
+							{count > 0 && (
+								<span className="absolute -top-4 -right-5 bg-red-500 text-white text-xs font-bold flex items-center justify-center w-6 h-6 rounded-full">
+									{count}
+								</span>
+							)}
+						</div>
+
+						{isExpanded && <span className="text-lg">Корзина</span>}
+						{!isExpanded && (
+							<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
+								Корзина
 							</span>
 						)}
-					</div>
-
-					{isExpanded && <span className="text-lg">Корзина</span>}
-					{!isExpanded && (
-						<span className="absolute left-16 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded p-1 transition-opacity duration-300">
-							Корзина
-						</span>
-					)}
-				</NavLink>
+					</NavLink>
+				)}
 
 				<NavLink
 					to="/settings"
