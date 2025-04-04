@@ -17,7 +17,7 @@ function InnerLayoutSection({ children, socket }) {
 
 	return (
 		<div className="flex h-[90vh] bg-slate-100">
-			<SidebarInner onToggle={handleSidebarToggle} />
+			<SidebarInner onToggle={handleSidebarToggle} socket={socket} />
 
 			<div className={`flex-1 ${isSidebarExpanded ? "ml-64" : "ml-20"}`}>
 				<HeaderInner onRefresh={handleDataRefresh} socket={socket} />

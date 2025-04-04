@@ -7,12 +7,12 @@ import Security from "../../components/settingsPage/settings/Security";
 import MessageNotifications from "../../components/settingsPage/settings/Notifications";
 import SendSales from "../../components/settingsPage/settings/SendSales";
 
-function SettingsPage() {
+function SettingsPage({ socket }) {
 	const [activeSection, setActiveSection] = useState("Personal Information");
 
 	return (
 		<Layout>
-			<InnerLayoutSection>
+			<InnerLayoutSection socket={socket}>
 				<div className="h-[80vh] bg-gray-100">
 					<div className=" mx-auto flex space-x-6">
 						<Sidebar

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import nodeUrl from "../../links";
 import moment from "moment";
 
-function SalesTrashComponent() {
+function SalesTrashComponent({ socket }) {
 	// Sample data for demonstration
 	const [sales, setSales] = useState([]);
 	const [trashData, setTrashData] = useState([
@@ -29,16 +29,16 @@ function SalesTrashComponent() {
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 
-	// useEffect(() => {
-	// 	fetchProducts();
+	useEffect(() => {
+		fetchProducts();
 
-	// 	const updateHandler = () => fetchProducts();
-	// 	socket.on("gettingAllSavedSales", updateHandler);
+		const updateHandler = () => fetchProducts();
+		socket.on("deleteOneTrashSale", updateHandler);
 
-	// 	return () => {
-	// 		socket.off("gettingAllSavedSales", updateHandler);
-	// 	};
-	// }, []);
+		return () => {
+			socket.off("deleteOneTrashSale", updateHandler);
+		};
+	}, []);
 
 	const fetchProducts = async () => {
 		try {
@@ -57,26 +57,28 @@ function SalesTrashComponent() {
 		}
 	};
 
-	useEffect(() => {
-		fetchProducts();
-	}, []);
+	const deleteOneSales = async (salesId) => {
+		try {
+			const response = await fetch(
+				`${nodeUrl}/api/delete/trash/sales/${salesId}`,
+				{
+					method: "DELETE",
+				},
+			);
 
-	// Function to handle deletion
-	const handleDelete = (id) => {
-		// Here you would implement actual deletion logic
-		setTrashData(trashData.filter((item) => item.id !== id));
-	};
-
-	// Format date to be more readable
-	const formatDate = (dateString) => {
-		const date = new Date(dateString);
-		return date.toLocaleString();
+			if (response.ok) {
+				console.log("removed");
+			} else {
+				console.log("no item to remove");
+			}
+		} catch (error) {
+			console.error("Error:", error);
+		}
 	};
 
 	return (
 		<div className="h-[80vh]">
 			<div className="bg-white rounded-xl shadow-lg overflow-hidden h-full flex flex-col">
-				{/* Header */}
 				<div className="p-6 border-b">
 					<h2 className="text-2xl font-semibold text-gray-800">
 						Sales Trash
@@ -86,7 +88,6 @@ function SalesTrashComponent() {
 					</p>
 				</div>
 
-				{/* Table container with scrolling */}
 				<div className="flex-1 overflow-auto p-6">
 					<table className="w-full table-fixed divide-y divide-gray-200">
 						<thead className="bg-gray-50 sticky top-0">
@@ -157,7 +158,9 @@ function SalesTrashComponent() {
 									<td className="px-3 py-4">
 										<div
 											className="text-sm text-gray-500 truncate"
-											title={formatDate(item.deleted_at)}
+											title={moment(
+												item.deleted_at,
+											).format("DD.MM.YYYY HH:mm")}
 										>
 											{moment(item.deleted_at).format(
 												"DD.MM.YYYY HH:mm",
@@ -181,7 +184,7 @@ function SalesTrashComponent() {
 									<td className="px-3 py-4 whitespace-nowrap text-sm font-medium">
 										<button
 											onClick={() =>
-												handleDelete(item.id)
+												deleteOneSales(item.id)
 											}
 											className="text-red-600 hover:text-red-900 p-1 rounded-full hover:bg-red-50 transition-colors"
 											aria-label="Delete item"
@@ -209,7 +212,7 @@ function SalesTrashComponent() {
 				</div>
 
 				{/* Empty state */}
-				{trashData.length === 0 && (
+				{sales.length === 0 && (
 					<div className="flex-1 flex items-center justify-center p-6">
 						<div className="text-center">
 							<svg
@@ -237,11 +240,11 @@ function SalesTrashComponent() {
 				)}
 
 				{/* Footer with stats */}
-				<div className="border-t px-6 py-4 bg-gray-50">
+				{/* <div className="border-t px-6 py-4 bg-gray-50">
 					<div className="text-sm text-gray-500">
 						Showing {trashData.length} deleted items
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

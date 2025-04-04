@@ -231,7 +231,7 @@ export const Router: FC = () => {
 						path="/customers"
 						element={
 							<ProtectedRoute>
-								<CustomersPage />
+								<CustomersPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>
@@ -239,7 +239,7 @@ export const Router: FC = () => {
 						path="/products"
 						element={
 							<ProtectedRoute>
-								<ProductsPage />
+								<ProductsPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>
@@ -255,7 +255,7 @@ export const Router: FC = () => {
 						path="/settings"
 						element={
 							<ProtectedRoute>
-								<SettingsPage />
+								<SettingsPage socket={socket} />
 							</ProtectedRoute>
 						}
 					/>

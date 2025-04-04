@@ -20,7 +20,7 @@ import { NavLink } from "react-router-dom";
 import content from "../../localization/content";
 import useLang from "../../hooks/useLang";
 
-function SidebarInner({ onToggle }) {
+function SidebarInner({ socket, onToggle }) {
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [count, setCount] = useState(false);
 
@@ -33,25 +33,36 @@ function SidebarInner({ onToggle }) {
 
 	const ksb_id = localStorage.getItem("ksbIdNumber");
 
-	const fetchProducts = async () => {
-		try {
-			const response = await fetch(
-				`${nodeUrl}/api/trash/sales/${ksb_id}`,
-			);
-			if (!response.ok) {
-				throw new Error("Failed to fetch products");
-			}
-			const data = await response.json();
+	// useEffect(() => {
+	// 	fetchProducts();
 
-			setCount(data.length);
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	// 	const updateHandler = () => fetchProducts();
+	// 	socket.on("deleteOneTrashSale", updateHandler);
 
-	useEffect(() => {
-		fetchProducts();
-	}, []);
+	// 	return () => {
+	// 		socket.off("deleteOneTrashSale", updateHandler);
+	// 	};
+	// }, []);
+
+	// const fetchProducts = async () => {
+	// 	try {
+	// 		const response = await fetch(
+	// 			`${nodeUrl}/api/trash/sales/${ksb_id}`,
+	// 		);
+	// 		if (!response.ok) {
+	// 			throw new Error("Failed to fetch products");
+	// 		}
+	// 		const data = await response.json();
+
+	// 		setCount(data.length);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// };
+
+	// useEffect(() => {
+	// 	fetchProducts();
+	// }, []);
 
 	return (
 		<div

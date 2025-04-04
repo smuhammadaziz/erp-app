@@ -3,10 +3,10 @@ import { Layout } from "../../layout/HomeLayout/layout";
 import InnerLayoutSection from "../../layout/InnerLayout/innerlayout";
 import ProductsPageComponent from "../../components/productPage/products/products";
 
-function ProductsPage() {
+function ProductsPage({ socket }) {
 	return (
 		<Layout>
-			<InnerLayoutSection>
+			<InnerLayoutSection socket={socket}>
 				<div>
 					<ProductsPageComponent />
 				</div>

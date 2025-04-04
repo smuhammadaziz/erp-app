@@ -401,9 +401,6 @@ function ProductModal({
 
 									{/* Total */}
 									<div>
-										<label className="block text-sm font-medium text-gray-700 mb-1">
-											Total
-										</label>
 										<div className="bg-indigo-50 border border-indigo-100 rounded-md p-3">
 											<div className="text-2xl font-semibold text-indigo-800 text-right">
 												{totalPrice.toLocaleString(
