@@ -639,14 +639,14 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 		clientSearchTerm.trim() === ""
 			? customers
 			: customers.filter(
-					(client) =>
-						client?.name
-							?.toLowerCase()
-							.includes(clientSearchTerm.toLowerCase().trim()) ||
-						client?.phone_number
-							?.toLowerCase()
-							.includes(clientSearchTerm.toLowerCase().trim()),
-			  );
+				(client) =>
+					client?.name
+						?.toLowerCase()
+						.includes(clientSearchTerm.toLowerCase().trim()) ||
+					client?.phone_number
+						?.toLowerCase()
+						.includes(clientSearchTerm.toLowerCase().trim()),
+			);
 
 	// Handle keyboard navigation in client search
 	const handleClientKeyDown = (e) => {
@@ -830,12 +830,11 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 																"",
 															);
 														}}
-														className={`px-3 py-2 cursor-pointer ${
-															index ===
-															selectedClientIndex
+														className={`px-3 py-2 cursor-pointer ${index ===
+																selectedClientIndex
 																? "bg-blue-50 text-blue-700"
 																: "hover:bg-gray-50"
-														}`}
+															}`}
 													>
 														{client.name}
 													</div>
@@ -906,8 +905,8 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 									cashAmount === 0 && isTyping
 										? ""
 										: isTyping
-										? formatRussianNumber(cashAmount)
-										: formatRussianNumber(cashAmount)
+											? formatRussianNumber(cashAmount)
+											: formatRussianNumber(cashAmount)
 								}
 								onChange={(e) => {
 									// Extract just digits from input
@@ -929,8 +928,7 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 								onBlur={() => {
 									if (isTyping) {
 										const numericValue =
-											parseFloat(cashAmount) ||
-											totalPrice;
+											parseFloat(cashAmount) || 0;
 										setCashAmount(numericValue);
 										setIsTyping(false);
 									}
@@ -1000,10 +998,9 @@ const PaymentModal = ({ isOpen, onClose, totalAmount, socket }) => {
 							</label>
 							<textarea
 								className="w-full px-3 py-2 text-gray-700 border border-gray-200 rounded-lg resize-none h-[80px] focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-								placeholder={`${
-									content?.[language]?.salesPage
+								placeholder={`${content?.[language]?.salesPage
 										?.sidebarCashComment ?? ""
-								}...`}
+									}...`}
 								onChange={(e) => setComment(e.target.value)}
 							/>
 						</div>
@@ -1099,14 +1096,14 @@ const ClientSearchModal = ({ isOpen, onClose, onSelect, clients = [] }) => {
 		searchTerm.trim() === ""
 			? clientsArray
 			: clientsArray.filter(
-					(client) =>
-						client?.name
-							?.toLowerCase()
-							.includes(searchTerm.toLowerCase().trim()) ||
-						client?.phone_number
-							?.toLowerCase()
-							.includes(searchTerm.toLowerCase().trim()),
-			  );
+				(client) =>
+					client?.name
+						?.toLowerCase()
+						.includes(searchTerm.toLowerCase().trim()) ||
+					client?.phone_number
+						?.toLowerCase()
+						.includes(searchTerm.toLowerCase().trim()),
+			);
 
 	return (
 		<div className="fixed inset-0 rounded-lg bg-black bg-opacity-50 flex items-center justify-center p-4 z-[60]">
