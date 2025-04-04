@@ -369,13 +369,82 @@ function ProductModal({
 										type="number"
 										value={quantity ?? ""}
 										onFocus={handleFocus}
-										onBlur={handleBlur}
-										onKeyDown={(e) =>
-											handleKeyDown(e, "quantity")
-										}
-										onChange={(e) =>
-											setQuantity(e.target.value)
-										}
+										onBlur={(e) => {
+											// Format on blur to ensure proper display
+											const value = e.target.value;
+											if (value) {
+												// Convert to number with 2 decimal places
+												const numValue =
+													parseFloat(value);
+												if (!isNaN(numValue)) {
+													setQuantity(
+														numValue.toFixed(2),
+													);
+												}
+											}
+											handleBlur(e);
+										}}
+										onKeyDown={(e) => {
+											const value = e.target.value;
+											const decimalIndex =
+												value.indexOf(".");
+
+											// Check if we're exceeding limits
+											if (
+												// Prevent more than 13 digits before decimal
+												(decimalIndex === -1 &&
+													value.length >= 13 &&
+													![
+														"Backspace",
+														"Delete",
+														"ArrowLeft",
+														"ArrowRight",
+														".",
+													].includes(e.key)) ||
+												// Prevent more than 2 digits after decimal
+												(decimalIndex !== -1 &&
+													value.length -
+														decimalIndex >
+														2 &&
+													![
+														"Backspace",
+														"Delete",
+														"ArrowLeft",
+														"ArrowRight",
+													].includes(e.key))
+											) {
+												e.preventDefault();
+											}
+
+											handleKeyDown(e, "quantity");
+										}}
+										onChange={(e) => {
+											let val = e.target.value;
+
+											// Handle the decimal portion
+											const decimalIndex =
+												val.indexOf(".");
+											if (decimalIndex !== -1) {
+												const wholePart = val
+													.substring(0, decimalIndex)
+													.slice(0, 13);
+												let decimalPart = val
+													.substring(decimalIndex + 1)
+													.slice(0, 2);
+
+												val =
+													wholePart +
+													"." +
+													decimalPart;
+											} else {
+												val = val.slice(0, 13);
+											}
+
+											setQuantity(val);
+										}}
+										step="0.01"
+										min="0"
+										placeholder="0.00"
 										className="w-full px-4 py-3.5 bg-white border border-gray-300 rounded-md text-xl text-gray-700 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
 									/>
 								</div>
