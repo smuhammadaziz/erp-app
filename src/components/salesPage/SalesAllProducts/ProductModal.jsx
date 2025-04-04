@@ -251,6 +251,8 @@ function ProductModal({
 		localStorage.setItem("changePriceValue", changePriceValue);
 	}, [changePriceValue]);
 
+	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
+
 	if (!matchingPrice) {
 		return "-";
 	}
@@ -327,7 +329,21 @@ function ProductModal({
 										</label>
 										<input
 											type="text"
-											value={product.stock[0]?.qty ?? ""}
+											value={
+												product.stock[0].qty.toLocaleString(
+													"ru-RU",
+													{
+														minimumFractionDigits:
+															deviceSettings
+																.format
+																.format_qty.max,
+														maximumFractionDigits:
+															deviceSettings
+																.format
+																.format_qty.max,
+													},
+												) ?? ""
+											}
 											readOnly
 											className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-md text-gray-700 focus:outline-none"
 										/>

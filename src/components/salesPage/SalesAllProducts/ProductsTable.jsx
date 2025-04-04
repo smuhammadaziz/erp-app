@@ -326,6 +326,7 @@ function ProductsTable({
 		"matchingProductByCurrency",
 	);
 	const falseCurrencyBoolean = localStorage.getItem("falseCurrencyBoolean");
+	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
 
 	const getSortIcon = (columnKey) => {
 		if (sortConfig.key !== columnKey) {
@@ -659,8 +660,12 @@ function ProductsTable({
 											{product.stock[0].qty.toLocaleString(
 												"ru-RU",
 												{
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
+													minimumFractionDigits:
+														deviceSettings.format
+															.format_qty.max,
+													maximumFractionDigits:
+														deviceSettings.format
+															.format_qty.max,
 												},
 											)}
 										</td>
@@ -706,8 +711,16 @@ function ProductsTable({
 													return matchingPrice.sale.toLocaleString(
 														"ru-RU",
 														{
-															minimumFractionDigits: 2,
-															maximumFractionDigits: 2,
+															minimumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
+															maximumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
 														},
 													);
 												}
@@ -721,8 +734,16 @@ function ProductsTable({
 												: showingPriceData.toLocaleString(
 														"ru-RU",
 														{
-															minimumFractionDigits: 2,
-															maximumFractionDigits: 2,
+															minimumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
+															maximumFractionDigits:
+																deviceSettings
+																	.format
+																	.format_sum
+																	.max,
 														},
 												  );
 										})()}
@@ -801,8 +822,12 @@ function ProductsTable({
 											return convertedPrice.toLocaleString(
 												"ru-RU",
 												{
-													minimumFractionDigits: 2,
-													maximumFractionDigits: 2,
+													minimumFractionDigits:
+														deviceSettings.format
+															.format_sum.max,
+													maximumFractionDigits:
+														deviceSettings.format
+															.format_sum.max,
 												},
 											);
 										})()}
