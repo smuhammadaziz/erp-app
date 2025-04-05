@@ -204,6 +204,10 @@ function ProductModal({
 			return;
 		}
 
+		if (e.key === "Escape") {
+			handleClose();
+		}
+
 		if (e.key === "Enter" && !e.ctrlKey) {
 			e.preventDefault();
 			switch (currentField) {
