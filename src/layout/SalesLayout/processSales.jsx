@@ -96,6 +96,20 @@ function ProcessSalesComponent({
 		}
 	}, []);
 
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "Escape") {
+				setIsListModalOpen(false);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
+
 	const fetchCurrencyData = useCallback(async () => {
 		for (const product of productData) {
 			if (product.mainCurrency && !currencyData[product.mainCurrency]) {

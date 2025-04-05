@@ -153,6 +153,20 @@ const DiscountModal = ({ isOpen, onClose, totalAmount }) => {
 		parseFloat(discountAmount.replace(/\s/g, "").replace(",", ".")) || 0;
 	const finalAmount = Math.max(0, price - discount);
 
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [onClose]);
+
 	if (!isOpen) return null;
 
 	return (
