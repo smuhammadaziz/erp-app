@@ -132,10 +132,10 @@ function IntroPageKSB({ setVerified }) {
 						"devicePermission",
 						matchedDevice.permission,
 					);
-					localStorage.setItem(
-						"its_deadline",
-						apiResponse.response.its,
-					);
+					const dateOnly = apiResponse.response.its.split("T")[0]; // get "2025-04-05"
+					const endOfDay = `${dateOnly}T23:59:59`;
+
+					localStorage.setItem("its_deadline", endOfDay);
 					localStorage.setItem(
 						"mainUsername",
 						apiResponse.response.user,
