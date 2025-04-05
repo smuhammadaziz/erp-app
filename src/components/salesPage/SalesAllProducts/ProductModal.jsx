@@ -261,6 +261,14 @@ function ProductModal({
 		localStorage.getItem("userChangePrice"),
 	);
 
+	const errorButtonRef = useRef(null);
+
+	useEffect(() => {
+		if (showErrorModal && errorButtonRef.current) {
+			errorButtonRef.current.focus();
+		}
+	}, [showErrorModal]);
+
 	if (!matchingPrice) {
 		return "-";
 	}
@@ -617,7 +625,15 @@ function ProductModal({
 
 				{/* Error Modal */}
 				{showErrorModal && (
-					<div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[100]">
+					<div
+						className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-[100]"
+						// tabIndex={-1}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") {
+								setShowErrorModal(false);
+							}
+						}}
+					>
 						<div className="bg-white w-[400px] rounded-lg shadow-xl overflow-hidden">
 							<div className="px-4 py-3 bg-red-50 border-b border-red-100 flex items-center">
 								<svg
@@ -645,6 +661,7 @@ function ProductModal({
 								</p>
 								<div className="mt-4 flex justify-end">
 									<button
+										ref={errorButtonRef}
 										onClick={() => setShowErrorModal(false)}
 										className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-700 transition-all"
 									>
