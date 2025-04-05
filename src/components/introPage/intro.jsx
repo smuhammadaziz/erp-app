@@ -133,7 +133,7 @@ function IntroPageKSB({ setVerified }) {
 						matchedDevice.permission,
 					);
 					const dateOnly = apiResponse.response.its.split("T")[0]; // get "2025-04-05"
-					const endOfDay = `${dateOnly}T23:59:59`;
+					const endOfDay = `${dateOnly}T10:00:00`;
 
 					localStorage.setItem("its_deadline", endOfDay);
 					localStorage.setItem(
