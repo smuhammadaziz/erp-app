@@ -8,6 +8,10 @@ import {
 	RiStore3Line,
 } from "react-icons/ri";
 import { BiTrendingUp, BiDotsHorizontalRounded } from "react-icons/bi";
+import { SlBasket } from "react-icons/sl";
+import { FaCartShopping } from "react-icons/fa6";
+import { HiOutlineShoppingCart } from "react-icons/hi2";
+import { AiFillProduct } from "react-icons/ai";
 import { FiLoader } from "react-icons/fi";
 import {
 	Chart as ChartJS,
@@ -245,7 +249,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 			// })(),
 			value: "0",
 			change: "+12.5%",
-			icon: <RiMoneyDollarCircleLine className="text-4xl" />,
+			icon: <HiOutlineShoppingCart className="text-4xl" />,
 			bgColor:
 				"bg-gradient-to-br from-purple-500 via-purple-600 to-purple-700",
 			link: "/sales",
@@ -291,7 +295,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ socket }) => {
 				}
 			})(),
 			change: "+5.3%",
-			icon: <RiStore3Line className="text-4xl" />,
+			icon: <AiFillProduct className="text-4xl" />,
 			bgColor: "bg-gradient-to-br from-cyan-500 via-cyan-600 to-cyan-700",
 			link: "/products",
 			linkText: content[language as string].home.productCatalog,
