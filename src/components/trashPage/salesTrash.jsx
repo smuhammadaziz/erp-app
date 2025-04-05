@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import nodeUrl from "../../links";
 import moment from "moment";
 
@@ -13,7 +13,8 @@ function SalesTrashComponent({ socket }) {
 	const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 	const [selectedRowId, setSelectedRowId] = useState(null);
 
-	const ksb_id = localStorage.getItem("ksbIdNumber");
+	const ksbIdNumber = localStorage.getItem("ksbIdNumber");
+	const device_id = localStorage.getItem("device_id");
 
 	useEffect(() => {
 		fetchProducts();
@@ -29,7 +30,7 @@ function SalesTrashComponent({ socket }) {
 	const fetchProducts = async () => {
 		try {
 			const response = await fetch(
-				`${nodeUrl}/api/trash/sales/${ksb_id}`,
+				`${nodeUrl}/api/trash/sales/${ksbIdNumber}`,
 			);
 			if (!response.ok) {
 				throw new Error("Failed to fetch products");
@@ -61,6 +62,38 @@ function SalesTrashComponent({ socket }) {
 			console.error("Error:", error);
 		}
 	};
+
+	const [currencyData, setCurrencyData] = useState({});
+
+	const fetchCurrencyData = useCallback(async () => {
+		for (const product of sales) {
+			if (product.details && !currencyData[product.details]) {
+				try {
+					const response = await fetch(
+						`${nodeUrl}/api/get/currency/data/${device_id}/${ksbIdNumber}/${product.details[0].currency}`,
+					);
+					const data = await response.json();
+
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.details[0].currency]: data[0]?.name || "-",
+					}));
+				} catch (error) {
+					console.error("Failed to fetch currency data", error);
+					setCurrencyData((prev) => ({
+						...prev,
+						[product.details[0].currency]: "-",
+					}));
+				}
+			}
+		}
+	}, [sales]);
+
+	useEffect(() => {
+		fetchCurrencyData();
+	}, [fetchCurrencyData]);
+
+	const deviceSettings = JSON.parse(localStorage.getItem("settingsDevice"));
 
 	return (
 		<div className="h-[80vh]">
@@ -144,9 +177,23 @@ function SalesTrashComponent({ socket }) {
 									<td className="px-3 py-4">
 										<div
 											className="text-sm font-medium text-gray-900 truncate"
-											title={`$${item.total_price}`}
+											title={`${item.total_price}`}
 										>
-											{item.total_price}
+											{parseFloat(
+												item.total_price,
+											).toLocaleString("ru-RU", {
+												minimumFractionDigits:
+													deviceSettings.format
+														.format_sum.max,
+												maximumFractionDigits:
+													deviceSettings.format
+														.format_sum.max,
+											})}{" "}
+											{
+												currencyData[
+													item.details[0].currency
+												]
+											}
 										</div>
 									</td>
 									<td className="px-3 py-4">
