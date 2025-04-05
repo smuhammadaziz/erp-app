@@ -43,7 +43,7 @@ const DeadlineOverlay = () => {
 					deadlineDate.getFullYear(),
 					deadlineDate.getMonth(),
 					deadlineDate.getDate(),
-					9,
+					23,
 					59,
 					59,
 				);
